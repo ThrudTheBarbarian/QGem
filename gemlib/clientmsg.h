@@ -1,6 +1,7 @@
 #ifndef CLIENTMSG_H
 #define CLIENTMSG_H
 
+#include <QByteArray>
 #include <QObject>
 
 #include "properties.h"
@@ -44,14 +45,24 @@ class ClientMsg : public QObject
 		explicit ClientMsg(int16_t type, Payload payload, QObject *parent = nullptr);
 
 		/*********************************************************************\
+		|* Append to a payload
+		\*********************************************************************/
+		bool append(int16_t value);
+		bool append(int16_t *value, int num);
+		inline bool append(Payload list)
+			{
+			return append(list.data(), (int)list.size());
+			}
+
+		/*********************************************************************\
 		|* Serialise to a byte-stream
 		\*********************************************************************/
-		ByteStream encode(void);
+		QByteArray encode(void);
 
 		/*********************************************************************\
 		|* De-serialise from a byte-stream
 		\*********************************************************************/
-		bool decode(int16_t words, ByteStream& inputData);
+		bool decode(int16_t words, QByteArray& inputData);
 
 	};
 

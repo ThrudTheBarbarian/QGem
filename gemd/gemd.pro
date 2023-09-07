@@ -12,7 +12,6 @@ SOURCES += \
 HEADERS += \
     connectionmgr.h \
     glwidget.h \
-    main.h \
     screen.h
 
 

@@ -1,6 +1,7 @@
 
-#include "constants.h"
+#include "clientmsg.h"
 #include "debug.h"
+#include "socketthread.h"
 #include "vdi.h"
 
 /*****************************************************************************\
@@ -8,7 +9,7 @@
 \*****************************************************************************/
 VDI::VDI(QObject *parent)
 	:QObject{parent}
-	,_connected(false)
+	,_io(nullptr)
 	{}
 
 
@@ -19,30 +20,30 @@ VDI::VDI(QObject *parent)
 \*****************************************************************************/
 bool VDI::_connectToGemDaemon(void)
 	{
-	bool ok = false;
-
-	_sock.connectToServer(SOCKET_NAME);
-	if (_sock.isValid())
+	if (_io == nullptr)
 		{
-		ok = true;
+		_io = new SocketThread();
+		_io->run();
+		}
+
+	return _io->connected();;
+	}
+
+
+/*****************************************************************************\
+|* Send a blocking message, ie: send a message and wait for a reply
+\*****************************************************************************/
+bool VDI::_sendBlockingMessage(ClientMsg& msg)
+	{
+	bool ok = false;
+	if (_io != nullptr)
+		{
+		QByteArray ba = msg.encode();
+		ok = _io->send(ba);
 		}
 	else
-		{
-		WARN("Cannot bind to socket %s", SOCKET_NAME);
-		}
+		WARN("Attempt to set msg [type=%d] without connection", msg.type());
 
 	return ok;
 	}
 
-#pragma mark - Private Slots
-
-/*****************************************************************************\
-|* Handle incoming async data
-\*****************************************************************************/
-void VDI::_socketDataReady(void)
-	{
-	if (_sock.bytesAvailable() > 2)
-		{
-
-		}
-	}

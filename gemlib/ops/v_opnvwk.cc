@@ -1,3 +1,4 @@
+#include "clientmsg.h"
 #include "vdi.h"
 
 /*****************************************************************************\
@@ -13,7 +14,7 @@ extern "C" void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 \*****************************************************************************/
 void VDI::v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 	{
-	if (!_connected)
+	if (_io == nullptr)
 		{
 		if (!_connectToGemDaemon())
 			{
@@ -25,6 +26,9 @@ void VDI::v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 		}
    else
 		{
+		ClientMsg msg(ClientMsg::TYPE_V_OPNVWK);
+		msg.append(workIn, 16);
 
+		_sendBlockingMessage(msg);
 		}
 	}

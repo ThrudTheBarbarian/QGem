@@ -4,7 +4,11 @@
 #include <QLocalSocket>
 #include <QObject>
 
-#include "properties.h"
+/*****************************************************************************\
+|* Forward declarations
+\*****************************************************************************/
+class SocketThread;
+class ClientMsg;
 
 /*****************************************************************************\
 |* Class declaration
@@ -16,13 +20,13 @@ class VDI : public QObject
 		/*********************************************************************\
 		|* Properties
 		\*********************************************************************/
-		GET(bool, connected);           // Are we connected to the server ?
-		GET(QLocalSocket, sock);		// Socket to display-server process
+
 
 	private:
 		/*********************************************************************\
 		|* Private state
 		\*********************************************************************/
+		SocketThread *_io;				// Thread to run socket io
 
 		/*********************************************************************\
 		|* Private constructor
@@ -34,12 +38,11 @@ class VDI : public QObject
 		\*********************************************************************/
 		bool _connectToGemDaemon(void);
 
-		private slots:
 		/*********************************************************************\
-		|* Private slot: there is data on the incoming socket, read, parse,
-		|* and process
+		|* Private method: send a message and block until we get the response
 		\*********************************************************************/
-		void _socketDataReady(void);
+		bool _sendBlockingMessage(ClientMsg& msg);
+
 
 	public:
 		/*********************************************************************\
