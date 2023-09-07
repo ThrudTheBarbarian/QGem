@@ -38,8 +38,7 @@ bool VDI::_sendBlockingMessage(ClientMsg& msg)
 	bool ok = false;
 	if (_io != nullptr)
 		{
-		QByteArray ba = msg.encode();
-		ok = _io->send(ba);
+		ok = _io->send(msg);
 		}
 	else
 		WARN("Attempt to set msg [type=%d] without connection", msg.type());

@@ -3,10 +3,12 @@
 
 #include <QLocalSocket>
 #include <QObject>
+#include <QSemaphore>
 #include <QThread>
 
 #include <mutex>
 
+#include "clientmsg.h"
 #include "properties.h"
 
 /*****************************************************************************\
@@ -17,17 +19,27 @@ class SocketThread : public QThread
 	Q_OBJECT
 
 		/*********************************************************************\
+		|* typedefs and defines etc
+		\*********************************************************************/
+		typedef std::vector<int16_t> MessageTypeList;
+
+		/*********************************************************************\
 		|* Properties
 		\*********************************************************************/
 		GET(bool, connected);           // Are we connected to the server ?
-		GET(QLocalSocket, sock);		// Socket to display-server process
+		GET(QSemaphore, await);			// Actual blocking mechanims for sync
 
 
 	private:
-		/*************************************************************************\
-		|* Private state : mutex for writing to the socket
-		\*************************************************************************/
-		std::recursive_mutex _mutex;
+		/*********************************************************************\
+		|* Private state
+		\*********************************************************************/
+		std::recursive_mutex _mutex;	// Only 1 thread can send at once
+		QLocalSocket * _sock;			// Socket for communication
+
+		QVector<ClientMsg> _pending;	// incoming msgs while in blocking mode
+		bool _isBlocking;				// Are we in blocking mode
+		MessageTypeList _blockedTypes;	// What to block for
 
 	public:
 		/*********************************************************************\
@@ -40,13 +52,18 @@ class SocketThread : public QThread
 		\*********************************************************************/
 		void run(void) override;
 
-
 		/*********************************************************************\
 		|* send data down the socket
 		\*********************************************************************/
-		bool send(QByteArray &ba);
+		bool send(ClientMsg &cm, bool isBlocking=false);
 
-	private slots:
+		private:
+		/*********************************************************************\
+		|* Private method: handle dispatching the incoming message
+		\*********************************************************************/
+		void _dispatch(ClientMsg& msg);
+
+		private slots:
 		/*********************************************************************\
 		|* Private slot: there is data on the incoming socket, read, parse,
 		|* and process

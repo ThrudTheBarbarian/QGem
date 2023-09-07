@@ -2,7 +2,7 @@
 #define CLIENTMSG_H
 
 #include <QByteArray>
-#include <QObject>
+#include <QIODevice>
 
 #include "properties.h"
 #include "macros.h"
@@ -10,10 +10,8 @@
 /*****************************************************************************\
 |* Class declaration
 \*****************************************************************************/
-class ClientMsg : public QObject
+class ClientMsg
 	{
-	Q_OBJECT
-
 	/*************************************************************************\
 	|* Public typedefs, defines, etc.
 	\*************************************************************************/
@@ -40,9 +38,10 @@ class ClientMsg : public QObject
 		/*********************************************************************\
 		|* Constructor / Destructor
 		\*********************************************************************/
-		explicit ClientMsg(QObject *parent = nullptr);
-		explicit ClientMsg(int16_t type, QObject *parent = nullptr);
-		explicit ClientMsg(int16_t type, Payload payload, QObject *parent = nullptr);
+		ClientMsg();
+		ClientMsg(int16_t type);
+		ClientMsg(int16_t type, Payload payload);
+		~ClientMsg() {}
 
 		/*********************************************************************\
 		|* Append to a payload
@@ -53,6 +52,11 @@ class ClientMsg : public QObject
 			{
 			return append(list.data(), (int)list.size());
 			}
+
+		/*********************************************************************\
+		|* Populate the message from a socket
+		\*********************************************************************/
+		bool read(QIODevice *dev);
 
 		/*********************************************************************\
 		|* Serialise to a byte-stream

@@ -1,23 +1,22 @@
+#include <QIODevice>
+
 #include "clientmsg.h"
 
 /*****************************************************************************\
 |* Class definition
 \*****************************************************************************/
-ClientMsg::ClientMsg(QObject *parent)
-		  :QObject{parent}
+ClientMsg::ClientMsg()
 	{
 	}
 
-ClientMsg::ClientMsg(int16_t type, QObject *parent)
-	:QObject{parent}
+ClientMsg::ClientMsg(int16_t type)
 	{
 	_payload.push_back(type & 0xFF);
 	_payload.push_back((type >> 8) & 0xFF);
 	}
 
-ClientMsg::ClientMsg(int16_t type, Payload payload, QObject *parent)
-	:QObject{parent}
-	,_payload(payload)
+ClientMsg::ClientMsg(int16_t type, Payload payload)
+		  :_payload(payload)
 	{
 	_payload.push_back(type);
 	_payload.insert(_payload.end(), payload.begin(), payload.end());
@@ -72,6 +71,51 @@ bool ClientMsg::decode(int16_t words, QByteArray& ba)
 		if (streamChecksum == checksum)
 			ok = true;
 		}
+	return ok;
+	}
+
+
+/*****************************************************************************\
+|* Read a message from a socket
+\*****************************************************************************/
+bool ClientMsg::read(QIODevice *dev)
+	{
+	bool ok = false;
+
+	if (dev->bytesAvailable() > 2)
+		{
+		/*********************************************************************\
+		|* Get the size of the payload
+		\*********************************************************************/
+		uint8_t sizebuf[2];
+		dev->read((char *)sizebuf, 2);
+		int length = sizebuf[0] + sizebuf[1] * 256;
+
+		if (dev->bytesAvailable() >= length)
+			{
+			_payload.clear();
+			QByteArray msgData	= dev->read(length);
+			int16_t checksum	= 0;
+			_type				= msgData[0] + 256 * msgData[1];
+
+			for (int i=2; i<length-2; i+=2)
+				{
+				int16_t word = msgData[i] + 256 * msgData[i+1];
+				_payload.push_back(word);
+				checksum += word;
+				}
+
+			int16_t streamSum = msgData[length-2] + msgData[length+1] * 256;
+			ok = (streamSum == checksum);
+			if (!ok)
+				WARN("Checksum mismatch for msg type 0x%04X", _type);
+			}
+		else
+			WARN("Insufficient data for msg type 0x%04X "
+				 "(%d required, %d available)",
+				 _type, length, (int)dev->bytesAvailable());
+		}
+
 	return ok;
 	}
 
