@@ -5,6 +5,7 @@
 //  Created by ThrudTheBarbarian on 9/7/23.
 //
 
+#include <pthread.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,7 +19,13 @@
 
 #define SOCKET_NAME "/tmp/gemd"
 
-static int _gemfd = -1;
+static int 			_gemfd	= -1;
+static pthread_t	_io		= 0;
+
+/*****************************************************************************\
+|* Forward declarations
+\*****************************************************************************/
+static void * _socketIO(void *arg);
 
 /*****************************************************************************\
 |* Check to see if the connection has been made to the server
@@ -33,40 +40,79 @@ int _gemIoIsConnected(void)
 \*****************************************************************************/
 int _gemIoConnect(void)
 	{
-	int ok = 0;
+	int ok = 1;
 	
 	if (_gemfd < 0)
 		{
-		_gemfd = socket(AF_UNIX, SOCK_STREAM, 0);
-		if (_gemfd > 0)
+		if (pthread_create(&_io, NULL, _socketIO, NULL) != 0)
 			{
-			/*****************************************************************\
-			|* Zero everything for portability
-			\*****************************************************************/
-			struct sockaddr_un addr;
-			memset(&addr, 0, sizeof(struct sockaddr_un));
-
-			addr.sun_family = AF_UNIX;
-			strncpy(addr.sun_path, SOCKET_NAME, sizeof(addr.sun_path) - 1);
-
-			/*****************************************************************\
-			|* Connect to the gemd process
-			\*****************************************************************/
-			int ret = connect(_gemfd,
-							  (const struct sockaddr *) &addr,
-							  sizeof(struct sockaddr_un));
-			if (ret == 0)
-				ok = 1;
-			else
-				perror("Connect");
+			perror("Thread");
+			ok = 0;
 			}
-		else
-			perror("Socket create");
 		}
 		
 	return ok;
 	}
 
+
+/*****************************************************************************\
+|* Thread function to handle socket communication
+\*****************************************************************************/
+static void * _socketIO(void *arg)
+	{
+	(void)arg;
+	
+	int ok = 0;
+	_gemfd = socket(AF_UNIX, SOCK_STREAM, 0);
+	if (_gemfd > 0)
+		{
+		/*********************************************************************\
+		|* Zero everything for portability
+		\*********************************************************************/
+		struct sockaddr_un addr;
+		memset(&addr, 0, sizeof(struct sockaddr_un));
+
+		addr.sun_family = AF_UNIX;
+		strncpy(addr.sun_path, SOCKET_NAME, sizeof(addr.sun_path) - 1);
+
+		/*********************************************************************\
+		|* Connect to the gemd process
+		\*********************************************************************/
+		int ret = connect(_gemfd,
+						  (const struct sockaddr *) &addr,
+						  sizeof(struct sockaddr_un));
+		if (ret == 0)
+			ok = 1;
+		else
+			perror("Connect");
+		}
+	else
+		perror("Socket create");
+	
+	/*************************************************************************\
+	|* Handle reading from the socket, if everything went ok
+	\*************************************************************************/
+	if (ok)
+		for(;;)
+			{
+			/*****************************************************************\
+			|* Read the next message
+			\*****************************************************************/
+			
+			/*****************************************************************\
+			|* If we're in blocking mode, and the message matches the type,
+			|* then despatch it synchronously and reset the blocking state
+			\*****************************************************************/
+			
+			/*****************************************************************\
+			|* Else despatch the message to the event-loop queue
+			\*****************************************************************/
+			
+			}
+		
+
+	return NULL;
+	}
 
 /*****************************************************************************\
 |* Write to the socket

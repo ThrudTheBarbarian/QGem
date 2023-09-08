@@ -28,4 +28,14 @@ void _gemMsgInit(GemMsg* msg, int16_t type);
 \*****************************************************************************/
 void _gemMsgAppend(GemMsg *msg, int16_t *data, int numWords);
 
+/*****************************************************************************\
+|* Prevent memory leaks
+\*****************************************************************************/
+#define _gemMsgDestroy(x) 													\
+	do	 																	\
+		{ 																	\
+		vec_deinit(&(msg->vec)); 											\
+		msg->vec = NULL; 													\
+		} while (0)
+		
 #endif /* gemmsg_h */
