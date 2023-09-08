@@ -1,7 +1,7 @@
 #ifndef CONNECTIONMGR_H
 #define CONNECTIONMGR_H
 
-#include <QList>
+#include <QMap>
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QObject>
@@ -18,8 +18,8 @@ class ConnectionMgr : public QObject
 	|* Private state
 	\*************************************************************************/
 	private:
-		QList<QLocalSocket*> _conns;	// List of connected applications
-		QLocalServer _server;			// Server socket to listen on
+		QMap<qintptr, QLocalSocket*> _conns;	// List of connected clients
+		QLocalServer _server;					// Server socket to listen on
 
 	public:
 		/*********************************************************************\
@@ -39,16 +39,21 @@ class ConnectionMgr : public QObject
 
 	signals:
 
-	public slots:
+	private slots:
 		/*********************************************************************\
 		|* Slot: We got a new connection
 		\*********************************************************************/
-		void connection();
+		void _connection(void);
 
 		/*********************************************************************\
 		|* Slot: We lost a connection
 		\*********************************************************************/
-		void disconnection();
+		void _disconnection(void);
+
+		/*********************************************************************\
+		|* Slot: A client has data to read
+		\*********************************************************************/
+		void _incomingData(void);
 
 	};
 

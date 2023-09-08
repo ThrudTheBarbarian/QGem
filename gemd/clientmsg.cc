@@ -105,7 +105,7 @@ bool ClientMsg::read(QIODevice *dev)
 				checksum += word;
 				}
 
-			int16_t streamSum = msgData[length-2] + msgData[length+1] * 256;
+			int16_t streamSum = msgData[length-2] + msgData[length-1] * 256;
 			ok = (streamSum == checksum);
 			if (!ok)
 				WARN("Checksum mismatch for msg type 0x%04X", _type);
@@ -116,6 +116,7 @@ bool ClientMsg::read(QIODevice *dev)
 				 _type, length, (int)dev->bytesAvailable());
 		}
 
+	fprintf(stderr, "Got message of type: %d\n", _type);
 	return ok;
 	}
 

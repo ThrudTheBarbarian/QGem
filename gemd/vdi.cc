@@ -38,7 +38,7 @@ bool VDI::_sendBlockingMessage(ClientMsg& msg)
 	bool ok = false;
 	if (_io != nullptr)
 		{
-		ok = _io->send(msg);
+		ok = _io->send(msg, true);
 		}
 	else
 		WARN("Attempt to set msg [type=%d] without connection", msg.type());

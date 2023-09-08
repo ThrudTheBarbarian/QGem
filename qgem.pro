@@ -1,10 +1,11 @@
- TEMPLATE = subdirs
+TEMPLATE = subdirs
+
+CONFIG+=sdk_no_version_check
+
+INCLUDEPATH += $$PWD/shared
 
 SUBDIRS += \
     gemd \
-    gemlib \
-    gemtest
 
-gemd.depends = gemlib
-gemtest.depends = gemlib
+
 

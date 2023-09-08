@@ -20,7 +20,7 @@ ConnectionMgr::ConnectionMgr(QObject *parent)
 	|* Connect up the QLocalServer so it handles incoming connections
 	\*************************************************************************/
 	connect(&_server, &QLocalServer::newConnection,
-			this, QOverload<>::of(&ConnectionMgr::connection));
+			this, QOverload<>::of(&ConnectionMgr::_connection));
 
 	}
 
@@ -47,14 +47,17 @@ void ConnectionMgr::stop(void)
 /*****************************************************************************\
 |* We got a new connection
 \*****************************************************************************/
-void ConnectionMgr::connection(void)
+void ConnectionMgr::_connection(void)
 	{
 	QLocalSocket *client = _server.nextPendingConnection();
 	while (client != nullptr)
 		{
-		_conns.push_back(client);
+		_conns[client->socketDescriptor()] = client;
 		connect(client, &QLocalSocket::disconnected,
-				this, QOverload<>::of(&ConnectionMgr::disconnection));
+				this, QOverload<>::of(&ConnectionMgr::_disconnection));
+
+		connect(client, &QLocalSocket::readyRead,
+				this, QOverload<>::of(&ConnectionMgr::_incomingData));
 
 		client = _server.nextPendingConnection();
 		}
@@ -64,8 +67,23 @@ void ConnectionMgr::connection(void)
 /*****************************************************************************\
 |* We got a disconnection
 \*****************************************************************************/
-void ConnectionMgr::disconnection(void)
+void ConnectionMgr::_disconnection(void)
 	{
-	erase(_conns, QObject::sender());
+	QLocalSocket *socket	= (QLocalSocket *) QObject::sender();
+	_conns.remove(socket->socketDescriptor());
+
 	fprintf(stderr, "Disconnection! %d left\n", (int) _conns.size());
+	}
+
+/*****************************************************************************\
+|* We got incoming...
+\*****************************************************************************/
+void ConnectionMgr::_incomingData(void)
+	{
+	QLocalSocket *socket	= (QLocalSocket *) QObject::sender();
+	ClientMsg cm;
+	while (cm.read(socket))
+		{
+		fprintf(stderr, "Got message type %d\n", cm.type());
+		}
 	}
