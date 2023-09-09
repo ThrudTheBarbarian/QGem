@@ -14,9 +14,7 @@
 typedef struct
 	{
 	int16_t 			type;			// Type of the message
-	vec_data_t			vec;			// bytes of the message
-	int16_t 			checksum;		// checksum of the message
-	int16_t *			data;			// Pointer to actual data in vector
+	vec_word_t			vec;			// bytes of the message
 	} GemMsg;
 
 typedef vec_t(GemMsg)	MsgList;		// Vector of messages, shallow copies

@@ -31,8 +31,6 @@ void _gemMsgInit(GemMsg* msg, int16_t type)
 	if (msg != NULL)
 		{
 		msg->type 		= type;
-		msg->checksum 	= 0;
-		msg->data		= NULL;
 		vec_init(&(msg->vec));
 		}
 	}
@@ -43,15 +41,8 @@ void _gemMsgInit(GemMsg* msg, int16_t type)
 void _gemMsgAppend(GemMsg *msg, int16_t *data, int numWords)
 	{
 	if ((msg != NULL) && (data != NULL))
-		{
 		for (int i=0; i<numWords; i++)
-			{
-			msg->checksum += data[i];
-			uint16_t val   = (uint16_t) data[i];
-			vec_push(&(msg->vec), val & 0xFF);
-			vec_push(&(msg->vec), val >> 8);
-			}
-		}
+			vec_push(&(msg->vec), *data++);
 	}
 
 /*****************************************************************************\
@@ -61,61 +52,44 @@ void _gemMsgDestroy(GemMsg *msg)
 	{
 	vec_deinit(&(msg->vec));
 	msg->type 		= 0;
-	msg->checksum 	= 0;
-	msg->data		= NULL;
 	}
 
 /*****************************************************************************\
-|* Interpret the data as int16_t
-\*****************************************************************************/
-int16_t _gemMsgData(GemMsg *msg, int idx)
-	{
-	idx 			= 2 + idx * 2;		// Type + offset
-	uint8_t *data 	= msg->vec.data;
-	return (int16_t)(data[idx] + (data[idx+1] * 256));
-	}
-
-/*****************************************************************************\
-|* Read a message from the wire
+|* Read a message from the wire. This will block
 \*****************************************************************************/
 int _gemMsgRead(GemMsg *msg, int fd)
 	{
 	int ok = 0;
 	
-	if (bytesAvailable(fd) > 2)
+	/*************************************************************************\
+	|* Get the size of the payload in words, including type
+	\*************************************************************************/
+	int16_t length;
+	if (read(fd, &length, 2) == 2)
 		{
+		length = ntohs(length);
+		
 		/*********************************************************************\
-		|* Get the size of the payload, including type and checksum
+		|* Read the type
 		\*********************************************************************/
-		uint8_t sizebuf[2];
-		if (read(fd, sizebuf, 2) == 2)
+		if (read(fd, &(msg->type), 2) == 2)
 			{
-			int length = sizebuf[0] + sizebuf[1] * 256;
+			msg->type = ntohs(msg->type);
+			length --;
+			
+			/*****************************************************************\
+			|* Allocate space for the message content
+			\*****************************************************************/
+			vec_init(&(msg->vec));
+			vec_reserve(&(msg->vec), length);
 
 			/*****************************************************************\
-			|* Check we can read that many bytes
+			|* Read in the data
 			\*****************************************************************/
-			if (bytesAvailable(fd) >= length)
+			if (read(fd, msg->vec.data, length*2) == length*2)
 				{
-				vec_init(&(msg->vec));
-				vec_reserve(&(msg->vec), length);
-
-				/*************************************************************\
-				|* Read in the data and calculate the checksum
-				\*************************************************************/
-				if (read(fd, msg->vec.data, length) == length)
-					{
-					uint8_t *data 		= msg->vec.data;
-					msg->data			= (int16_t*)(data + 2);
-					msg->type 			= (int16_t)(data[0] + data[1] * 256);
-					int words			= (length - 2 - 2) / 2;
-					int16_t checksum	= 0;
-					int16_t streamsum	= _gemMsgData(msg, words);
-					for (int i=0; i<words; i++)
-						checksum += _gemMsgData(msg, i);
-					if (checksum == streamsum)
-						ok = 1;
-					}
+				msg->type 	= msg->vec.data[0];
+				ok 			= 1;
 				}
 			}
 		}

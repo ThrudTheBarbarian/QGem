@@ -85,35 +85,28 @@ bool ClientMsg::read(QIODevice *dev)
 	if (dev->bytesAvailable() > 2)
 		{
 		/*********************************************************************\
-		|* Get the size of the payload
+		|* Get the size of the payload, expressed in words
 		\*********************************************************************/
-		uint8_t sizebuf[2];
-		dev->read((char *)sizebuf, 2);
-		int length = sizebuf[0] + sizebuf[1] * 256;
+		int16_t length;
+		dev->read((char *)(&length), 2);
+		length = ntohs(length);
 
-		if (dev->bytesAvailable() >= length)
+		if (dev->bytesAvailable() >= length*2)
 			{
 			_payload.clear();
-			QByteArray msgData	= dev->read(length);
-			int16_t checksum	= 0;
-			_type				= msgData[0] + 256 * msgData[1];
+			dev->read((char *)(&_type), 2);
+			_type = ntohs(_type);
+			length --;
 
-			for (int i=2; i<length-2; i+=2)
-				{
-				int16_t word = msgData[i] + 256 * msgData[i+1];
-				_payload.push_back(word);
-				checksum += word;
-				}
-
-			int16_t streamSum = msgData[length-2] + msgData[length-1] * 256;
-			ok = (streamSum == checksum);
-			if (!ok)
-				WARN("Checksum mismatch for msg type 0x%04X", _type);
+			QByteArray msgData	= dev->read(length*2);
+			int16_t *data = (int16_t *)(msgData.data());
+			for (int i=0; i<length; i++)
+				_payload.push_back(ntohs(*data ++));
 			}
 		else
 			WARN("Insufficient data for msg type 0x%04X "
 				 "(%d required, %d available)",
-				 _type, length, (int)dev->bytesAvailable());
+				 _type, length*2, (int)dev->bytesAvailable());
 		}
 
 	fprintf(stderr, "Got message of type: %d\n", _type);
