@@ -169,6 +169,7 @@ void vec_swap_(char **data, int *length, int *capacity, int memsz,
 typedef vec_t(void*) vec_void_t;
 typedef vec_t(char*) vec_str_t;
 typedef vec_t(uint8_t) vec_data_t;
+typedef vec_t(int16_t) vec_word_t;
 typedef vec_t(int) vec_int_t;
 typedef vec_t(char) vec_char_t;
 typedef vec_t(float) vec_float_t;

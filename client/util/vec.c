@@ -129,7 +129,7 @@ void vec_swap_(char **data,
     	tmp = *a;
     	*a = *b;
     	*b = tmp;
-    	a++, b++;
+    	a++; b++;
   		}
 	}
 	

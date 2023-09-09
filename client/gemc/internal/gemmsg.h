@@ -16,7 +16,10 @@ typedef struct
 	int16_t 			type;			// Type of the message
 	vec_data_t			vec;			// bytes of the message
 	int16_t 			checksum;		// checksum of the message
+	int16_t *			data;			// Pointer to actual data in vector
 	} GemMsg;
+
+typedef vec_t(GemMsg)	MsgList;		// Vector of messages, shallow copies
 
 /*****************************************************************************\
 |* Initialise a message to send to the server
@@ -31,11 +34,16 @@ void _gemMsgAppend(GemMsg *msg, int16_t *data, int numWords);
 /*****************************************************************************\
 |* Prevent memory leaks
 \*****************************************************************************/
-#define _gemMsgDestroy(x) 													\
-	do	 																	\
-		{ 																	\
-		vec_deinit(&(msg->vec)); 											\
-		msg->vec = NULL; 													\
-		} while (0)
-		
+void _gemMsgDestroy(GemMsg *msg);
+	
+/*****************************************************************************\
+|* Interpret the data as int16_t
+\*****************************************************************************/
+int16_t _gemMsgData(GemMsg *msg, int idx);
+	
+/*****************************************************************************\
+|* Read a message from the wire
+\*****************************************************************************/
+int _gemMsgRead(GemMsg *msg, int fd);
+
 #endif /* gemmsg_h */

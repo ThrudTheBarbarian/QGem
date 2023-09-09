@@ -7,6 +7,7 @@
 
 #include <pthread.h>
 #include <errno.h>
+#include <semaphore.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,11 +17,17 @@
 
 
 #include "gemio.h"
+	
+#define SOCKET_NAME	 					"/tmp/gemd"
 
-#define SOCKET_NAME "/tmp/gemd"
 
-static int 			_gemfd	= -1;
-static pthread_t	_io		= 0;
+static int 				_gemfd			= -1;
+static pthread_t		_io				= 0;
+static int 				_blocking		= 0;
+static int16_t			_blockingType	= 0;
+static pthread_cond_t	_condition;
+static pthread_mutex_t	_mutex;
+static GemMsg			_blockedMsg;
 
 /*****************************************************************************\
 |* Forward declarations
@@ -42,7 +49,28 @@ int _gemIoConnect(void)
 	{
 	int ok = 1;
 	
-	if (_gemfd < 0)
+	/*************************************************************************\
+	|* Create the condition for blocking ops
+	\*************************************************************************/
+	 if (pthread_mutex_init(&_mutex, NULL) != 0)
+		{
+		perror("Mutex creation");
+		ok = 0;
+		}
+	
+	/*************************************************************************\
+	|* Create the mutex for blocking ops
+	\*************************************************************************/
+	 if (pthread_cond_init(&_condition, NULL) != 0)
+		{
+		perror("Condition creation");
+		ok = 0;
+		}
+	
+	/*************************************************************************\
+	|* Create the thread that will contact the server and read messages
+	\*************************************************************************/
+	if ((ok == 1) && (_gemfd < 0))
 		{
 		if (pthread_create(&_io, NULL, _socketIO, NULL) != 0)
 			{
@@ -50,7 +78,7 @@ int _gemIoConnect(void)
 			ok = 0;
 			}
 		}
-		
+	
 	return ok;
 	}
 
@@ -93,26 +121,74 @@ static void * _socketIO(void *arg)
 	|* Handle reading from the socket, if everything went ok
 	\*************************************************************************/
 	if (ok)
+		{
+		GemMsg msg;
+	
 		for(;;)
 			{
 			/*****************************************************************\
 			|* Read the next message
 			\*****************************************************************/
-			
-			/*****************************************************************\
-			|* If we're in blocking mode, and the message matches the type,
-			|* then despatch it synchronously and reset the blocking state
-			\*****************************************************************/
-			
-			/*****************************************************************\
-			|* Else despatch the message to the event-loop queue
-			\*****************************************************************/
-			
+			if (_gemMsgRead(&msg, _gemfd))
+				{
+				/*************************************************************\
+				|* If we're in blocking mode, and the message matches the type,
+				|* then despatch it synchronously and reset the blocking state
+				\*************************************************************/
+				if (_blocking)
+					{
+					pthread_mutex_lock(&_mutex);
+					
+					if (msg.type == _blockingType)
+						{
+						_blocking 		= 0;
+						_blockingType	= 0;
+						_blockedMsg		= msg;		// Transfers vec ownership
+						pthread_cond_signal(&_condition);
+						}
+					/*********************************************************\
+					|* Else despatch the message to the event-loop queue. The
+					|* vector is destroyed when the queue is processed
+					\*********************************************************/
+					else
+						{
+						
+						}
+					
+					pthread_mutex_unlock(&_mutex);
+					}
+				/*************************************************************\
+				|* Else despatch the message to the event-loop queue and purge
+				|* the queue. The vector is destroyed when the queue is
+				|* processed
+				\*************************************************************/
+				else
+					{
+					
+					}
+				}
 			}
-		
+		}
 
 	return NULL;
 	}
+
+/*****************************************************************************\
+|* Function to request a blocking read of a message
+\*****************************************************************************/
+GemMsg * _gemWaitForMessageOfType(int16_t type)
+	{
+	_blocking 		= 1;
+	_blockingType 	= type;
+	
+	pthread_mutex_lock(&_mutex);
+	while (_blocking == 1)
+		pthread_cond_wait(&_condition, &_mutex);
+	
+	pthread_mutex_unlock(&_mutex);
+	return &_blockedMsg;		// Note: this needs to be destroyed by caller
+	}
+	
 
 /*****************************************************************************\
 |* Write to the socket

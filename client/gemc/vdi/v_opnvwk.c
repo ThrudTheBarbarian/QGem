@@ -22,4 +22,5 @@ void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 	_gemMsgInit(&msg, MSG_V_OPNVWK);
 	_gemMsgAppend(&msg, workIn, 16);
 	_gemIoWrite(&msg);
+	_gemMsgDestroy(&msg);
 	}
