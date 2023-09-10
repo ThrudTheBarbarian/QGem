@@ -20,6 +20,7 @@ class ClientMsg
 		{
 		MSG_REPLY_OFFSET	= 8192,
 		INVALID				= -1,
+		V_CLRWK				= 3,
 		V_OPNVWK			= 100
 		};
 

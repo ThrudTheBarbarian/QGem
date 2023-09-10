@@ -12,6 +12,13 @@ GLwidget::GLwidget(QWidget *parent)
 		 :QOpenGLWidget(parent)
 		 ,_gemMode(true)
 	{
+	/**************************************************************************\
+	|* Set up so we can notify the VDI when a frame is rendered
+	\**************************************************************************/
+	connect(this, &GLwidget::frameRendered,
+			&(VDI::sharedInstance()),
+			QOverload<>::of(&VDI::frameRendered));
+
 	_cron.restart();
 	}
 
@@ -27,6 +34,7 @@ void GLwidget::paintEvent(QPaintEvent *e)
 	else
 		drawXL(e);
 
+	emit frameRendered();
 
 	frames ++;
 	if (frames == 100)

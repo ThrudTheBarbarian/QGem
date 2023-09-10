@@ -142,6 +142,14 @@
 #define GDP_JUSTIFIED_TEXT	10
 #define GDP_LIST_COMPLETE	-1
 
+/*****************************************************************************\
+|* Writing modes 
+\*****************************************************************************/
+#define WR_REPLACE		1	/**< Default white bg, then draw */
+#define WR_TRANSPARENT	2	/**< Use alpha  */
+#define WR_XOR			3	/**< XOR mode */
+#define WR_REV_TRANS	4	/**< Reverse-tansparent */
+
 
 
 #endif /* !__gem_defines_header__ */

@@ -3,6 +3,7 @@
 
 #include <QLocalSocket>
 #include <QObject>
+#include <QPainter>
 
 #include "properties.h"
 
@@ -21,18 +22,19 @@ class Workstation : public QObject
 	/**************************************************************************\
 	|* Properties
 	\**************************************************************************/
-	GETSET(int, deviceDriver, DeviceDriver);	// 1=current res, 2+n = switch
-	GETSET(int, lineType, LineType);			// SOLID -> USERLINE
-	GETSET(int, lineColour, LineColour);		// colour index for drawing in
-	GETSET(int, markerType, MarkerType);		// MRKR_DOT -> MRKR_DIAMOND
-	GETSET(int, markerColour, MarkerColour);	// colour index for markers
-	GETSET(int, fontId, fontId);				// font id to use
-	GETSET(int, textColour, TextColour);		// colour index for text
-	GETSET(int, fillType, FillType);			// type of fill to use
-	GETSET(int, fillStyle, FillStyle);			// style of fill to use
-	GETSET(int, fillColour, FillColour);		// colour index for fill
-	GETSET(int, coordType, CoordType);			// NDC or Raster co-ords
-	GETSET(int, pageSize, PageSize);			// Which page size to use
+	GETSET(int, deviceDriver, DeviceDriver);			// 1=this, 2+n = switch
+	GETSET(int, lineType, LineType);					// SOLID -> USERLINE
+	GETSET(int, lineColour, LineColour);				// colour to draw
+	GETSET(int, markerType, MarkerType);				// MRKR_{DOT -> DIAMOND}
+	GETSET(int, markerColour, MarkerColour);			// colour for markers
+	GETSET(int, fontId, fontId);						// font id to use
+	GETSET(int, textColour, TextColour);				// colour index for text
+	GETSET(int, fillType, FillType);					// type of fill to use
+	GETSET(int, fillStyle, FillStyle);					// style of fill to use
+	GETSET(int, fillColour, FillColour);				// colour index for fill
+	GETSET(int, coordType, CoordType);					// NDC or Raster co-ords
+	GETSET(int, pageSize, PageSize);					// Page size to use
+	GETSET(QPainter::CompositionMode, wrMode, WrMode);	// Composition mode
 
 	private:
 		/*********************************************************************\
@@ -47,11 +49,12 @@ class Workstation : public QObject
 		explicit Workstation(QObject *parent = nullptr);
 		explicit Workstation(QLocalSocket *client,
 							 QObject *parent = nullptr);
+		~Workstation(void);
 
 		/*********************************************************************\
 		|* Return the socket
 		\*********************************************************************/
-		QLocalSocket * client(void) { return _client; }
+		inline QLocalSocket * client(void) { return _client; }
 
 	signals:
 

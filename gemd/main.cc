@@ -3,14 +3,30 @@
 
 #include <QApplication>
 
+/*****************************************************************************\
+|* Application entry point
+\*****************************************************************************/
 int main(int argc, char *argv[])
 	{
 	QApplication a(argc, argv);
 
+	/*************************************************************************\
+	|* Create the main window
+	\*************************************************************************/
 	Screen *w = new Screen();
 	w->show();
-	VDI::sharedInstance().setScreen(w);
 
+	VDI& vdi = VDI::sharedInstance();
+	vdi.setScreen(w);
+
+	/*************************************************************************\
+	|* Set the system root dir into the VDI
+	\*************************************************************************/
+	vdi.setRootDir("/usr/local/atari");
+
+	/*************************************************************************\
+	|* Open the physical workstation
+	\*************************************************************************/
 	int16_t workIn[16];
 	int16_t handle;
 	int16_t workOut[58];
@@ -19,8 +35,10 @@ int main(int argc, char *argv[])
 		workIn[i] = -1;
 	workIn[0] = 1;
 
-	VDI::sharedInstance().v_opnwk(workIn, &handle, workOut);
-	fprintf(stderr, "Opened physical workstation %d\n", handle);
+	vdi.v_opnwk(workIn, &handle, workOut);
 
+	/*************************************************************************\
+	|* Run the app
+	\*************************************************************************/
 	return a.exec();
 	}

@@ -1,4 +1,7 @@
+
 #include "gem.h"
+#include "macros.h"
+#include "vdi.h"
 #include "workstation.h"
 
 /*****************************************************************************\
@@ -19,7 +22,8 @@ Workstation::Workstation(QLocalSocket *client, QObject *parent)
 			,_coordType(COORD_RASTER)
 			,_pageSize(PG_DIN_A4)
 			,_client(client)
-	{}
+	{
+	}
 
 
 /*****************************************************************************\
@@ -40,4 +44,13 @@ Workstation::Workstation(QObject *parent)
 	,_coordType(COORD_RASTER)
 	,_pageSize(PG_DIN_A4)
 	,_client(nullptr)
-	{}
+	{
+	}
+
+
+/*****************************************************************************\
+|* Destructor
+\*****************************************************************************/
+Workstation::~Workstation(void)
+	{
+	}

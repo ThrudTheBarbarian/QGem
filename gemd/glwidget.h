@@ -41,6 +41,11 @@ class GLwidget : public QOpenGLWidget
 		|* Zoom the XL video up to full-screen
 		\*********************************************************************/
 		void drawXL(QPaintEvent *e);
-	};
+
+
+	signals:
+		void frameRendered(void);
+
+		};
 
 #endif // GLWIDGET_H

@@ -1,3 +1,5 @@
+#include <QFont>
+#include <QFontDatabase>
 #include <QPainter>
 
 #include "debug.h"
@@ -9,6 +11,8 @@
 #define CHECK_RANGE(x,a,b)		(((x) < (a)) || ((x) > (b))) ? (a) : (x)
 #define CHECK_RANGE2(x,a,b,c)	(((x) < (a)) || ((x) > (b))) ? (c) : (x)
 #define CHECK_RANGE3(x,a,b,c,d)	(((x) < (a)) || ((x) > (b))) ? (c) : (d)
+
+#define FONT_DIR_OFFSET "/System/Fonts/"
 
 static int16_t _defaultValues[] =
 	{
@@ -82,12 +86,23 @@ static int16_t _defaultValues[] =
 void VDI::v_opnwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 	{
 	Workstation *ws = nullptr;
+	*handle			= -1;
 
 	/*************************************************************************\
 	|* We only support physical screen workstations atm
 	\*************************************************************************/
 	if ((workIn != nullptr) && (workIn[0] < 10))	// Screen devices
 		{
+		/*********************************************************************\
+		|* Create the backing image for the screen
+		\*********************************************************************/
+		_img = new QImage(_screen->width(),
+						  _screen->height(),
+						  QImage::Format_RGB32);
+
+		/*********************************************************************\
+		|* Set up the workstation
+		\*********************************************************************/
 		ws = new Workstation(this);
 
 		// workIn[0]:  1 = same resolution, <0 = unset, >1 = change resolution
@@ -173,13 +188,30 @@ void VDI::v_opnwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 		setColour(15, 255, 109, 255);		// light magenta
 
 		/*********************************************************************\
-		|* Create the backing image for the screen
+		|* Load up the system font
 		\*********************************************************************/
-		_img = new QImage(_screen->width(),
-						  _screen->height(),
-						  QImage::Format_RGB32);
-		if (handle != nullptr)
-			v_clrwk(*handle);
+		std::string path	= _rootDir + FONT_DIR_OFFSET + "system.ttf";
+		QString fontPath	= QString::fromStdString(path);
+		int id				= QFontDatabase::addApplicationFont(fontPath);
+		QString family		= QFontDatabase::applicationFontFamilies(id).at(0);
+		_systemFont			= QFont(family);
+		_systemFont.setPointSize(14);
+
+		/*********************************************************************\
+		|* Fetch the character width, height and screen rows/cols
+		\*********************************************************************/
+		int16_t rows, cols;
+		vq_chcells(*handle, rows, cols);
+
+		v_enter_cur(*handle);
+
+
+		v_curaddress(*handle, 0,0);
+		v_curtext(*handle, "Hi there! How are you all today ?");
+		v_rvon(0);
+		v_curaddress(0,1,0);
+		v_curtext(*handle, "Hi there! How are you all today ?");
+		v_rmcur(*handle);
 		}
 	else
 		WARN("Non-screen devices currently unsupported");
