@@ -55,7 +55,7 @@ void ConnectionMgr::_connection(void)
 	QLocalSocket *client = _server.nextPendingConnection();
 	while (client != nullptr)
 		{
-		Workstation *ws = new Workstation(client, _screen, this);
+		Workstation *ws = new Workstation(client, this);
 		_conns[client->socketDescriptor()] = ws;
 
 		connect(client, &QLocalSocket::disconnected,

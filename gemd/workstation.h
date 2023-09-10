@@ -39,25 +39,19 @@ class Workstation : public QObject
 		|* Socket to communicate over
 		\*********************************************************************/
 		QLocalSocket *_client;					// Connection to client
-		Screen * _screen;						// Screen to draw on
 
 	public:
 		/*********************************************************************\
 		|* Constructor / Destructor
 		\*********************************************************************/
+		explicit Workstation(QObject *parent = nullptr);
 		explicit Workstation(QLocalSocket *client,
-							 Screen *screen,
 							 QObject *parent = nullptr);
 
 		/*********************************************************************\
 		|* Return the socket
 		\*********************************************************************/
 		QLocalSocket * client(void) { return _client; }
-
-		/*********************************************************************\
-		|* Return the screen
-		\*********************************************************************/
-		Screen * screen(void) { return _screen; }
 
 	signals:
 

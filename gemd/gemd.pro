@@ -9,9 +9,13 @@ SOURCES += \
     connectionmgr.cc \
     glwidget.cc \
     main.cc \
+    ops/v_clswk.cc \
     ops/v_opnvwk.cc \
+    ops/v_opnwk.cc \
+    ops/v_updwk.cc \
     screen.cc \
     socketthread.cc \
+    v_clrwk.cc \
     vdi.cc \
     workstation.cc
 

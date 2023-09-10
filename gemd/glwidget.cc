@@ -1,7 +1,9 @@
+#include <QImage>
 #include <QPainter>
 #include <QPaintEvent>
 
 #include "glwidget.h"
+#include "vdi.h"
 
 /*****************************************************************************\
 |* Class constructor
@@ -43,10 +45,18 @@ void GLwidget::paintEvent(QPaintEvent *e)
 /*****************************************************************************\
 |* Handle drawing the GEM interface
 \*****************************************************************************/
-void GLwidget::drawGEM(QPaintEvent *)
+void GLwidget::drawGEM(QPaintEvent *e)
 	{
 	QPainter painter;
 	painter.begin(this);
+
+	QImage *bg = VDI::sharedInstance().bg();
+	if (bg != nullptr)
+		{
+		QPointF at = e->rect().topLeft();
+		painter.drawImage(at, *bg, e->rect());
+		}
+
 	painter.end();
 	}
 

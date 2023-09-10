@@ -74,7 +74,7 @@ void VDI::v_opnvwk(Workstation *ws, ClientMsg *cm)
 	/*************************************************************************\
 	|* Create a message to send back
 	\*************************************************************************/
-	Screen *s = ws->screen();
+	Screen *s = VDI::sharedInstance().screen();
 	cm->clear();
 	cm->append(s->width()-1);		// 0 : Xmax
 	cm->append(s->height()-1);		// 1 : Ymax
