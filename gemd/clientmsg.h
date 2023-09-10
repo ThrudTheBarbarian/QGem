@@ -18,8 +18,9 @@ class ClientMsg
 	public:
 		enum
 		{
-		TYPE_INVALID	= -1,
-		TYPE_V_OPNVWK	= 100
+		MSG_REPLY_OFFSET	= 8192,
+		INVALID				= -1,
+		V_OPNVWK			= 100
 		};
 
 	/*************************************************************************\
@@ -31,8 +32,7 @@ class ClientMsg
 	|* Properties
 	\*************************************************************************/
 	GETSET(Payload, payload, Payload);			// Message payload
-	GET(int16_t, checksum);						// Message checksum
-	GET(int16_t, type);							// Received type
+	GETSET(int16_t, type, Type);				// Received type
 
 	public:
 		/*********************************************************************\
@@ -57,6 +57,11 @@ class ClientMsg
 		|* Populate the message from a socket
 		\*********************************************************************/
 		bool read(QIODevice *dev);
+
+		/*********************************************************************\
+		|* Clear the properties so we can re-use the message
+		\*********************************************************************/
+		void clear(void);
 
 		/*********************************************************************\
 		|* Serialise to a byte-stream

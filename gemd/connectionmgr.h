@@ -8,6 +8,12 @@
 
 
 /*****************************************************************************\
+|* Forward declarations
+\*****************************************************************************/
+class Screen;
+class Workstation;
+
+/*****************************************************************************\
 |* Class declaration
 \*****************************************************************************/
 class ConnectionMgr : public QObject
@@ -18,8 +24,9 @@ class ConnectionMgr : public QObject
 	|* Private state
 	\*************************************************************************/
 	private:
-		QMap<qintptr, QLocalSocket*> _conns;	// List of connected clients
+		QMap<qintptr, Workstation*> _conns;		// List of connected clients
 		QLocalServer _server;					// Server socket to listen on
+		Screen * _screen;						// Screen to draw on
 
 	public:
 		/*********************************************************************\
@@ -30,7 +37,7 @@ class ConnectionMgr : public QObject
 		/*********************************************************************\
 		|* start listening
 		\*********************************************************************/
-		void start(void);
+		void start(Screen *screen);
 
 		/*********************************************************************\
 		|* stop listening

@@ -2,16 +2,18 @@ QT += gui widgets network openglwidgets
 
 CONFIG+=sdk_no_version_check
 
-INCLUDEPATH += $$PWD/../shared
+INCLUDEPATH +=  $$PWD/../shared
 
 SOURCES += \
     clientmsg.cc \
     connectionmgr.cc \
     glwidget.cc \
     main.cc \
+    ops/v_opnvwk.cc \
     screen.cc \
     socketthread.cc \
-    vdi.cc
+    vdi.cc \
+    workstation.cc
 
 HEADERS += \
     clientmsg.h \
@@ -19,7 +21,8 @@ HEADERS += \
     glwidget.h \
     screen.h \
     socketthread.h \
-    vdi.h
+    vdi.h \
+    workstation.h
 
 
 FORMS += \

@@ -1,5 +1,8 @@
 #include "clientmsg.h"
 #include "connectionmgr.h"
+#include "screen.h"
+#include "vdi.h"
+#include "workstation.h"
 
 #define SERVICE_NAME "/tmp/gemd"
 
@@ -27,12 +30,12 @@ ConnectionMgr::ConnectionMgr(QObject *parent)
 /*****************************************************************************\
 |* Start listening
 \*****************************************************************************/
-void ConnectionMgr::start(void)
+void ConnectionMgr::start(Screen *screen)
 	{
+	_screen = screen;
 	_server.listen(SERVICE_NAME);
 
 	const std::string& stdS = _server.fullServerName().toStdString();
-
 	fprintf(stderr, "Now listening on %s\n", stdS.c_str());
 	}
 
@@ -52,7 +55,9 @@ void ConnectionMgr::_connection(void)
 	QLocalSocket *client = _server.nextPendingConnection();
 	while (client != nullptr)
 		{
-		_conns[client->socketDescriptor()] = client;
+		Workstation *ws = new Workstation(client, _screen, this);
+		_conns[client->socketDescriptor()] = ws;
+
 		connect(client, &QLocalSocket::disconnected,
 				this, QOverload<>::of(&ConnectionMgr::_disconnection));
 
@@ -81,9 +86,21 @@ void ConnectionMgr::_disconnection(void)
 void ConnectionMgr::_incomingData(void)
 	{
 	QLocalSocket *socket	= (QLocalSocket *) QObject::sender();
+	Workstation *ws			= _conns[socket->socketDescriptor()];
+
 	ClientMsg cm;
 	while (cm.read(socket))
 		{
-		fprintf(stderr, "Got message type %d\n", cm.type());
+		switch (cm.type())
+			{
+			case ClientMsg::V_OPNVWK:
+				{
+				return VDI::sharedInstance().v_opnvwk(ws, &cm);
+				}
+
+			default:
+				WARN("Unknown message type %d", cm.type());
+				break;
+			}
 		}
 	}

@@ -7,8 +7,9 @@
 /*****************************************************************************\
 |* Forward declarations
 \*****************************************************************************/
-class SocketThread;
 class ClientMsg;
+class SocketThread;
+class Workstation;
 
 /*****************************************************************************\
 |* Class declaration
@@ -63,7 +64,7 @@ class VDI : public QObject
 		/*********************************************************************\
 		|* VDI operations
 		\*********************************************************************/
-		void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut);
+		void v_opnvwk(Workstation *ws, ClientMsg *msg);
 
 	signals:
 

@@ -8,6 +8,10 @@
 #include <stdio.h>
 #include "vdi.h"
 
+int debugLevel(void)
+	{ return 10; }
+	
+
 int main(int argc, const char * argv[])
 	{
 	int16_t workIn[16];

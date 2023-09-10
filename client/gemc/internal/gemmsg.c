@@ -15,13 +15,13 @@
 /*****************************************************************************\
 |* Helper to see how many bytes are available to read
 \*****************************************************************************/
-static int bytesAvailable(int fd)
-	{
-	int bytesAvailable = 0;
-	if (ioctl(fd, FIONREAD, &bytesAvailable) > 0)
-		return bytesAvailable;
-	return 0;
-	}
+//static int bytesAvailable(int fd)
+//	{
+//	int bytesAvailable = 0;
+//	if (ioctl(fd, FIONREAD, &bytesAvailable) > 0)
+//		return bytesAvailable;
+//	return 0;
+//	}
  
 /*****************************************************************************\
 |* Initialise a message to send to the server
@@ -68,7 +68,6 @@ int _gemMsgRead(GemMsg *msg, int fd)
 	if (read(fd, &length, 2) == 2)
 		{
 		length = ntohs(length);
-		
 		/*********************************************************************\
 		|* Read the type
 		\*********************************************************************/
@@ -88,8 +87,14 @@ int _gemMsgRead(GemMsg *msg, int fd)
 			\*****************************************************************/
 			if (read(fd, msg->vec.data, length*2) == length*2)
 				{
-				msg->type 	= msg->vec.data[0];
-				ok 			= 1;
+				int16_t *ptr = (int16_t*)(msg->vec.data);
+				for (int i=0; i<length; i++)
+					{
+					*ptr = ntohs(*ptr);
+					ptr ++;
+					}
+				msg->vec.length = length;
+				ok = 1;
 				}
 			}
 		}

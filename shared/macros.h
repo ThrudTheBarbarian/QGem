@@ -9,7 +9,9 @@
 #ifndef macros_h
 #define macros_h
 
-#include <vector>
+#ifdef __cplusplus
+  #include <vector>
+#endif
 
 #include <stdlib.h>
 #include "debug.h"
@@ -101,7 +103,9 @@
 /*****************************************************************************\
 |* Typedefs
 \*****************************************************************************/
-typedef std::vector<int16_t>	Payload;
-typedef std::vector<uint8_t>	ByteStream;
+#ifdef __cplusplus
+	typedef std::vector<int16_t>	Payload;
+	typedef std::vector<uint8_t>	ByteStream;
+#endif
 
 #endif /* macros_h */

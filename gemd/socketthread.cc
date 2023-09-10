@@ -78,7 +78,7 @@ bool SocketThread::send(ClientMsg& cm, bool isBlocking)
 \*****************************************************************************/
 void SocketThread::_dispatch(ClientMsg& msg)
 	{
-	fprintf(stderr, "Got message of type 0x%04X", msg.type());
+	fprintf(stderr, "XGot message of type 0x%04X", msg.type());
 	}
 
 #pragma mark - Private Slots

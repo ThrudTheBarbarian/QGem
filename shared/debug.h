@@ -9,9 +9,8 @@
 #ifndef debug_h
 #define debug_h
 
-#include <iostream>
-#include <cstdio>
-#include <cstring>
+#include <stdio.h>
+#include <string.h>
 #include <sys/time.h>
 
 #ifndef __FILENAME__
@@ -47,16 +46,14 @@
 
 # define LOG(...) 													\
 	{																\
-    char s_str[4096];												\
-    snprintf(s_str, 4095,__VA_ARGS__);								\
-    std::cout << "[" << __FILENAME__ << " "						    \
-			  << __FUNCTION__ << ": " << __LINE__ << "] " 		    \
-			  << s_str << std::endl;								\
+    fprintf(stderr, "[" __FILENAME__ " " __FUNCTION__ ": "			\
+			__LINE__ "]" __VA_ARGS__);								\
+    fprintf(stderr, "\n");											\
     }
 
 #if defined(DEBUG)
 
-extern int debugLevel();
+extern int debugLevel(void);
 
 # define WARN(...)                                                  \
     {                                                               \

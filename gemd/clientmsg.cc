@@ -27,23 +27,17 @@ ClientMsg::ClientMsg(int16_t type, Payload payload)
 \*****************************************************************************/
 QByteArray ClientMsg::encode(void)
 	{
-	QByteArray ba;
-	int16_t checksum	= 0;
+	int len = (int)(_payload.size() + 2);
+	int16_t buf[len];
 
-	int16_t len			= (int)(_payload.size() +1);
-	ba.append(len & 0xFF);
-	ba.append((len >> 8) & 0xFF);
+	buf[0] = htons((int16_t)(len-1));
+	buf[1] = htons(_type);
 
+	int idx = 2;
 	for (int16_t word : _payload)
-		{
-		ba.append(word & 0xFF);
-		ba.append((word >> 8) & 0xFF);
-		checksum += word;
-		}
-	ba.append(checksum & 0xFF);
-	ba.append((checksum >> 8) & 0xFF);
+		buf[idx++] = htons(word);
 
-	return ba;
+	return QByteArray((const char *)(&(buf[0])), len*2);
 	}
 
 /*****************************************************************************\
@@ -51,29 +45,32 @@ QByteArray ClientMsg::encode(void)
 \*****************************************************************************/
 bool ClientMsg::decode(int16_t words, QByteArray& ba)
 	{
-	bool ok = false;
 	_payload.clear();
-	_type	= TYPE_INVALID;
-	int len	= (int)ba.size();
+	bool ok			= false;
+	_type			= INVALID;
+	int len			= (int)ba.size() / 2 - 1;
+	int16_t *ptr	= (int16_t *)(ba.data());
 
-	if ((len >> 1) == words)
+	if (len == words)
 		{
-		int16_t checksum = 0;
-		_type = ba.at(0) + (256 * ba.at(1));
-		for (int i=2; i<len-2; i+=2)
-			{
-			int16_t word = ba.at(i) + (256 * ba.at(i+1));
-			_payload.push_back(word);
-			checksum += word;
-			}
+		_type = ntohs(*ptr++);
+		for (int i=0; i<len; i++)
+			_payload.push_back(ntohs(*ptr++));
 
-		int16_t streamChecksum = ba.at(len-2) + 256 * (ba.at(len-1));
-		if (streamChecksum == checksum)
-			ok = true;
+		ok = true;
 		}
 	return ok;
 	}
 
+
+/*****************************************************************************\
+|* De-serialise the message to the original form
+\*****************************************************************************/
+void ClientMsg::clear(void)
+	{
+	_payload.clear();
+	_type = 0;
+	}
 
 /*****************************************************************************\
 |* Read a message from a socket
@@ -102,6 +99,7 @@ bool ClientMsg::read(QIODevice *dev)
 			int16_t *data = (int16_t *)(msgData.data());
 			for (int i=0; i<length; i++)
 				_payload.push_back(ntohs(*data ++));
+			ok = 1;
 			}
 		else
 			WARN("Insufficient data for msg type 0x%04X "

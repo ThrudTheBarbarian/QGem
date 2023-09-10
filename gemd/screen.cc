@@ -26,7 +26,7 @@ Screen::Screen(QWidget *parent)
 	|* Start the connection manager to listen for clients
 	\*************************************************************************/
 	_conmgr = new ConnectionMgr();
-	_conmgr->start();
+	_conmgr->start(this);
 	}
 
 /*****************************************************************************\
