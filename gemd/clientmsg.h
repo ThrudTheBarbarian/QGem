@@ -36,6 +36,10 @@ class ClientMsg
 		V_RVON				= 5013,
 		V_RVOFF				= 5014,
 		VQ_CURADDRESS		= 5015,
+		VQ_TABSTATUS		= 5016,		// Not implemented
+		V_HARDCOPY			= 5017,		// Not implemented
+		V_DSPCUR			= 5018,
+		V_RMCUR				= 5019,
 		V_OPNVWK			= 100,
 		};
 

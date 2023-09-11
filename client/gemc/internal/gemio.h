@@ -33,6 +33,10 @@ enum
 	MSG_V_RVON			= 5013,
 	MSG_V_RVOFF			= 5014,
 	MSG_VQ_CURADDRESS	= 5015,
+	MSG_VQ_TABSTATUS	= 5016,	/* not implemented */
+	MSG_V_HARDCOPY		= 5017, /* not implemented */
+	MSG_V_DSPCUR		= 5018,
+	MSG_V_RMCUR			= 5019,
 	MSG_REPLY_OFFSET	= 8192,
 	};
 	

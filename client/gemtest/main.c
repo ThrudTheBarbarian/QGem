@@ -35,4 +35,6 @@ int main(int argc, const char * argv[])
 	int16_t row, col;
 	vq_curaddress(handle, &row, &col);
 	fprintf(stderr, "Cursor at (x=%d, y=%d)", col, row);
+	
+	v_rmcur(handle);
 	}

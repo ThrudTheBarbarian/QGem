@@ -157,6 +157,14 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vq_curaddress(ws, &cm);
 				break;
 
+			case ClientMsg::V_DSPCUR:		// 5.18
+				VDI::sharedInstance().v_dspcur(ws, &cm);
+				break;
+
+			case ClientMsg::V_RMCUR:		// 5.19
+				VDI::sharedInstance().v_rmcur(ws);
+				break;
+
 			case ClientMsg::V_OPNVWK:		// 100
 				VDI::sharedInstance().v_opnvwk(ws, &cm);
 				break;

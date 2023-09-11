@@ -208,11 +208,13 @@ class VDI : public QObject
 		|*   5.18: Position the graphical cursor (mouse)
 		\*********************************************************************/
 		void v_dspcur(int16_t handle, int16_t x, int16_t y);
+		void v_dspcur(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|*   5.19: Hide the graphical cursor (mouse)
 		\*********************************************************************/
 		void v_rmcur(int16_t handle);
+		void v_rmcur(Workstation *ws);
 
 		/*********************************************************************\
 		|*   5.20: Form-feed. Only useful on printers, which aren't supported

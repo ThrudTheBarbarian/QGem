@@ -1,7 +1,8 @@
 //
-//  v_enter_cur.c
+//  v_rmcur.c
+//  gemc
 //
-//  Created by ThrudTheBarbarian on 9/10/23.
+//  Created by ThrudTheBarbarian on 9/11/23.
 //
 
 #include <stdio.h>
@@ -11,9 +12,9 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*   5.3 : Enter alpha mode
+|*   5.19 : Hide the mouse cursor
 \*****************************************************************************/
-void v_enter_cur(int16_t handle)
+void v_rmcur(int16_t handle)
 	{
 	(void)handle;
 	
@@ -28,7 +29,7 @@ void v_enter_cur(int16_t handle)
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_V_ENTER_CUR);
+	_gemMsgInit(&msg, MSG_V_RMCUR);
 	_gemIoWrite(&msg);
 
 	/*************************************************************************\

@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "screen.h"
 #include "vdi.h"
+#include "workstation.h"
 
 /*****************************************************************************\
 |* Opcode 5.10: Erase to end-of-line.
@@ -20,4 +21,12 @@ void VDI::v_rmcur(int16_t handle)
 		{
 		WARN("Non-screen devices currently unsupported");
 		}
+	}
+
+/*****************************************************************************\
+|* And from the socket interface...
+\*****************************************************************************/
+void VDI::v_rmcur(Workstation *)
+	{
+	v_rmcur((int16_t)0);
 	}
