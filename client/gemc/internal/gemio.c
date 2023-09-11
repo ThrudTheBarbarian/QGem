@@ -37,11 +37,7 @@ int _gemIoIsConnected(void)
 \*****************************************************************************/
 int _gemIoConnect(void)
 	{
-	int ok = 1;
-
-	/*************************************************************************\
-	|* Initialise the message list
-	\*************************************************************************/
+	int ok = 0;
 
 	/*************************************************************************\
 	|* Contact the server
@@ -69,7 +65,11 @@ int _gemIoConnect(void)
 			if (ret == 0)
 				ok = 1;
 			else
+				{
+				close(_gemfd);
+				_gemfd = -1;
 				perror("Connect");
+				}
 			}
 		else
 			perror("Socket create");

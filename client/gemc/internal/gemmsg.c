@@ -42,9 +42,34 @@ void _gemMsgAppend(GemMsg *msg, int16_t *data, int numWords)
 	{
 	if ((msg != NULL) && (data != NULL))
 		for (int i=0; i<numWords; i++)
-			vec_push(&(msg->vec), *data++);
+			vec_push(&(msg->vec), htons(*data++));
 	}
 
+
+/*****************************************************************************\
+|* Add data into the message with a preprended length
+\*****************************************************************************/
+void _gemMsgAppendData(GemMsg *msg, uint8_t *data, int16_t numBytes)
+	{
+	int16_t *ptr 		= (int16_t *)data;
+	
+	/*************************************************************************\
+	|* append the length of the data blob
+	\*************************************************************************/
+	_gemMsgAppend(msg, &numBytes, 1);
+	
+	/*************************************************************************\
+	|* Append the data blob
+	\*************************************************************************/
+	_gemMsgAppend(msg, ptr, numBytes/2);
+	
+	if (numBytes & 1)
+		{
+		int16_t value = data[numBytes-1];
+		_gemMsgAppend(msg, &value, 1);
+		}
+	}
+	
 /*****************************************************************************\
 |* Prevent memory leaks
 \*****************************************************************************/

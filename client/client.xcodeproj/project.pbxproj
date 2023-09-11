@@ -7,6 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F46A85B42AAEA2AE00FA3ABC /* v_clrwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */; };
+		F46A85B62AAEA56200FA3ABC /* v_updwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B52AAEA56200FA3ABC /* v_updwk.c */; };
+		F46A85BA2AAEA5A100FA3ABC /* vq_chcells.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */; };
+		F46A85BC2AAEB56700FA3ABC /* vq_exit_cur.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85BB2AAEB56700FA3ABC /* vq_exit_cur.c */; };
+		F46A85BE2AAEB6FE00FA3ABC /* v_enter_cur.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85BD2AAEB6FE00FA3ABC /* v_enter_cur.c */; };
+		F46A85C22AAEB87500FA3ABC /* v_curup.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85C02AAEB87500FA3ABC /* v_curup.c */; };
+		F46A85C42AAEB99600FA3ABC /* v_curdown.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85C32AAEB99600FA3ABC /* v_curdown.c */; };
+		F46A85C62AAEBB4100FA3ABC /* v_curright.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85C52AAEBB4100FA3ABC /* v_curright.c */; };
+		F46A85C82AAEBE7900FA3ABC /* v_curleft.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85C72AAEBE7900FA3ABC /* v_curleft.c */; };
+		F46A85CA2AAEBEFD00FA3ABC /* v_curhome.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85C92AAEBEFD00FA3ABC /* v_curhome.c */; };
+		F46A85CC2AAEBFD600FA3ABC /* v_eeos.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85CB2AAEBFD600FA3ABC /* v_eeos.c */; };
+		F46A85CE2AAEC0B600FA3ABC /* v_eeol.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85CD2AAEC0B600FA3ABC /* v_eeol.c */; };
+		F46A85D02AAEC47900FA3ABC /* vs_curaddress.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85CF2AAEC47900FA3ABC /* vs_curaddress.c */; };
+		F46A85D22AAECACA00FA3ABC /* v_curtext.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85D12AAECACA00FA3ABC /* v_curtext.c */; };
+		F46A85D42AAED0F400FA3ABC /* v_rvon.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85D32AAED0F400FA3ABC /* v_rvon.c */; };
+		F46A85D62AAED14600FA3ABC /* v_rvoff.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85D52AAED14600FA3ABC /* v_rvoff.c */; };
+		F46A85D82AAED79F00FA3ABC /* vq_curaddress.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85D72AAED79F00FA3ABC /* vq_curaddress.c */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -41,6 +58,23 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_clrwk.c; sourceTree = "<group>"; };
+		F46A85B52AAEA56200FA3ABC /* v_updwk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_updwk.c; sourceTree = "<group>"; };
+		F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_chcells.c; sourceTree = "<group>"; };
+		F46A85BB2AAEB56700FA3ABC /* vq_exit_cur.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_exit_cur.c; sourceTree = "<group>"; };
+		F46A85BD2AAEB6FE00FA3ABC /* v_enter_cur.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_enter_cur.c; sourceTree = "<group>"; };
+		F46A85C02AAEB87500FA3ABC /* v_curup.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_curup.c; sourceTree = "<group>"; };
+		F46A85C32AAEB99600FA3ABC /* v_curdown.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_curdown.c; sourceTree = "<group>"; };
+		F46A85C52AAEBB4100FA3ABC /* v_curright.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_curright.c; sourceTree = "<group>"; };
+		F46A85C72AAEBE7900FA3ABC /* v_curleft.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_curleft.c; sourceTree = "<group>"; };
+		F46A85C92AAEBEFD00FA3ABC /* v_curhome.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_curhome.c; sourceTree = "<group>"; };
+		F46A85CB2AAEBFD600FA3ABC /* v_eeos.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_eeos.c; sourceTree = "<group>"; };
+		F46A85CD2AAEC0B600FA3ABC /* v_eeol.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_eeol.c; sourceTree = "<group>"; };
+		F46A85CF2AAEC47900FA3ABC /* vs_curaddress.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vs_curaddress.c; sourceTree = "<group>"; };
+		F46A85D12AAECACA00FA3ABC /* v_curtext.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_curtext.c; sourceTree = "<group>"; };
+		F46A85D32AAED0F400FA3ABC /* v_rvon.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_rvon.c; sourceTree = "<group>"; };
+		F46A85D52AAED14600FA3ABC /* v_rvoff.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_rvoff.c; sourceTree = "<group>"; };
+		F46A85D72AAED79F00FA3ABC /* vq_curaddress.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_curaddress.c; sourceTree = "<group>"; };
 		F4E3409C2AAAD389002390BA /* client */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = client; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E3409F2AAAD389002390BA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E340AA2AAAD3E1002390BA /* libgemc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgemc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +149,23 @@
 			children = (
 				F4E340BE2AAADEDB002390BA /* vdi.h */,
 				F4E340B22AAAD6C3002390BA /* v_opnvwk.c */,
+				F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */,
+				F46A85B52AAEA56200FA3ABC /* v_updwk.c */,
+				F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */,
+				F46A85BB2AAEB56700FA3ABC /* vq_exit_cur.c */,
+				F46A85BD2AAEB6FE00FA3ABC /* v_enter_cur.c */,
+				F46A85C02AAEB87500FA3ABC /* v_curup.c */,
+				F46A85C32AAEB99600FA3ABC /* v_curdown.c */,
+				F46A85C52AAEBB4100FA3ABC /* v_curright.c */,
+				F46A85C72AAEBE7900FA3ABC /* v_curleft.c */,
+				F46A85C92AAEBEFD00FA3ABC /* v_curhome.c */,
+				F46A85CB2AAEBFD600FA3ABC /* v_eeos.c */,
+				F46A85CD2AAEC0B600FA3ABC /* v_eeol.c */,
+				F46A85CF2AAEC47900FA3ABC /* vs_curaddress.c */,
+				F46A85D12AAECACA00FA3ABC /* v_curtext.c */,
+				F46A85D32AAED0F400FA3ABC /* v_rvon.c */,
+				F46A85D52AAED14600FA3ABC /* v_rvoff.c */,
+				F46A85D72AAED79F00FA3ABC /* vq_curaddress.c */,
 			);
 			path = vdi;
 			sourceTree = "<group>";
@@ -246,10 +297,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F46A85C22AAEB87500FA3ABC /* v_curup.c in Sources */,
+				F46A85CC2AAEBFD600FA3ABC /* v_eeos.c in Sources */,
+				F46A85C82AAEBE7900FA3ABC /* v_curleft.c in Sources */,
+				F46A85CE2AAEC0B600FA3ABC /* v_eeol.c in Sources */,
+				F46A85BE2AAEB6FE00FA3ABC /* v_enter_cur.c in Sources */,
+				F46A85D82AAED79F00FA3ABC /* vq_curaddress.c in Sources */,
+				F46A85D02AAEC47900FA3ABC /* vs_curaddress.c in Sources */,
+				F46A85D62AAED14600FA3ABC /* v_rvoff.c in Sources */,
+				F46A85C62AAEBB4100FA3ABC /* v_curright.c in Sources */,
+				F46A85C42AAEB99600FA3ABC /* v_curdown.c in Sources */,
 				F4E340BD2AAADE13002390BA /* vec.c in Sources */,
 				F4E340C62AAAE05A002390BA /* gemmsg.c in Sources */,
+				F46A85D22AAECACA00FA3ABC /* v_curtext.c in Sources */,
 				F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */,
+				F46A85B42AAEA2AE00FA3ABC /* v_clrwk.c in Sources */,
+				F46A85BA2AAEA5A100FA3ABC /* vq_chcells.c in Sources */,
+				F46A85CA2AAEBEFD00FA3ABC /* v_curhome.c in Sources */,
+				F46A85B62AAEA56200FA3ABC /* v_updwk.c in Sources */,
 				F4E340B82AAAD6DE002390BA /* gemio.c in Sources */,
+				F46A85BC2AAEB56700FA3ABC /* vq_exit_cur.c in Sources */,
+				F46A85D42AAED0F400FA3ABC /* v_rvon.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

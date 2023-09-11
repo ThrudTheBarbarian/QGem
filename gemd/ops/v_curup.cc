@@ -1,6 +1,7 @@
 
 #include "debug.h"
 #include "vdi.h"
+#include "workstation.h"
 
 /*****************************************************************************\
 |* Opcode 5.4: Move the cursor up if possible.
@@ -24,4 +25,12 @@ void VDI::v_curup(int16_t handle)
 		{
 		WARN("Non-screen devices currently unsupported");
 		}
+	}
+
+/*****************************************************************************\
+|* And from the socket interface...
+\*****************************************************************************/
+void VDI::v_curup(Workstation *)
+	{
+	v_curup((int16_t)0);
 	}

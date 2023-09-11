@@ -1,5 +1,7 @@
 
+#include "clientmsg.h"
 #include "debug.h"
+#include "macros.h"
 #include "screen.h"
 #include "vdi.h"
 
@@ -9,7 +11,7 @@
 |* Original signature is: v_curup(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_curaddress(int16_t handle, int16_t row, int16_t col)
+void VDI::vs_curaddress(int16_t handle, int16_t row, int16_t col)
 	{
 	if (handle == 0)
 		{
@@ -34,4 +36,19 @@ void VDI::v_curaddress(int16_t handle, int16_t row, int16_t col)
 		{
 		WARN("Non-screen devices currently unsupported");
 		}
+	}
+
+/*****************************************************************************\
+|* And from the socket interface...
+\*****************************************************************************/
+void VDI::vs_curaddress(Workstation *, ClientMsg *cm)
+	{
+	const Payload &p = cm->payload();
+
+	/**************************************************************************\
+	|* Get the data out of the message
+	\**************************************************************************/
+	int16_t row = p[0];
+	int16_t col = p[1];
+	vs_curaddress(0, row, col);
 	}

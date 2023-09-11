@@ -1,5 +1,5 @@
 //
-//  v_clrwk.c
+//  vq_exit_cur.c
 //  gemc
 //
 //  Created by ThrudTheBarbarian on 9/10/23.
@@ -12,10 +12,12 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*   3   : Clear a physical workstation (and all virtual workstations attached)
+|*   5.2 : Exit alpha mode
 \*****************************************************************************/
-void v_clrwk(void)
+void vq_exit_cur(int handle)
 	{
+	(void)handle;
+	
 	/*************************************************************************\
 	|* Check to see if we're connected
 	\*************************************************************************/
@@ -27,7 +29,7 @@ void v_clrwk(void)
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_V_CLRWK);
+	_gemMsgInit(&msg, MSG_VQ_EXIT_CUR);
 	_gemIoWrite(&msg);
 
 	/*************************************************************************\

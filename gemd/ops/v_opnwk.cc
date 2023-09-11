@@ -177,6 +177,7 @@ void VDI::v_opnwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 		QString family		= QFontDatabase::applicationFontFamilies(id).at(0);
 		_systemFont			= QFont(family);
 		_systemFont.setPointSize(14);
+		_fm					= new QFontMetrics(_systemFont);
 
 		/*********************************************************************\
 		|* Fetch the character width, height and screen rows/cols

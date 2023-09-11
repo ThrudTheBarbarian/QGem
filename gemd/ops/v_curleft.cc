@@ -25,3 +25,11 @@ void VDI::v_curleft(int16_t handle)
 		WARN("Non-screen devices currently unsupported");
 		}
 	}
+
+/*****************************************************************************\
+|* And from the socket interface...
+\*****************************************************************************/
+void VDI::v_curleft(Workstation *)
+	{
+	v_curleft((int16_t)0);
+	}

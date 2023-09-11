@@ -93,16 +93,72 @@ void ConnectionMgr::_incomingData(void)
 		{
 		switch (cm.type())
 			{
-			case ClientMsg::V_OPNVWK:
-				VDI::sharedInstance().v_opnvwk(ws, &cm);
-				break;
-
-			case ClientMsg::V_CLRWK:
+			case ClientMsg::V_CLRWK:		// 3
 				VDI::sharedInstance().v_clrwk(ws);
 				break;
 
-			case ClientMsg::VQ_CHCELLS:
+			case ClientMsg::VQ_CHCELLS:		// 5.1
 				VDI::sharedInstance().vq_chcells(ws, &cm);
+				break;
+
+			case ClientMsg::VQ_EXIT_CUR:	// 5.3
+				VDI::sharedInstance().vq_exit_cur(ws);
+				break;
+
+			case ClientMsg::V_ENTER_CUR:	// 5.3
+				VDI::sharedInstance().v_enter_cur(ws);
+				break;
+
+			case ClientMsg::V_CURUP:		// 5.4
+				VDI::sharedInstance().v_curup(ws);
+				break;
+
+			case ClientMsg::V_CURDOWN:		// 5.5
+				VDI::sharedInstance().v_curdown(ws);
+				break;
+
+			case ClientMsg::V_CURRIGHT:		// 5.6
+				VDI::sharedInstance().v_curright(ws);
+				break;
+
+			case ClientMsg::V_CURLEFT:		// 5.7
+				VDI::sharedInstance().v_curleft(ws);
+				break;
+
+			case ClientMsg::V_CURHOME:		// 5.8
+				VDI::sharedInstance().v_curhome(ws);
+				break;
+
+			case ClientMsg::V_EEOS:			// 5.9
+				VDI::sharedInstance().v_eeos(ws);
+				break;
+
+			case ClientMsg::V_EEOL:			// 5.10
+				VDI::sharedInstance().v_eeol(ws);
+				break;
+
+			case ClientMsg::VS_CURADDRESS:	// 5.11
+				VDI::sharedInstance().vs_curaddress(ws, &cm);
+				break;
+
+			case ClientMsg::V_CURTEXT:		// 5.12
+				VDI::sharedInstance().v_curtext(ws, &cm);
+				break;
+
+			case ClientMsg::V_RVON	:		// 5.13
+				VDI::sharedInstance().v_rvon(ws);
+				break;
+
+			case ClientMsg::V_RVOFF:		// 5.14
+				VDI::sharedInstance().v_rvoff(ws);
+				break;
+
+			case ClientMsg::VQ_CURADDRESS:	// 5.15
+				VDI::sharedInstance().vq_curaddress(ws, &cm);
+				break;
+
+			case ClientMsg::V_OPNVWK:		// 100
+				VDI::sharedInstance().v_opnvwk(ws, &cm);
 				break;
 
 			default:

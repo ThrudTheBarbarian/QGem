@@ -22,3 +22,11 @@ void VDI::v_curhome(int16_t handle)
 		WARN("Non-screen devices currently unsupported");
 		}
 	}
+
+/*****************************************************************************\
+|* And from the socket interface...
+\*****************************************************************************/
+void VDI::v_curhome(Workstation *)
+	{
+	v_curhome((int16_t)0);
+	}

@@ -1,5 +1,5 @@
 //
-//  v_clrwk.c
+//  v_curleft.c
 //  gemc
 //
 //  Created by ThrudTheBarbarian on 9/10/23.
@@ -12,10 +12,12 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*   3   : Clear a physical workstation (and all virtual workstations attached)
+|*   5.7 : Cursor left if possible
 \*****************************************************************************/
-void v_clrwk(void)
+void v_curleft(int handle)
 	{
+	(void)handle;
+	
 	/*************************************************************************\
 	|* Check to see if we're connected
 	\*************************************************************************/
@@ -27,7 +29,7 @@ void v_clrwk(void)
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_V_CLRWK);
+	_gemMsgInit(&msg, MSG_V_CURLEFT);
 	_gemIoWrite(&msg);
 
 	/*************************************************************************\

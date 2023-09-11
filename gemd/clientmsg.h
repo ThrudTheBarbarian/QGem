@@ -22,6 +22,20 @@ class ClientMsg
 		INVALID				= -1,
 		V_CLRWK				= 3,
 		VQ_CHCELLS			= 5001,		// Really 5.1
+		VQ_EXIT_CUR			= 5002,
+		V_ENTER_CUR			= 5003,
+		V_CURUP				= 5004,
+		V_CURDOWN			= 5005,
+		V_CURRIGHT			= 5006,
+		V_CURLEFT			= 5007,
+		V_CURHOME			= 5008,
+		V_EEOS				= 5009,
+		V_EEOL				= 5010,
+		VS_CURADDRESS		= 5011,
+		V_CURTEXT			= 5012,
+		V_RVON				= 5013,
+		V_RVOFF				= 5014,
+		VQ_CURADDRESS		= 5015,
 		V_OPNVWK			= 100,
 		};
 
@@ -69,6 +83,11 @@ class ClientMsg
 		|* Serialise to a byte-stream
 		\*********************************************************************/
 		QByteArray encode(void);
+
+		/*********************************************************************\
+		|* Fetch a byte-array encoded as {length, data} in the word-stream
+		\*********************************************************************/
+		void fetchData(int idx, QByteArray& ba);
 
 		/*********************************************************************\
 		|* De-serialise from a byte-stream

@@ -1,5 +1,5 @@
 //
-//  v_clrwk.c
+//  v_curhome.c
 //  gemc
 //
 //  Created by ThrudTheBarbarian on 9/10/23.
@@ -12,10 +12,12 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*   3   : Clear a physical workstation (and all virtual workstations attached)
+|*   5.8 : Cursor home (to 0,0)
 \*****************************************************************************/
-void v_clrwk(void)
+void v_curhome(int handle)
 	{
+	(void)handle;
+	
 	/*************************************************************************\
 	|* Check to see if we're connected
 	\*************************************************************************/
@@ -27,7 +29,7 @@ void v_clrwk(void)
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_V_CLRWK);
+	_gemMsgInit(&msg, MSG_V_CURHOME);
 	_gemIoWrite(&msg);
 
 	/*************************************************************************\

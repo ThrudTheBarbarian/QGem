@@ -1,8 +1,8 @@
 //
-//  v_opnvwk.c
+//  vq_curaddress.c
 //  gemc
 //
-//  Created by ThrudTheBarbarian on 9/7/23.
+//  Created by ThrudTheBarbarian on 9/10/23.
 //
 
 #include <stdio.h>
@@ -12,12 +12,10 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|* 100   : Open a virtual workstation
+|*   5.15 : Get the position of the cursor on the screen
 \*****************************************************************************/
-void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
+void vq_curaddress(int16_t handle, int16_t* row, int16_t* col)
 	{
-	static int16_t inputs[16];
-
 	/*************************************************************************\
 	|* Check to see if we're connected
 	\*************************************************************************/
@@ -26,41 +24,26 @@ void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 			return;
 	
 	/*************************************************************************\
-	|* Initialise values if none were provided
-	\*************************************************************************/
-	int16_t *arg = workIn;
-	if (workIn == NULL)
-		{
-		for (int i=0; i<16; i++)
-			inputs[i] = -1;
-		arg = inputs;
-		}
-		
-	/*************************************************************************\
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_V_OPNVWK);
-	_gemMsgAppend(&msg, arg, 16);
+	_gemMsgInit(&msg, MSG_VQ_CURADDRESS);
 	_gemIoWrite(&msg);
 	
 	/*************************************************************************\
 	|* Wait for a response
 	\*************************************************************************/
-	_gemIoWaitForMessageOfType(&msg, MSG_REPLY_OFFSET+ MSG_V_OPNVWK);
+	_gemIoWaitForMessageOfType(&msg, MSG_REPLY_OFFSET+ MSG_VQ_CURADDRESS);
 
 	/*************************************************************************\
 	|* Copy data over if space is allocated
 	\*************************************************************************/
-	if (workOut != NULL)
-		{
-		int words = MIN(57, msg.vec.length);
-		memcpy(workOut, msg.vec.data, words * sizeof(int16_t));
-		}
+	if (row != NULL)
+		*row = msg.vec.data[0];
 		
-	if ((handle != NULL) && (msg.vec.length > 56))
-		*handle = msg.vec.data[57];
-	
+	if (col != NULL)
+		*col = msg.vec.data[1];
+		
 	/*************************************************************************\
 	|* Clear the message allocations
 	\*************************************************************************/

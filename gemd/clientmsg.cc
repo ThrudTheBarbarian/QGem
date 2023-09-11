@@ -128,3 +128,22 @@ bool ClientMsg::append(int16_t *data, int num)
 		_payload.push_back(*data++);
 	return true;
 	}
+
+/*****************************************************************************\
+|* Get a QByteArray from the payload
+\*****************************************************************************/
+void ClientMsg::fetchData(int idx, QByteArray& ba)
+	{
+	uint16_t bytes		= _payload[idx];
+	const char *data	= (const char *)(&(_payload[idx+1]));
+	int words			= bytes/2;
+
+	ba.clear();
+	ba.append(data, words*2);
+	if (bytes & 1)
+		{
+		int16_t val		= _payload[idx + words + 1];
+		const char c	= val & 0xFF;
+		ba.append(c);
+		}
+	}

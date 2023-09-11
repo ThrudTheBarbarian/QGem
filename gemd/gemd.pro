@@ -13,7 +13,6 @@ SOURCES += \
     ops/v_clear_disp_list.cc \
     ops/v_clrwk.cc \
     ops/v_clswk.cc \
-    ops/v_curaddress.cc \
     ops/v_curdown.cc \
     ops/v_curhome.cc \
     ops/v_curleft.cc \
@@ -37,6 +36,7 @@ SOURCES += \
     ops/vq_exit_cur.cc \
     ops/vq_hardcopy.cc \
     ops/vq_tabstatus.cc \
+    ops/vs_curaddress.cc \
     ops/vswr_mode.cc \
     screen.cc \
     socketthread.cc \

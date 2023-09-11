@@ -2,6 +2,7 @@
 #include "debug.h"
 #include "screen.h"
 #include "vdi.h"
+#include "workstation.h"
 
 /*****************************************************************************\
 |* Opcode 5.5: Move the cursor down if possible.
@@ -26,4 +27,12 @@ void VDI::v_curdown(int16_t handle)
 		{
 		WARN("Non-screen devices currently unsupported");
 		}
+	}
+
+/*****************************************************************************\
+|* And from the socket interface...
+\*****************************************************************************/
+void VDI::v_curdown(Workstation *)
+	{
+	v_curdown((int16_t)0);
 	}

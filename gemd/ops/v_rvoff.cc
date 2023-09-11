@@ -19,3 +19,11 @@ void VDI::v_rvoff(int16_t handle)
 		WARN("Non-screen devices currently unsupported");
 		}
 	}
+
+/*****************************************************************************\
+|* And from the socket interface...
+\*****************************************************************************/
+void VDI::v_rvoff(Workstation *)
+	{
+	v_rvoff((int16_t)0);
+	}

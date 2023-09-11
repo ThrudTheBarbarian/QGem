@@ -1,5 +1,5 @@
 //
-//  v_clrwk.c
+//  v_curtext.c
 //  gemc
 //
 //  Created by ThrudTheBarbarian on 9/10/23.
@@ -12,9 +12,9 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*   3   : Clear a physical workstation (and all virtual workstations attached)
+|*   5.12 : Output text to the current cursor position
 \*****************************************************************************/
-void v_clrwk(void)
+void v_curtext(int16_t handle, const char *str)
 	{
 	/*************************************************************************\
 	|* Check to see if we're connected
@@ -27,9 +27,10 @@ void v_clrwk(void)
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_V_CLRWK);
+	_gemMsgInit(&msg, MSG_V_CURTEXT);
+	_gemMsgAppendData(&msg, (uint8_t *)str, (int)(strlen(str)+1));
 	_gemIoWrite(&msg);
-
+			
 	/*************************************************************************\
 	|* Clear the message allocations
 	\*************************************************************************/

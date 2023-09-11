@@ -30,6 +30,11 @@ void _gemMsgInit(GemMsg* msg, int16_t type);
 void _gemMsgAppend(GemMsg *msg, int16_t *data, int numWords);
 
 /*****************************************************************************\
+|* Add data into the message with a preprended length
+\*****************************************************************************/
+void _gemMsgAppendData(GemMsg *msg, uint8_t *data, int16_t numBytes);
+
+/*****************************************************************************\
 |* Prevent memory leaks
 \*****************************************************************************/
 void _gemMsgDestroy(GemMsg *msg);

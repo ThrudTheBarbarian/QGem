@@ -2,6 +2,7 @@
 #define VDI_H
 
 #include <QFont>
+#include <QFontMetrics>
 #include <QImage>
 #include <QObject>
 
@@ -46,6 +47,7 @@ class VDI : public QObject
 		uint64_t _frames;				// Frame counter
 		bool _cursorShown;				// Cursor is actually drawn
 		QImage _cursorBacking;			// What was underneath the cursor
+		QFontMetrics *_fm;				// Font metrics for the system font
 
 		/*********************************************************************\
 		|* Private constructor
@@ -126,26 +128,31 @@ class VDI : public QObject
 		|*   5.4: Move the cursor up if possible
 		\*********************************************************************/
 		void v_curup(int16_t handle);
+		void v_curup(Workstation *ws);
 
 		/*********************************************************************\
 		|*   5.5: Move the cursor down if possible
 		\*********************************************************************/
 		void v_curdown(int16_t handle);
+		void v_curdown(Workstation *ws);
 
 		/*********************************************************************\
 		|*   5.6: Move the cursor right if possible
 		\*********************************************************************/
 		void v_curright(int16_t handle);
+		void v_curright(Workstation *ws);
 
 		/*********************************************************************\
 		|*   5.7: Move the cursor right if possible
 		\*********************************************************************/
 		void v_curleft(int16_t handle);
+		void v_curleft(Workstation *ws);
 
 		/*********************************************************************\
 		|*   5.8: Move the cursor home (0,0)
 		\*********************************************************************/
 		void v_curhome(int16_t handle);
+		void v_curhome(Workstation *ws);
 
 		/*********************************************************************\
 		|*   5.9: Erase to end of screen
@@ -160,27 +167,32 @@ class VDI : public QObject
 		/*********************************************************************\
 		|*   5.11: Move cursor
 		\*********************************************************************/
-		void v_curaddress(int16_t handle, int16_t row, int16_t col);
+		void vs_curaddress(int16_t handle, int16_t row, int16_t col);
+		void vs_curaddress(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|*   5.12: Draw text at the cursor position
 		\*********************************************************************/
 		void v_curtext(Workstation *ws, const char* str);
+		void v_curtext(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|*   5.13: Enable reverse-video
 		\*********************************************************************/
 		void v_rvon(int16_t handle);
+		void v_rvon(Workstation *ws);
 
 		/*********************************************************************\
 		|*   5.14: Disable reverse-video
 		\*********************************************************************/
 		void v_rvoff(int16_t handle);
+		void v_rvoff(Workstation *ws);
 
 		/*********************************************************************\
 		|*   5.15: Get the current cursor position
 		\*********************************************************************/
 		void vq_curaddress(int16_t handle, int16_t& row, int16_t& col);
+		void vq_curaddress(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|*   5.16: Get the tablet status
