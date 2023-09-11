@@ -184,6 +184,15 @@ void VDI::v_opnwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 		\*********************************************************************/
 		int16_t rows, cols;
 		vq_chcells(*handle, rows, cols);
+
+		vq_exit_cur(_dpy);
+		vswr_mode(_dpy,WR_XOR);
+
+		QPainter p(_img);
+		p.setCompositionMode(_dpy->wrMode());
+		p.setPen(_dpy->colour(1));
+		p.drawRect(50,50,100,100);
+		p.drawRect(75,50,50,100);
 /*
 		v_enter_cur(_dpy);
 
