@@ -1,6 +1,7 @@
 #include <QPainter>
 
 #include "vdi.h"
+#include "workstation.h"
 
 /*****************************************************************************\
 |* Class definition
@@ -84,6 +85,6 @@ void VDI::_drawCursor(void)
 		_cursorBacking	= _img->copy(r);
 
 		QPainter painter(_img);
-		painter.fillRect(r, _palette[1]);
+		painter.fillRect(r, _dpy->colour(1));
 		}
 	}

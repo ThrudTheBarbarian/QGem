@@ -11,6 +11,7 @@ SOURCES += \
     main.cc \
     ops/v_bit_image.cc \
     ops/v_clear_disp_list.cc \
+    ops/v_clrwk.cc \
     ops/v_clswk.cc \
     ops/v_curaddress.cc \
     ops/v_curdown.cc \
@@ -39,7 +40,6 @@ SOURCES += \
     ops/vswr_mode.cc \
     screen.cc \
     socketthread.cc \
-    v_clrwk.cc \
     vdi.cc \
     workstation.cc
 

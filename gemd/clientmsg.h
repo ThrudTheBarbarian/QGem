@@ -21,7 +21,8 @@ class ClientMsg
 		MSG_REPLY_OFFSET	= 8192,
 		INVALID				= -1,
 		V_CLRWK				= 3,
-		V_OPNVWK			= 100
+		VQ_CHCELLS			= 5001,		// Really 5.1
+		V_OPNVWK			= 100,
 		};
 
 	/*************************************************************************\

@@ -43,7 +43,6 @@ class VDI : public QObject
 		Workstation *_dpy;				// Physical workstation
 		Screen *_screen;				// Main window
 		QImage *_img;					// Where drawing happens
-		QColor _palette[256];			// First 256 colours
 		uint64_t _frames;				// Frame counter
 		bool _cursorShown;				// Cursor is actually drawn
 		QImage _cursorBacking;			// What was underneath the cursor
@@ -77,30 +76,6 @@ class VDI : public QObject
 		inline Screen * screen(void)
 			{ return _screen; }
 
-		/*********************************************************************\
-		|* Get/Set colours in the palette
-		\*********************************************************************/
-		inline void setColour(uint32_t idx,
-							  uint8_t r,
-							  uint8_t g,
-							  uint8_t b,
-							  uint8_t a = 255)
-			{
-			if (idx < 256)
-				_palette[idx] = QColor(r,g,b,a);
-			}
-		inline void setColour(uint32_t idx, QColor c)
-			{
-			if (idx < 256)
-				_palette[idx] = c;
-			}
-
-		inline QColor colour(int idx)
-			{
-			if (idx < 256)
-				return _palette[idx];
-			return QColor(0,0,0,255);
-			}
 
 		/*********************************************************************\
 		|* Get the backing image that everything draws into
@@ -124,7 +99,7 @@ class VDI : public QObject
 		/*********************************************************************\
 		|*   3: Clear a physical workstation
 		\*********************************************************************/
-		void v_clrwk(int16_t handle);
+		void v_clrwk(Workstation *ws);
 
 		/*********************************************************************\
 		|*   4: Update a physical workstation
@@ -135,16 +110,17 @@ class VDI : public QObject
 		|*   5.1: Query the number of character cells on the alpha screen
 		\*********************************************************************/
 		void vq_chcells(int16_t handle, int16_t& rows, int16_t& columns);
+		void vq_chcells(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|*   5.2: Exit alpha mode
 		\*********************************************************************/
-		void vq_exit_cur(int16_t handle);
+		void vq_exit_cur(Workstation *ws);
 
 		/*********************************************************************\
 		|*   5.3: Enter alpha mode
 		\*********************************************************************/
-		void v_enter_cur(int16_t handle);
+		void v_enter_cur(Workstation *ws);
 
 		/*********************************************************************\
 		|*   5.4: Move the cursor up if possible
@@ -174,12 +150,12 @@ class VDI : public QObject
 		/*********************************************************************\
 		|*   5.9: Erase to end of screen
 		\*********************************************************************/
-		void v_eeos(int16_t handle);
+		void v_eeos(Workstation *ws);
 
 		/*********************************************************************\
 		|*   5.10: Erase to end of line
 		\*********************************************************************/
-		void v_eeol(int16_t handle);
+		void v_eeol(Workstation *ws);
 
 		/*********************************************************************\
 		|*   5.11: Move cursor
@@ -189,7 +165,7 @@ class VDI : public QObject
 		/*********************************************************************\
 		|*   5.12: Draw text at the cursor position
 		\*********************************************************************/
-		void v_curtext(int16_t handle, const char *str);
+		void v_curtext(Workstation *ws, const char* str);
 
 		/*********************************************************************\
 		|*   5.13: Enable reverse-video

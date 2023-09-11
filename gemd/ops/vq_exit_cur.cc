@@ -1,5 +1,3 @@
-#include "debug.h"
-#include "screen.h"
 #include "vdi.h"
 
 
@@ -12,15 +10,8 @@
 |*  vq_exit_cur(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::vq_exit_cur(int16_t handle)
+void VDI::vq_exit_cur(Workstation *ws)
 	{
-	if (handle != 0)
-		{
-		WARN("Non-screen devices currently unsupported");
-		}
-	else
-		{
-		_alphaMode = false;
-		v_clrwk(handle);
-		}
+	_alphaMode = false;
+	v_clrwk(ws);
 	}

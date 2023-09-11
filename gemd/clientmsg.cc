@@ -102,12 +102,14 @@ bool ClientMsg::read(QIODevice *dev)
 			ok = 1;
 			}
 		else
+			{
 			WARN("Insufficient data for msg type 0x%04X "
 				 "(%d required, %d available)",
 				 _type, length*2, (int)dev->bytesAvailable());
+			}
+		fprintf(stderr, "Got message of type: %d\n", _type);
 		}
 
-	fprintf(stderr, "Got message of type: %d\n", _type);
 	return ok;
 	}
 

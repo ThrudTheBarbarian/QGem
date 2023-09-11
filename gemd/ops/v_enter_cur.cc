@@ -1,6 +1,6 @@
-#include "debug.h"
-#include "screen.h"
+
 #include "vdi.h"
+#include "workstation.h"
 
 
 /*****************************************************************************\
@@ -12,17 +12,10 @@
 |*  v_enter_cur(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_enter_cur(int16_t handle)
+void VDI::v_enter_cur(Workstation *ws)
 	{
-	if (handle != 0)
-		{
-		WARN("Non-screen devices currently unsupported");
-		}
-	else
-		{
-		_cursorX = 0;
-		_cursorY = 0;
-		_alphaMode = true;
-		v_clrwk(handle);
-		}
+	_cursorX = 0;
+	_cursorY = 0;
+	_alphaMode = true;
+	v_clrwk(ws);
 	}

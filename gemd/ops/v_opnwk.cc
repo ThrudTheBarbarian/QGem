@@ -104,6 +104,7 @@ void VDI::v_opnwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 		|* Set up the workstation
 		\*********************************************************************/
 		ws = new Workstation(this);
+		_dpy = ws;
 
 		// workIn[0]:  1 = same resolution, <0 = unset, >1 = change resolution
 		ws->setDeviceDriver(CHECK_RANGE(workIn[0], 1, 6));
@@ -168,26 +169,6 @@ void VDI::v_opnwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 			}
 
 		/*********************************************************************\
-		|* Initialise the first 16 colours in the palette
-		\*********************************************************************/
-		setColour(0,  255, 255, 255);		// white
-		setColour(1,  0,   0,   0);			// black
-		setColour(2,  255, 0,   0);			// red
-		setColour(3,  0,   255, 0);			// green
-		setColour(4,  0,   0,   255);		// blue
-		setColour(5,  0,   255, 255);		// cyan
-		setColour(6,  255, 255, 0);			// yellow
-		setColour(7,  255, 0,   255);		// magenta
-		setColour(8,  182, 182, 182);		// grey
-		setColour(9,  128, 128, 128);		// dark grey
-		setColour(10, 255, 109, 109);		// light red
-		setColour(11, 109, 109, 255);		// light green
-		setColour(12, 109, 255, 109);		// light blue
-		setColour(13, 109, 255, 255);		// light cyan
-		setColour(14, 255, 255, 109);		// light yellow
-		setColour(15, 255, 109, 255);		// light magenta
-
-		/*********************************************************************\
 		|* Load up the system font
 		\*********************************************************************/
 		std::string path	= _rootDir + FONT_DIR_OFFSET + "system.ttf";
@@ -202,20 +183,18 @@ void VDI::v_opnwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 		\*********************************************************************/
 		int16_t rows, cols;
 		vq_chcells(*handle, rows, cols);
-
-		v_enter_cur(*handle);
+/*
+		v_enter_cur(_dpy);
 
 
 		v_curaddress(*handle, 0,0);
-		v_curtext(*handle, "Hi there! How are you all today ?");
+		v_curtext(_dpy, "Hi there! How are you all today ?");
 		v_rvon(0);
 		v_curaddress(0,1,0);
-		v_curtext(*handle, "Hi there! How are you all today ?");
+		v_curtext(_dpy, "Hi there! How are you all today ?");
 		v_rmcur(*handle);
+*/
 		}
 	else
 		WARN("Non-screen devices currently unsupported");
-
-	if (ws)
-		_dpy = ws;
 	}

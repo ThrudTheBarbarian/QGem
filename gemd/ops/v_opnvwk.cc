@@ -136,11 +136,8 @@ void VDI::v_opnvwk(Workstation *ws, ClientMsg *cm)
 	cm->append(ws->client()->socketDescriptor());
 	cm->setType(ClientMsg::MSG_REPLY_OFFSET + ClientMsg::V_OPNVWK);
 
-
-	QByteArray ba = cm->encode();
-	fprintf(stderr, "Writing %d bytes to socket handle %d\n",
-					(int)ba.size(),
-					(int)(ws->client()->socketDescriptor()));
-
-	ws->client()->write(ba);
+	/**************************************************************************\
+	|* Send the message down the wire
+	\**************************************************************************/
+	ws->send(cm);
 	}

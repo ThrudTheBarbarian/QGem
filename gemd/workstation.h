@@ -10,6 +10,7 @@
 /*****************************************************************************\
 |* Forward references
 \*****************************************************************************/
+class ClientMsg;
 class Screen;
 
 /*****************************************************************************\
@@ -40,7 +41,8 @@ class Workstation : public QObject
 		/*********************************************************************\
 		|* Socket to communicate over
 		\*********************************************************************/
-		QLocalSocket *_client;					// Connection to client
+		QLocalSocket *_client;			// Connection to client
+		QColor _palette[256];			// First 256 colours
 
 	public:
 		/*********************************************************************\
@@ -52,9 +54,44 @@ class Workstation : public QObject
 		~Workstation(void);
 
 		/*********************************************************************\
+		|* Get/Set colours in the palette
+		\*********************************************************************/
+		inline void setColour(uint32_t idx,
+							  uint8_t r,
+							  uint8_t g,
+							  uint8_t b,
+							  uint8_t a = 255)
+			{
+			if (idx < 256)
+				_palette[idx] = QColor(r,g,b,a);
+			}
+		inline void setColour(uint32_t idx, QColor c)
+			{
+			if (idx < 256)
+				_palette[idx] = c;
+			}
+
+		inline QColor colour(int idx)
+			{
+			if (idx < 256)
+				return _palette[idx];
+			return QColor(0,0,0,255);
+			}
+
+		/*********************************************************************\
 		|* Return the socket
 		\*********************************************************************/
 		inline QLocalSocket * client(void) { return _client; }
+
+		/*********************************************************************\
+		|* Send a message down the socket
+		\*********************************************************************/
+		void send(ClientMsg* msg, bool log=false);
+
+		/*********************************************************************\
+		|* Set the default colours for the workstation (first 16)
+		\*********************************************************************/
+		void setDefaultColours(void);
 
 	signals:
 

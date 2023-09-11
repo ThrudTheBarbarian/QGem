@@ -94,14 +94,16 @@ void ConnectionMgr::_incomingData(void)
 		switch (cm.type())
 			{
 			case ClientMsg::V_OPNVWK:
-				{
-				return VDI::sharedInstance().v_opnvwk(ws, &cm);
-				}
+				VDI::sharedInstance().v_opnvwk(ws, &cm);
+				break;
 
 			case ClientMsg::V_CLRWK:
-				{
+				VDI::sharedInstance().v_clrwk(ws);
+				break;
 
-				}
+			case ClientMsg::VQ_CHCELLS:
+				VDI::sharedInstance().vq_chcells(ws, &cm);
+				break;
 
 			default:
 				WARN("Unknown message type %d", cm.type());
