@@ -40,7 +40,13 @@ class ClientMsg
 		V_HARDCOPY			= 5017,		// Not implemented
 		V_DSPCUR			= 5018,
 		V_RMCUR				= 5019,
+		V_PLINE				= 6,
+		VSL_TYPE			= 15,
+		VSL_WIDTH			= 16,
+		VSL_COLOR			= 17,
 		V_OPNVWK			= 100,
+		VSL_ENDS			= 108,
+		VS_CLIP				= 129,
 		};
 
 	/*************************************************************************\

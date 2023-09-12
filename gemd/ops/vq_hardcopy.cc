@@ -7,7 +7,7 @@
 |* Original signature is: vq_hardcopy(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::vq_hardcopy(int16_t handle)
+void VDI::vq_hardcopy(qintptr handle)
 	{
 	if (handle == 0)
 		{

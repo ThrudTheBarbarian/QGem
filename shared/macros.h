@@ -11,6 +11,7 @@
 
 #ifdef __cplusplus
   #include <vector>
+  #include <QPen>
 #endif
 
 #include <stdlib.h>
@@ -106,6 +107,7 @@
 #ifdef __cplusplus
 	typedef std::vector<int16_t>	Payload;
 	typedef std::vector<uint8_t>	ByteStream;
+	typedef QList<qreal> 			LineStyle;
 #endif
 
 #endif /* macros_h */

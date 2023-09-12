@@ -8,7 +8,7 @@
 |* Original signature is: v_output_window(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_output_window(int16_t handle)
+void VDI::v_output_window(qintptr handle)
 	{
 	if (handle == 0)
 		{

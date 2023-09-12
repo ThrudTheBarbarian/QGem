@@ -9,7 +9,7 @@
 |* Original signature is: v_curup(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_curup(int16_t handle)
+void VDI::v_curup(qintptr handle)
 	{
 	if (handle == 0)
 		{
@@ -32,5 +32,5 @@ void VDI::v_curup(int16_t handle)
 \*****************************************************************************/
 void VDI::v_curup(Workstation *)
 	{
-	v_curup((int16_t)0);
+	v_curup((qintptr)0);
 	}

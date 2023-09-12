@@ -10,7 +10,7 @@
 |* Original signature is: v_curdown(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_curdown(int16_t handle)
+void VDI::v_curdown(qintptr handle)
 	{
 	if (handle == 0)
 		{
@@ -34,5 +34,5 @@ void VDI::v_curdown(int16_t handle)
 \*****************************************************************************/
 void VDI::v_curdown(Workstation *)
 	{
-	v_curdown((int16_t)0);
+	v_curdown((qintptr)0);
 	}

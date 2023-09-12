@@ -2,6 +2,7 @@
 #include <QFontDatabase>
 #include <QPainter>
 
+#include "connectionmgr.h"
 #include "debug.h"
 #include "gem.h"
 #include "screen.h"
@@ -105,6 +106,7 @@ void VDI::v_opnwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 		\*********************************************************************/
 		ws = new Workstation(this);
 		_dpy = ws;
+		_screen->connectionManager()->setPhysicalWorkstation(_dpy);
 
 		// workIn[0]:  1 = same resolution, <0 = unset, >1 = change resolution
 		ws->setDeviceDriver(CHECK_RANGE(workIn[0], 1, 6));
@@ -185,16 +187,23 @@ void VDI::v_opnwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 		int16_t rows, cols;
 		vq_chcells(*handle, rows, cols);
 
-		vq_exit_cur(_dpy);
+/*		vq_exit_cur(_dpy);
 		vswr_mode(_dpy,WR_XOR);
+		int16_t pxy[] = {0,0,100,100};
+		vs_clip(0, 1, pxy);
+*/
 
+/*		vsl_color(0, 5);
+		vq_exit_cur(_dpy);
 		QPainter p(_img);
 		p.setCompositionMode(_dpy->wrMode());
-		p.setPen(_dpy->colour(1));
+		//p.setClipRect(_dpy->clip());
+		p.setPen(_dpy->colour(_dpy->lineColour()));
 		p.drawRect(50,50,100,100);
 		p.drawRect(75,50,50,100);
-/*
-		v_enter_cur(_dpy);
+*/
+
+/*		v_enter_cur(_dpy);
 
 
 		v_curaddress(*handle, 0,0);

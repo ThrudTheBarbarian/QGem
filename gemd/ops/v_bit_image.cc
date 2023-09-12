@@ -10,7 +10,7 @@
 |*						 int16_t *pts);
 |*
 \*****************************************************************************/
-void VDI::v_bit_image(int16_t handle, const char *filename,
+void VDI::v_bit_image(qintptr handle, const char *filename,
 					  int16_t aspect, int16_t scaling, int16_t numPts,
 					  int16_t *pts)
 	{

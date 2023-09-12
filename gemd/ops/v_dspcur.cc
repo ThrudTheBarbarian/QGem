@@ -13,7 +13,7 @@
 |* Original signature is: v_eeol(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_dspcur(int16_t handle, int16_t x, int16_t y)
+void VDI::v_dspcur(qintptr handle, int16_t x, int16_t y)
 	{
 	if (handle == 0)
 		{

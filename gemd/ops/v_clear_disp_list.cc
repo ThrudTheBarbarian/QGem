@@ -8,7 +8,7 @@
 |* Original signature is: v_clear_disp_list(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_clear_disp_list(int16_t handle)
+void VDI::v_clear_disp_list(qintptr handle)
 	{
 	if (handle == 0)
 		{

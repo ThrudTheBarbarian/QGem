@@ -81,6 +81,25 @@ void ConnectionMgr::_disconnection(void)
 	}
 
 /*****************************************************************************\
+|* Return the workstation for a given handle
+\*****************************************************************************/
+Workstation * ConnectionMgr::findWorkstationForHandle(qintptr handle)
+	{
+	if (_conns.contains(handle))
+		return _conns[handle];
+	return nullptr;
+	}
+
+
+/*****************************************************************************\
+|* Set the physical workstation as handle 0
+\*****************************************************************************/
+void ConnectionMgr::setPhysicalWorkstation(Workstation *ws)
+	{
+	_conns[0] = ws;
+	}
+
+/*****************************************************************************\
 |* We got incoming...
 \*****************************************************************************/
 void ConnectionMgr::_incomingData(void)
@@ -91,6 +110,7 @@ void ConnectionMgr::_incomingData(void)
 	ClientMsg cm;
 	while (cm.read(socket))
 		{
+		fprintf(stderr, "Despatch message of type: %d\n", cm.type());
 		switch (cm.type())
 			{
 			case ClientMsg::V_CLRWK:		// 3
@@ -165,8 +185,32 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().v_rmcur(ws);
 				break;
 
+			case ClientMsg::V_PLINE:		// 6
+				VDI::sharedInstance().v_pline(ws, &cm);
+				break;
+
+			case ClientMsg::VSL_TYPE:		// 15
+				VDI::sharedInstance().vsl_type(ws, &cm);
+				break;
+
+			case ClientMsg::VSL_WIDTH:		// 16
+				VDI::sharedInstance().vsl_width(ws, &cm);
+				break;
+
+			case ClientMsg::VSL_COLOR:		// 17
+				VDI::sharedInstance().vsl_color(ws, &cm);
+				break;
+
 			case ClientMsg::V_OPNVWK:		// 100
 				VDI::sharedInstance().v_opnvwk(ws, &cm);
+				break;
+
+			case ClientMsg::VSL_ENDS:		// 108
+				VDI::sharedInstance().vsl_ends(ws, &cm);
+				break;
+
+			case ClientMsg::VS_CLIP:		// 129
+				VDI::sharedInstance().vs_clip(ws, &cm);
 				break;
 
 			default:

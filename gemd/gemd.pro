@@ -27,6 +27,7 @@ SOURCES += \
     ops/v_opnvwk.cc \
     ops/v_opnwk.cc \
     ops/v_output_window.cc \
+    ops/v_pline.cc \
     ops/v_rmcur.cc \
     ops/v_rvoff.cc \
     ops/v_rvon.cc \
@@ -36,7 +37,12 @@ SOURCES += \
     ops/vq_exit_cur.cc \
     ops/vq_hardcopy.cc \
     ops/vq_tabstatus.cc \
+    ops/vs_clip.cc \
     ops/vs_curaddress.cc \
+    ops/vsl_color.cc \
+    ops/vsl_ends.cc \
+    ops/vsl_type.cc \
+    ops/vsl_width.cc \
     ops/vswr_mode.cc \
     screen.cc \
     socketthread.cc \

@@ -8,7 +8,7 @@
 |* Original signature is: v_updwk(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_updwk(int16_t handle)
+void VDI::v_updwk(qintptr handle)
 	{
 	if (handle == 0)
 		{

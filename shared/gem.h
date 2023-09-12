@@ -150,6 +150,13 @@
 #define WR_XOR			3	/**< XOR mode */
 #define WR_REV_TRANS	4	/**< Reverse-tansparent */
 
+/*****************************************************************************\
+|* Line-end styles 
+\*****************************************************************************/
+#define CAP_SQUARE		0
+#define CAP_ARROW		1
+#define CAP_ROUND		2
+
 
 
 #endif /* !__gem_defines_header__ */

@@ -6,6 +6,7 @@
 #include <QPainter>
 
 #include "properties.h"
+#include "macros.h"
 
 /*****************************************************************************\
 |* Forward references
@@ -26,6 +27,7 @@ class Workstation : public QObject
 	GETSET(int, deviceDriver, DeviceDriver);			// 1=this, 2+n = switch
 	GETSET(int, lineType, LineType);					// SOLID -> USERLINE
 	GETSET(int, lineColour, LineColour);				// colour to draw
+	GETSET(int, lineWidth, LineWidth);					// width of lines
 	GETSET(int, markerType, MarkerType);				// MRKR_{DOT -> DIAMOND}
 	GETSET(int, markerColour, MarkerColour);			// colour for markers
 	GETSET(int, fontId, fontId);						// font id to use
@@ -36,6 +38,11 @@ class Workstation : public QObject
 	GETSET(int, coordType, CoordType);					// NDC or Raster co-ords
 	GETSET(int, pageSize, PageSize);					// Page size to use
 	GETSET(QPainter::CompositionMode, wrMode, WrMode);	// Composition mode
+	GETSET(QRect, clip, Clip);							// Clipping rectangle
+	GETSET(bool, enableClip, EnableClip);				// Clipping enabled
+	GETSET(LineStyle, userType, UserType);				// User defined line
+	GETSET(int, startCap, StartCap);					// Cap-style of start
+	GETSET(int, endCap, EndCap);						// Cap-style of end
 
 	private:
 		/*********************************************************************\
@@ -76,6 +83,21 @@ class Workstation : public QObject
 			if (idx < 256)
 				return _palette[idx];
 			return QColor(0,0,0,255);
+			}
+
+		/*********************************************************************\
+		|* Set up the pen for drawing based on the local state
+		\*********************************************************************/
+		void setupPen(QPen& pen);
+
+		/*********************************************************************\
+		|* Return a handle id
+		\*********************************************************************/
+		inline qintptr handle(void)
+			{
+			if (_client != nullptr)
+				return _client->socketDescriptor();
+			return 0;
 			}
 
 		/*********************************************************************\

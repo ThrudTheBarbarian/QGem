@@ -8,7 +8,7 @@
 |* Original signature is: v_form_adv(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_form_adv(int16_t handle)
+void VDI::v_form_adv(qintptr handle)
 	{
 	if (handle == 0)
 		{

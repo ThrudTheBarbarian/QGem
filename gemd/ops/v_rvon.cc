@@ -8,7 +8,7 @@
 |* Original signature is: v_rvon(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_rvon(int16_t handle)
+void VDI::v_rvon(qintptr handle)
 	{
 	if (handle == 0)
 		{

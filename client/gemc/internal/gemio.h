@@ -17,8 +17,7 @@
 enum
 	{
 	MSG_V_CLRWK			= 3,
-	MSG_V_OPNVWK		= 100,
-	MSG_VQ_CHCELLS		= 5001,
+	MSG_VQ_CHCELLS		= 5001,	/* Really 5.1 etc. */
 	MSG_VQ_EXIT_CUR		= 5002,
 	MSG_V_ENTER_CUR		= 5003,
 	MSG_V_CURUP			= 5004,
@@ -37,6 +36,13 @@ enum
 	MSG_V_HARDCOPY		= 5017, /* not implemented */
 	MSG_V_DSPCUR		= 5018,
 	MSG_V_RMCUR			= 5019,
+	MSG_V_PLINE			= 6,
+	MSG_VSL_TYPE		= 15,
+	MSG_VSL_WIDTH		= 16,
+	MSG_VSL_COLOR		= 17,
+	MSG_V_OPNVWK		= 100,
+	MSG_VSL_ENDS		= 108,
+	MSG_VS_CLIP			= 129,
 	MSG_REPLY_OFFSET	= 8192,
 	};
 	

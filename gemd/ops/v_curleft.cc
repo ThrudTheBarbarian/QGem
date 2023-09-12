@@ -8,7 +8,7 @@
 |* Original signature is: v_curleft(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_curleft(int16_t handle)
+void VDI::v_curleft(qintptr handle)
 	{
 	if (handle == 0)
 		{
@@ -31,5 +31,5 @@ void VDI::v_curleft(int16_t handle)
 \*****************************************************************************/
 void VDI::v_curleft(Workstation *)
 	{
-	v_curleft((int16_t)0);
+	v_curleft((qintptr)0);
 	}

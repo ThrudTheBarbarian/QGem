@@ -8,7 +8,7 @@
 |* Original signature is: v_rvoff(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_rvoff(int16_t handle)
+void VDI::v_rvoff(qintptr handle)
 	{
 	if (handle == 0)
 		{

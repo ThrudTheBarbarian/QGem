@@ -44,6 +44,16 @@ class ConnectionMgr : public QObject
 		\*********************************************************************/
 		void stop(void);
 
+		/*********************************************************************\
+		|* Return the workstation for a given handle
+		\*********************************************************************/
+		Workstation * findWorkstationForHandle(qintptr handle);
+
+		/*********************************************************************\
+		|* Set the physical workstation as handle 0
+		\*********************************************************************/
+		void setPhysicalWorkstation(Workstation *ws);
+
 	signals:
 
 	private slots:

@@ -12,7 +12,7 @@
 |*										int16_t *col);
 |*
 \*****************************************************************************/
-void VDI::vq_curaddress(int16_t handle, int16_t& row, int16_t& col)
+void VDI::vq_curaddress(qintptr handle, int16_t& row, int16_t& col)
 	{
 	if (handle == 0)
 		{

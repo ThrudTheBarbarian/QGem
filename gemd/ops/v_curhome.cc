@@ -8,7 +8,7 @@
 |* Original signature is: v_curhome(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_curhome(int16_t handle)
+void VDI::v_curhome(qintptr handle)
 	{
 	if (handle == 0)
 		{
@@ -28,5 +28,5 @@ void VDI::v_curhome(int16_t handle)
 \*****************************************************************************/
 void VDI::v_curhome(Workstation *)
 	{
-	v_curhome((int16_t)0);
+	v_curhome((qintptr)0);
 	}

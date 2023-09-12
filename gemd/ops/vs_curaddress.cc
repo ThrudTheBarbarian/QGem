@@ -11,7 +11,7 @@
 |* Original signature is: v_curup(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::vs_curaddress(int16_t handle, int16_t row, int16_t col)
+void VDI::vs_curaddress(qintptr handle, int16_t row, int16_t col)
 	{
 	if (handle == 0)
 		{

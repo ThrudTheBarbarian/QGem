@@ -15,7 +15,7 @@
 |*  vq_chcells(int16_t handle, int16_t& rows, int16_t& columns);
 |*
 \*****************************************************************************/
-void VDI::vq_chcells(int16_t handle, int16_t& rows, int16_t& columns)
+void VDI::vq_chcells(qintptr handle, int16_t& rows, int16_t& columns)
 	{
 	if (handle != 0)
 		{

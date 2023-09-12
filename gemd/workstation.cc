@@ -4,6 +4,18 @@
 #include "vdi.h"
 #include "workstation.h"
 
+
+static Qt::PenStyle _styles[] =
+	{
+		Qt::SolidLine,			// 0 is undefined
+		Qt::DashLine,			// LDASHED
+		Qt::DotLine,			// DOTTED
+		Qt::DashDotLine,		// DASHDOT
+		Qt::DashLine,			// DASH
+		Qt::DashDotDotLine,		// DASHDOTDOT
+		Qt::CustomDashLine		// USERLINE
+};
+
 /*****************************************************************************\
 |* Class definition for virtual workstation
 \*****************************************************************************/
@@ -24,6 +36,7 @@ Workstation::Workstation(QLocalSocket *client, QObject *parent)
 			,_client(client)
 	{
 	setDefaultColours();
+	_userType << 3 << 1;
 	}
 
 
@@ -35,6 +48,7 @@ Workstation::Workstation(QObject *parent)
 	,_deviceDriver(1)
 	,_lineType(SOLID)
 	,_lineColour(G_BLACK)
+	,_lineWidth(1)
 	,_markerType(MRKR_DOT)
 	,_markerColour(G_BLACK)
 	,_fontId(0)
@@ -44,9 +58,15 @@ Workstation::Workstation(QObject *parent)
 	,_fillColour(G_BLUE)
 	,_coordType(COORD_RASTER)
 	,_pageSize(PG_DIN_A4)
+	,_wrMode(QPainter::CompositionMode_Source)
+	,_clip(QRect(0,0,0,0))
+	,_enableClip(false)
+	,_startCap(CAP_SQUARE)
+	,_endCap(CAP_SQUARE)
 	,_client(nullptr)
 	{
 	setDefaultColours();
+	_userType << 3 << 1;
 	}
 
 
@@ -93,4 +113,24 @@ void Workstation::setDefaultColours(void)
 	setColour(13, 109, 255, 255);		// light cyan
 	setColour(14, 255, 255, 109);		// light yellow
 	setColour(15, 255, 109, 255);		// light magenta
+	}
+
+/*****************************************************************************\
+|* Set up the pen for drawing based on the local state
+\*****************************************************************************/
+void Workstation::setupPen(QPen& pen)
+	{
+	if (_lineType == DASH)
+		{
+		QList<qreal> dashes;
+		dashes << 3 << 3;
+		pen.setDashPattern(dashes);
+		}
+	else if (_lineType == USERLINE)
+		pen.setDashPattern(_userType);
+	else
+		pen.setStyle(_styles[_lineType]);
+
+	pen.setColor(_palette[_lineColour]);
+	pen.setWidth(_lineWidth);
 	}

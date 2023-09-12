@@ -8,7 +8,7 @@
 |* Original signature is: vq_tabstatus(int16_t handle);
 |*
 \*****************************************************************************/
-int VDI::vq_tabstatus(int16_t handle)
+int VDI::vq_tabstatus(qintptr handle)
 	{
 	if (handle == 0)
 		{

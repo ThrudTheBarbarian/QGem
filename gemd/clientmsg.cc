@@ -107,7 +107,6 @@ bool ClientMsg::read(QIODevice *dev)
 				 "(%d required, %d available)",
 				 _type, length*2, (int)dev->bytesAvailable());
 			}
-		fprintf(stderr, "Got message of type: %d\n", _type);
 		}
 
 	return ok;

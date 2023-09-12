@@ -42,6 +42,12 @@ class Screen : public QMainWindow
 		Screen(QWidget *parent = nullptr);
 		~Screen();
 
+		/*********************************************************************\
+		|* Return the connection manager for this screen
+		\*********************************************************************/
+		inline ConnectionMgr * connectionManager(void)
+			{ return _conmgr; }
+
 	public slots:
 		/*********************************************************************\
 		|* Slot: update the main widget

@@ -10,7 +10,7 @@
 |* Original signature is: v_clswk(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_clswk(int16_t handle)
+void VDI::v_clswk(qintptr handle)
 	{
 	if (handle != 0)
 		{

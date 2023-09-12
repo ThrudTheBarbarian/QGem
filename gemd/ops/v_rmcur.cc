@@ -11,7 +11,7 @@
 |* Original signature is: v_eeol(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::v_rmcur(int16_t handle)
+void VDI::v_rmcur(qintptr handle)
 	{
 	if (handle == 0)
 		{
