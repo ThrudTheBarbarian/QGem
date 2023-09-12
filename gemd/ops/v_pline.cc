@@ -31,7 +31,6 @@ void VDI::v_pline(qintptr handle, int16_t num, int16_t*pxy)
 			pts << p;
 			idx += 2;
 			}
-
 		QPainter painter(_img);
 		painter.setPen(pen);
 		painter.drawPolyline(pts.constData(), num);

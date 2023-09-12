@@ -8,6 +8,7 @@
 static Qt::PenStyle _styles[] =
 	{
 		Qt::SolidLine,			// 0 is undefined
+		Qt::SolidLine,			// SOLID
 		Qt::DashLine,			// LDASHED
 		Qt::DotLine,			// DOTTED
 		Qt::DashDotLine,		// DASHDOT

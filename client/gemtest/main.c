@@ -5,8 +5,12 @@
 //  Created by ThrudTheBarbarian on 9/7/23.
 //
 
+#include <unistd.h>
+#include <stdlib.h>
+
 #include <stdio.h>
 #include "vdi.h"
+#include "gem.h"
 
 int debugLevel(void)
 	{ return 10; }
@@ -48,7 +52,23 @@ int main(int argc, const char * argv[])
 	*/
 	vsl_type(handle, 3);
 	vsl_width(handle, 5);
+
+	srandom(getpid());
+
+	int16_t y  = 50;
+	for (int i = SOLID; i<USERLINE; i++)
+		{
+		vsl_type(handle, i);
+		vsl_width(handle, 10);
+		vsl_color(handle, random()%16);
+
+		int16_t pts[] = {5, 0, 500, 0};
+		pts[1] = pts[3] = y;
+		y += 40;
+		v_pline(handle, 2, pts);
+		}
 	
 	int16_t pts[] = {5,5, 100,50, 200,5};
 	v_pline(handle, 3, pts);
+	
 	}

@@ -27,7 +27,7 @@ void vsl_color(int16_t handle, int16_t idx)
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_VS_CLIP);
+	_gemMsgInit(&msg, MSG_VSL_COLOR);
 	_gemMsgAppend(&msg, &idx, 1);
 	_gemIoWrite(&msg);
 			
