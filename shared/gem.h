@@ -42,6 +42,9 @@
 #define MRKR_BOX		4	/**< square marker type, see vsm_type() */
 #define MRKR_CROSS		5	/**< diagonal cross marker type, see vsm_type() */
 #define MRKR_DIAMOND	6	/**< diamond marker type, see vsm_type() */
+#define MRKR_CIRCLE		7	/**< circle marker type, see vsm_type() */
+
+
 
 /*****************************************************************************\
 |* Style of fill to use  

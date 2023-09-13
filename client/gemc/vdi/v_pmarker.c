@@ -1,8 +1,8 @@
 //
-//  v_pline.c
+//  v_pmarker.c
 //  gemc
 //
-//  Created by ThrudTheBarbarian on 9/11/23.
+//  Created by ThrudTheBarbarian on 9/13/23.
 //
 
 #include <stdio.h>
@@ -12,9 +12,9 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*    6  : Draw a poly-line, with at least one point
+|*    7  : Draw a poly-marker, with at least one point
 \*****************************************************************************/
-void v_pline(int16_t handle, int16_t numPts, int16_t*pts)
+void v_pmarker(int16_t handle, int16_t numPts, int16_t*pts)
 	{
 	/*************************************************************************\
 	|* Check to see if we're connected
@@ -27,7 +27,7 @@ void v_pline(int16_t handle, int16_t numPts, int16_t*pts)
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_V_PLINE);
+	_gemMsgInit(&msg, MSG_V_PMARKER);
 	_gemMsgAppend(&msg, &numPts, 1);
 	_gemMsgAppend(&msg, pts, numPts*2);
 	_gemIoWrite(&msg);

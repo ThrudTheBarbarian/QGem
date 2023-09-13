@@ -1,8 +1,8 @@
 //
-//  v_pline.c
+//  vsm_height.c
 //  gemc
 //
-//  Created by ThrudTheBarbarian on 9/11/23.
+//  Created by ThrudTheBarbarian on 9/13/23.
 //
 
 #include <stdio.h>
@@ -12,9 +12,9 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*    6  : Draw a poly-line, with at least one point
+|*   19  : Set the marker-height in pixels
 \*****************************************************************************/
-void v_pline(int16_t handle, int16_t numPts, int16_t*pts)
+void vsm_height(int16_t handle, int16_t height)
 	{
 	/*************************************************************************\
 	|* Check to see if we're connected
@@ -23,13 +23,17 @@ void v_pline(int16_t handle, int16_t numPts, int16_t*pts)
 		if (!_gemIoConnect())
 			return;
 	
+	if (height > 255)
+		height = 255;
+	if ((height & 1) == 0)
+		height ++;
+		
 	/*************************************************************************\
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_V_PLINE);
-	_gemMsgAppend(&msg, &numPts, 1);
-	_gemMsgAppend(&msg, pts, numPts*2);
+	_gemMsgInit(&msg, MSG_VSM_HEIGHT);
+	_gemMsgAppend(&msg, &height, 1);
 	_gemIoWrite(&msg);
 			
 	/*************************************************************************\

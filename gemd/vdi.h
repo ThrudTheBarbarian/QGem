@@ -245,6 +245,12 @@ class VDI : public QObject
 		void v_pline(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*   7: Draw a poly-marker
+		\*********************************************************************/
+		void v_pmarker(qintptr handle, int16_t numPts, int16_t *pxy);
+		void v_pmarker(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|*  15: Set the style (dash pattern) for drawing lines
 		\*********************************************************************/
 		void vsl_type(qintptr handle, int16_t idx);
@@ -261,6 +267,18 @@ class VDI : public QObject
 		\*********************************************************************/
 		void vsl_color(qintptr handle, int16_t idx);
 		void vsl_color(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  18: Set the type of marker drawn
+		\*********************************************************************/
+		void vsm_type(qintptr handle, int16_t idx);
+		void vsm_type(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  19: Set the height of marker drawn
+		\*********************************************************************/
+		void vsm_height(qintptr handle, int16_t height);
+		void vsm_height(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|*  32: Set the writing mode

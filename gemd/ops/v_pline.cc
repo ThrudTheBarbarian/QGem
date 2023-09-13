@@ -27,7 +27,7 @@ void VDI::v_pline(qintptr handle, int16_t num, int16_t*pxy)
 	if (ws != nullptr)
 		{
 		QPen pen;
-		ws->setupPen(pen);
+		ws->setupPenForLine(pen);
 
 		QList<QPointF> pts;
 		int idx = 0;
@@ -77,7 +77,7 @@ void VDI::v_pline(qintptr handle, int16_t num, int16_t*pxy)
 				}
 			}
 		if (penNeedsReset)
-			ws->setupPen(pen);
+			ws->setupPenForLine(pen);
 
 
 		}

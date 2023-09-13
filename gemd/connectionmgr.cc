@@ -189,6 +189,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().v_pline(ws, &cm);
 				break;
 
+			case ClientMsg::V_PMARKER:		// 6
+				VDI::sharedInstance().v_pmarker(ws, &cm);
+				break;
+
 			case ClientMsg::VSL_TYPE:		// 15
 				VDI::sharedInstance().vsl_type(ws, &cm);
 				break;
@@ -199,6 +203,14 @@ void ConnectionMgr::_incomingData(void)
 
 			case ClientMsg::VSL_COLOR:		// 17
 				VDI::sharedInstance().vsl_color(ws, &cm);
+				break;
+
+			case ClientMsg::VSM_TYPE:		// 18
+				VDI::sharedInstance().vsm_type(ws, &cm);
+				break;
+
+			case ClientMsg::VSM_HEIGHT:		// 19
+				VDI::sharedInstance().vsm_height(ws, &cm);
 				break;
 
 			case ClientMsg::V_OPNVWK:		// 100

@@ -27,6 +27,7 @@ Workstation::Workstation(QLocalSocket *client, QObject *parent)
 			,_lineColour(G_BLACK)
 			,_markerType(MRKR_DOT)
 			,_markerColour(G_BLACK)
+			,_markerHeight(5)
 			,_fontId(0)
 			,_textColour(G_BLACK)
 			,_fillType(FIS_SOLID)
@@ -54,6 +55,7 @@ Workstation::Workstation(QObject *parent)
 	,_lineWidth(1)
 	,_markerType(MRKR_DOT)
 	,_markerColour(G_BLACK)
+	,_markerHeight(5)
 	,_fontId(0)
 	,_textColour(G_BLACK)
 	,_fillType(FIS_SOLID)
@@ -121,7 +123,7 @@ void Workstation::setDefaultColours(void)
 /*****************************************************************************\
 |* Set up the pen for drawing based on the local state
 \*****************************************************************************/
-void Workstation::setupPen(QPen& pen)
+void Workstation::setupPenForLine(QPen& pen)
 	{
 	if (_lineType == DASH)
 		{
@@ -138,4 +140,16 @@ void Workstation::setupPen(QPen& pen)
 	pen.setBrush(_palette[_lineColour]);
 	pen.setWidth(_lineWidth);
 
+	}
+
+/*****************************************************************************\
+|* Set up the pen for drawing based on the local state
+\*****************************************************************************/
+void Workstation::setupPenForMarker(QPen& pen)
+	{
+	pen.setStyle(_styles[SOLID]);
+
+	pen.setColor(_palette[_markerColour]);
+	pen.setBrush(_palette[_markerColour]);
+	pen.setWidth(1);
 	}

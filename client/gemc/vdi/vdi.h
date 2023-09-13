@@ -136,6 +136,11 @@ void v_bit_image(int16_t handle, const char *filename, int16_t aspect,
 void v_pline(int16_t handle, int16_t numPts, int16_t*pts);
 
 /*****************************************************************************\
+|*    7  : Draw a poly-marker, with at least one point
+\*****************************************************************************/
+void v_pmarker(int16_t handle, int16_t numPts, int16_t*pts);
+
+/*****************************************************************************\
 |*   15  : Set the line-type (ie: dash-pattern)
 \*****************************************************************************/
 void vsl_type(int16_t handle, int16_t which);
@@ -151,7 +156,17 @@ void vsl_width(int16_t handle, int16_t width);
 void vsl_color(int16_t handle, int16_t idx);
 
 /*****************************************************************************\
-|* 100   : Open a virtual workstation
+|*   18  : Set the marker-type
+\*****************************************************************************/
+void vsm_type(int16_t handle, int16_t which);
+
+/*****************************************************************************\
+|*   19  : Set the marker-height
+\*****************************************************************************/
+void vsm_height(int16_t handle, int16_t height);
+
+/*****************************************************************************\
+|*  100  : Open a virtual workstation
 \*****************************************************************************/
 void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut);
 

@@ -28,6 +28,7 @@ SOURCES += \
     ops/v_opnwk.cc \
     ops/v_output_window.cc \
     ops/v_pline.cc \
+    ops/v_pmarker.cc \
     ops/v_rmcur.cc \
     ops/v_rvoff.cc \
     ops/v_rvon.cc \
@@ -43,6 +44,8 @@ SOURCES += \
     ops/vsl_ends.cc \
     ops/vsl_type.cc \
     ops/vsl_width.cc \
+    ops/vsm_height.cc \
+    ops/vsm_type.cc \
     ops/vswr_mode.cc \
     screen.cc \
     socketthread.cc \

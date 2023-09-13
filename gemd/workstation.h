@@ -30,6 +30,7 @@ class Workstation : public QObject
 	GETSET(int, lineWidth, LineWidth);					// width of lines
 	GETSET(int, markerType, MarkerType);				// MRKR_{DOT -> DIAMOND}
 	GETSET(int, markerColour, MarkerColour);			// colour for markers
+	GETSET(int, markerHeight, MarkerHeight);			// pixel size of marker
 	GETSET(int, fontId, fontId);						// font id to use
 	GETSET(int, textColour, TextColour);				// colour index for text
 	GETSET(int, fillType, FillType);					// type of fill to use
@@ -88,7 +89,8 @@ class Workstation : public QObject
 		/*********************************************************************\
 		|* Set up the pen for drawing based on the local state
 		\*********************************************************************/
-		void setupPen(QPen& pen);
+		void setupPenForLine(QPen& pen);
+		void setupPenForMarker(QPen& pen);
 
 		/*********************************************************************\
 		|* Return a handle id

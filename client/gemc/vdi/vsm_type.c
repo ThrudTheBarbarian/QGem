@@ -1,8 +1,8 @@
 //
-//  v_pline.c
+//  vsm_type.c
 //  gemc
 //
-//  Created by ThrudTheBarbarian on 9/11/23.
+//  Created by ThrudTheBarbarian on 9/13/23.
 //
 
 #include <stdio.h>
@@ -12,9 +12,9 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*    6  : Draw a poly-line, with at least one point
+|*   18  : Set the marker-type (ie: dot, cross, etc.)
 \*****************************************************************************/
-void v_pline(int16_t handle, int16_t numPts, int16_t*pts)
+void vsm_type(int16_t handle, int16_t which)
 	{
 	/*************************************************************************\
 	|* Check to see if we're connected
@@ -27,9 +27,8 @@ void v_pline(int16_t handle, int16_t numPts, int16_t*pts)
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_V_PLINE);
-	_gemMsgAppend(&msg, &numPts, 1);
-	_gemMsgAppend(&msg, pts, numPts*2);
+	_gemMsgInit(&msg, MSG_VSM_TYPE);
+	_gemMsgAppend(&msg, &which, 1);
 	_gemIoWrite(&msg);
 			
 	/*************************************************************************\
