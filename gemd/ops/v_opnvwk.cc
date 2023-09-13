@@ -36,13 +36,13 @@ void VDI::v_opnvwk(Workstation *ws, ClientMsg *cm)
 	ws->setLineColour(CHECK_RANGE2(p[2], G_WHITE, G_LMAGENTA, G_BLACK));
 
 	// p[3]:  Default marker type (vsm_type)
-	ws->setMarkerType(CHECK_RANGE(p[3], MRKR_DOT, MRKR_DIAMOND));
+	ws->setMarkerType(CHECK_RANGE2(p[3], MRKR_DOT, MRKR_DIAMOND, MRKR_CROSS));
 
 	// p[4]:  Default marker colour
 	ws->setMarkerColour(CHECK_RANGE2(p[4], G_WHITE, G_LMAGENTA, G_BLACK));
 
 	// p[5]:  Font id
-	ws->setMarkerColour(CHECK_RANGE(p[5], 0, 1024));
+	ws->setFontId(CHECK_RANGE(p[5], 0, 1024));
 
 	// p[6]:  Default marker colour
 	ws->setTextColour(CHECK_RANGE2(p[6], G_WHITE, G_LMAGENTA, G_BLACK));

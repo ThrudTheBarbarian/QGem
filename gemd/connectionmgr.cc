@@ -189,7 +189,7 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().v_pline(ws, &cm);
 				break;
 
-			case ClientMsg::V_PMARKER:		// 6
+			case ClientMsg::V_PMARKER:		// 7
 				VDI::sharedInstance().v_pmarker(ws, &cm);
 				break;
 

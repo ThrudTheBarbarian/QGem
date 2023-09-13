@@ -124,7 +124,7 @@ void VDI::v_opnwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 		ws->setMarkerColour(CHECK_RANGE2(workIn[4], G_WHITE, G_LMAGENTA, G_BLACK));
 
 		// workIn[5]:  Font id
-		ws->setMarkerColour(CHECK_RANGE(workIn[5], 0, 1024));
+		ws->setFontId(CHECK_RANGE(workIn[5], 0, 1024));
 
 		// workIn[6]:  Default marker colour
 		ws->setTextColour(CHECK_RANGE2(workIn[6], G_WHITE, G_LMAGENTA, G_BLACK));

@@ -31,7 +31,7 @@ class Workstation : public QObject
 	GETSET(int, markerType, MarkerType);				// MRKR_{DOT -> DIAMOND}
 	GETSET(int, markerColour, MarkerColour);			// colour for markers
 	GETSET(int, markerHeight, MarkerHeight);			// pixel size of marker
-	GETSET(int, fontId, fontId);						// font id to use
+	GETSET(int, fontId, FontId);						// font id to use
 	GETSET(int, textColour, TextColour);				// colour index for text
 	GETSET(int, fillType, FillType);					// type of fill to use
 	GETSET(int, fillStyle, FillStyle);					// style of fill to use
