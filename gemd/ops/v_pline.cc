@@ -2,9 +2,15 @@
 
 #include "clientmsg.h"
 #include "connectionmgr.h"
+#include "gem.h"
 #include "screen.h"
 #include "vdi.h"
 #include "workstation.h"
+
+/*****************************************************************************\
+|* Forward declarations...
+\*****************************************************************************/
+static void _drawArrow(QPainter *painter, QPointF p1, QPointF p2, int width);
 
 /*****************************************************************************\
 |* Opcode 6: Draw a poly-line.
@@ -23,17 +29,39 @@ void VDI::v_pline(qintptr handle, int16_t num, int16_t*pxy)
 		QPen pen;
 		ws->setupPen(pen);
 
-		QList<QPoint> pts;
+		QList<QPointF> pts;
 		int idx = 0;
 		for (int i=0; i<num; i++)
 			{
-			QPoint p(pxy[idx], pxy[idx+1]);
+			QPointF p(pxy[idx], pxy[idx+1]);
 			pts << p;
 			idx += 2;
 			}
 		QPainter painter(_img);
 		painter.setPen(pen);
 		painter.drawPolyline(pts.constData(), num);
+
+		if (num > 1)
+			{
+			bool arrow = false;
+			int W = ws->lineWidth() * 3 + 3;
+			if (ws->startCap() == CAP_ARROW)
+				{
+				arrow = true;
+				pen.setStyle(Qt::SolidLine);
+				painter.setPen(pen);
+				_drawArrow(&painter, pts[0], pts[1], W);
+				}
+			if (ws->endCap() == CAP_ARROW)
+				{
+				arrow = true;
+				pen.setStyle(Qt::SolidLine);
+				painter.setPen(pen);
+				_drawArrow(&painter, pts[num-1], pts[num-2], W);
+				}
+			if (arrow)
+				ws->setupPen(pen);
+			}
 		}
 
 	}
@@ -48,4 +76,22 @@ void VDI::v_pline(Workstation *ws, ClientMsg *cm)
 	int16_t *pxy		= (int16_t *)(&(p[1]));
 
 	v_pline(ws->handle(), num, pxy);
+	}
+
+/*****************************************************************************\
+|* Draw an arrow-head at the end of a line
+\*****************************************************************************/
+void _drawArrow(QPainter *painter, QPointF p1, QPointF p2, int width)
+	{
+	double angle = std::atan2(-(p1.y() - p2.y()), p1.x()-p2.x());
+
+	QPointF arrowP1 = p1 + QPointF(-sin(angle + M_PI / 3) * width,
+								   -cos(angle + M_PI / 3) * width);
+	QPointF arrowP2 = p1 + QPointF(-sin(angle + M_PI - M_PI / 3) * width,
+								   -cos(angle + M_PI - M_PI / 3) * width);
+
+
+	QList<QPointF> pts;
+	pts << arrowP1 << p1 << arrowP2;
+	painter->drawPolyline(pts.constData(), 3);
 	}

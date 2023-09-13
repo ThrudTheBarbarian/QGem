@@ -7,7 +7,7 @@
 
 #include <unistd.h>
 #include <stdlib.h>
-
+#include <math.h>
 #include <stdio.h>
 #include "vdi.h"
 #include "gem.h"
@@ -55,20 +55,19 @@ int main(int argc, const char * argv[])
 
 	srandom(getpid());
 
-	int16_t y  = 50;
-	for (int i = SOLID; i<USERLINE; i++)
-		{
-		vsl_type(handle, i);
-		vsl_width(handle, 10);
-		vsl_color(handle, random()%16);
 
-		int16_t pts[] = {5, 0, 500, 0};
-		pts[1] = pts[3] = y;
-		y += 40;
-		v_pline(handle, 2, pts);
-		}
+	int     r = 300;
+	int16_t pts[4] = {500, 500, 0, 0};
+	vsl_type(handle, SOLID);
+	vsl_width(handle, 1);
+	vsl_ends(handle, CAP_SQUARE, CAP_ARROW);
 	
-	int16_t pts[] = {5,5, 100,50, 200,5};
-	v_pline(handle, 3, pts);
-	
+		for (int j=0; j<360; j+=5)
+			{
+			int16_t x1 = 500 + r * sin((2*M_PI) * j/360.0);
+			int16_t y1 = 500 + r * cos((2*M_PI) * j/360.0);
+			pts[2] = x1;
+			pts[3] = y1;
+			v_pline(handle, 2, pts);
+			}
 	}
