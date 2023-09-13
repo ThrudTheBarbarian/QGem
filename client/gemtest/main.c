@@ -52,7 +52,9 @@ int main(int argc, const char * argv[])
 	*/
 	vsl_type(handle, 3);
 	vsl_width(handle, 5);
-
+	
+	int16_t ltrb[] = {200,200,700,600};
+	vs_clip(handle, 1, ltrb);
 	srandom(getpid());
 
 
@@ -60,14 +62,17 @@ int main(int argc, const char * argv[])
 	int16_t pts[4] = {500, 500, 0, 0};
 	vsl_type(handle, SOLID);
 	vsl_width(handle, 1);
-	vsl_ends(handle, CAP_SQUARE, CAP_ARROW);
+	vsl_ends(handle, CAP_ROUND, CAP_ARROW);
 	
-		for (int j=0; j<360; j+=5)
-			{
-			int16_t x1 = 500 + r * sin((2*M_PI) * j/360.0);
-			int16_t y1 = 500 + r * cos((2*M_PI) * j/360.0);
-			pts[2] = x1;
-			pts[3] = y1;
-			v_pline(handle, 2, pts);
-			}
+	for (int j=0; j<360; j+=15)
+		{
+		vsl_color(handle, j%16);
+		vsl_type(handle, 1+j%7);
+		vsl_width(handle, 1+j%4);
+		int16_t x1 = 500 + r * sin((2*M_PI) * j/360.0);
+		int16_t y1 = 500 + r * cos((2*M_PI) * j/360.0);
+		pts[2] = x1;
+		pts[3] = y1;
+		v_pline(handle, 2, pts);
+		}
 	}

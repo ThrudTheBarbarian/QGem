@@ -74,7 +74,9 @@ void VDI::v_opnvwk(Workstation *ws, ClientMsg *cm)
 	/*************************************************************************\
 	|* Create a message to send back
 	\*************************************************************************/
-	Screen *s = VDI::sharedInstance().screen();
+	VDI& vdi = VDI::sharedInstance();
+	Screen *s = vdi.screen();
+
 	cm->clear();
 	cm->append(s->width()-1);		// 0 : Xmax
 	cm->append(s->height()-1);		// 1 : Ymax
@@ -135,6 +137,7 @@ void VDI::v_opnvwk(Workstation *ws, ClientMsg *cm)
 	cm->append(88);					// 56: maximum marker height in pixels
 	cm->append(ws->client()->socketDescriptor());
 	cm->setType(ClientMsg::MSG_REPLY_OFFSET + ClientMsg::V_OPNVWK);
+
 
 	/**************************************************************************\
 	|* Send the message down the wire

@@ -38,30 +38,48 @@ void VDI::v_pline(qintptr handle, int16_t num, int16_t*pxy)
 			idx += 2;
 			}
 		QPainter painter(_img);
+
+		if (ws->enableClip())
+			painter.setClipRect(ws->clip());
+
+		bool penNeedsReset = false;
+		int W	= ws->lineWidth() * 3 + 3;
+
+		if (ws->startCap() == CAP_ROUND)
+			{
+			penNeedsReset = true;
+			pen.setCapStyle(Qt::RoundCap);
+			}
+		else if (ws->endCap() == CAP_ROUND)
+			{
+			penNeedsReset = true;
+			pen.setCapStyle(Qt::RoundCap);
+			}
+
 		painter.setPen(pen);
 		painter.drawPolyline(pts.constData(), num);
 
 		if (num > 1)
 			{
-			bool arrow = false;
-			int W = ws->lineWidth() * 3 + 3;
 			if (ws->startCap() == CAP_ARROW)
 				{
-				arrow = true;
+				penNeedsReset = true;
 				pen.setStyle(Qt::SolidLine);
 				painter.setPen(pen);
 				_drawArrow(&painter, pts[0], pts[1], W);
 				}
 			if (ws->endCap() == CAP_ARROW)
 				{
-				arrow = true;
+				penNeedsReset = true;
 				pen.setStyle(Qt::SolidLine);
 				painter.setPen(pen);
 				_drawArrow(&painter, pts[num-1], pts[num-2], W);
 				}
-			if (arrow)
-				ws->setupPen(pen);
 			}
+		if (penNeedsReset)
+			ws->setupPen(pen);
+
+
 		}
 
 	}

@@ -34,6 +34,8 @@ Workstation::Workstation(QLocalSocket *client, QObject *parent)
 			,_fillColour(G_BLUE)
 			,_coordType(COORD_RASTER)
 			,_pageSize(PG_DIN_A4)
+			,_wrMode(QPainter::CompositionMode_Source)
+			,_enableClip(false)
 			,_client(client)
 	{
 	setDefaultColours();
@@ -133,5 +135,7 @@ void Workstation::setupPen(QPen& pen)
 		pen.setStyle(_styles[_lineType]);
 
 	pen.setColor(_palette[_lineColour]);
+	pen.setBrush(_palette[_lineColour]);
 	pen.setWidth(_lineWidth);
+
 	}
