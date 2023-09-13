@@ -47,6 +47,7 @@ class ClientMsg
 		VSL_COLOR			= 17,
 		VSM_TYPE			= 18,
 		VSM_HEIGHT			= 19,
+		VSM_COLOR			= 20,
 		V_OPNVWK			= 100,
 		VSL_ENDS			= 108,
 		VS_CLIP				= 129,

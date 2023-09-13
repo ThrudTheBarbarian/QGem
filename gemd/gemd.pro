@@ -44,6 +44,7 @@ SOURCES += \
     ops/vsl_ends.cc \
     ops/vsl_type.cc \
     ops/vsl_width.cc \
+    ops/vsm_color.cc \
     ops/vsm_height.cc \
     ops/vsm_type.cc \
     ops/vswr_mode.cc \

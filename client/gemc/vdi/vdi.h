@@ -166,6 +166,11 @@ void vsm_type(int16_t handle, int16_t which);
 void vsm_height(int16_t handle, int16_t height);
 
 /*****************************************************************************\
+|*   20  : Set the marker-colour
+\*****************************************************************************/
+void vsm_color(int16_t handle, int16_t idx);
+
+/*****************************************************************************\
 |*  100  : Open a virtual workstation
 \*****************************************************************************/
 void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut);

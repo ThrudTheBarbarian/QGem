@@ -281,6 +281,12 @@ class VDI : public QObject
 		void vsm_height(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*  20: Set the colour of marker drawn
+		\*********************************************************************/
+		void vsm_color(qintptr handle, int16_t height);
+		void vsm_color(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|*  32: Set the writing mode
 		\*********************************************************************/
 		void vswr_mode(Workstation *ws, int16_t mode);

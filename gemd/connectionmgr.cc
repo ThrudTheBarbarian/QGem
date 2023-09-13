@@ -213,6 +213,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vsm_height(ws, &cm);
 				break;
 
+			case ClientMsg::VSM_COLOR:		// 20
+				VDI::sharedInstance().vsm_color(ws, &cm);
+				break;
+
 			case ClientMsg::V_OPNVWK:		// 100
 				VDI::sharedInstance().v_opnvwk(ws, &cm);
 				break;
