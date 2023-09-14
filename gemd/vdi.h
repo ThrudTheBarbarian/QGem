@@ -257,6 +257,12 @@ class VDI : public QObject
 		void vst_height(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*  13: Set the text-rotation angle
+		\*********************************************************************/
+		void vst_rotation(qintptr handle, int16_t angle);
+		void vst_rotation(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|*  15: Set the style (dash pattern) for drawing lines
 		\*********************************************************************/
 		void vsl_type(qintptr handle, int16_t idx);
@@ -287,6 +293,12 @@ class VDI : public QObject
 		void vsm_height(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*  20: Request the use of an identified font
+		\*********************************************************************/
+		int vst_font(qintptr handle, int16_t fontId);
+		void vst_font(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|*  20: Set the colour of marker drawn
 		\*********************************************************************/
 		void vsm_color(qintptr handle, int16_t height);
@@ -315,6 +327,14 @@ class VDI : public QObject
 		|* 100: Open a virtual workstation
 		\*********************************************************************/
 		void v_opnvwk(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
+		|*  107 Set the height of text drawn (in points) and get metrics
+		\*********************************************************************/
+		void vst_point(qintptr handle, int16_t height, int16_t& charWidth,
+					   int16_t& charHeight, int16_t& cellWidth,
+					   int16_t &cellHeight);
+		void vst_point(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|* 108: Set the ends of drawn lines

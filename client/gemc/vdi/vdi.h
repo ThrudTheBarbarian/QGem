@@ -141,6 +141,18 @@ void v_pline(int16_t handle, int16_t numPts, int16_t*pts);
 void v_pmarker(int16_t handle, int16_t numPts, int16_t*pts);
 
 /*****************************************************************************\
+|*   12  : Set the font-height in pixels
+\*****************************************************************************/
+void vst_height(int16_t handle, int16_t height,
+				int16_t* charWidth, int16_t* charHeight,
+				int16_t* cellWidth, int16_t* cellHeight);
+
+/*****************************************************************************\
+|*   13  : Set the text rotation in 1/10 of a degree
+\*****************************************************************************/
+int vst_rotation(int16_t handle, int16_t angle);
+
+/*****************************************************************************\
 |*   15  : Set the line-type (ie: dash-pattern)
 \*****************************************************************************/
 void vsl_type(int16_t handle, int16_t which);
@@ -171,6 +183,11 @@ void vsm_height(int16_t handle, int16_t height);
 void vsm_color(int16_t handle, int16_t idx);
 
 /*****************************************************************************\
+|*   21  : Set the font
+\*****************************************************************************/
+int vst_font(int16_t handle, int16_t idx);
+
+/*****************************************************************************\
 |*   22  : Set the text-colour
 \*****************************************************************************/
 void vst_color(int16_t handle, int16_t idx);
@@ -185,6 +202,13 @@ void vst_alignment(int16_t handle, int16_t hIn,   int16_t vIn,
 |*  100  : Open a virtual workstation
 \*****************************************************************************/
 void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut);
+
+/*****************************************************************************\
+|*  107  : Set the font-height in points
+\*****************************************************************************/
+void vst_point(int16_t handle, int16_t height,
+			   int16_t* charWidth, int16_t* charHeight,
+			   int16_t* cellWidth, int16_t* cellHeight);
 
 /*****************************************************************************\
 |*  108  : Set the end-caps for lines

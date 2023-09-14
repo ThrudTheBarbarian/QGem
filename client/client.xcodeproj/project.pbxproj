@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F4680BD92AB370150020BB5B /* vst_height.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BD82AB370150020BB5B /* vst_height.c */; };
+		F4680BDB2AB370E60020BB5B /* vst_point.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BDA2AB370E60020BB5B /* vst_point.c */; };
+		F4680BDD2AB3724B0020BB5B /* vst_rotation.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BDC2AB3724B0020BB5B /* vst_rotation.c */; };
+		F4680BDF2AB376190020BB5B /* vst_font.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BDE2AB376190020BB5B /* vst_font.c */; };
 		F46A85B42AAEA2AE00FA3ABC /* v_clrwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */; };
 		F46A85B62AAEA56200FA3ABC /* v_updwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B52AAEA56200FA3ABC /* v_updwk.c */; };
 		F46A85BA2AAEA5A100FA3ABC /* vq_chcells.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */; };
@@ -78,6 +82,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F4680BD82AB370150020BB5B /* vst_height.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_height.c; sourceTree = "<group>"; };
+		F4680BDA2AB370E60020BB5B /* vst_point.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_point.c; sourceTree = "<group>"; };
+		F4680BDC2AB3724B0020BB5B /* vst_rotation.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_rotation.c; sourceTree = "<group>"; };
+		F4680BDE2AB376190020BB5B /* vst_font.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_font.c; sourceTree = "<group>"; };
 		F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_clrwk.c; sourceTree = "<group>"; };
 		F46A85B52AAEA56200FA3ABC /* v_updwk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_updwk.c; sourceTree = "<group>"; };
 		F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_chcells.c; sourceTree = "<group>"; };
@@ -226,6 +234,10 @@
 				F46A86012AB24EF500FA3ABC /* vsm_color.c */,
 				F46A86032AB2930100FA3ABC /* vst_color.c */,
 				F46A86052AB2964200FA3ABC /* vst_alignment.c */,
+				F4680BD82AB370150020BB5B /* vst_height.c */,
+				F4680BDA2AB370E60020BB5B /* vst_point.c */,
+				F4680BDC2AB3724B0020BB5B /* vst_rotation.c */,
+				F4680BDE2AB376190020BB5B /* vst_font.c */,
 			);
 			path = vdi;
 			sourceTree = "<group>";
@@ -375,10 +387,12 @@
 				F4E340C62AAAE05A002390BA /* gemmsg.c in Sources */,
 				F46A85F22AAFBD7500FA3ABC /* vsl_color.c in Sources */,
 				F46A85FC2AB23D6900FA3ABC /* v_pmarker.c in Sources */,
+				F4680BD92AB370150020BB5B /* vst_height.c in Sources */,
 				F46A85D22AAECACA00FA3ABC /* v_curtext.c in Sources */,
 				F46A85DE2AAF640500FA3ABC /* vq_tabstatus.c in Sources */,
 				F46A85EE2AAF693100FA3ABC /* v_bit_image.c in Sources */,
 				F46A85F42AAFD32500FA3ABC /* vsl_type.c in Sources */,
+				F4680BDD2AB3724B0020BB5B /* vst_rotation.c in Sources */,
 				F46A86002AB24C1300FA3ABC /* vsm_height.c in Sources */,
 				F46A85F62AAFD3C400FA3ABC /* vsl_width.c in Sources */,
 				F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */,
@@ -390,8 +404,10 @@
 				F46A85DA2AAF636F00FA3ABC /* vq_hardcopy.c in Sources */,
 				F46A85E42AAF66A200FA3ABC /* v_rmcur.c in Sources */,
 				F46A86022AB24EF500FA3ABC /* vsm_color.c in Sources */,
+				F4680BDB2AB370E60020BB5B /* vst_point.c in Sources */,
 				F46A85CA2AAEBEFD00FA3ABC /* v_curhome.c in Sources */,
 				F46A85B62AAEA56200FA3ABC /* v_updwk.c in Sources */,
+				F4680BDF2AB376190020BB5B /* vst_font.c in Sources */,
 				F4E340B82AAAD6DE002390BA /* gemio.c in Sources */,
 				F46A85BC2AAEB56700FA3ABC /* vq_exit_cur.c in Sources */,
 				F46A85D42AAED0F400FA3ABC /* v_rvon.c in Sources */,

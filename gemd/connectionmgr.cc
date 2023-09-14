@@ -197,6 +197,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vst_height(ws, &cm);
 				break;
 
+			case ClientMsg::VST_ROTATION:	// 13
+				VDI::sharedInstance().vst_rotation(ws, &cm);
+				break;
+
 			case ClientMsg::VSL_TYPE:		// 15
 				VDI::sharedInstance().vsl_type(ws, &cm);
 				break;
@@ -231,6 +235,10 @@ void ConnectionMgr::_incomingData(void)
 
 			case ClientMsg::V_OPNVWK:		// 100
 				VDI::sharedInstance().v_opnvwk(ws, &cm);
+				break;
+
+			case ClientMsg::VST_POINT:		// 107
+				VDI::sharedInstance().vst_point(ws, &cm);
 				break;
 
 			case ClientMsg::VSL_ENDS:		// 108

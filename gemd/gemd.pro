@@ -50,7 +50,10 @@ SOURCES += \
     ops/vsm_type.cc \
     ops/vst_alignment.cc \
     ops/vst_color.cc \
+    ops/vst_font.cc \
     ops/vst_height.cc \
+    ops/vst_point.cc \
+    ops/vst_rotation.cc \
     ops/vswr_mode.cc \
     screen.cc \
     socketthread.cc \

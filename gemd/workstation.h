@@ -36,6 +36,7 @@ class Workstation : public QObject
 	GETSET(int, textColour, TextColour);				// colour index for text
 	GETSET(int, textAlign, TextAlign);					// Text alignment
 	GETSET(int, textHeight, TextHeight);				// Text height
+	GETSET(int, textRotation, TextRotation);			// Text rotation angle
 	GETSET(int, fillType, FillType);					// type of fill to use
 	GETSET(int, fillStyle, FillStyle);					// style of fill to use
 	GETSET(int, fillColour, FillColour);				// colour index for fill
