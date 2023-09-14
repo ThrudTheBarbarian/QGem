@@ -27,7 +27,6 @@ class VDI : public QObject
 		/*********************************************************************\
 		|* Properties
 		\*********************************************************************/
-		GETSET(QFont, systemFont, SystemFont);		// Main system font
 		GETSET(std::string, rootDir, RootDir);		// "System" disk root-dir
 		GET(int, charWidth);						// Width of a sys-font char
 		GET(int, charHeight);						// Height of same char
@@ -47,7 +46,6 @@ class VDI : public QObject
 		uint64_t _frames;				// Frame counter
 		bool _cursorShown;				// Cursor is actually drawn
 		QImage _cursorBacking;			// What was underneath the cursor
-		QFontMetrics *_fm;				// Font metrics for the system font
 
 		/*********************************************************************\
 		|* Private constructor
@@ -251,6 +249,14 @@ class VDI : public QObject
 		void v_pmarker(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*  12 Set the height of text drawn and get metrics
+		\*********************************************************************/
+		void vst_height(qintptr handle, int16_t height, int16_t& charWidth,
+						int16_t& charHeight, int16_t& cellWidth,
+						int16_t &cellHeight);
+		void vst_height(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|*  15: Set the style (dash pattern) for drawing lines
 		\*********************************************************************/
 		void vsl_type(qintptr handle, int16_t idx);
@@ -287,10 +293,23 @@ class VDI : public QObject
 		void vsm_color(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*  22: Set the colour of any text drawn
+		\*********************************************************************/
+		void vst_color(qintptr handle, int16_t height);
+		void vst_color(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|*  32: Set the writing mode
 		\*********************************************************************/
 		void vswr_mode(Workstation *ws, int16_t mode);
 		void vswr_mode(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  39: Request the text alignment and get the actual set values
+		\*********************************************************************/
+		void vst_alignment(qintptr handle, int16_t  hIn,  int16_t  vIn,
+										   int16_t& hOut, int16_t& vOut);
+		void vst_alignment(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|* 100: Open a virtual workstation

@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include "gemmsg.h"
 
+#define MSG_REPLY(x) ((x) + MSG_REPLY_OFFSET)
+
 /*****************************************************************************\
 |* Enumerate the message-types for going back and forth to the server
 \*****************************************************************************/
@@ -44,6 +46,8 @@ enum
 	MSG_VSM_TYPE		= 18,
 	MSG_VSM_HEIGHT		= 19,
 	MSG_VSM_COLOR		= 20,
+	MSG_VST_COLOR		= 22,
+	MSG_VST_ALIGNMENT	= 39,
 	MSG_V_OPNVWK		= 100,
 	MSG_VSL_ENDS		= 108,
 	MSG_VS_CLIP			= 129,

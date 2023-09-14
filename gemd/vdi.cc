@@ -18,7 +18,6 @@ VDI::VDI(QObject *parent)
 	,_dpy(nullptr)
 	,_screen(nullptr)
 	,_frames(0)
-	,_fm(nullptr)
 	{}
 
 
@@ -59,7 +58,7 @@ bool VDI::_eraseCursor(void)
 		_cursorShown = false;
 		int x			= _cursorX * _charWidth;
 		int y			= _cursorY * _charHeight;
-		int descent		= _fm->descent();
+		int descent		= _dpy->fm()->descent();
 
 		QPoint pt = {x,y+descent};
 		QPainter painter(_img);
@@ -82,7 +81,7 @@ void VDI::_drawCursor(void)
 		int y			= _cursorY * _charHeight;
 		int w			= _charWidth/2;
 		int h			= _charHeight;
-		int descent		= _fm->descent();
+		int descent		= _dpy->fm()->descent();
 
 		QRect r			= {x,y+descent,w,h};
 		_cursorBacking	= _img->copy(r);

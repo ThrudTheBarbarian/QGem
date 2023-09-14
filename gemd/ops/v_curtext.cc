@@ -18,7 +18,7 @@ void VDI::v_curtext(Workstation *ws, const char* str)
 	QColor fg	= ws->colour((_reverseVideo) ? 0 : 1);
 	QColor bg	= ws->colour((_reverseVideo) ? 1 : 0);
 
-	int descent = _fm->descent();
+	int descent = ws->fm()->descent();
 	QRect r		= {	_cursorX * _charWidth,
 					_cursorY * _charHeight + descent,
 					0,

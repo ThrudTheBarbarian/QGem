@@ -13,7 +13,6 @@
 #define CHECK_RANGE2(x,a,b,c)	(((x) < (a)) || ((x) > (b))) ? (c) : (x)
 #define CHECK_RANGE3(x,a,b,c,d)	(((x) < (a)) || ((x) > (b))) ? (c) : (d)
 
-#define FONT_DIR_OFFSET "/System/Fonts/"
 
 static int16_t _defaultValues[] =
 	{
@@ -169,17 +168,6 @@ void VDI::v_opnwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 			workOut[0] = _screen->width()-1;
 			workOut[1] = _screen->height()-1;
 			}
-
-		/*********************************************************************\
-		|* Load up the system font
-		\*********************************************************************/
-		std::string path	= _rootDir + FONT_DIR_OFFSET + "system.ttf";
-		QString fontPath	= QString::fromStdString(path);
-		int id				= QFontDatabase::addApplicationFont(fontPath);
-		QString family		= QFontDatabase::applicationFontFamilies(id).at(0);
-		_systemFont			= QFont(family);
-		_systemFont.setPointSize(14);
-		_fm					= new QFontMetrics(_systemFont);
 
 		/*********************************************************************\
 		|* Fetch the character width, height and screen rows/cols

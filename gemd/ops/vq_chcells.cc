@@ -1,6 +1,7 @@
 #include <QFontMetrics>
 
 #include "clientmsg.h"
+#include "connectionmgr.h"
 #include "debug.h"
 #include "screen.h"
 #include "vdi.h"
@@ -17,18 +18,16 @@
 \*****************************************************************************/
 void VDI::vq_chcells(qintptr handle, int16_t& rows, int16_t& columns)
 	{
-	if (handle != 0)
+	ConnectionMgr *cm = _screen->connectionManager();
+	Workstation *ws   = cm->findWorkstationForHandle(handle);
+	if (ws != nullptr)
 		{
-		WARN("Non-screen devices currently unsupported");
-		}
-	else
-		{
-		QFontMetrics metrics(_systemFont);
-		QRect bounds	= metrics.boundingRect("W");
-		_charHeight		= bounds.height();
-		_charWidth		= bounds.width();
-		rows			= _screen->height() / _charHeight;
-		columns			= _screen->width() / _charWidth;
+		QFontMetrics *fm	= ws->fm();
+		QRect bounds		= fm->boundingRect("W");
+		_charHeight			= bounds.height();
+		_charWidth			= bounds.width();
+		rows				= _screen->height() / _charHeight;
+		columns				= _screen->width() / _charWidth;
 		}
 	}
 
@@ -37,7 +36,8 @@ void VDI::vq_chcells(qintptr handle, int16_t& rows, int16_t& columns)
 \*****************************************************************************/
 void VDI::vq_chcells(Workstation *ws, ClientMsg *cm)
 	{
-	int16_t rows, cols;
+	int16_t rows = 0;
+	int16_t cols = 0;
 	vq_chcells(0, rows, cols);
 
 	/**************************************************************************\
@@ -46,7 +46,7 @@ void VDI::vq_chcells(Workstation *ws, ClientMsg *cm)
 	cm->clear();
 	cm->append(rows);
 	cm->append(cols);
-	cm->setType(ClientMsg::MSG_REPLY_OFFSET + ClientMsg::VQ_CHCELLS);
+	cm->setType(MSG_REPLY(ClientMsg::VQ_CHCELLS));
 
 	/**************************************************************************\
 	|* Send the message down the wire

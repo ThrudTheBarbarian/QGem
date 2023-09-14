@@ -24,6 +24,7 @@ class Workstation : public QObject
 	/**************************************************************************\
 	|* Properties
 	\**************************************************************************/
+	GET(QFont, currentFont);							// Current font
 	GETSET(int, deviceDriver, DeviceDriver);			// 1=this, 2+n = switch
 	GETSET(int, lineType, LineType);					// SOLID -> USERLINE
 	GETSET(int, lineColour, LineColour);				// colour to draw
@@ -33,6 +34,8 @@ class Workstation : public QObject
 	GETSET(int, markerHeight, MarkerHeight);			// pixel size of marker
 	GETSET(int, fontId, FontId);						// font id to use
 	GETSET(int, textColour, TextColour);				// colour index for text
+	GETSET(int, textAlign, TextAlign);					// Text alignment
+	GETSET(int, textHeight, TextHeight);				// Text height
 	GETSET(int, fillType, FillType);					// type of fill to use
 	GETSET(int, fillStyle, FillStyle);					// style of fill to use
 	GETSET(int, fillColour, FillColour);				// colour index for fill
@@ -51,6 +54,7 @@ class Workstation : public QObject
 		\*********************************************************************/
 		QLocalSocket *_client;			// Connection to client
 		QColor _palette[256];			// First 256 colours
+		QFontMetrics* _fm;				// Font metrics of current font
 
 	public:
 		/*********************************************************************\
@@ -85,6 +89,17 @@ class Workstation : public QObject
 				return _palette[idx];
 			return QColor(0,0,0,255);
 			}
+
+		/*********************************************************************\
+		|* Set the current font and font-metrics
+		\*********************************************************************/
+		bool setFont(int fontId);
+
+		/*********************************************************************\
+		|* Get the current font-metrics
+		\*********************************************************************/
+		inline QFontMetrics * fm() { return _fm; }
+
 
 		/*********************************************************************\
 		|* Set up the pen for drawing based on the local state

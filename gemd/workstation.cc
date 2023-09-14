@@ -1,7 +1,7 @@
 #include "clientmsg.h"
+#include "fontmgr.h"
 #include "gem.h"
 #include "macros.h"
-#include "vdi.h"
 #include "workstation.h"
 
 
@@ -42,8 +42,10 @@ Workstation::Workstation(QLocalSocket *client, QObject *parent)
 			,_startCap(CAP_SQUARE)
 			,_endCap(CAP_SQUARE)
 			,_client(client)
+			,_fm(nullptr)
 	{
 	setDefaultColours();
+	setFont(-1);
 	_userType << 3 << 1;
 	}
 
@@ -73,8 +75,10 @@ Workstation::Workstation(QObject *parent)
 	,_startCap(CAP_SQUARE)
 	,_endCap(CAP_SQUARE)
 	,_client(nullptr)
+	,_fm(nullptr)
 	{
 	setDefaultColours();
+	setFont(-1);
 	_userType << 3 << 1;
 	}
 
@@ -122,6 +126,26 @@ void Workstation::setDefaultColours(void)
 	setColour(13, 109, 255, 255);		// light cyan
 	setColour(14, 255, 255, 109);		// light yellow
 	setColour(15, 255, 109, 255);		// light magenta
+	}
+
+/*****************************************************************************\
+|* Set up the font and query the font metrics for it
+\*****************************************************************************/
+bool Workstation::setFont(int fontId)
+	{
+	bool ok = false;
+
+	QFont *font = FontMgr::sharedInstance().fetch(fontId);
+	if (font != nullptr)
+		{
+		ok = true;
+		_currentFont = *font;
+		if (_fm)
+			DELETE(_fm);
+		_fm = new QFontMetrics(_currentFont);
+		}
+
+	return ok;
 	}
 
 /*****************************************************************************\

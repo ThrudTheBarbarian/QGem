@@ -7,6 +7,8 @@
 #include "properties.h"
 #include "macros.h"
 
+#define MSG_REPLY(x) ((x) + ClientMsg::MSG_REPLY_OFFSET)
+
 /*****************************************************************************\
 |* Class declaration
 \*****************************************************************************/
@@ -42,12 +44,15 @@ class ClientMsg
 		V_RMCUR				= 5019,
 		V_PLINE				= 6,
 		V_PMARKER			= 7,
+		VST_HEIGHT			= 12,
 		VSL_TYPE			= 15,
 		VSL_WIDTH			= 16,
 		VSL_COLOR			= 17,
 		VSM_TYPE			= 18,
 		VSM_HEIGHT			= 19,
 		VSM_COLOR			= 20,
+		VST_COLOR			= 22,
+		VST_ALIGNMENT		= 39,
 		V_OPNVWK			= 100,
 		VSL_ENDS			= 108,
 		VS_CLIP				= 129,

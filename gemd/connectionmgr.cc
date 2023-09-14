@@ -193,6 +193,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().v_pmarker(ws, &cm);
 				break;
 
+			case ClientMsg::VST_HEIGHT:		// 12
+				VDI::sharedInstance().vst_height(ws, &cm);
+				break;
+
 			case ClientMsg::VSL_TYPE:		// 15
 				VDI::sharedInstance().vsl_type(ws, &cm);
 				break;
@@ -215,6 +219,14 @@ void ConnectionMgr::_incomingData(void)
 
 			case ClientMsg::VSM_COLOR:		// 20
 				VDI::sharedInstance().vsm_color(ws, &cm);
+				break;
+
+			case ClientMsg::VST_COLOR:		// 22
+				VDI::sharedInstance().vst_color(ws, &cm);
+				break;
+
+			case ClientMsg::VST_ALIGNMENT:	// 39
+				VDI::sharedInstance().vst_alignment(ws, &cm);
 				break;
 
 			case ClientMsg::V_OPNVWK:		// 100

@@ -7,6 +7,7 @@ INCLUDEPATH +=  $$PWD/../shared
 SOURCES += \
     clientmsg.cc \
     connectionmgr.cc \
+    fontmgr.cc \
     glwidget.cc \
     main.cc \
     ops/v_bit_image.cc \
@@ -47,6 +48,9 @@ SOURCES += \
     ops/vsm_color.cc \
     ops/vsm_height.cc \
     ops/vsm_type.cc \
+    ops/vst_alignment.cc \
+    ops/vst_color.cc \
+    ops/vst_height.cc \
     ops/vswr_mode.cc \
     screen.cc \
     socketthread.cc \
@@ -56,6 +60,7 @@ SOURCES += \
 HEADERS += \
     clientmsg.h \
     connectionmgr.h \
+    fontmgr.h \
     glwidget.h \
     screen.h \
     socketthread.h \
