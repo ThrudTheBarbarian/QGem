@@ -52,6 +52,9 @@
 		F46A860A2AB3A91F00FA3ABC /* vst_load_fonts.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86092AB3A91F00FA3ABC /* vst_load_fonts.c */; };
 		F46A860C2AB3B37A00FA3ABC /* vqt_name.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A860B2AB3B37A00FA3ABC /* vqt_name.c */; };
 		F46A860E2AB3C38B00FA3ABC /* v_gtext.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A860D2AB3C38B00FA3ABC /* v_gtext.c */; };
+		F46A86102AB40D8900FA3ABC /* vsf_interior.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A860F2AB40D8900FA3ABC /* vsf_interior.c */; };
+		F46A86122AB40F5F00FA3ABC /* vsf_style.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86112AB40F5F00FA3ABC /* vsf_style.c */; };
+		F46A86142AB4155F00FA3ABC /* vsf_color.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86132AB4155F00FA3ABC /* vsf_color.c */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -131,6 +134,9 @@
 		F46A86092AB3A91F00FA3ABC /* vst_load_fonts.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_load_fonts.c; sourceTree = "<group>"; };
 		F46A860B2AB3B37A00FA3ABC /* vqt_name.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vqt_name.c; sourceTree = "<group>"; };
 		F46A860D2AB3C38B00FA3ABC /* v_gtext.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_gtext.c; sourceTree = "<group>"; };
+		F46A860F2AB40D8900FA3ABC /* vsf_interior.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsf_interior.c; sourceTree = "<group>"; };
+		F46A86112AB40F5F00FA3ABC /* vsf_style.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsf_style.c; sourceTree = "<group>"; };
+		F46A86132AB4155F00FA3ABC /* vsf_color.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsf_color.c; sourceTree = "<group>"; };
 		F4E3409C2AAAD389002390BA /* client */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = client; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E3409F2AAAD389002390BA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E340AA2AAAD3E1002390BA /* libgemc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgemc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,6 +256,9 @@
 				F46A86092AB3A91F00FA3ABC /* vst_load_fonts.c */,
 				F46A860B2AB3B37A00FA3ABC /* vqt_name.c */,
 				F46A860D2AB3C38B00FA3ABC /* v_gtext.c */,
+				F46A860F2AB40D8900FA3ABC /* vsf_interior.c */,
+				F46A86112AB40F5F00FA3ABC /* vsf_style.c */,
+				F46A86132AB4155F00FA3ABC /* vsf_color.c */,
 			);
 			path = vdi;
 			sourceTree = "<group>";
@@ -386,6 +395,8 @@
 				F46A85F82AB0124200FA3ABC /* vsl_ends.c in Sources */,
 				F46A85CC2AAEBFD600FA3ABC /* v_eeos.c in Sources */,
 				F46A85C82AAEBE7900FA3ABC /* v_curleft.c in Sources */,
+				F46A86122AB40F5F00FA3ABC /* vsf_style.c in Sources */,
+				F46A86102AB40D8900FA3ABC /* vsf_interior.c in Sources */,
 				F46A85CE2AAEC0B600FA3ABC /* v_eeol.c in Sources */,
 				F46A85BE2AAEB6FE00FA3ABC /* v_enter_cur.c in Sources */,
 				F46A85D82AAED79F00FA3ABC /* vq_curaddress.c in Sources */,
@@ -428,6 +439,7 @@
 				F46A85BC2AAEB56700FA3ABC /* vq_exit_cur.c in Sources */,
 				F46A85D42AAED0F400FA3ABC /* v_rvon.c in Sources */,
 				F46A85FA2AB01E1F00FA3ABC /* v_pline.c in Sources */,
+				F46A86142AB4155F00FA3ABC /* vsf_color.c in Sources */,
 				F46A85E82AAF67EC00FA3ABC /* v_output_window.c in Sources */,
 				F46A86042AB2930100FA3ABC /* vst_color.c in Sources */,
 			);

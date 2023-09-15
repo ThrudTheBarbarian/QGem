@@ -43,6 +43,9 @@ SOURCES += \
     ops/vqt_name.cc \
     ops/vs_clip.cc \
     ops/vs_curaddress.cc \
+    ops/vsf_color.cc \
+    ops/vsf_interior.cc \
+    ops/vsf_style.cc \
     ops/vsl_color.cc \
     ops/vsl_ends.cc \
     ops/vsl_type.cc \

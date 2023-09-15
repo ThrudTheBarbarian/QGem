@@ -237,6 +237,18 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vst_color(ws, &cm);
 				break;
 
+			case ClientMsg::VSF_INTERIOR:	// 23
+				VDI::sharedInstance().vsf_interior(ws, &cm);
+				break;
+
+			case ClientMsg::VSF_STYLE:		// 24
+				VDI::sharedInstance().vsf_style(ws, &cm);
+				break;
+
+			case ClientMsg::VSF_COLOR:		// 25
+				VDI::sharedInstance().vsf_color(ws, &cm);
+				break;
+
 			case ClientMsg::VST_ALIGNMENT:	// 39
 				VDI::sharedInstance().vst_alignment(ws, &cm);
 				break;

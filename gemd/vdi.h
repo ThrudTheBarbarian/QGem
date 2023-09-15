@@ -317,6 +317,24 @@ class VDI : public QObject
 		void vst_color(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*  23: Set the fill-pattern type to use
+		\*********************************************************************/
+		void vsf_interior(qintptr handle, int16_t which);
+		void vsf_interior(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  24: Set the fill-pattern index to use
+		\*********************************************************************/
+		void vsf_style(qintptr handle, int16_t which);
+		void vsf_style(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  24: Set the fill-pattern colour to use
+		\*********************************************************************/
+		void vsf_color(qintptr handle, int16_t idx);
+		void vsf_color(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|*  32: Set the writing mode
 		\*********************************************************************/
 		void vswr_mode(Workstation *ws, int16_t mode);

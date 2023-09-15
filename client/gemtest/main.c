@@ -82,12 +82,7 @@ int main(int argc, const char * argv[])
 	
 	vst_font(handle, 15);
 	vst_effects(handle, TXT_OUTLINE);
-	vst_height(handle, 32, NULL, NULL, NULL, NULL);
+	vst_height(handle, 96, NULL, NULL, NULL, NULL);
 	v_gtext(handle, 250, 250, "hi there!");
 
-	int16_t ha, va;
-	vst_alignment(handle, ALGN_LEFT, ALGN_TOP, &ha, &va);
-	fprintf(stderr, "ha=%d, va=%d\n", ha, va);
-	vst_color(handle, 4);
-	v_gtext(handle, 250, 250, "hi there!");
 	}

@@ -78,7 +78,7 @@ void VDI::v_gtext(qintptr handle, int16_t x, int16_t y, char *txt)
 			{
 			QPainterPath path;
 			path.addText(QPoint(x,y), *font, txt);
-			painter.strokePath(path, pen);
+			painter.strokePath(path.simplified(), pen);
 			}
 		else
 			painter.drawText(x, y, txt);
