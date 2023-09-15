@@ -60,27 +60,24 @@ int main(int argc, const char * argv[])
 
 	int     r = 300;
 	int16_t pts[4] = {500, 500, 0, 0};
-	vsl_type(handle, SOLID);
-	vsl_width(handle, 1);
-	vsl_ends(handle, CAP_ROUND, CAP_ARROW);
 	vsm_type(handle, 7);
 	vsm_height(handle, 33);
 	for (int j=0; j<360; j+=15)
 		{
-		vsl_color(handle, j%16);
-		vsl_type(handle, 1+j%7);
-		vsl_width(handle, 1+j%4);
+		vsm_color(handle, j%16);
+		vsm_type(handle, 1+j%7);
+		vsm_height(handle, 20+10*(j%4));
 		int16_t x1 = 500 + r * sin((2*M_PI) * j/360.0);
 		int16_t y1 = 500 + r * cos((2*M_PI) * j/360.0);
-		pts[2] = x1;
-		pts[3] = y1;
-		v_pmarker(handle, 2, pts);
+		pts[0] = x1;
+		pts[1] = y1;
+		v_pmarker(handle, 1, pts);
 		}
 		
 	int num = vst_load_fonts(handle, 0);
 	fprintf(stderr, "Loaded %d fonts\n", num);
 	
-	vst_font(handle, 15);
+	vst_font(handle, 297);
 	vst_effects(handle, TXT_OUTLINE);
 	vst_height(handle, 96, NULL, NULL, NULL, NULL);
 	v_gtext(handle, 250, 250, "hi there!");

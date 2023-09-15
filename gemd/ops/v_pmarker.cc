@@ -26,6 +26,7 @@ void VDI::v_pmarker(qintptr handle, int16_t num, int16_t*pxy)
 		QPen pen;
 		ws->setupPenForMarker(pen);
 		painter.setPen(pen);
+
 		if (ws->enableClip())
 			painter.setClipRect(ws->clip());
 
@@ -33,10 +34,12 @@ void VDI::v_pmarker(qintptr handle, int16_t num, int16_t*pxy)
 		int delta = (ws->markerHeight() - 1)/2;
 
 		QList<QPoint> pts;
+
 		for (int i=0; i<num; i++)
 			{
 			int16_t x = pxy[idx++];
 			int16_t y = pxy[idx++];
+			pts.clear();
 
 			switch (ws->markerType())
 				{
@@ -58,10 +61,7 @@ void VDI::v_pmarker(qintptr handle, int16_t num, int16_t*pxy)
 					break;
 
 				case MRKR_BOX:
-					pts << QPoint(x-delta, y-delta) << QPoint(x+delta, y-delta)
-						<< QPoint(x+delta, y+delta) << QPoint(x-delta, y+delta)
-						<< QPoint(x-delta, y-delta);
-					painter.drawPolyline(pts);
+					painter.drawRect(x-delta, y-delta, delta*2, delta*2);
 					break;
 
 				case MRKR_CROSS:
@@ -74,14 +74,14 @@ void VDI::v_pmarker(qintptr handle, int16_t num, int16_t*pxy)
 					pts << QPoint(x, y-delta) << QPoint(x+delta, y)
 						<< QPoint(x, y+delta) << QPoint(x-delta, y)
 						<< QPoint(x, y-delta);
-					painter.drawPolyline(pts);
+					painter.drawPolyline(pts.data(), pts.size());
 					break;
 
 				default:
 					painter.drawEllipse(x, y, delta, delta);
+					break;
 				}
 			}
-		painter.setClipping(false);
 		}
 	}
 
@@ -94,7 +94,7 @@ void VDI::v_pmarker(Workstation *ws, ClientMsg *cm)
 	int16_t num			= ntohs(p[0]);
 	int16_t *pxy		= (int16_t *)(&(p[1]));
 
-	for (int i=0; i<num; i++)
+	for (int i=0; i<num*2; i++)
 		pxy[i] = ntohs(pxy[i]);
 
 	v_pmarker(ws->handle(), num, pxy);

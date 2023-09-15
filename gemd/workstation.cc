@@ -151,6 +151,7 @@ bool Workstation::setFont(int fontId)
 		if (_fm)
 			DELETE(_fm);
 		_fm = new QFontMetrics(_currentFont);
+		_fontId = fontId;
 		}
 
 	return ok;

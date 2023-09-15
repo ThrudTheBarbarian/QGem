@@ -24,8 +24,6 @@ void VDI::v_gtext(qintptr handle, int16_t x, int16_t y, char *txt)
 
 	if (ws != nullptr)
 		{
-		bool cleanMetrics = false;
-
 		QPen pen;
 		ws->setupPenForText(pen);
 
@@ -35,24 +33,17 @@ void VDI::v_gtext(qintptr handle, int16_t x, int16_t y, char *txt)
 		if (ws->enableClip())
 			painter.setClipRect(ws->clip());
 
-		FontMgr &fm				= FontMgr::sharedInstance();
-		QFont *font				= fm.fetch(ws->fontId());
-
-		int effects = ws->textEffect();
-		font->setBold(effects & TXT_BOLD);
-		font->setItalic(effects & TXT_ITALIC);
-		font->setUnderline(effects & TXT_UNDERLINE);
-
-		font->setPixelSize(ws->textHeight());
+		QFont font				= QFont(ws->currentFont(), _img);
 		QFontMetrics *metrics	= ws->fm();
 
-		if (font == nullptr)
-			{
-			font				= (QFont *)(&fm.systemFont());
-			metrics				= new QFontMetrics(*font);
-			cleanMetrics		= true;
-			}
-		painter.setFont(*font);
+		int effects = ws->textEffect();
+		font.setBold(effects & TXT_BOLD);
+		font.setItalic(effects & TXT_ITALIC);
+		font.setUnderline(effects & TXT_UNDERLINE);
+
+		font.setPixelSize(ws->textHeight());
+
+		painter.setFont(font);
 
 		// Y position is used as baseline, so if we have different vrtical
 		// alignment, we have to calculate that ourselves
@@ -77,14 +68,11 @@ void VDI::v_gtext(qintptr handle, int16_t x, int16_t y, char *txt)
 		if (effects & TXT_OUTLINE)
 			{
 			QPainterPath path;
-			path.addText(QPoint(x,y), *font, txt);
+			path.addText(QPoint(x,y), font, txt);
 			painter.strokePath(path.simplified(), pen);
 			}
 		else
 			painter.drawText(x, y, txt);
-
-		if (cleanMetrics)
-			DELETE(metrics);
 		}
 
 	}

@@ -19,10 +19,7 @@ void VDI::vst_effects(qintptr handle, int16_t effect)
 	Workstation *ws   = cm->findWorkstationForHandle(handle);
 
 	if (ws != nullptr)
-		{
 		ws->setTextEffect(effect & TXT_MASK);
-		fprintf(stderr, "effect=%x", effect);
-		}
 	}
 
 /*****************************************************************************\
