@@ -1,5 +1,5 @@
 //
-//  vst_point.c
+//  vst_load_fonts.c
 //  gemc
 //
 //  Created by ThrudTheBarbarian on 9/14/23.
@@ -12,49 +12,40 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*  107  : Set the text-font height in points
+|*  119  : Tell the server to load up its fonts
 \*****************************************************************************/
-void vst_point(int16_t handle, int16_t height,
-				int16_t* charWidth, int16_t* charHeight,
-				int16_t* cellWidth, int16_t* cellHeight)
+int vst_load_fonts(int16_t handle, int16_t dummy)
 	{
+	(void)dummy;
+	
 	/*************************************************************************\
 	|* Check to see if we're connected
 	\*************************************************************************/
 	if (!_gemIoIsConnected())
 		if (!_gemIoConnect())
-			return;
+			return -1;
 	
 	/*************************************************************************\
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_VST_POINT);
-	_gemMsgAppend(&msg, &height, 1);
+	_gemMsgInit(&msg, MSG_VST_LOAD_FONTS);
 	_gemIoWrite(&msg);
-	
+
 	/*************************************************************************\
 	|* Wait for a response
 	\*************************************************************************/
-	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_VST_POINT));
+	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_VST_LOAD_FONTS));
 
 	/*************************************************************************\
 	|* Copy data over if space is allocated
 	\*************************************************************************/
-	if (charWidth != NULL)
-		*charWidth = ntohs(msg.vec.data[0]);
-		
-	if (charHeight != NULL)
-		*charHeight = ntohs(msg.vec.data[1]);
-		
-	if (cellWidth != NULL)
-		*cellWidth = ntohs(msg.vec.data[2]);
-		
-	if (cellHeight != NULL)
-		*cellHeight = ntohs(msg.vec.data[3]);
-		
+	int maxFontId = ntohs(msg.vec.data[0]);
+			
 	/*************************************************************************\
 	|* Clear the message allocations
 	\*************************************************************************/
 	_gemMsgDestroy(&msg);
+	
+	return maxFontId;
 	}

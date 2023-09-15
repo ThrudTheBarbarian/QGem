@@ -25,6 +25,7 @@ SOURCES += \
     ops/v_eeos.cc \
     ops/v_enter_cur.cc \
     ops/v_form_adv.cc \
+    ops/v_gtext.cc \
     ops/v_opnvwk.cc \
     ops/v_opnwk.cc \
     ops/v_output_window.cc \
@@ -39,6 +40,7 @@ SOURCES += \
     ops/vq_exit_cur.cc \
     ops/vq_hardcopy.cc \
     ops/vq_tabstatus.cc \
+    ops/vqt_name.cc \
     ops/vs_clip.cc \
     ops/vs_curaddress.cc \
     ops/vsl_color.cc \
@@ -50,8 +52,10 @@ SOURCES += \
     ops/vsm_type.cc \
     ops/vst_alignment.cc \
     ops/vst_color.cc \
+    ops/vst_effects.cc \
     ops/vst_font.cc \
     ops/vst_height.cc \
+    ops/vst_load_fonts.cc \
     ops/vst_point.cc \
     ops/vst_rotation.cc \
     ops/vswr_mode.cc \

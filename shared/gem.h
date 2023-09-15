@@ -160,6 +160,30 @@
 #define CAP_ARROW		1
 #define CAP_ROUND		2
 
+/*****************************************************************************\
+|* Text effects 
+\*****************************************************************************/
+#define TXT_NORMAL		0
+#define TXT_BOLD		(1<<0)
+#define TXT_LIGHT		(1<<2)
+#define TXT_ITALIC		(1<<3)
+#define TXT_UNDERLINE	(1<<4)
+#define TXT_OUTLINE		(1<<5)
+#define TXT_MASK		(TXT_BOLD|TXT_LIGHT|TXT_ITALIC|TXT_UNDERLINE|TXT_OUTLINE)
+
+/*****************************************************************************\
+|* Text alignment 
+\*****************************************************************************/
+#define ALGN_LEFT		0
+#define ALGN_CENTER		1
+#define ALGN_RIGHT		2
+
+#define ALGN_BASELINE	0
+#define ALGN_HALF		1
+#define ALGN_ASCENT		2
+#define ALGN_BOTTOM		3
+#define ALGN_DESCENT	4
+#define ALGN_TOP		5
 
 
 #endif /* !__gem_defines_header__ */

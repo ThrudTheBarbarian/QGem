@@ -249,6 +249,12 @@ class VDI : public QObject
 		void v_pmarker(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*   8: Draw graphic text
+		\*********************************************************************/
+		void v_gtext(qintptr handle, int16_t x, int16_t y, char *txt);
+		void v_gtext(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|*  12 Set the height of text drawn and get metrics
 		\*********************************************************************/
 		void vst_height(qintptr handle, int16_t height, int16_t& charWidth,
@@ -337,16 +343,34 @@ class VDI : public QObject
 		void vst_point(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|* 106: Set the way in which a font is rendered
+		\*********************************************************************/
+		void vst_effects(qintptr handle, int16_t effect);
+		void vst_effects(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
 		|* 108: Set the ends of drawn lines
 		\*********************************************************************/
 		void vsl_ends(qintptr handle, int16_t begin, int16_t end);
 		void vsl_ends(Workstation *ws, ClientMsg *msg);
 
 		/*********************************************************************\
+		|* 119: Load up the system fonts
+		\*********************************************************************/
+		int16_t vst_load_fonts(void);
+		void vst_load_fonts(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
 		|* 129: Set the clipping rectangle
 		\*********************************************************************/
 		void vs_clip(qintptr handle, int16_t enableClip, int16_t *pxy);
 		void vs_clip(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
+		|* 130: Get the name of a font by its index
+		\*********************************************************************/
+		int16_t vqt_name(qintptr handle, int16_t idx, char *name);
+		void vqt_name(Workstation *ws, ClientMsg *msg);
 
 	public slots:
 		/*********************************************************************\

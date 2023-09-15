@@ -9,7 +9,7 @@
 \*****************************************************************************/
 FontMgr::FontMgr(QObject *parent)
 		:QObject(parent)
-		,_maxFontId(0)
+		,_fontCount(0)
 	{
 	}
 
@@ -52,10 +52,10 @@ void FontMgr::initialise(void)
 /*****************************************************************************\
 |* Load a font, cache it, and return its identifier
 \*****************************************************************************/
-int FontMgr::load(QString& name)
+int FontMgr::load(const QString& name)
 	{
 	QFont font = QFontDatabase::font(name, "Normal", 16);
-	int fontId = _maxFontId ++;
+	int fontId = _fontCount ++;
 
 	_fontsById[fontId]	= font;
 	_fontsByName[name]	= font;
@@ -77,7 +77,7 @@ QFont * FontMgr::fetch(int fontId)
 /*****************************************************************************\
 |* Return a font by id, or nullptr
 \*****************************************************************************/
-QFont * FontMgr::fetch(QString& name)
+QFont * FontMgr::fetch(const QString& name)
 	{
 	if (_fontsByName.contains(name))
 		return &(_fontsByName[name]);

@@ -1,5 +1,5 @@
 //
-//  vst_point.c
+//  vqt_name.c
 //  gemc
 //
 //  Created by ThrudTheBarbarian on 9/14/23.
@@ -12,49 +12,58 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*  107  : Set the text-font height in points
+|*   130 : Get the name of a font at an index. Name can be up to 32 chars
 \*****************************************************************************/
-void vst_point(int16_t handle, int16_t height,
-				int16_t* charWidth, int16_t* charHeight,
-				int16_t* cellWidth, int16_t* cellHeight)
+int16_t vqt_name(int16_t handle, int16_t fontId, char* name)
 	{
 	/*************************************************************************\
 	|* Check to see if we're connected
 	\*************************************************************************/
 	if (!_gemIoIsConnected())
 		if (!_gemIoConnect())
-			return;
+			return 0;
 	
 	/*************************************************************************\
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_VST_POINT);
-	_gemMsgAppend(&msg, &height, 1);
+	_gemMsgInit(&msg, MSG_VQT_NAME);
+	_gemMsgAppend(&msg, &fontId, 1);
 	_gemIoWrite(&msg);
 	
 	/*************************************************************************\
 	|* Wait for a response
 	\*************************************************************************/
-	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_VST_POINT));
+	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_VQT_NAME));
 
 	/*************************************************************************\
-	|* Copy data over if space is allocated
+	|* Actual font-id is first
 	\*************************************************************************/
-	if (charWidth != NULL)
-		*charWidth = ntohs(msg.vec.data[0]);
-		
-	if (charHeight != NULL)
-		*charHeight = ntohs(msg.vec.data[1]);
-		
-	if (cellWidth != NULL)
-		*cellWidth = ntohs(msg.vec.data[2]);
-		
-	if (cellHeight != NULL)
-		*cellHeight = ntohs(msg.vec.data[3]);
+	fontId = ntohs(msg.vec.data[0]);
+	
+	/*************************************************************************\
+	|* Length of string is next
+	\*************************************************************************/
+	int bytes		= ntohs(msg.vec.data[1]);
+	int needByte	= bytes & 1;
+	bytes 			= bytes & ~1;
+	
+	/*************************************************************************\
+	|* Then copy over the string itself
+	\*************************************************************************/
+	memcpy(name, &(msg.vec.data[2]), bytes);
+	if (needByte != 0)
+		{
+		int16_t value = msg.vec.data[msg.vec.length-1];
+		name[bytes] = value & 0xFF;
+		}
+	if (bytes < 31)
+		name[bytes+1] = '\0';
 		
 	/*************************************************************************\
 	|* Clear the message allocations
 	\*************************************************************************/
 	_gemMsgDestroy(&msg);
+	
+	return fontId;
 	}

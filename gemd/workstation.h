@@ -37,6 +37,7 @@ class Workstation : public QObject
 	GETSET(int, textAlign, TextAlign);					// Text alignment
 	GETSET(int, textHeight, TextHeight);				// Text height
 	GETSET(int, textRotation, TextRotation);			// Text rotation angle
+	GETSET(int, textEffect, TextEffect);				// Text drawing effect
 	GETSET(int, fillType, FillType);					// type of fill to use
 	GETSET(int, fillStyle, FillStyle);					// style of fill to use
 	GETSET(int, fillColour, FillColour);				// colour index for fill
@@ -107,6 +108,7 @@ class Workstation : public QObject
 		\*********************************************************************/
 		void setupPenForLine(QPen& pen);
 		void setupPenForMarker(QPen& pen);
+		void setupPenForText(QPen& pen);
 
 		/*********************************************************************\
 		|* Return a handle id

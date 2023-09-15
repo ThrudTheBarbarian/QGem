@@ -49,6 +49,6 @@ void VDI::vswr_mode(Workstation *ws, ClientMsg *cm)
 	/**************************************************************************\
 	|* Decode the incoming mode value
 	\**************************************************************************/
-	int16_t mode = cm->payload().at(0);
+	int16_t mode = ntohs(cm->payload().at(0));
 	vswr_mode(ws, mode);
 	}

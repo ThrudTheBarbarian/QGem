@@ -42,10 +42,10 @@ void vst_alignment(int16_t handle, int16_t hIn,   int16_t vIn,
 	|* Copy data over if space is allocated
 	\*************************************************************************/
 	if (vOut != NULL)
-		*vOut = msg.vec.data[0];
+		*vOut = ntohs(msg.vec.data[0]);
 		
 	if (hOut != NULL)
-		*hOut = msg.vec.data[1];
+		*hOut = ntohs(msg.vec.data[1]);
 		
 	/*************************************************************************\
 	|* Clear the message allocations

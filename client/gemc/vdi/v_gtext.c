@@ -1,5 +1,5 @@
 //
-//  vst_point.c
+//  v_gtext.c
 //  gemc
 //
 //  Created by ThrudTheBarbarian on 9/14/23.
@@ -12,11 +12,9 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*  107  : Set the text-font height in points
+|*   8 : Draw graphic text
 \*****************************************************************************/
-void vst_point(int16_t handle, int16_t height,
-				int16_t* charWidth, int16_t* charHeight,
-				int16_t* cellWidth, int16_t* cellHeight)
+void v_gtext(int16_t handle, int16_t x, int16_t y, char* name)
 	{
 	/*************************************************************************\
 	|* Check to see if we're connected
@@ -26,33 +24,25 @@ void vst_point(int16_t handle, int16_t height,
 			return;
 	
 	/*************************************************************************\
+	|* If name is empty or null, just return
+	\*************************************************************************/
+	if (name == NULL)
+		return;
+	
+	int16_t len = (int16_t)strlen(name);
+	if (len == 0)
+		return;
+		
+	/*************************************************************************\
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_VST_POINT);
-	_gemMsgAppend(&msg, &height, 1);
+	_gemMsgInit(&msg, MSG_V_GTEXT);
+	_gemMsgAppend(&msg, &x, 1);
+	_gemMsgAppend(&msg, &y, 1);
+	_gemMsgAppendData(&msg, (uint8_t *)name, len+1);
 	_gemIoWrite(&msg);
 	
-	/*************************************************************************\
-	|* Wait for a response
-	\*************************************************************************/
-	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_VST_POINT));
-
-	/*************************************************************************\
-	|* Copy data over if space is allocated
-	\*************************************************************************/
-	if (charWidth != NULL)
-		*charWidth = ntohs(msg.vec.data[0]);
-		
-	if (charHeight != NULL)
-		*charHeight = ntohs(msg.vec.data[1]);
-		
-	if (cellWidth != NULL)
-		*cellWidth = ntohs(msg.vec.data[2]);
-		
-	if (cellHeight != NULL)
-		*cellHeight = ntohs(msg.vec.data[3]);
-		
 	/*************************************************************************\
 	|* Clear the message allocations
 	\*************************************************************************/

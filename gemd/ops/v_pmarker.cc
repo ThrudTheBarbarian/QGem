@@ -81,6 +81,7 @@ void VDI::v_pmarker(qintptr handle, int16_t num, int16_t*pxy)
 					painter.drawEllipse(x, y, delta, delta);
 				}
 			}
+		painter.setClipping(false);
 		}
 	}
 
@@ -90,8 +91,11 @@ void VDI::v_pmarker(qintptr handle, int16_t num, int16_t*pxy)
 void VDI::v_pmarker(Workstation *ws, ClientMsg *cm)
 	{
 	const Payload &p	= cm->payload();
-	int16_t num			= p[0];
+	int16_t num			= ntohs(p[0]);
 	int16_t *pxy		= (int16_t *)(&(p[1]));
+
+	for (int i=0; i<num; i++)
+		pxy[i] = ntohs(pxy[i]);
 
 	v_pmarker(ws->handle(), num, pxy);
 	}

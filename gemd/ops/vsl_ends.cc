@@ -36,8 +36,8 @@ void VDI::vsl_ends(qintptr handle, int16_t start, int16_t end)
 void VDI::vsl_ends(Workstation *ws, ClientMsg *cm)
 	{
 	const Payload &p	= cm->payload();
-	int16_t start		= p[0];
-	int16_t end			= p[1];
+	int16_t start		= ntohs(p[0]);
+	int16_t end			= ntohs(p[1]);
 
 	vsl_ends(ws->handle(), start, end);
 	}

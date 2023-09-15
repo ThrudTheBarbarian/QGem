@@ -24,7 +24,11 @@ void VDI::v_opnvwk(Workstation *ws, ClientMsg *cm)
 	/*************************************************************************\
 	|* Set any defaults that were sent through (<0 == ignore)
 	\*************************************************************************/
-	const Payload &p = cm->payload();
+	const Payload &payload = cm->payload();
+	int16_t p[16];
+
+	for (int i=0; i<12; i++)
+		p[i] = ntohs(payload[i]);
 
 	// p[0]:  1 = same resolution, <0 = unset, >1 = change resolution
 	ws->setDeviceDriver(CHECK_RANGE(p[0], 1, 6));

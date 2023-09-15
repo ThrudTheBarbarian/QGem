@@ -33,7 +33,7 @@ void VDI::vsm_height(qintptr handle, int16_t height)
 void VDI::vsm_height(Workstation *ws, ClientMsg *cm)
 	{
 	const Payload &p	= cm->payload();
-	int16_t height		= p[0];
+	int16_t height		= ntohs(p[0]);
 
 	vsm_height(ws->handle(), height);
 	}

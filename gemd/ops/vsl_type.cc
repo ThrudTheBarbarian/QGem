@@ -30,7 +30,7 @@ void VDI::vsl_type(qintptr handle, int16_t idx)
 void VDI::vsl_type(Workstation *ws, ClientMsg *cm)
 	{
 	const Payload &p	= cm->payload();
-	int16_t style		= p[0];
+	int16_t style		= ntohs(p[0]);
 
 	vsl_type(ws->handle(), style);
 	}

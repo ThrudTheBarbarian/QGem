@@ -42,16 +42,16 @@ void vst_height(int16_t handle, int16_t height,
 	|* Copy data over if space is allocated
 	\*************************************************************************/
 	if (charWidth != NULL)
-		*charWidth = msg.vec.data[0];
+		*charWidth = ntohs(msg.vec.data[0]);
 		
 	if (charHeight != NULL)
-		*charHeight = msg.vec.data[1];
+		*charHeight = ntohs(msg.vec.data[1]);
 		
 	if (cellWidth != NULL)
-		*cellWidth = msg.vec.data[2];
+		*cellWidth = ntohs(msg.vec.data[2]);
 		
 	if (cellHeight != NULL)
-		*cellHeight = msg.vec.data[3];
+		*cellHeight = ntohs(msg.vec.data[3]);
 		
 	/*************************************************************************\
 	|* Clear the message allocations

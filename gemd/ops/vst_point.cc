@@ -43,7 +43,7 @@ void VDI::vst_point(qintptr handle, int16_t height, int16_t& charWidth,
 void VDI::vst_point(Workstation *ws, ClientMsg *cm)
 	{
 	const Payload &p	= cm->payload();
-	int16_t height		= p[0];
+	int16_t height		= ntohs(p[0]);
 	int16_t charW		= 0;
 	int16_t charH		= 0;
 	int16_t cellW		= 0;

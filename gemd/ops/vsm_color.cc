@@ -28,7 +28,7 @@ void VDI::vsm_color(qintptr handle, int16_t idx)
 void VDI::vsm_color(Workstation *ws, ClientMsg *cm)
 	{
 	const Payload &p	= cm->payload();
-	int16_t idx			= p[0];
+	int16_t idx			= ntohs(p[0]);
 
 	vsm_color(ws->handle(), idx);
 	}

@@ -38,7 +38,7 @@ void VDI::vst_height(qintptr handle, int16_t height, int16_t& charWidth,
 void VDI::vst_height(Workstation *ws, ClientMsg *cm)
 	{
 	const Payload &p	= cm->payload();
-	int16_t height		= p[0];
+	int16_t height		= ntohs(p[0]);
 	int16_t charW		= 0;
 	int16_t charH		= 0;
 	int16_t cellW		= 0;
@@ -55,4 +55,10 @@ void VDI::vst_height(Workstation *ws, ClientMsg *cm)
 	cm->append(cellW);
 	cm->append(charH);
 	cm->setType(MSG_REPLY(ClientMsg::VST_HEIGHT));
+
+
+	/**************************************************************************\
+	|* Send the message down the wire
+	\**************************************************************************/
+	ws->send(cm);
 	}

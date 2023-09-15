@@ -43,8 +43,11 @@ void VDI::vs_clip(qintptr handle, int16_t enableClip, int16_t *pxy)
 void VDI::vs_clip(Workstation *ws, ClientMsg *cm)
 	{
 	const Payload &p	= cm->payload();
-	int16_t enableClip	= p[0];
+	int16_t enableClip	= ntohs(p[0]);
 	int16_t *clip		= (int16_t *)(&(p[1]));
+
+	for (int i=0; i<4; i++)
+		clip[i] = ntohs(clip[i]);
 
 	vs_clip(ws->handle(), enableClip, clip);
 	}

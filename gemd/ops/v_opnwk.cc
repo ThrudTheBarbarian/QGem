@@ -174,33 +174,6 @@ void VDI::v_opnwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 		\*********************************************************************/
 		int16_t rows, cols;
 		vq_chcells(*handle, rows, cols);
-
-/*		vq_exit_cur(_dpy);
-		vswr_mode(_dpy,WR_XOR);
-		int16_t pxy[] = {0,0,100,100};
-		vs_clip(0, 1, pxy);
-*/
-
-/*		vsl_color(0, 5);
-		vq_exit_cur(_dpy);
-		QPainter p(_img);
-		p.setCompositionMode(_dpy->wrMode());
-		//p.setClipRect(_dpy->clip());
-		p.setPen(_dpy->colour(_dpy->lineColour()));
-		p.drawRect(50,50,100,100);
-		p.drawRect(75,50,50,100);
-*/
-
-/*		v_enter_cur(_dpy);
-
-
-		v_curaddress(*handle, 0,0);
-		v_curtext(_dpy, "Hi there! How are you all today ?");
-		v_rvon(0);
-		v_curaddress(0,1,0);
-		v_curtext(_dpy, "Hi there! How are you all today ?");
-		v_rmcur(*handle);
-*/
 		}
 	else
 		WARN("Non-screen devices currently unsupported");

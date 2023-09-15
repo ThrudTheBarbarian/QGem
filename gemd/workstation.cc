@@ -34,6 +34,7 @@ Workstation::Workstation(QLocalSocket *client, QObject *parent)
 			,_textAlign(0)
 			,_textHeight(12)
 			,_textRotation(0)
+			,_textEffect(0)
 			,_fillType(FIS_SOLID)
 			,_fillStyle(PT_DOTS1)
 			,_fillColour(G_BLUE)
@@ -70,6 +71,7 @@ Workstation::Workstation(QObject *parent)
 	,_textAlign(0)
 	,_textHeight(12)
 	,_textRotation(0)
+	,_textEffect(0)
 	,_fillType(FIS_SOLID)
 	,_fillStyle(PT_DOTS1)
 	,_fillColour(G_BLUE)
@@ -185,5 +187,21 @@ void Workstation::setupPenForMarker(QPen& pen)
 
 	pen.setColor(_palette[_markerColour]);
 	pen.setBrush(_palette[_markerColour]);
+	pen.setWidth(1);
+	}
+
+/*****************************************************************************\
+|* Set up the pen for drawing based on the local state
+\*****************************************************************************/
+void Workstation::setupPenForText(QPen& pen)
+	{
+	pen.setStyle(_styles[SOLID]);
+
+	QColor c = _palette[_textColour];
+	if (_textEffect & TXT_LIGHT)
+		c = c.lighter();
+
+	pen.setColor(c);
+	pen.setBrush(c);
 	pen.setWidth(1);
 	}

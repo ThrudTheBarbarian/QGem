@@ -39,10 +39,10 @@ void vq_chcells(int16_t handle, int16_t* rows, int16_t* cols)
 	|* Copy data over if space is allocated
 	\*************************************************************************/
 	if (rows != NULL)
-		*rows = msg.vec.data[0];
+		*rows = ntohs(msg.vec.data[0]);
 		
 	if (cols != NULL)
-		*cols = msg.vec.data[1];
+		*cols = ntohs(msg.vec.data[1]);
 		
 	/*************************************************************************\
 	|* Clear the message allocations

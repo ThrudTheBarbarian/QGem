@@ -29,7 +29,7 @@ void VDI::vst_rotation(qintptr handle, int16_t angle)
 void VDI::vst_rotation(Workstation *ws, ClientMsg *cm)
 	{
 	const Payload &p	= cm->payload();
-	int16_t style		= p[0];
+	int16_t style		= ntohs(p[0]);
 
 	vst_rotation(ws->handle(), style);
 	}

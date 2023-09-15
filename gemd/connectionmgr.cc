@@ -193,6 +193,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().v_pmarker(ws, &cm);
 				break;
 
+			case ClientMsg::V_GTEXT:		// 8
+				VDI::sharedInstance().v_gtext(ws, &cm);
+				break;
+
 			case ClientMsg::VST_HEIGHT:		// 12
 				VDI::sharedInstance().vst_height(ws, &cm);
 				break;
@@ -225,6 +229,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vsm_color(ws, &cm);
 				break;
 
+			case ClientMsg::VST_FONT:		// 21
+				VDI::sharedInstance().vst_font(ws, &cm);
+				break;
+
 			case ClientMsg::VST_COLOR:		// 22
 				VDI::sharedInstance().vst_color(ws, &cm);
 				break;
@@ -237,6 +245,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().v_opnvwk(ws, &cm);
 				break;
 
+			case ClientMsg::VST_EFFECTS:	// 106
+				VDI::sharedInstance().vst_effects(ws, &cm);
+				break;
+
 			case ClientMsg::VST_POINT:		// 107
 				VDI::sharedInstance().vst_point(ws, &cm);
 				break;
@@ -245,8 +257,16 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vsl_ends(ws, &cm);
 				break;
 
+			case ClientMsg::VST_LOAD_FONTS:	// 119
+				VDI::sharedInstance().vst_load_fonts(ws, &cm);
+				break;
+
 			case ClientMsg::VS_CLIP:		// 129
 				VDI::sharedInstance().vs_clip(ws, &cm);
+				break;
+
+			case ClientMsg::VQT_NAME:		// 130
+				VDI::sharedInstance().vqt_name(ws, &cm);
 				break;
 
 			default:

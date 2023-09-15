@@ -1,45 +1,41 @@
+#include <QPainter>
 
 #include "clientmsg.h"
-#include "debug.h"
+#include "fontmgr.h"
 #include "vdi.h"
 #include "workstation.h"
 
 /*****************************************************************************\
-|* Opcode 5.15: Get the current cursor position.
+|* Opcode 119: Load up the system fonts.
 |*
-|* Original signature is: vq_curaddress(int16_t handle,
-|*									    int16_t *row,
-|*										int16_t *col);
+|* Original signature is: vst_fonts(int16_t handle, int16_t dummy);
 |*
 \*****************************************************************************/
-void VDI::vq_curaddress(qintptr handle, int16_t& row, int16_t& col)
+int16_t VDI::vst_load_fonts(void)
 	{
-	if (handle == 0)
-		{
-		col = _cursorX;
-		row = _cursorY;
-		}
-	else
-		{
-		WARN("Non-screen devices currently unsupported");
-		}
+	FontMgr& fm		= FontMgr::sharedInstance();
+	int oldCount	= fm.fontCount();
+
+	QStringList fonts = fm.fontList();
+	for (const auto &str : std::as_const(fonts))
+		fm.fetch(str);
+
+	return (int16_t)(fm.fontCount() - oldCount);
 	}
 
 /*****************************************************************************\
 |* And from the socket interface...
 \*****************************************************************************/
-void VDI::vq_curaddress(Workstation *ws, ClientMsg *cm)
+void VDI::vst_load_fonts(Workstation *ws, ClientMsg *cm)
 	{
-	int16_t row, col;
-	vq_curaddress(0, row, col);
+	int16_t numLoaded	= vst_load_fonts();
 
 	/**************************************************************************\
 	|* Construct the message
 	\**************************************************************************/
 	cm->clear();
-	cm->append(row);
-	cm->append(col);
-	cm->setType(MSG_REPLY(ClientMsg::VQ_CURADDRESS));
+	cm->append(numLoaded);
+	cm->setType(MSG_REPLY(ClientMsg::VST_LOAD_FONTS));
 
 	/**************************************************************************\
 	|* Send the message down the wire

@@ -33,16 +33,16 @@ void vq_curaddress(int16_t handle, int16_t* row, int16_t* col)
 	/*************************************************************************\
 	|* Wait for a response
 	\*************************************************************************/
-	_gemIoWaitForMessageOfType(&msg, MSG_REPLY_OFFSET+ MSG_VQ_CURADDRESS);
+	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_VQ_CURADDRESS));
 
 	/*************************************************************************\
 	|* Copy data over if space is allocated
 	\*************************************************************************/
 	if (row != NULL)
-		*row = msg.vec.data[0];
+		*row = ntohs(msg.vec.data[0]);
 		
 	if (col != NULL)
-		*col = msg.vec.data[1];
+		*col = ntohs(msg.vec.data[1]);
 		
 	/*************************************************************************\
 	|* Clear the message allocations

@@ -56,10 +56,12 @@ void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 		{
 		int words = MIN(57, msg.vec.length);
 		memcpy(workOut, msg.vec.data, words * sizeof(int16_t));
+		for (int i=0; i<words; i++)
+			workOut[i] = ntohs(workOut[i]);
 		}
 		
 	if ((handle != NULL) && (msg.vec.length > 56))
-		*handle = msg.vec.data[57];
+		*handle = ntohs(msg.vec.data[57]);
 	
 	/*************************************************************************\
 	|* Clear the message allocations

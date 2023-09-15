@@ -48,6 +48,10 @@
 		F46A86022AB24EF500FA3ABC /* vsm_color.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86012AB24EF500FA3ABC /* vsm_color.c */; };
 		F46A86042AB2930100FA3ABC /* vst_color.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86032AB2930100FA3ABC /* vst_color.c */; };
 		F46A86062AB2964200FA3ABC /* vst_alignment.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86052AB2964200FA3ABC /* vst_alignment.c */; };
+		F46A86082AB3A7BA00FA3ABC /* vst_effects.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86072AB3A7BA00FA3ABC /* vst_effects.c */; };
+		F46A860A2AB3A91F00FA3ABC /* vst_load_fonts.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86092AB3A91F00FA3ABC /* vst_load_fonts.c */; };
+		F46A860C2AB3B37A00FA3ABC /* vqt_name.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A860B2AB3B37A00FA3ABC /* vqt_name.c */; };
+		F46A860E2AB3C38B00FA3ABC /* v_gtext.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A860D2AB3C38B00FA3ABC /* v_gtext.c */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -123,6 +127,10 @@
 		F46A86012AB24EF500FA3ABC /* vsm_color.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsm_color.c; sourceTree = "<group>"; };
 		F46A86032AB2930100FA3ABC /* vst_color.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_color.c; sourceTree = "<group>"; };
 		F46A86052AB2964200FA3ABC /* vst_alignment.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_alignment.c; sourceTree = "<group>"; };
+		F46A86072AB3A7BA00FA3ABC /* vst_effects.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_effects.c; sourceTree = "<group>"; };
+		F46A86092AB3A91F00FA3ABC /* vst_load_fonts.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_load_fonts.c; sourceTree = "<group>"; };
+		F46A860B2AB3B37A00FA3ABC /* vqt_name.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vqt_name.c; sourceTree = "<group>"; };
+		F46A860D2AB3C38B00FA3ABC /* v_gtext.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_gtext.c; sourceTree = "<group>"; };
 		F4E3409C2AAAD389002390BA /* client */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = client; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E3409F2AAAD389002390BA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E340AA2AAAD3E1002390BA /* libgemc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgemc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -238,6 +246,10 @@
 				F4680BDA2AB370E60020BB5B /* vst_point.c */,
 				F4680BDC2AB3724B0020BB5B /* vst_rotation.c */,
 				F4680BDE2AB376190020BB5B /* vst_font.c */,
+				F46A86072AB3A7BA00FA3ABC /* vst_effects.c */,
+				F46A86092AB3A91F00FA3ABC /* vst_load_fonts.c */,
+				F46A860B2AB3B37A00FA3ABC /* vqt_name.c */,
+				F46A860D2AB3C38B00FA3ABC /* v_gtext.c */,
 			);
 			path = vdi;
 			sourceTree = "<group>";
@@ -379,12 +391,15 @@
 				F46A85D82AAED79F00FA3ABC /* vq_curaddress.c in Sources */,
 				F46A85E62AAF676900FA3ABC /* v_form_adv.c in Sources */,
 				F46A85FE2AB24A2700FA3ABC /* vsm_type.c in Sources */,
+				F46A860E2AB3C38B00FA3ABC /* v_gtext.c in Sources */,
 				F46A85D02AAEC47900FA3ABC /* vs_curaddress.c in Sources */,
+				F46A860A2AB3A91F00FA3ABC /* vst_load_fonts.c in Sources */,
 				F46A85D62AAED14600FA3ABC /* v_rvoff.c in Sources */,
 				F46A85C62AAEBB4100FA3ABC /* v_curright.c in Sources */,
 				F46A85C42AAEB99600FA3ABC /* v_curdown.c in Sources */,
 				F4E340BD2AAADE13002390BA /* vec.c in Sources */,
 				F4E340C62AAAE05A002390BA /* gemmsg.c in Sources */,
+				F46A86082AB3A7BA00FA3ABC /* vst_effects.c in Sources */,
 				F46A85F22AAFBD7500FA3ABC /* vsl_color.c in Sources */,
 				F46A85FC2AB23D6900FA3ABC /* v_pmarker.c in Sources */,
 				F4680BD92AB370150020BB5B /* vst_height.c in Sources */,
@@ -405,6 +420,7 @@
 				F46A85E42AAF66A200FA3ABC /* v_rmcur.c in Sources */,
 				F46A86022AB24EF500FA3ABC /* vsm_color.c in Sources */,
 				F4680BDB2AB370E60020BB5B /* vst_point.c in Sources */,
+				F46A860C2AB3B37A00FA3ABC /* vqt_name.c in Sources */,
 				F46A85CA2AAEBEFD00FA3ABC /* v_curhome.c in Sources */,
 				F46A85B62AAEA56200FA3ABC /* v_updwk.c in Sources */,
 				F4680BDF2AB376190020BB5B /* vst_font.c in Sources */,

@@ -44,6 +44,7 @@ class ClientMsg
 		V_RMCUR				= 5019,
 		V_PLINE				= 6,
 		V_PMARKER			= 7,
+		V_GTEXT				= 8,
 		VST_HEIGHT			= 12,
 		VST_ROTATION		= 13,
 		VSL_TYPE			= 15,
@@ -56,9 +57,12 @@ class ClientMsg
 		VST_COLOR			= 22,
 		VST_ALIGNMENT		= 39,
 		V_OPNVWK			= 100,
+		VST_EFFECTS			= 106,
 		VST_POINT			= 107,
 		VSL_ENDS			= 108,
+		VST_LOAD_FONTS		= 119,
 		VS_CLIP				= 129,
+		VQT_NAME			= 130,
 		};
 
 	/*************************************************************************\
@@ -85,6 +89,7 @@ class ClientMsg
 		|* Append to a payload
 		\*********************************************************************/
 		bool append(int16_t value);
+		void append(uint8_t *data, int num);
 		bool append(int16_t *value, int num);
 		inline bool append(Payload list)
 			{

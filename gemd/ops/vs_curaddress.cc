@@ -48,7 +48,7 @@ void VDI::vs_curaddress(Workstation *, ClientMsg *cm)
 	/**************************************************************************\
 	|* Get the data out of the message
 	\**************************************************************************/
-	int16_t row = p[0];
-	int16_t col = p[1];
+	int16_t row = ntohs(p[0]);
+	int16_t col = ntohs(p[1]);
 	vs_curaddress(0, row, col);
 	}

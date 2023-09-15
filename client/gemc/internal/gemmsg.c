@@ -36,7 +36,7 @@ void _gemMsgInit(GemMsg* msg, int16_t type)
 	}
 
 /*****************************************************************************\
-|* Add words into the message
+|* Add words into the message. These are byte-swapped
 \*****************************************************************************/
 void _gemMsgAppend(GemMsg *msg, int16_t *data, int numWords)
 	{
@@ -47,7 +47,8 @@ void _gemMsgAppend(GemMsg *msg, int16_t *data, int numWords)
 
 
 /*****************************************************************************\
-|* Add data into the message with a preprended length
+|* Add data into the message with a preprended length. The length is byte-
+|* swapped, the data is not
 \*****************************************************************************/
 void _gemMsgAppendData(GemMsg *msg, uint8_t *data, int16_t numBytes)
 	{
@@ -61,8 +62,13 @@ void _gemMsgAppendData(GemMsg *msg, uint8_t *data, int16_t numBytes)
 	/*************************************************************************\
 	|* Append the data blob
 	\*************************************************************************/
-	_gemMsgAppend(msg, ptr, numBytes/2);
+	for (int i=0; i<numBytes/2; i++)
+		vec_push(&(msg->vec), *ptr++);
 	
+	/*************************************************************************\
+	|* Append the last byte (if needed) in a byte-swapped fashion, because we
+	|* are sending an 8-bit value in a 16-bit space
+	\*************************************************************************/
 	if (numBytes & 1)
 		{
 		int16_t value = data[numBytes-1];
@@ -108,16 +114,10 @@ int _gemMsgRead(GemMsg *msg, int fd)
 			vec_reserve(&(msg->vec), length);
 
 			/*****************************************************************\
-			|* Read in the data
+			|* Read in the data. Not byte-swapped
 			\*****************************************************************/
 			if (read(fd, msg->vec.data, length*2) == length*2)
 				{
-				int16_t *ptr = (int16_t*)(msg->vec.data);
-				for (int i=0; i<length; i++)
-					{
-					*ptr = ntohs(*ptr);
-					ptr ++;
-					}
 				msg->vec.length = length;
 				ok = 1;
 				}

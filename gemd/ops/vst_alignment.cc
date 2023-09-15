@@ -27,37 +27,38 @@ void VDI::vst_alignment(qintptr handle, int16_t  hIn,  int16_t vIn,
 		int flags = 0;
 		switch (hIn)
 			{
-			case 1:
+			case ALGN_CENTER:
 				flags = Qt::AlignHCenter;
 				hOut = hIn;
 				break;
-			case 2:
+			case ALGN_RIGHT:
 				flags = Qt::AlignRight;
 				hOut = hIn;
 				break;
 			default:
 				flags = Qt::AlignLeft;
-				hOut = 0;
+				hOut = ALGN_LEFT;
 				break;
 			}
 
 		switch (vIn)
 			{
-			case 1:
-			case 2:
+			case ALGN_HALF:
+			case ALGN_ASCENT:
+			case ALGN_TOP:
 				flags |= Qt::AlignTop;
-				vOut = 2;
+				vOut = ALGN_TOP;
 				break;
 
-			case 3:
-			case 4:
+			case ALGN_BOTTOM:
+			case ALGN_DESCENT:
 				flags |= Qt::AlignBottom;
-				vOut = 3;
+				vOut = ALGN_BOTTOM;
 				break;
 
 			default:
 				flags |= Qt::AlignBaseline;
-				vOut = 0;
+				vOut = ALGN_BASELINE;
 				break;
 			}
 		ws->setTextAlign(flags);
@@ -74,8 +75,8 @@ void VDI::vst_alignment(Workstation *ws, ClientMsg *cm)
 	/**************************************************************************\
 	|* Get the request
 	\**************************************************************************/
-	int16_t hIn = p[0];
-	int16_t vIn = p[1];
+	int16_t hIn = ntohs(p[0]);
+	int16_t vIn = ntohs(p[1]);
 
 	int16_t hOut = 0;
 	int16_t vOut = 0;

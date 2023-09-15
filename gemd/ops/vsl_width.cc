@@ -30,7 +30,7 @@ void VDI::vsl_width(qintptr handle, int16_t width)
 void VDI::vsl_width(Workstation *ws, ClientMsg *cm)
 	{
 	const Payload &p	= cm->payload();
-	int16_t style		= p[0];
+	int16_t style		= ntohs(p[0]);
 
 	vsl_width(ws->handle(), style);
 	}

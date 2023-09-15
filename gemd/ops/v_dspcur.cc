@@ -38,7 +38,7 @@ void VDI::v_dspcur(Workstation *, ClientMsg *cm)
 	/**************************************************************************\
 	|* Get the data out of the message
 	\**************************************************************************/
-	int16_t x = p[0];
-	int16_t y = p[1];
+	int16_t x = ntohs(p[0]);
+	int16_t y = ntohs(p[1]);
 	v_dspcur(0, x, y);
 	}

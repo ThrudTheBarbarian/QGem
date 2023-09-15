@@ -22,6 +22,7 @@ class FontMgr : public QObject
 		\*********************************************************************/
 		GETSET(std::string, rootDir, RootDir);		// "System" disk root-dir
 		GET(QFont, systemFont);						// system font
+		GET(int, fontCount);						// Number of fonts
 
 	private:
 		/*********************************************************************\
@@ -29,7 +30,6 @@ class FontMgr : public QObject
 		\*********************************************************************/
 		QMap<int, QFont> _fontsById;
 		QMap<QString, QFont> _fontsByName;
-		int _maxFontId;
 
 		/*********************************************************************\
 		|* Private constructor
@@ -65,13 +65,13 @@ class FontMgr : public QObject
 		/*********************************************************************\
 		|* Load a font by name and return the index
 		\*********************************************************************/
-		int load(QString& name);
+		int load(const QString& name);
 
 		/*********************************************************************\
 		|* Get a font by id or name
 		\*********************************************************************/
 		QFont * fetch(int fontId);
-		QFont * fetch(QString& name);
+		QFont * fetch(const QString& name);
 
 	};
 

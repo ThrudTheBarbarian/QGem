@@ -39,7 +39,7 @@ int vst_font(int16_t handle, int16_t idx)
 	/*************************************************************************\
 	|* Copy data over if space is allocated
 	\*************************************************************************/
-	int fontId = msg.vec.data[0];
+	int fontId = ntohs(msg.vec.data[0]);
 			
 	/*************************************************************************\
 	|* Clear the message allocations

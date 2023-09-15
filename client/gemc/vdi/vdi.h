@@ -141,6 +141,11 @@ void v_pline(int16_t handle, int16_t numPts, int16_t*pts);
 void v_pmarker(int16_t handle, int16_t numPts, int16_t*pts);
 
 /*****************************************************************************\
+|*    8  : Draw graphic text
+\*****************************************************************************/
+void v_gtext(int16_t handle, int16_t x, int16_t y, char *str);
+
+/*****************************************************************************\
 |*   12  : Set the font-height in pixels
 \*****************************************************************************/
 void vst_height(int16_t handle, int16_t height,
@@ -204,6 +209,11 @@ void vst_alignment(int16_t handle, int16_t hIn,   int16_t vIn,
 void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut);
 
 /*****************************************************************************\
+|*  106  : Set the text-effects
+\*****************************************************************************/
+int vst_effects(int16_t handle, int16_t effect);
+
+/*****************************************************************************\
 |*  107  : Set the font-height in points
 \*****************************************************************************/
 void vst_point(int16_t handle, int16_t height,
@@ -216,9 +226,20 @@ void vst_point(int16_t handle, int16_t height,
 void vsl_ends(int16_t handle, int16_t start, int16_t end);
 
 /*****************************************************************************\
+|*  119  : Load in any extra fonts
+\*****************************************************************************/
+int vst_load_fonts(int16_t handle, int16_t dummy);
+
+/*****************************************************************************\
 |*   129  : Set the clip rectangle
 \*****************************************************************************/
 void vs_clip(int16_t handle, int16_t enable, int16_t* pxy);
+
+/*****************************************************************************\
+|*   130  : Get the name of a font on the server. Name must point to at least
+|*          a 32-char buffer
+\*****************************************************************************/
+int16_t vqt_name(int16_t handle, int16_t fontId, char *name);
 
 
 #endif /* vdi_h */
