@@ -41,6 +41,7 @@ class Workstation : public QObject
 	GETSET(int, fillType, FillType);					// type of fill to use
 	GETSET(int, fillStyle, FillStyle);					// style of fill to use
 	GETSET(int, fillColour, FillColour);				// colour index for fill
+	GETSET(bool, drawPerimeter, DrawPerimeter);			// Draw perim or not
 	GETSET(int, coordType, CoordType);					// NDC or Raster co-ords
 	GETSET(int, pageSize, PageSize);					// Page size to use
 	GETSET(QPainter::CompositionMode, wrMode, WrMode);	// Composition mode
@@ -109,6 +110,7 @@ class Workstation : public QObject
 		void setupPenForLine(QPen& pen);
 		void setupPenForMarker(QPen& pen);
 		void setupPenForText(QPen& pen);
+		void setupPenForFill(QPen& pen);
 
 		/*********************************************************************\
 		|* Return a handle id

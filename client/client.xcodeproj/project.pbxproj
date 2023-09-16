@@ -55,6 +55,9 @@
 		F46A86102AB40D8900FA3ABC /* vsf_interior.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A860F2AB40D8900FA3ABC /* vsf_interior.c */; };
 		F46A86122AB40F5F00FA3ABC /* vsf_style.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86112AB40F5F00FA3ABC /* vsf_style.c */; };
 		F46A86142AB4155F00FA3ABC /* vsf_color.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86132AB4155F00FA3ABC /* vsf_color.c */; };
+		F46A86162AB4F82C00FA3ABC /* vsf_perimeter.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86152AB4F82C00FA3ABC /* vsf_perimeter.c */; };
+		F46A86182AB5491700FA3ABC /* v_fillarea.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86172AB5491700FA3ABC /* v_fillarea.c */; };
+		F46A861A2AB56C2000FA3ABC /* vswr_mode.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86192AB56C2000FA3ABC /* vswr_mode.c */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -137,6 +140,9 @@
 		F46A860F2AB40D8900FA3ABC /* vsf_interior.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsf_interior.c; sourceTree = "<group>"; };
 		F46A86112AB40F5F00FA3ABC /* vsf_style.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsf_style.c; sourceTree = "<group>"; };
 		F46A86132AB4155F00FA3ABC /* vsf_color.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsf_color.c; sourceTree = "<group>"; };
+		F46A86152AB4F82C00FA3ABC /* vsf_perimeter.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsf_perimeter.c; sourceTree = "<group>"; };
+		F46A86172AB5491700FA3ABC /* v_fillarea.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_fillarea.c; sourceTree = "<group>"; };
+		F46A86192AB56C2000FA3ABC /* vswr_mode.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vswr_mode.c; sourceTree = "<group>"; };
 		F4E3409C2AAAD389002390BA /* client */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = client; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E3409F2AAAD389002390BA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E340AA2AAAD3E1002390BA /* libgemc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgemc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -259,6 +265,9 @@
 				F46A860F2AB40D8900FA3ABC /* vsf_interior.c */,
 				F46A86112AB40F5F00FA3ABC /* vsf_style.c */,
 				F46A86132AB4155F00FA3ABC /* vsf_color.c */,
+				F46A86152AB4F82C00FA3ABC /* vsf_perimeter.c */,
+				F46A86172AB5491700FA3ABC /* v_fillarea.c */,
+				F46A86192AB56C2000FA3ABC /* vswr_mode.c */,
 			);
 			path = vdi;
 			sourceTree = "<group>";
@@ -406,6 +415,8 @@
 				F46A85D02AAEC47900FA3ABC /* vs_curaddress.c in Sources */,
 				F46A860A2AB3A91F00FA3ABC /* vst_load_fonts.c in Sources */,
 				F46A85D62AAED14600FA3ABC /* v_rvoff.c in Sources */,
+				F46A861A2AB56C2000FA3ABC /* vswr_mode.c in Sources */,
+				F46A86182AB5491700FA3ABC /* v_fillarea.c in Sources */,
 				F46A85C62AAEBB4100FA3ABC /* v_curright.c in Sources */,
 				F46A85C42AAEB99600FA3ABC /* v_curdown.c in Sources */,
 				F4E340BD2AAADE13002390BA /* vec.c in Sources */,
@@ -426,6 +437,7 @@
 				F46A85F02AAFB8F600FA3ABC /* vs_clip.c in Sources */,
 				F46A85BA2AAEA5A100FA3ABC /* vq_chcells.c in Sources */,
 				F46A85EC2AAF684D00FA3ABC /* v_clear_disp_list.c in Sources */,
+				F46A86162AB4F82C00FA3ABC /* vsf_perimeter.c in Sources */,
 				F46A85E22AAF646100FA3ABC /* v_dspcur.c in Sources */,
 				F46A85DA2AAF636F00FA3ABC /* vq_hardcopy.c in Sources */,
 				F46A85E42AAF66A200FA3ABC /* v_rmcur.c in Sources */,

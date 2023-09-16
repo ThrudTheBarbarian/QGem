@@ -7,6 +7,7 @@ INCLUDEPATH +=  $$PWD/../shared
 SOURCES += \
     clientmsg.cc \
     connectionmgr.cc \
+    fillfactory.cc \
     fontmgr.cc \
     glwidget.cc \
     main.cc \
@@ -24,6 +25,7 @@ SOURCES += \
     ops/v_eeol.cc \
     ops/v_eeos.cc \
     ops/v_enter_cur.cc \
+    ops/v_fillarea.cc \
     ops/v_form_adv.cc \
     ops/v_gtext.cc \
     ops/v_opnvwk.cc \
@@ -45,6 +47,7 @@ SOURCES += \
     ops/vs_curaddress.cc \
     ops/vsf_color.cc \
     ops/vsf_interior.cc \
+    ops/vsf_perimeter.cc \
     ops/vsf_style.cc \
     ops/vsl_color.cc \
     ops/vsl_ends.cc \
@@ -70,6 +73,7 @@ SOURCES += \
 HEADERS += \
     clientmsg.h \
     connectionmgr.h \
+    fillfactory.h \
     fontmgr.h \
     glwidget.h \
     screen.h \

@@ -146,6 +146,11 @@ void v_pmarker(int16_t handle, int16_t numPts, int16_t*pts);
 void v_gtext(int16_t handle, int16_t x, int16_t y, char *str);
 
 /*****************************************************************************\
+|*    8  : Fill a polygon
+\*****************************************************************************/
+void v_fillarea(int16_t handle, int16_t numPts, int16_t* pxy);
+
+/*****************************************************************************\
 |*   12  : Set the font-height in pixels
 \*****************************************************************************/
 void vst_height(int16_t handle, int16_t height,
@@ -213,6 +218,11 @@ int vsf_color(int16_t handle, int16_t idx);
 void vst_color(int16_t handle, int16_t idx);
 
 /*****************************************************************************\
+|*   32  : Set the writing-mode
+\*****************************************************************************/
+void vswr_mode(int16_t handle, int16_t which);
+
+/*****************************************************************************\
 |*   39  : Set the text-alignment
 \*****************************************************************************/
 void vst_alignment(int16_t handle, int16_t hIn,   int16_t vIn,
@@ -222,6 +232,11 @@ void vst_alignment(int16_t handle, int16_t hIn,   int16_t vIn,
 |*  100  : Open a virtual workstation
 \*****************************************************************************/
 void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut);
+
+/*****************************************************************************\
+|*  104  : Set whether to draw a perimeter around a fill
+\*****************************************************************************/
+int vsf_perimeter(int16_t handle, int16_t enable);
 
 /*****************************************************************************\
 |*  106  : Set the text-effects

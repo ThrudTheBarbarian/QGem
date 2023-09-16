@@ -1,8 +1,8 @@
 //
-//  vsf_style.c
+//  vsf_perimeter.c
 //  gemc
 //
-//  Created by ThrudTheBarbarian on 9/14/23.
+//  Created by ThrudTheBarbarian on 9/15/23.
 //
 
 #include <stdio.h>
@@ -12,9 +12,9 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*   24  : Set the fill pattern index
+|*  104  : Set whether to draw a perimeter around a fill
 \*****************************************************************************/
-int16_t vsf_style(int16_t handle, int16_t which)
+int16_t vsf_perimeter(int16_t handle, int16_t enable)
 	{
 	/*************************************************************************\
 	|* Check to see if we're connected
@@ -27,8 +27,8 @@ int16_t vsf_style(int16_t handle, int16_t which)
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_VSF_STYLE);
-	_gemMsgAppend(&msg, &which, 1);
+	_gemMsgInit(&msg, MSG_VSF_PERIMETER);
+	_gemMsgAppend(&msg, &enable, 1);
 	_gemIoWrite(&msg);
 			
 	/*************************************************************************\
@@ -36,5 +36,5 @@ int16_t vsf_style(int16_t handle, int16_t which)
 	\*************************************************************************/
 	_gemMsgDestroy(&msg);
 	
-	return which;
+	return enable;
 	}

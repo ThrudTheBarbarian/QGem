@@ -77,9 +77,17 @@ int main(int argc, const char * argv[])
 	int num = vst_load_fonts(handle, 0);
 	fprintf(stderr, "Loaded %d fonts\n", num);
 	
-	vst_font(handle, 297);
+	vst_font(handle, 87);
 	vst_effects(handle, TXT_OUTLINE);
 	vst_height(handle, 96, NULL, NULL, NULL, NULL);
 	v_gtext(handle, 250, 250, "hi there!");
 
+
+vswr_mode(handle, WR_TRANSPARENT);
+	int16_t pp[] = {600, 40, 300, 400, 800, 200};
+	vsf_color(handle, 11);
+	vsf_interior(handle, FIS_PATTERN);
+	vsf_style(handle, PT_BALLS);
+	vsf_perimeter(handle, 1);
+	v_fillarea(handle, 3, pp);
 	}

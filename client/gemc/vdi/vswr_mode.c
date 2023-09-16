@@ -1,8 +1,8 @@
 //
-//  vsf_style.c
+//  vswr_mode.c
 //  gemc
 //
-//  Created by ThrudTheBarbarian on 9/14/23.
+//  Created by ThrudTheBarbarian on 9/15/23.
 //
 
 #include <stdio.h>
@@ -12,29 +12,27 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*   24  : Set the fill pattern index
+|*   32  : Set the writing-mode
 \*****************************************************************************/
-int16_t vsf_style(int16_t handle, int16_t which)
+void vswr_mode(int16_t handle, int16_t idx)
 	{
 	/*************************************************************************\
 	|* Check to see if we're connected
 	\*************************************************************************/
 	if (!_gemIoIsConnected())
 		if (!_gemIoConnect())
-			return 0;
+			return;
 	
 	/*************************************************************************\
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_VSF_STYLE);
-	_gemMsgAppend(&msg, &which, 1);
+	_gemMsgInit(&msg, MSG_VSWR_MODE);
+	_gemMsgAppend(&msg, &idx, 1);
 	_gemIoWrite(&msg);
 			
 	/*************************************************************************\
 	|* Clear the message allocations
 	\*************************************************************************/
 	_gemMsgDestroy(&msg);
-	
-	return which;
 	}

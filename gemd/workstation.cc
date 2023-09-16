@@ -1,4 +1,7 @@
+#include <QColor>
+
 #include "clientmsg.h"
+#include "fillfactory.h"
 #include "fontmgr.h"
 #include "gem.h"
 #include "macros.h"
@@ -38,6 +41,7 @@ Workstation::Workstation(QLocalSocket *client, QObject *parent)
 			,_fillType(FIS_SOLID)
 			,_fillStyle(PT_DOTS1)
 			,_fillColour(G_BLUE)
+			,_drawPerimeter(true)
 			,_coordType(COORD_RASTER)
 			,_pageSize(PG_DIN_A4)
 			,_wrMode(QPainter::CompositionMode_Source)
@@ -75,6 +79,7 @@ Workstation::Workstation(QObject *parent)
 	,_fillType(FIS_SOLID)
 	,_fillStyle(PT_DOTS1)
 	,_fillColour(G_BLUE)
+	,_drawPerimeter(true)
 	,_coordType(COORD_RASTER)
 	,_pageSize(PG_DIN_A4)
 	,_wrMode(QPainter::CompositionMode_Source)
@@ -176,7 +181,38 @@ void Workstation::setupPenForLine(QPen& pen)
 	pen.setColor(_palette[_lineColour]);
 	pen.setBrush(_palette[_lineColour]);
 	pen.setWidth(_lineWidth);
+	}
 
+/*****************************************************************************\
+|* Set up the pen for drawing based on the local state
+\*****************************************************************************/
+void Workstation::setupPenForFill(QPen& pen)
+	{
+	FillFactory& ff = FillFactory::sharedInstance();
+
+	pen.setColor(_palette[_fillColour]);
+	switch (_fillType)
+		{
+		case FIS_HOLLOW:
+			break;
+		case FIS_SOLID:
+			pen.setBrush(_palette[_fillColour]);
+			break;
+		default:
+				{
+				QImage& img = ff.patternFor(_fillType, _fillStyle);
+				if (img.colorCount() == 2)
+					{
+					if (_wrMode == QPainter::CompositionMode_SourceOver)
+						img.setColor(0, qRgba(0,0,0,0));
+					else
+						img.setColor(0, _palette[0].rgba());
+					img.setColor(1, _palette[_fillColour].rgba());
+					}
+				pen.setBrush(img);
+				}
+			break;
+		}
 	}
 
 /*****************************************************************************\

@@ -255,6 +255,12 @@ class VDI : public QObject
 		void v_gtext(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*   9: Fill a polygon
+		\*********************************************************************/
+		void v_fillarea(qintptr handle, int16_t numPts, int16_t *pxy);
+		void v_fillarea(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|*  12 Set the height of text drawn and get metrics
 		\*********************************************************************/
 		void vst_height(qintptr handle, int16_t height, int16_t& charWidth,
@@ -351,6 +357,12 @@ class VDI : public QObject
 		|* 100: Open a virtual workstation
 		\*********************************************************************/
 		void v_opnvwk(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
+		|* 104: Set whether to draw a perimeter around a fill
+		\*********************************************************************/
+		void vsf_perimeter(qintptr handle, int16_t  enable);
+		void vsf_perimeter(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|*  107 Set the height of text drawn (in points) and get metrics

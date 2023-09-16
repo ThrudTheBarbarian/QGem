@@ -197,6 +197,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().v_gtext(ws, &cm);
 				break;
 
+			case ClientMsg::V_FILLAREA:		// 9
+				VDI::sharedInstance().v_fillarea(ws, &cm);
+				break;
+
 			case ClientMsg::VST_HEIGHT:		// 12
 				VDI::sharedInstance().vst_height(ws, &cm);
 				break;
@@ -249,12 +253,20 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vsf_color(ws, &cm);
 				break;
 
+			case ClientMsg::VSWR_MODE:		// 32
+				VDI::sharedInstance().vswr_mode(ws, &cm);
+				break;
+
 			case ClientMsg::VST_ALIGNMENT:	// 39
 				VDI::sharedInstance().vst_alignment(ws, &cm);
 				break;
 
 			case ClientMsg::V_OPNVWK:		// 100
 				VDI::sharedInstance().v_opnvwk(ws, &cm);
+				break;
+
+			case ClientMsg::VSF_PERIMETER:	// 104
+				VDI::sharedInstance().vsf_perimeter(ws, &cm);
 				break;
 
 			case ClientMsg::VST_EFFECTS:	// 106
