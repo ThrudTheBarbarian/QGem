@@ -58,6 +58,7 @@ class ClientMsg
 		V_JUSTIFIED			= 11010,
 		VST_HEIGHT			= 12,
 		VST_ROTATION		= 13,
+		VS_COLOR			= 14,
 		VSL_TYPE			= 15,
 		VSL_WIDTH			= 16,
 		VSL_COLOR			= 17,

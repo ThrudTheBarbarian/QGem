@@ -249,6 +249,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vst_rotation(ws, &cm);
 				break;
 
+			case ClientMsg::VS_COLOR:		// 14
+				VDI::sharedInstance().vs_color(ws, &cm);
+				break;
+
 			case ClientMsg::VSL_TYPE:		// 15
 				VDI::sharedInstance().vsl_type(ws, &cm);
 				break;

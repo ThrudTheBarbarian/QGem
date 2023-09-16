@@ -221,6 +221,11 @@ void vst_height(int16_t handle, int16_t height,
 int vst_rotation(int16_t handle, int16_t angle);
 
 /*****************************************************************************\
+|*   14  : Set the colour of a pen (0..255)
+\*****************************************************************************/
+void vs_color(int16_t handle, int16_t idx, int16_t* rgb);
+
+/*****************************************************************************\
 |*   15  : Set the line-type (ie: dash-pattern)
 \*****************************************************************************/
 void vsl_type(int16_t handle, int16_t which);

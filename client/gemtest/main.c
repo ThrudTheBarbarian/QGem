@@ -128,5 +128,7 @@ int main(int argc, const char * argv[])
 	vsl_width(handle, 1);
  	v_bar(handle, tpts);
 	
+	int16_t rgb[3] = {1000, 100, 500};
+	vs_color(handle, 1, rgb);
 	v_justified(handle, 900, 500, 400, 0,0, "The quick brown fox jumped over the lazy dog");
 	}

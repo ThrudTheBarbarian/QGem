@@ -347,6 +347,12 @@ class VDI : public QObject
 		void vst_rotation(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*  13: Set the text-rotation angle
+		\*********************************************************************/
+		void vs_color(qintptr handle, int16_t which, int16_t* rgb);
+		void vs_color(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|*  15: Set the style (dash pattern) for drawing lines
 		\*********************************************************************/
 		void vsl_type(qintptr handle, int16_t idx);
