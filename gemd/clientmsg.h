@@ -46,6 +46,12 @@ class ClientMsg
 		V_PMARKER			= 7,
 		V_GTEXT				= 8,
 		V_FILLAREA			= 9,
+		V_BAR				= 11001,	// Really 11.1
+		V_PIE				= 11003,
+		V_CIRCLE			= 11004,
+		V_ELLIPSE			= 11005,
+		V_ELLPIE			= 11007,
+		V_RFBOX				= 11009,
 		VST_HEIGHT			= 12,
 		VST_ROTATION		= 13,
 		VSL_TYPE			= 15,

@@ -201,6 +201,30 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().v_fillarea(ws, &cm);
 				break;
 
+			case ClientMsg::V_BAR:			// 11.1
+				VDI::sharedInstance().v_bar(ws, &cm);
+				break;
+
+			case ClientMsg::V_PIE:			// 11.3
+				VDI::sharedInstance().v_pie(ws, &cm);
+				break;
+
+			case ClientMsg::V_CIRCLE:		// 11.4
+				VDI::sharedInstance().v_circle(ws, &cm);
+				break;
+
+			case ClientMsg::V_ELLIPSE:		// 11.5
+				VDI::sharedInstance().v_ellipse(ws, &cm);
+				break;
+
+			case ClientMsg::V_ELLPIE:		// 11.7
+				VDI::sharedInstance().v_ellpie(ws, &cm);
+				break;
+
+			case ClientMsg::V_RFBOX:		// 11.9
+				VDI::sharedInstance().v_rfbox(ws, &cm);
+				break;
+
 			case ClientMsg::VST_HEIGHT:		// 12
 				VDI::sharedInstance().vst_height(ws, &cm);
 				break;

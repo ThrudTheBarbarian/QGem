@@ -83,11 +83,34 @@ int main(int argc, const char * argv[])
 	v_gtext(handle, 250, 250, "hi there!");
 
 
-vswr_mode(handle, WR_TRANSPARENT);
-	int16_t pp[] = {600, 40, 300, 400, 800, 200};
+	vswr_mode(handle, WR_TRANSPARENT);
+	
+	int16_t pp[] = {100, 40, 300, 400, 800, 200};
 	vsf_color(handle, 11);
 	vsf_interior(handle, FIS_PATTERN);
 	vsf_style(handle, PT_BALLS);
 	vsf_perimeter(handle, 1);
-	v_fillarea(handle, 3, pp);
+	v_bar(handle, pp);
+
+	vsf_style(handle, PT_UGLY);
+	v_pie(handle, 800,400, 100, 0, 900);
+	
+	vswr_mode(handle, WR_REPLACE);
+	vsf_color(handle, 3);
+	vsf_style(handle, PT_WEAVE);
+	v_circle(handle, 800,400, 50);
+
+	vsf_color(handle, 7);
+	vsf_style(handle, PT_CHECKER);
+	v_ellipse(handle, 800,400, 25, 50);
+
+	vsf_color(handle, 15);
+	vsf_style(handle, PT_DOTS2);
+	v_ellpie(handle, 800,700, 100, 50, 0, 900);
+
+	vsl_type(handle, SOLID);
+	vsf_color(handle, 3);
+	vsf_style(handle, PT_DIAMONDS);
+	int16_t rfbpts[] = {50, 600, 150, 700};
+	v_rfbox(handle, rfbpts);
 	}

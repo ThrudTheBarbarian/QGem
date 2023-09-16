@@ -25,6 +25,20 @@ class VDI : public QObject
 
 	public:
 		/*********************************************************************\
+		|* Typedefs and enums
+		\*********************************************************************/
+		typedef enum
+			{
+			POLY			= 0,
+			RECT			= 1,
+			PIE				= 3,
+			CIRCLE			= 4,
+			ELLIPSE			= 5,
+			ELLIPTICAL_PIE	= 7,
+			ROUNDED_RECT	= 9
+			} FillType;
+
+		/*********************************************************************\
 		|* Properties
 		\*********************************************************************/
 		GETSET(std::string, rootDir, RootDir);		// "System" disk root-dir
@@ -215,22 +229,22 @@ class VDI : public QObject
 		void v_rmcur(Workstation *ws);
 
 		/*********************************************************************\
-		|*   5.20: Form-feed. Only useful on printers, which aren't supported
+		|*   5.20: Form-feed. Only useful on printers, not supported
 		\*********************************************************************/
 		void v_form_adv(qintptr handle);
 
 		/*********************************************************************\
-		|*   5.21: Output window to printer, which isn't supported
+		|*   5.21: Output window to printer, not supported
 		\*********************************************************************/
 		void v_output_window(qintptr handle);
 
 		/*********************************************************************\
-		|*   5.22: Clear printer display-list, which isn't supported
+		|*   5.22: Clear printer display-list, not supported
 		\*********************************************************************/
 		void v_clear_disp_list(qintptr handle);
 
 		/*********************************************************************\
-		|*   5.23: Print an image, which isn't supported
+		|*   5.23: Print an image, not supported
 		\*********************************************************************/
 		void v_bit_image(qintptr handle, const char *filename,
 						 int16_t aspect, int16_t scaling, int16_t numPts,
@@ -255,10 +269,42 @@ class VDI : public QObject
 		void v_gtext(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
-		|*   9: Fill a polygon
+		|*   9	: Fill a polygon			[type=0] ppxy=...]
 		\*********************************************************************/
-		void v_fillarea(qintptr handle, int16_t numPts, int16_t *pxy);
+		void v_fillarea(qintptr handle, FillType type,
+						int16_t numItems, int16_t *pxy);
 		void v_fillarea(Workstation *ws, ClientMsg *cm);
+
+
+		/*********************************************************************\
+		|*  11.1: Fill a rectangle			[type=1] [pxy=x0,y0,x1,y1]
+		\*********************************************************************/
+		void v_bar(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  11.3: Fill an arc				[type=2] [pxy=x,y,r,begin,end]
+		\*********************************************************************/
+		void v_pie(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  11.4: Fill a circle				[type=4] [pxy=x,y,r]
+		\*********************************************************************/
+		void v_circle(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  11.5: Fill an ellipse			[type=5] [pxy=x,y,rx,ry]
+		\*********************************************************************/
+		void v_ellipse(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  11.7: Fill an elliptical pie	[type=7] [pxy=x,y,xr,yr,begin,end]
+		\*********************************************************************/
+		void v_ellpie(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  11.9: Fill a rounded rect		[type=9] [pxy=x0,y0,x1,y1]
+		\*********************************************************************/
+		void v_rfbox(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|*  12 Set the height of text drawn and get metrics
