@@ -64,6 +64,10 @@
 		F46A86222AB6312300FA3ABC /* v_ellipse.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86212AB6312300FA3ABC /* v_ellipse.c */; };
 		F46A86242AB632C800FA3ABC /* v_ellpie.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86232AB632C800FA3ABC /* v_ellpie.c */; };
 		F46A86262AB634E800FA3ABC /* v_rfbox.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86252AB634E800FA3ABC /* v_rfbox.c */; };
+		F46A86282AB648BD00FA3ABC /* v_arc.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86272AB648BD00FA3ABC /* v_arc.c */; };
+		F46A862A2AB64E0800FA3ABC /* v_ellarc.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86292AB64E0800FA3ABC /* v_ellarc.c */; };
+		F46A862C2AB6624B00FA3ABC /* v_rbox.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A862B2AB6624B00FA3ABC /* v_rbox.c */; };
+		F46A862E2AB667B400FA3ABC /* v_justified.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A862D2AB667B400FA3ABC /* v_justified.c */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -155,6 +159,10 @@
 		F46A86212AB6312300FA3ABC /* v_ellipse.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_ellipse.c; sourceTree = "<group>"; };
 		F46A86232AB632C800FA3ABC /* v_ellpie.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_ellpie.c; sourceTree = "<group>"; };
 		F46A86252AB634E800FA3ABC /* v_rfbox.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_rfbox.c; sourceTree = "<group>"; };
+		F46A86272AB648BD00FA3ABC /* v_arc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_arc.c; sourceTree = "<group>"; };
+		F46A86292AB64E0800FA3ABC /* v_ellarc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_ellarc.c; sourceTree = "<group>"; };
+		F46A862B2AB6624B00FA3ABC /* v_rbox.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_rbox.c; sourceTree = "<group>"; };
+		F46A862D2AB667B400FA3ABC /* v_justified.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_justified.c; sourceTree = "<group>"; };
 		F4E3409C2AAAD389002390BA /* client */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = client; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E3409F2AAAD389002390BA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E340AA2AAAD3E1002390BA /* libgemc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgemc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -286,6 +294,10 @@
 				F46A86212AB6312300FA3ABC /* v_ellipse.c */,
 				F46A86232AB632C800FA3ABC /* v_ellpie.c */,
 				F46A86252AB634E800FA3ABC /* v_rfbox.c */,
+				F46A86272AB648BD00FA3ABC /* v_arc.c */,
+				F46A86292AB64E0800FA3ABC /* v_ellarc.c */,
+				F46A862B2AB6624B00FA3ABC /* v_rbox.c */,
+				F46A862D2AB667B400FA3ABC /* v_justified.c */,
 			);
 			path = vdi;
 			sourceTree = "<group>";
@@ -435,6 +447,7 @@
 				F46A860E2AB3C38B00FA3ABC /* v_gtext.c in Sources */,
 				F46A85D02AAEC47900FA3ABC /* vs_curaddress.c in Sources */,
 				F46A860A2AB3A91F00FA3ABC /* vst_load_fonts.c in Sources */,
+				F46A862E2AB667B400FA3ABC /* v_justified.c in Sources */,
 				F46A85D62AAED14600FA3ABC /* v_rvoff.c in Sources */,
 				F46A861A2AB56C2000FA3ABC /* vswr_mode.c in Sources */,
 				F46A86182AB5491700FA3ABC /* v_fillarea.c in Sources */,
@@ -450,6 +463,7 @@
 				F46A85D22AAECACA00FA3ABC /* v_curtext.c in Sources */,
 				F46A85DE2AAF640500FA3ABC /* vq_tabstatus.c in Sources */,
 				F46A85EE2AAF693100FA3ABC /* v_bit_image.c in Sources */,
+				F46A862A2AB64E0800FA3ABC /* v_ellarc.c in Sources */,
 				F46A85F42AAFD32500FA3ABC /* vsl_type.c in Sources */,
 				F4680BDD2AB3724B0020BB5B /* vst_rotation.c in Sources */,
 				F46A86002AB24C1300FA3ABC /* vsm_height.c in Sources */,
@@ -457,6 +471,7 @@
 				F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */,
 				F46A85B42AAEA2AE00FA3ABC /* v_clrwk.c in Sources */,
 				F46A85F02AAFB8F600FA3ABC /* vs_clip.c in Sources */,
+				F46A862C2AB6624B00FA3ABC /* v_rbox.c in Sources */,
 				F46A86202AB62EA500FA3ABC /* v_circle.c in Sources */,
 				F46A85BA2AAEA5A100FA3ABC /* vq_chcells.c in Sources */,
 				F46A85EC2AAF684D00FA3ABC /* v_clear_disp_list.c in Sources */,
@@ -466,6 +481,7 @@
 				F46A85E42AAF66A200FA3ABC /* v_rmcur.c in Sources */,
 				F46A86022AB24EF500FA3ABC /* vsm_color.c in Sources */,
 				F4680BDB2AB370E60020BB5B /* vst_point.c in Sources */,
+				F46A86282AB648BD00FA3ABC /* v_arc.c in Sources */,
 				F46A860C2AB3B37A00FA3ABC /* vqt_name.c in Sources */,
 				F46A85CA2AAEBEFD00FA3ABC /* v_curhome.c in Sources */,
 				F46A85B62AAEA56200FA3ABC /* v_updwk.c in Sources */,

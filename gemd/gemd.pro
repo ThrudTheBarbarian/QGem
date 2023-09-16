@@ -11,6 +11,7 @@ SOURCES += \
     fontmgr.cc \
     glwidget.cc \
     main.cc \
+    ops/v_arc.cc \
     ops/v_bar.cc \
     ops/v_bit_image.cc \
     ops/v_circle.cc \
@@ -26,18 +27,21 @@ SOURCES += \
     ops/v_dspcur.cc \
     ops/v_eeol.cc \
     ops/v_eeos.cc \
+    ops/v_ellarc.cc \
     ops/v_ellipse.cc \
     ops/v_ellpie.cc \
     ops/v_enter_cur.cc \
     ops/v_fillarea.cc \
     ops/v_form_adv.cc \
     ops/v_gtext.cc \
+    ops/v_justified.cc \
     ops/v_opnvwk.cc \
     ops/v_opnwk.cc \
     ops/v_output_window.cc \
     ops/v_pie.cc \
     ops/v_pline.cc \
     ops/v_pmarker.cc \
+    ops/v_rbox.cc \
     ops/v_rfbox.cc \
     ops/v_rmcur.cc \
     ops/v_rvoff.cc \

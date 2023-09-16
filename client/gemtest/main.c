@@ -113,4 +113,20 @@ int main(int argc, const char * argv[])
 	vsf_style(handle, PT_DIAMONDS);
 	int16_t rfbpts[] = {50, 600, 150, 700};
 	v_rfbox(handle, rfbpts);
+
+	v_arc(handle, 800,600, 100, 0, 1800);
+	v_ellarc(handle, 800, 600, 100, 200, 1800, 3600);
+	
+	vsf_color(handle, 9);
+	int16_t rbpts[] = {40, 590, 160, 710};
+	v_rbox(handle, rbpts);
+	
+	vst_height(handle, 12, NULL, NULL, NULL, NULL);
+	vsf_interior(handle, FIS_HOLLOW);
+	int16_t tpts[] = {900, 500, 1300, 540};
+	vsl_color(handle, 1);
+	vsl_width(handle, 1);
+ 	v_bar(handle, tpts);
+	
+	v_justified(handle, 900, 500, 400, 0,0, "The quick brown fox jumped over the lazy dog");
 	}

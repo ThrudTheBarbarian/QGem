@@ -205,6 +205,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().v_bar(ws, &cm);
 				break;
 
+			case ClientMsg::V_ARC:			// 11.2
+				VDI::sharedInstance().v_arc(ws, &cm);
+				break;
+
 			case ClientMsg::V_PIE:			// 11.3
 				VDI::sharedInstance().v_pie(ws, &cm);
 				break;
@@ -217,12 +221,24 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().v_ellipse(ws, &cm);
 				break;
 
+			case ClientMsg::V_ELLARC:		// 11.6
+				VDI::sharedInstance().v_ellarc(ws, &cm);
+				break;
+
 			case ClientMsg::V_ELLPIE:		// 11.7
 				VDI::sharedInstance().v_ellpie(ws, &cm);
 				break;
 
+			case ClientMsg::V_RBOX:			// 11.8
+				VDI::sharedInstance().v_rbox(ws, &cm);
+				break;
+
 			case ClientMsg::V_RFBOX:		// 11.9
 				VDI::sharedInstance().v_rfbox(ws, &cm);
+				break;
+
+			case ClientMsg::V_JUSTIFIED:		// 11.10
+				VDI::sharedInstance().v_justified(ws, &cm);
 				break;
 
 			case ClientMsg::VST_HEIGHT:		// 12

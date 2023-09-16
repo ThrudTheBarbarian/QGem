@@ -156,6 +156,12 @@ void v_fillarea(int16_t handle, int16_t numPts, int16_t* pxy);
 void v_bar(int16_t handle, int16_t*pts);
 
 /*****************************************************************************\
+|*   11.2: Draw an arc
+\*****************************************************************************/
+void v_arc(int16_t handle, int16_t x, int16_t y, int16_t radius,
+		   int16_t beginAngle, int16_t endAngle);
+
+/*****************************************************************************\
 |*   11.3: Fill an arc				[type=2] [pxy=x,y,r,begin,end]
 \*****************************************************************************/
 void v_pie(int16_t handle, int16_t x, int16_t y, int16_t radius,
@@ -172,15 +178,35 @@ void v_circle(int16_t handle, int16_t x, int16_t y, int16_t radius);
 void v_ellipse(int16_t handle, int16_t x, int16_t y, int16_t rx, int16_t ry);
 
 /*****************************************************************************\
+|*  11.6: Draw an elliptical arc
+\*****************************************************************************/
+void v_ellarc(int16_t handle, int16_t x, int16_t y,
+			  int16_t xr, int16_t yr,
+		      int16_t beginAngle, int16_t endAngle);
+
+/*****************************************************************************\
 |*  11.7: Fill an elliptical pie	[type=7] [pxy=x,y,xr,yr,begin,end]
 \*****************************************************************************/
 void v_ellpie(int16_t handle, int16_t x, int16_t y, int16_t rx, int16_t ry,
 			  int16_t beginAngle, int16_t endAngle);
 
 /*****************************************************************************\
+|*  11.8: Draw a rounded rect
+\*****************************************************************************/
+void v_rbox(int16_t handle, int16_t* pxy);
+
+/*****************************************************************************\
 |*  11.9: Fill a rounded rect		[type=9] [pxy=x0,y0,x1,y1]
 \*****************************************************************************/
 void v_rfbox(int16_t handle, int16_t*pts);
+
+/*****************************************************************************\
+|* 11.10: Draw justified text. Note that in this implementation, the hints for
+|*        spacing are silently ignored
+\*****************************************************************************/
+void v_justified(int16_t handle, int16_t x, int16_t y, int16_t length,
+				 int16_t wordSpacing, int16_t charSpacing,
+				 const char *str);
 
 /*****************************************************************************\
 |*   12  : Set the font-height in pixels

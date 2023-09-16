@@ -17,7 +17,7 @@
 |* Original signature is: v_gtext(int16_t hndl, int16_t x, int16_t y, char *s);
 |*
 \*****************************************************************************/
-void VDI::v_gtext(qintptr handle, int16_t x, int16_t y, char *txt)
+void VDI::v_gtext(qintptr handle, int16_t x, int16_t y, int16_t w, char *txt)
 	{
 	ConnectionMgr *cm = _screen->connectionManager();
 	Workstation *ws   = cm->findWorkstationForHandle(handle);
@@ -65,16 +65,25 @@ void VDI::v_gtext(qintptr handle, int16_t x, int16_t y, char *txt)
 			painter.translate(-x, -y);
 			}
 
-		if (effects & TXT_OUTLINE)
+		if (w == 0)
 			{
-			QPainterPath path;
-			path.addText(QPoint(x,y), font, txt);
-			painter.strokePath(path.simplified(), pen);
+			if (effects & TXT_OUTLINE)
+				{
+				QPainterPath path;
+				path.addText(QPoint(x,y), font, txt);
+				painter.strokePath(path.simplified(), pen);
+				}
+			else
+				painter.drawText(x, y, txt);
 			}
 		else
-			painter.drawText(x, y, txt);
+			{
+			int h = ws->fm()->height();
+			int flags	= Qt::TextJustificationForced
+						| Qt::AlignJustify;
+			painter.drawText(x, y, w, h, flags, txt);
+			}
 		}
-
 	}
 
 /*****************************************************************************\
@@ -89,6 +98,6 @@ void VDI::v_gtext(Workstation *ws, ClientMsg *cm)
 	QByteArray ba;
 	cm->fetchData(2, ba);
 
-	v_gtext(ws->handle(), x, y, ba.data());
+	v_gtext(ws->handle(), x, y, 0, ba.data());
 	}
 

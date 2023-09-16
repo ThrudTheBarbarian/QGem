@@ -265,7 +265,7 @@ class VDI : public QObject
 		/*********************************************************************\
 		|*   8: Draw graphic text
 		\*********************************************************************/
-		void v_gtext(qintptr handle, int16_t x, int16_t y, char *txt);
+		void v_gtext(qintptr handle, int16_t x, int16_t y, int16_t w, char *s);
 		void v_gtext(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
@@ -280,6 +280,13 @@ class VDI : public QObject
 		|*  11.1: Fill a rectangle			[type=1] [pxy=x0,y0,x1,y1]
 		\*********************************************************************/
 		void v_bar(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  11.2: Draw an arc
+		\*********************************************************************/
+		void v_arc(qintptr handle, int16_t x, int16_t y, int16_t radius,
+				   int16_t begang, int16_t endang);
+		void v_arc(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|*  11.3: Fill an arc				[type=2] [pxy=x,y,r,begin,end]
@@ -297,14 +304,33 @@ class VDI : public QObject
 		void v_ellipse(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*  11.6: Draw an elliptical arc
+		\*********************************************************************/
+		void v_ellarc(qintptr handle, int16_t x, int16_t y,
+					  int16_t rx, int16_t ry,
+					  int16_t begang, int16_t endang);
+		void v_ellarc(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|*  11.7: Fill an elliptical pie	[type=7] [pxy=x,y,xr,yr,begin,end]
 		\*********************************************************************/
 		void v_ellpie(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*  11.8: Draw a rounded box
+		\*********************************************************************/
+		void v_rbox(qintptr handle, int16_t *pxy);
+		void v_rbox(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|*  11.9: Fill a rounded rect		[type=9] [pxy=x0,y0,x1,y1]
 		\*********************************************************************/
 		void v_rfbox(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|* 11.10: Draw justfied text
+		\*********************************************************************/
+		void v_justified(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|*  12 Set the height of text drawn and get metrics

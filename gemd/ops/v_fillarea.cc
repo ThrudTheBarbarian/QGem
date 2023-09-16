@@ -130,7 +130,7 @@ void VDI::v_fillarea(qintptr handle, FillType type, int16_t num, int16_t*pxy)
 					int16_t w = pxy[2] - pxy[0];
 					int16_t h = pxy[3] - pxy[1];
 					path.addRoundedRect(pxy[0], pxy[1], w, h,
-										15, 15, Qt::RelativeSize);
+										25, 25, Qt::RelativeSize);
 					}
 				break;
 			}
