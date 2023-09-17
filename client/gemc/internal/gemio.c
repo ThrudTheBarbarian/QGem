@@ -20,9 +20,31 @@
 #define SOCKET_NAME	 					"/tmp/gemd"
 
 
+/*****************************************************************************\
+|* The socket file descriptor
+\*****************************************************************************/
 static int 		_gemfd			= -1;
+
+/*****************************************************************************\
+|* Implement the queue of pending events
+\*****************************************************************************/
 static int		_msgNext		= 0;
 static MsgList	_msgs;
+
+/*****************************************************************************\
+|* Current filter on which events ought to be sent to this app
+\*****************************************************************************/
+static int16_t	_gemEventFilter	= 0;
+
+/*****************************************************************************\
+|* Mouse state, as seen by the constant flow of events into the top-most app
+\*****************************************************************************/
+static int16_t 	_mx, _my, _mb;
+
+/*****************************************************************************\
+|* Similarly, keyboard modifiers state
+\*****************************************************************************/
+static int16_t _mods;
 
 /*****************************************************************************\
 |* Check to see if the connection has been made to the server
@@ -120,16 +142,23 @@ int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types)
 	int ok = _gemMsgRead(&incoming, _gemfd);
 	while (ok)
 		{
+		int idx = -1;
+		vec_find(types, incoming.type, idx);
+		if (idx >= 0)
+			{
+			*msg = incoming;				// Transfers ownership of memory
+			break;
+			}
+
 		/*************************************************************************\
 		|* FIXME: For now, if it's a mouse-move event, just print it
 		\*************************************************************************/
-		if (incoming.type == EVT_MOUSE_MOVE)
+		else if (incoming.type == EVT_MOUSE_MOVE)
 			{
-			fprintf(stderr, "Mouse moved to %d,%d [btns:%04x, mods:%0x]\n",
-				ntohs(incoming.vec.data[0]),
-				ntohs(incoming.vec.data[1]),
-				ntohs(incoming.vec.data[2]),
-				ntohs(incoming.vec.data[3]));
+			_mx 	= incoming.vec.data[0];
+			_my 	= incoming.vec.data[1];
+			_mb 	= incoming.vec.data[2];
+			_mods 	= incoming.vec.data[3];
 			}
 		else if (incoming.type == EVT_MOUSE_DOWN)
 			{
@@ -141,19 +170,11 @@ int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types)
 			}
 		else if (incoming.type == EVT_KEY_PRESS)
 			{
-			fprintf(stderr, "Key press\n");
+			fprintf(stderr, "Key press %04x\n", ntohs(incoming.vec.data[0]));
 			}
 		else
 			{
-			int idx = -1;
-			vec_find(types, incoming.type, idx);
-			if (idx >= 0)
-				{
-				*msg = incoming;				// Transfers ownership of memory
-				break;
-				}
-			else
-				vec_push(&_msgs, incoming);		// Transfers ownership of memory
+			vec_push(&_msgs, incoming);		// Transfers ownership of memory
 			}
 		ok = _gemMsgRead(&incoming, _gemfd);
 		}
@@ -221,3 +242,36 @@ int _gemIoWrite(GemMsg *msg)
 	return (numSent == bufferLen) ? 1 : 0;
 	}
 
+
+/*****************************************************************************\
+|* Return the current GEM message event-filter
+\*****************************************************************************/
+int _gemIoEventFilter(void)
+	{
+	return _gemEventFilter;
+	}
+
+/*****************************************************************************\
+|* Set the current GEM message event-filter, and tell the server
+\*****************************************************************************/
+void _gemIoSetEventFilter(int value)
+	{
+	_gemEventFilter = value;
+	
+	GemMsg msg;
+	_gemMsgInit(&msg, EVT_FILTER_SET);
+	_gemMsgAppend(&msg, &_gemEventFilter, 1);
+	_gemIoWrite(&msg);
+	}
+
+/*****************************************************************************\
+|* Sample the current mouse/modifier state, any of these can be NULL
+\*****************************************************************************/
+void _gemIoMouseState(int16_t *x, int16_t *y, int16_t *btns, int16_t *mods)
+	{
+	if (x)		*x 		= _mx;
+	if (y)		*y		= _my;
+	if (btns)	*btns	= _mb;
+	if (mods)	*mods	= _mods;
+	}
+	

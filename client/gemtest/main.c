@@ -81,8 +81,6 @@ int main(int argc, const char * argv[])
 	vst_effects(handle, TXT_OUTLINE);
 	vst_height(handle, 96, NULL, NULL, NULL, NULL);
 	v_gtext(handle, 250, 250, "hi there!");
-
-	sleep(5);
 	
 	vswr_mode(handle, WR_TRANSPARENT);
 	
@@ -132,4 +130,12 @@ int main(int argc, const char * argv[])
 	int16_t rgb[3] = {1000, 100, 500};
 	vs_color(handle, 1, rgb);
 	v_justified(handle, 900, 500, 400, 0,0, "The quick brown fox jumped over the lazy dog");
+
+	int16_t mx, my, mb;
+	vrq_locator(handle, 0,0, &mx, &my, &mb);
+	fprintf(stderr, "x=%d, y=%d, btn=%d\n", mx, my, mb);
+	
+	char s[1024];
+	vrq_string(handle, 9, 0, NULL, s);
+	fprintf(stderr, "s='%s'\n", s);
 	}

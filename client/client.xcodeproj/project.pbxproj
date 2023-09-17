@@ -70,6 +70,10 @@
 		F46A862E2AB667B400FA3ABC /* v_justified.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A862D2AB667B400FA3ABC /* v_justified.c */; };
 		F46A86302AB66F1E00FA3ABC /* vs_color.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A862F2AB66F1E00FA3ABC /* vs_color.c */; };
 		F46A86322AB67A4F00FA3ABC /* vq_color.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86312AB67A4F00FA3ABC /* vq_color.c */; };
+		F46A86342AB77E0B00FA3ABC /* vsin_mode.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86332AB77E0B00FA3ABC /* vsin_mode.c */; };
+		F46A86362AB785C900FA3ABC /* vrq_locator.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86352AB785C900FA3ABC /* vrq_locator.c */; };
+		F46A86382AB7B3A100FA3ABC /* vsm_locator.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86372AB7B3A100FA3ABC /* vsm_locator.c */; };
+		F46A863A2AB7BAE000FA3ABC /* vrq_string.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86392AB7BAE000FA3ABC /* vrq_string.c */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -167,6 +171,10 @@
 		F46A862D2AB667B400FA3ABC /* v_justified.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_justified.c; sourceTree = "<group>"; };
 		F46A862F2AB66F1E00FA3ABC /* vs_color.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vs_color.c; sourceTree = "<group>"; };
 		F46A86312AB67A4F00FA3ABC /* vq_color.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_color.c; sourceTree = "<group>"; };
+		F46A86332AB77E0B00FA3ABC /* vsin_mode.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsin_mode.c; sourceTree = "<group>"; };
+		F46A86352AB785C900FA3ABC /* vrq_locator.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vrq_locator.c; sourceTree = "<group>"; };
+		F46A86372AB7B3A100FA3ABC /* vsm_locator.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsm_locator.c; sourceTree = "<group>"; };
+		F46A86392AB7BAE000FA3ABC /* vrq_string.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vrq_string.c; sourceTree = "<group>"; };
 		F4E3409C2AAAD389002390BA /* client */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = client; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E3409F2AAAD389002390BA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E340AA2AAAD3E1002390BA /* libgemc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgemc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -304,6 +312,10 @@
 				F46A862D2AB667B400FA3ABC /* v_justified.c */,
 				F46A862F2AB66F1E00FA3ABC /* vs_color.c */,
 				F46A86312AB67A4F00FA3ABC /* vq_color.c */,
+				F46A86332AB77E0B00FA3ABC /* vsin_mode.c */,
+				F46A86352AB785C900FA3ABC /* vrq_locator.c */,
+				F46A86372AB7B3A100FA3ABC /* vsm_locator.c */,
+				F46A86392AB7BAE000FA3ABC /* vrq_string.c */,
 			);
 			path = vdi;
 			sourceTree = "<group>";
@@ -447,6 +459,7 @@
 				F46A86102AB40D8900FA3ABC /* vsf_interior.c in Sources */,
 				F46A85CE2AAEC0B600FA3ABC /* v_eeol.c in Sources */,
 				F46A85BE2AAEB6FE00FA3ABC /* v_enter_cur.c in Sources */,
+				F46A86342AB77E0B00FA3ABC /* vsin_mode.c in Sources */,
 				F46A85D82AAED79F00FA3ABC /* vq_curaddress.c in Sources */,
 				F46A85E62AAF676900FA3ABC /* v_form_adv.c in Sources */,
 				F46A85FE2AB24A2700FA3ABC /* vsm_type.c in Sources */,
@@ -455,6 +468,7 @@
 				F46A860A2AB3A91F00FA3ABC /* vst_load_fonts.c in Sources */,
 				F46A862E2AB667B400FA3ABC /* v_justified.c in Sources */,
 				F46A85D62AAED14600FA3ABC /* v_rvoff.c in Sources */,
+				F46A86362AB785C900FA3ABC /* vrq_locator.c in Sources */,
 				F46A861A2AB56C2000FA3ABC /* vswr_mode.c in Sources */,
 				F46A86182AB5491700FA3ABC /* v_fillarea.c in Sources */,
 				F46A86302AB66F1E00FA3ABC /* vs_color.c in Sources */,
@@ -465,6 +479,7 @@
 				F46A86322AB67A4F00FA3ABC /* vq_color.c in Sources */,
 				F4E340C62AAAE05A002390BA /* gemmsg.c in Sources */,
 				F46A86082AB3A7BA00FA3ABC /* vst_effects.c in Sources */,
+				F46A863A2AB7BAE000FA3ABC /* vrq_string.c in Sources */,
 				F46A85F22AAFBD7500FA3ABC /* vsl_color.c in Sources */,
 				F46A85FC2AB23D6900FA3ABC /* v_pmarker.c in Sources */,
 				F4680BD92AB370150020BB5B /* vst_height.c in Sources */,
@@ -500,6 +515,7 @@
 				F46A85FA2AB01E1F00FA3ABC /* v_pline.c in Sources */,
 				F46A86142AB4155F00FA3ABC /* vsf_color.c in Sources */,
 				F46A85E82AAF67EC00FA3ABC /* v_output_window.c in Sources */,
+				F46A86382AB7B3A100FA3ABC /* vsm_locator.c in Sources */,
 				F46A86262AB634E800FA3ABC /* v_rfbox.c in Sources */,
 				F46A86042AB2930100FA3ABC /* vst_color.c in Sources */,
 			);

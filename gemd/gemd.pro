@@ -10,7 +10,9 @@ SOURCES += \
     fillfactory.cc \
     fontmgr.cc \
     glwidget.cc \
+    keymapper.cc \
     main.cc \
+    ops/setEventFilter.cc \
     ops/v_arc.cc \
     ops/v_bar.cc \
     ops/v_bit_image.cc \
@@ -61,6 +63,7 @@ SOURCES += \
     ops/vsf_interior.cc \
     ops/vsf_perimeter.cc \
     ops/vsf_style.cc \
+    ops/vsin_mode.cc \
     ops/vsl_color.cc \
     ops/vsl_ends.cc \
     ops/vsl_type.cc \
@@ -88,6 +91,7 @@ HEADERS += \
     fillfactory.h \
     fontmgr.h \
     glwidget.h \
+    keymapper.h \
     screen.h \
     socketthread.h \
     vdi.h \

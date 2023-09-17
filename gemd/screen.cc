@@ -70,7 +70,7 @@ bool Screen::eventFilter(QObject *, QEvent *event)
 		if (pos != old)
 			{
 			_propagateEvent(mouseEvent,
-							VDI::MouseMove,
+							ETYP_MOUSE_MOVE,
 							ClientMsg::EVT_MOUSE_MOVE);
 			old = pos;
 			}
@@ -89,7 +89,7 @@ void Screen::_propagateEvent(QEvent *e, int filter, int16_t type)
 
 	if (ws != nullptr)
 		{
-		if (vdi.activeEvents() & filter)
+		if (ws->activeEvents() & filter)
 			{
 			ClientMsg msg;
 			if (type == ClientMsg::EVT_KEY_PRESS)
@@ -106,7 +106,7 @@ void Screen::_propagateEvent(QEvent *e, int filter, int16_t type)
 \*****************************************************************************/
 void Screen::mousePressEvent(QMouseEvent *event)
 	{
-	_propagateEvent(event, VDI::MouseButton, ClientMsg::EVT_MOUSE_DOWN);
+	_propagateEvent(event, ETYP_MOUSE_BTN, ClientMsg::EVT_MOUSE_DOWN);
 	}
 
 /*****************************************************************************\
@@ -114,7 +114,7 @@ void Screen::mousePressEvent(QMouseEvent *event)
 \*****************************************************************************/
 void Screen::mouseReleaseEvent(QMouseEvent *event)
 	{
-	_propagateEvent(event, VDI::MouseButton, ClientMsg::EVT_MOUSE_UP);
+	_propagateEvent(event, ETYP_MOUSE_BTN, ClientMsg::EVT_MOUSE_UP);
 	}
 
 /*****************************************************************************\
@@ -122,7 +122,7 @@ void Screen::mouseReleaseEvent(QMouseEvent *event)
 \*****************************************************************************/
 void Screen::keyPressEvent(QKeyEvent *event)
 	{
-	_propagateEvent(event, VDI::Keyboard, ClientMsg::EVT_KEY_PRESS);
+	_propagateEvent(event, ETYP_KEYBOARD, ClientMsg::EVT_KEY_PRESS);
 	}
 
 /*****************************************************************************\

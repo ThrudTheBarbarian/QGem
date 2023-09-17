@@ -67,7 +67,9 @@ enum
 	MSG_VSF_STYLE		= 24,
 	MSG_VSF_COLOR		= 25,
 	MSG_VQ_COLOR		= 26,
+	MSG_V_LOCATOR		= 28,
 	MSG_VSWR_MODE		= 32,
+	MSG_VSIN_MODE		= 33,
 	MSG_VST_ALIGNMENT	= 39,
 	MSG_V_OPNVWK		= 100,
 	MSG_VSF_PERIMETER	= 104,
@@ -83,7 +85,9 @@ enum
 	EVT_MOUSE_MOVE		= 17000,
 	EVT_MOUSE_DOWN		= 17001,
 	EVT_MOUSE_UP		= 17002,
-	EVT_KEY_PRESS		= 17010
+	EVT_KEY_PRESS		= 17010,
+	
+	EVT_FILTER_SET		= 17100,
 	};
 	
 /*****************************************************************************\
@@ -117,5 +121,20 @@ int _gemIoWaitForMessageOfType(GemMsg *msg, int16_t type);
 \*****************************************************************************/
 int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types);
 
+
+/*****************************************************************************\
+|* Return the current GEM message event-filter
+\*****************************************************************************/
+int _gemIoEventFilter(void);
+
+/*****************************************************************************\
+|* Set the current GEM message event-filter, and tell the server
+\*****************************************************************************/
+void _gemIoSetEventFilter(int value);
+
+/*****************************************************************************\
+|* Sample the current mouse/modifier state, any of these can be NULL
+\*****************************************************************************/
+void _gemIoMouseState(int16_t *x, int16_t *y, int16_t *btns, int16_t *mods);
 
 #endif /* gemio_h */

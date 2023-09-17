@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QObject>
 
+#include "gem.h"
 #include "properties.h"
 
 /*****************************************************************************\
@@ -38,16 +39,6 @@ class VDI : public QObject
 			ROUNDED_RECT	= 9
 			} FillType;
 
-		typedef enum
-			{
-			MouseButton		= (1<<0),
-			MouseEnter		= (1<<1),
-			MouseExit		= (1<<2),
-			MouseMove		= (1<<3),
-			MouseWheel		= (1<<4),
-			Keyboard		= (1<<5),
-			} EventType;
-
 		/*********************************************************************\
 		|* Properties
 		\*********************************************************************/
@@ -59,7 +50,6 @@ class VDI : public QObject
 		GET(int, cursorY);							// Current cursor Y
 		GETSET(bool, reverseVideo, ReverseVideo);	// Draw in reverse video ?
 		GETSETP(Workstation*, top, Top);			// Workstation with focus
-		GETSET(int, activeEvents, ActiveEvents);	// Which events to send
 		GETSET(QRect, mouseArea1, MouseArea1);		// Notify if enter/exit
 
 	private:
@@ -444,6 +434,12 @@ class VDI : public QObject
 		void vswr_mode(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*  33: Set the input mode
+		\*********************************************************************/
+		void vsin_mode(qintptr handle, int16_t device, int16_t mode);
+		void vsin_mode(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|*  39: Request the text alignment and get the actual set values
 		\*********************************************************************/
 		void vst_alignment(qintptr handle, int16_t  hIn,  int16_t  vIn,
@@ -498,6 +494,11 @@ class VDI : public QObject
 		\*********************************************************************/
 		int16_t vqt_name(qintptr handle, int16_t idx, char *name);
 		void vqt_name(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
+		|* 17100 : Change the event filter value
+		\*********************************************************************/
+		void setEventFilter(Workstation *ws, ClientMsg *msg);
 
 	public slots:
 		/*********************************************************************\

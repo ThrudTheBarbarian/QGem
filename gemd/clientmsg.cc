@@ -3,6 +3,7 @@
 
 #include "clientmsg.h"
 #include "gem.h"
+#include "keymapper.h"
 
 /*****************************************************************************\
 |* Class definition
@@ -158,7 +159,8 @@ void ClientMsg::fromKeyEvent(QKeyEvent *e, int16_t type)
 	_type = type;
 	_payload.clear();
 
-// Have to map Qt::Key to 16-bit values...
+	int16_t code = KeyMapper::map(e->keyCombination());
+	append(code);
 	}
 
 /*****************************************************************************\

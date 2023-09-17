@@ -286,9 +286,36 @@ int vsf_color(int16_t handle, int16_t idx);
 void vq_color(int16_t handle, int16_t idx, int16_t flag, int16_t* rgb);
 
 /*****************************************************************************\
+|*   28 : Request the value of the input locator (mouse position)
+\*****************************************************************************/
+void vrq_locator(int16_t handle, int16_t x, int16_t y,
+				 int16_t* x1, int16_t* y1, int16_t *term);
+
+/*****************************************************************************\
+|*   28 : Sample the value of the input locator (mouse position)
+\*****************************************************************************/
+void vsm_locator(int16_t handle, int16_t x, int16_t y,
+				 int16_t* x1, int16_t* y1, int16_t *term);
+
+/*****************************************************************************\
+|*   31 : Request a string input (ie: read the keyboard until return pressed)
+|*
+|* I can't see any difference between vrq_string and vsm_string from the docs,
+|* so just #define'ing it to be the same for now
+\*****************************************************************************/
+void vrq_string(int16_t handle, int16_t maxLen, int16_t echoMode,
+				 int16_t* xy, char* str);
+#define vsm_string vrq_string
+
+/*****************************************************************************\
 |*   32  : Set the writing-mode
 \*****************************************************************************/
 void vswr_mode(int16_t handle, int16_t which);
+
+/*****************************************************************************\
+|*   33  : Set the input-mode
+\*****************************************************************************/
+void vsin_mode(int16_t handle, int16_t device, int16_t mode);
 
 /*****************************************************************************\
 |*   39  : Set the text-alignment

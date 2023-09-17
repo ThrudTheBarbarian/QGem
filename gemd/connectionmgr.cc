@@ -346,6 +346,11 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vqt_name(ws, &cm);
 				break;
 
+
+			case ClientMsg::EVT_FILTER_SET:	// 17100
+				VDI::sharedInstance().setEventFilter(ws, &cm);
+				break;
+
 			default:
 				WARN("\n** Unknown message type %d", cm.type());
 				break;

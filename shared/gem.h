@@ -187,6 +187,34 @@
 
 
 /*****************************************************************************\
+|* Gem event types 
+\*****************************************************************************/
+enum
+	{
+	ETYP_MOUSE_BTN			= (1<<0),
+	ETYP_MOUSE_ENTER		= (1<<1),
+	ETYP_MOUSE_EXIT			= (1<<2),
+	ETYP_MOUSE_MOVE			= (1<<3),
+	ETYP_MOUSE_WHEEL		= (1<<4),
+	ETYP_KEYBOARD			= (1<<5),
+	};
+	
+/*****************************************************************************\
+|* Input devices 
+\*****************************************************************************/
+enum 
+	{
+	INP_LOCATOR			= 1,
+	INP_VALUATOR,
+	INP_CHOICE,
+	INP_STRING,
+	INP_MAX
+	};
+
+#define INPUT_REQUEST	1
+#define INPUT_SAMPLE	2
+
+/*****************************************************************************\
 |* Key modifiers 
 \*****************************************************************************/
 #define MDFY_SHIFT		1
@@ -195,5 +223,44 @@
 #define MDFY_META		8
 #define MDFY_KEYPAD		16
 
-
+/*****************************************************************************\
+|* Keys. Basically ASCII + extra bits
+|* high byte is:
+|*  0x01 : 	"special" key
+|*  0x02 : 	"shift key pressed"
+|*  0x04 : 	"ctrl  key pressed"
+|*  0x08 : 	"meta  key pressed"
+|*  0x10 : 	"alt   key pressed"
+|*
+\*****************************************************************************/
+enum 
+	{
+	KY_ESCAPE 		= 27,
+	KY_TAB	  		= 10,
+	KY_BACKTAB		= 0x100 + 10,
+	KY_BACKSPACE	= 8,
+	KY_RETURN		= 13,
+	KY_DELETE		= 127,
+	KY_PAUSE		= 0x100 + 128,
+	KY_PRINT		= 0x100 + 129,
+	KY_SYSREQ		= 0x100 + 130,
+	KY_CLEAR		= 0x100 + 131,
+	KY_HOME		 	= 0x100 + 132,
+	KY_INSERT		= 0x100 + 133,
+	KY_END			= 0x100 + 134,
+	KY_LEFT			= 0x100 + 135,
+	KY_RIGHT		= 0x100 + 136,
+	KY_UP			= 0x100 + 137,
+	KY_DOWN			= 0x100 + 138,
+	KY_PAGEUP		= 0x100 + 139,
+	KY_PAGEDN		= 0x100 + 140,
+	KY_CAPSLOCK		= 0x100 + 141,
+	KY_NUMLOCK		= 0x100 + 142,
+	KY_SCROLLLOCK	= 0x100 + 143,
+	KY_F1			= 0x100 + 144,		// + the next 11 for F1..12
+	KY_HELP			= 0x100 + 156,
+	
+	};
+	
+	
 #endif /* !__gem_defines_header__ */

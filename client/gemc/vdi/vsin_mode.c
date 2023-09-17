@@ -1,8 +1,8 @@
 //
-//  vq_color.c
+//  vsin_mode.c
 //  gemc
 //
-//  Created by ThrudTheBarbarian on 9/10/23.
+//  Created by ThrudTheBarbarian on 9/17/23.
 //
 
 #include <stdio.h>
@@ -12,9 +12,9 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*   26 : Get the RGB values of a colour index
+|*   33  : Set the input-mode
 \*****************************************************************************/
-void vq_color(int16_t handle, int16_t idx, int16_t flag, int16_t* rgb)
+void vsin_mode(int16_t handle, int16_t device, int16_t mode)
 	{
 	/*************************************************************************\
 	|* Check to see if we're connected
@@ -27,25 +27,11 @@ void vq_color(int16_t handle, int16_t idx, int16_t flag, int16_t* rgb)
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_VQ_COLOR);
-	_gemMsgAppend(&msg, &idx, 1);
+	_gemMsgInit(&msg, MSG_VSIN_MODE);
+	_gemMsgAppend(&msg, &device, 1);
+	_gemMsgAppend(&msg, &mode, 1);
 	_gemIoWrite(&msg);
-	
-	/*************************************************************************\
-	|* Wait for a response
-	\*************************************************************************/
-	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_VQ_COLOR));
-
-	/*************************************************************************\
-	|* Copy data over if space is allocated
-	\*************************************************************************/
-	if (rgb != NULL)
-		{
-		rgb[0] = ntohs(msg.vec.data[0]);
-		rgb[1] = ntohs(msg.vec.data[1]);
-		rgb[2] = ntohs(msg.vec.data[2]);
-		}
-		
+			
 	/*************************************************************************\
 	|* Clear the message allocations
 	\*************************************************************************/

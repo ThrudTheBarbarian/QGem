@@ -74,6 +74,7 @@ class ClientMsg
 		VSF_COLOR			= 25,
 		VQ_COLOR			= 26,
 		VSWR_MODE			= 32,
+		VSIN_MODE			= 33,
 		VST_ALIGNMENT		= 39,
 		V_OPNVWK			= 100,
 		VSF_PERIMETER		= 104,
@@ -88,6 +89,8 @@ class ClientMsg
 		EVT_MOUSE_DOWN		= 17001,
 		EVT_MOUSE_UP		= 17002,
 		EVT_KEY_PRESS		= 17010,
+
+		EVT_FILTER_SET		= 17100,
 		};
 
 	/*************************************************************************\

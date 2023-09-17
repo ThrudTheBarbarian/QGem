@@ -50,6 +50,8 @@ class Workstation : public QObject
 	GETSET(LineStyle, userType, UserType);				// User defined line
 	GETSET(int, startCap, StartCap);					// Cap-style of start
 	GETSET(int, endCap, EndCap);						// Cap-style of end
+	GETSET(int, inputModes, InputModes);				// Request (bit=1)
+	GETSET(int, activeEvents, ActiveEvents);			// Which events to send
 
 	private:
 		/*********************************************************************\
@@ -103,6 +105,10 @@ class Workstation : public QObject
 		\*********************************************************************/
 		inline QFontMetrics * fm() { return _fm; }
 
+		/*********************************************************************\
+		|* Set up the input mode for various devices
+		\*********************************************************************/
+		void setInputMode(int device, int mode);
 
 		/*********************************************************************\
 		|* Set up the pen for drawing based on the local state

@@ -1,8 +1,8 @@
 //
-//  v_opnvwk.c
+//  vrq_locator.c
 //  gemc
 //
-//  Created by ThrudTheBarbarian on 9/7/23.
+//  Created by ThrudTheBarbarian on 9/17/23.
 //
 
 #include <stdio.h>
@@ -11,14 +11,17 @@
 #include "gemio.h"
 #include "gemmsg.h"
 #include "macros.h"
+#include "vdi.h"
 
 /*****************************************************************************\
-|* 100   : Open a virtual workstation
+|*   28 : Request the mouse position by waiting for an event
 \*****************************************************************************/
-void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
+void vrq_locator(int16_t handle, int16_t x, int16_t y,
+				 int16_t* x1, int16_t* y1, int16_t *term)
 	{
-	static int16_t inputs[16];
-
+	(void)x;
+	(void)y;
+	
 	/*************************************************************************\
 	|* Check to see if we're connected
 	\*************************************************************************/
@@ -27,51 +30,57 @@ void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 			return;
 	
 	/*************************************************************************\
-	|* Initialise values if none were provided
+	|* Show the mouse cursor
 	\*************************************************************************/
-	int16_t *arg = workIn;
-	if (workIn == NULL)
+	v_dspcur(handle, -1, -1);
+
+	
+	/*************************************************************************\
+	|* Construct and send the message to add mouse-down to the events-filter
+	|* if necessary
+	\*************************************************************************/
+	GemMsg msg;
+	int existing = _gemIoEventFilter();
+	int changed  = 0;
+	if ((existing & ETYP_MOUSE_BTN) == 0)
 		{
-		for (int i=0; i<16; i++)
-			inputs[i] = -1;
-		arg = inputs;
+		_gemIoSetEventFilter(existing | ETYP_MOUSE_BTN);
+		changed = 1;
 		}
 		
 	/*************************************************************************\
-	|* Construct and send the message
+	|* Wait for a mouse-down message
 	\*************************************************************************/
-	GemMsg msg;
-	_gemMsgInit(&msg, MSG_V_OPNVWK);
-	_gemMsgAppend(&msg, arg, 16);
-	_gemIoWrite(&msg);
-	
+	_gemIoWaitForMessageOfType(&msg, EVT_MOUSE_DOWN);
+
 	/*************************************************************************\
-	|* Wait for a response
+	|* Hide the mouse cursor
 	\*************************************************************************/
-	_gemIoWaitForMessageOfType(&msg, MSG_REPLY_OFFSET+ MSG_V_OPNVWK);
+	v_rmcur(handle);
+
+	/*************************************************************************\
+	|* Set the event filter back to what it was previously
+	\*************************************************************************/
+	if (changed)
+		_gemIoSetEventFilter(existing);
 
 	/*************************************************************************\
 	|* Copy data over if space is allocated
 	\*************************************************************************/
-	if (workOut != NULL)
+	if (x1 != NULL)
+		*x1 = ntohs(msg.vec.data[0]);
+	if (y1 != NULL)
+		*y1 = ntohs(msg.vec.data[1]);
+	if (term != NULL)
 		{
-		int words = MIN(57, msg.vec.length);
-		memcpy(workOut, msg.vec.data, words * sizeof(int16_t));
-		for (int i=0; i<words; i++)
-			workOut[i] = ntohs(workOut[i]);
+		int16_t btns =  ntohs(msg.vec.data[2]);
+		*term = (btns & 0x1) ? 32
+			  : (btns & 0x2) ? 33
+			  : 0;
 		}
 		
-	if ((handle != NULL) && (msg.vec.length > 56))
-		*handle = ntohs(msg.vec.data[57]);
-	
 	/*************************************************************************\
 	|* Clear the message allocations
 	\*************************************************************************/
 	_gemMsgDestroy(&msg);
-
-	/*************************************************************************\
-	|* Start receiving events
-	\*************************************************************************/
-	_gemIoSetEventFilter(ETYP_MOUSE_MOVE);
-	
 	}

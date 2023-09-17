@@ -49,6 +49,8 @@ Workstation::Workstation(QLocalSocket *client, QObject *parent)
 			,_enableClip(false)
 			,_startCap(CAP_SQUARE)
 			,_endCap(CAP_SQUARE)
+			,_inputModes(0)
+			,_activeEvents(0)
 			,_client(client)
 			,_fm(nullptr)
 	{
@@ -87,6 +89,8 @@ Workstation::Workstation(QObject *parent)
 	,_enableClip(false)
 	,_startCap(CAP_SQUARE)
 	,_endCap(CAP_SQUARE)
+	,_inputModes(0)
+	,_activeEvents(0)
 	,_client(nullptr)
 	,_fm(nullptr)
 	{
@@ -241,4 +245,19 @@ void Workstation::setupPenForText(QPen& pen)
 	pen.setColor(c);
 	pen.setBrush(c);
 	pen.setWidth(1);
+	}
+
+
+/*****************************************************************************\
+|* Set up whether to sample or request information from the various devices
+\*****************************************************************************/
+void Workstation::setInputMode(int device, int mode)
+	{
+	if ((device >= INP_LOCATOR) && (device <= INP_STRING))
+		{
+		if (mode == INPUT_REQUEST)
+			_inputModes |= (1<<device);
+		else if (mode == INPUT_SAMPLE)
+			_inputModes &= ~(1<<device);
+		}
 	}
