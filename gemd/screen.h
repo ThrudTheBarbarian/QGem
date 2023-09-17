@@ -31,6 +31,12 @@ class Screen : public QMainWindow
 		Ui::Screen *	_ui;					// User interface definition
 		ConnectionMgr *	_conmgr;				// Connection manager
 
+
+		/*********************************************************************\
+		|* Private method: create a message to send to client, from an event
+		\*********************************************************************/
+		void _propagateEvent(QEvent *e, int filter, int16_t type);
+
 	/*************************************************************************\
 	|* Properties
 	\*************************************************************************/
@@ -54,6 +60,14 @@ class Screen : public QMainWindow
 		|* Install an event-filter to get mouse-movement
 		\*********************************************************************/
 		bool eventFilter(QObject *obj, QEvent *event);
+
+		/*********************************************************************\
+		|* Handle mouse clicks and keyboard presses
+		\*********************************************************************/
+		void mousePressEvent(QMouseEvent *event);
+		void mouseReleaseEvent(QMouseEvent *event);
+		void keyPressEvent(QKeyEvent *event);
+
 
 	public slots:
 		/*********************************************************************\

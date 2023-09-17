@@ -57,7 +57,7 @@ void Screen::doFrameUpdate(void)
 	}
 
 /*****************************************************************************\
-|* Make sure we get mouse events
+|* Make sure we get mouse-move events
 \*****************************************************************************/
 bool Screen::eventFilter(QObject *, QEvent *event)
 	{
@@ -66,28 +66,64 @@ bool Screen::eventFilter(QObject *, QEvent *event)
 	if (event->type() == QEvent::MouseMove)
 		{
 		QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
-		VDI& vdi = VDI::sharedInstance();
-		Workstation *ws = vdi.top();
-
-		if (ws != nullptr)
+		QPointF pos = mouseEvent->pos();
+		if (pos != old)
 			{
-			if (vdi.activeEvents() & VDI::MouseMove)
-				{
-				QPointF pos = mouseEvent->pos();
-				if (pos != old)
-					{
-					ClientMsg msg;
-					msg.fromMouseEvent(mouseEvent);
-					ws->client()->write(msg.encode());
-					old = pos;
-					}
-				}
+			_propagateEvent(mouseEvent,
+							VDI::MouseMove,
+							ClientMsg::EVT_MOUSE_MOVE);
+			old = pos;
 			}
-
 		}
 	return false;
 	}
 
+
+/*****************************************************************************\
+|* Create and send a mouse event if necessary
+\*****************************************************************************/
+void Screen::_propagateEvent(QEvent *e, int filter, int16_t type)
+	{
+	VDI& vdi = VDI::sharedInstance();
+	Workstation *ws = vdi.top();
+
+	if (ws != nullptr)
+		{
+		if (vdi.activeEvents() & filter)
+			{
+			ClientMsg msg;
+			if (type == ClientMsg::EVT_KEY_PRESS)
+				msg.fromKeyEvent(static_cast<QKeyEvent*>(e), type);
+			else
+				msg.fromMouseEvent(static_cast<QMouseEvent*>(e), type);
+			ws->client()->write(msg.encode());
+			}
+		}
+	}
+
+/*****************************************************************************\
+|* Handle mouse-down events
+\*****************************************************************************/
+void Screen::mousePressEvent(QMouseEvent *event)
+	{
+	_propagateEvent(event, VDI::MouseButton, ClientMsg::EVT_MOUSE_DOWN);
+	}
+
+/*****************************************************************************\
+|* Handle mouse-release events
+\*****************************************************************************/
+void Screen::mouseReleaseEvent(QMouseEvent *event)
+	{
+	_propagateEvent(event, VDI::MouseButton, ClientMsg::EVT_MOUSE_UP);
+	}
+
+/*****************************************************************************\
+|* Handle key-press events
+\*****************************************************************************/
+void Screen::keyPressEvent(QKeyEvent *event)
+	{
+	_propagateEvent(event, VDI::Keyboard, ClientMsg::EVT_KEY_PRESS);
+	}
 
 /*****************************************************************************\
 |* We got a connection, grab focus

@@ -132,11 +132,10 @@ bool ClientMsg::read(QIODevice *dev)
 
 /*****************************************************************************\
 |* Construct a message from a mouse event
-|*
 \*****************************************************************************/
-void ClientMsg::fromMouseEvent(QMouseEvent *e)
+void ClientMsg::fromMouseEvent(QMouseEvent *e, int16_t type)
 	{
-	_type = EVT_MOUSE_MOVE;
+	_type = type;
 	_payload.clear();
 	append((int16_t)e->pos().x());
 	append((int16_t)e->pos().y());
@@ -149,6 +148,17 @@ void ClientMsg::fromMouseEvent(QMouseEvent *e)
 	flags		 |= (mods & Qt::MetaModifier)		? MDFY_META		: 0;
 	flags		 |= (mods & Qt::KeypadModifier)		? MDFY_KEYPAD	: 0;
 	append(flags);
+	}
+
+/*****************************************************************************\
+|* Construct a message from a key event
+\*****************************************************************************/
+void ClientMsg::fromKeyEvent(QKeyEvent *e, int16_t type)
+	{
+	_type = type;
+	_payload.clear();
+
+// Have to map Qt::Key to 16-bit values...
 	}
 
 /*****************************************************************************\

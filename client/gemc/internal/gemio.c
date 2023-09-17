@@ -131,6 +131,18 @@ int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types)
 				ntohs(incoming.vec.data[2]),
 				ntohs(incoming.vec.data[3]));
 			}
+		else if (incoming.type == EVT_MOUSE_DOWN)
+			{
+			fprintf(stderr, "Mouse down\n");
+			}
+		else if (incoming.type == EVT_MOUSE_UP)
+			{
+			fprintf(stderr, "Mouse up\n");
+			}
+		else if (incoming.type == EVT_KEY_PRESS)
+			{
+			fprintf(stderr, "Key press\n");
+			}
 		else
 			{
 			int idx = -1;

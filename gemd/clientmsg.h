@@ -4,6 +4,7 @@
 #include <QByteArray>
 #include <QIODevice>
 #include <QMouseEvent>
+#include <QKeyEvent>
 
 #include "properties.h"
 #include "macros.h"
@@ -84,6 +85,9 @@ class ClientMsg
 		VQT_NAME			= 130,
 
 		EVT_MOUSE_MOVE		= 17000,
+		EVT_MOUSE_DOWN		= 17001,
+		EVT_MOUSE_UP		= 17002,
+		EVT_KEY_PRESS		= 17010,
 		};
 
 	/*************************************************************************\
@@ -125,7 +129,12 @@ class ClientMsg
 		/*********************************************************************\
 		|* Populate the message from a mouse event
 		\*********************************************************************/
-		void fromMouseEvent(QMouseEvent* ev);
+		void fromMouseEvent(QMouseEvent* ev, int16_t type);
+
+		/*********************************************************************\
+		|* Populate the message from a key event
+		\*********************************************************************/
+		void fromKeyEvent(QKeyEvent* ev, int16_t type);
 
 		/*********************************************************************\
 		|* Clear the properties so we can re-use the message
