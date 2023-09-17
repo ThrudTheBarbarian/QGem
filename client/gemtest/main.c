@@ -82,7 +82,8 @@ int main(int argc, const char * argv[])
 	vst_height(handle, 96, NULL, NULL, NULL, NULL);
 	v_gtext(handle, 250, 250, "hi there!");
 
-
+	sleep(5);
+	
 	vswr_mode(handle, WR_TRANSPARENT);
 	
 	int16_t pp[] = {100, 40, 300, 400, 800, 200};

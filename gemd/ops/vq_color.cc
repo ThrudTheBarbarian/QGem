@@ -1,4 +1,3 @@
-#include <QFontMetrics>
 
 #include "clientmsg.h"
 #include "connectionmgr.h"
@@ -8,44 +7,46 @@
 
 
 /*****************************************************************************\
-|* Opcode 5.1: Query the number of character cells on the alpha display.
+|* Opcode 26: Query the RGB values of a colour index. Note that the flag is
+|*            irrelevant for us, we use truecolour values
 |*
 |* Original signature is:
 |*
-|*  vq_chcells(int16_t handle, int16_t& rows, int16_t& columns);
+|*  vq_color(int16_t handle, int16_t idx, int16_t flag, int16_t* rgb);
 |*
 \*****************************************************************************/
-void VDI::vq_chcells(qintptr handle, int16_t& rows, int16_t& columns)
+void VDI::vq_color(qintptr handle, int16_t idx, int16_t* rgb)
 	{
 	ConnectionMgr *cm = _screen->connectionManager();
 	Workstation *ws   = cm->findWorkstationForHandle(handle);
-	if (ws != nullptr)
-		{
-		QFontMetrics *fm	= ws->fm();
-		QRect bounds		= fm->boundingRect("W");
-		_charHeight			= bounds.height();
-		_charWidth			= bounds.width();
-		rows				= _screen->height() / _charHeight;
-		columns				= _screen->width() / _charWidth;
-		}
+
+	QColor colour = {0,0,0,0};
+
+	if ((ws != nullptr) && (idx >= 0) && (idx < 256))
+		colour = ws->colour(idx);
+
+	rgb[0] = colour.red();
+	rgb[1] = colour.green();
+	rgb[2] = colour.blue();
 	}
 
 /*****************************************************************************\
 |* And from the socket interface...
 \*****************************************************************************/
-void VDI::vq_chcells(Workstation *ws, ClientMsg *cm)
+void VDI::vq_color(Workstation *ws, ClientMsg *cm)
 	{
-	int16_t rows = 0;
-	int16_t cols = 0;
-	vq_chcells(0, rows, cols);
+	const Payload &p	= cm->payload();
+	int16_t idx			= ntohs(p[0]);
+
+	int16_t rgb[3];
+	vq_color(ws->handle(), idx, rgb);
 
 	/**************************************************************************\
 	|* Construct the message
 	\**************************************************************************/
 	cm->clear();
-	cm->append(rows);
-	cm->append(cols);
-	cm->setType(MSG_REPLY(ClientMsg::VQ_CHCELLS));
+	cm->append(rgb, 3);
+	cm->setType(MSG_REPLY(ClientMsg::VQ_COLOR));
 
 	/**************************************************************************\
 	|* Send the message down the wire

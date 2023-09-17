@@ -38,6 +38,16 @@ class VDI : public QObject
 			ROUNDED_RECT	= 9
 			} FillType;
 
+		typedef enum
+			{
+			MouseButton		= (1<<0),
+			MouseEnter		= (1<<1),
+			MouseExit		= (1<<2),
+			MouseMove		= (1<<3),
+			MouseWheel		= (1<<4),
+			Keyboard		= (1<<5),
+			} EventType;
+
 		/*********************************************************************\
 		|* Properties
 		\*********************************************************************/
@@ -48,6 +58,9 @@ class VDI : public QObject
 		GET(int, cursorX);							// Current cursor X
 		GET(int, cursorY);							// Current cursor Y
 		GETSET(bool, reverseVideo, ReverseVideo);	// Draw in reverse video ?
+		GETSETP(Workstation*, top, Top);			// Workstation with focus
+		GETSET(int, activeEvents, ActiveEvents);	// Which events to send
+		GETSET(QRect, mouseArea1, MouseArea1);		// Notify if enter/exit
 
 	private:
 		/*********************************************************************\
@@ -413,10 +426,16 @@ class VDI : public QObject
 		void vsf_style(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
-		|*  24: Set the fill-pattern colour to use
+		|*  25: Set the fill-pattern colour to use
 		\*********************************************************************/
 		void vsf_color(qintptr handle, int16_t idx);
 		void vsf_color(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  26: Get the RGB values of a colour index
+		\*********************************************************************/
+		void vq_color(qintptr handle, int16_t idx, int16_t *rgb);
+		void vq_color(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|*  32: Set the writing mode

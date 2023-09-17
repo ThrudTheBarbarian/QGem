@@ -1,6 +1,8 @@
+#include <QApplication>
 #include <QIODevice>
 
 #include "clientmsg.h"
+#include "gem.h"
 
 /*****************************************************************************\
 |* Class definition
@@ -125,6 +127,28 @@ bool ClientMsg::read(QIODevice *dev)
 		}
 
 	return ok;
+	}
+
+
+/*****************************************************************************\
+|* Construct a message from a mouse event
+|*
+\*****************************************************************************/
+void ClientMsg::fromMouseEvent(QMouseEvent *e)
+	{
+	_type = EVT_MOUSE_MOVE;
+	_payload.clear();
+	append((int16_t)e->pos().x());
+	append((int16_t)e->pos().y());
+	append((int16_t)(e->buttons() & 0xFFFF));
+
+	Qt::KeyboardModifiers mods = qApp->queryKeyboardModifiers();
+	int16_t flags = (mods & Qt::ShiftModifier)		? MDFY_SHIFT	: 0;
+	flags		 |= (mods & Qt::ControlModifier)	? MDFY_CTRL		: 0;
+	flags		 |= (mods & Qt::AltModifier)		? MDFY_ALT		: 0;
+	flags		 |= (mods & Qt::MetaModifier)		? MDFY_META		: 0;
+	flags		 |= (mods & Qt::KeypadModifier)		? MDFY_KEYPAD	: 0;
+	append(flags);
 	}
 
 /*****************************************************************************\

@@ -186,4 +186,14 @@
 #define ALGN_TOP		5
 
 
+/*****************************************************************************\
+|* Key modifiers 
+\*****************************************************************************/
+#define MDFY_SHIFT		1
+#define MDFY_CTRL		2
+#define MDFY_ALT		4
+#define MDFY_META		8
+#define MDFY_KEYPAD		16
+
+
 #endif /* !__gem_defines_header__ */

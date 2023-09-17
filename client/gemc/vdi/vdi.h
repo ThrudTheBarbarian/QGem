@@ -261,6 +261,11 @@ void vsm_color(int16_t handle, int16_t idx);
 int vst_font(int16_t handle, int16_t idx);
 
 /*****************************************************************************\
+|*   22  : Set the text-colour
+\*****************************************************************************/
+void vst_color(int16_t handle, int16_t idx);
+
+/*****************************************************************************\
 |*   23  : Set the fill-pattern type
 \*****************************************************************************/
 int vsf_interior(int16_t handle, int16_t which);
@@ -276,9 +281,9 @@ int vsf_style(int16_t handle, int16_t which);
 int vsf_color(int16_t handle, int16_t idx);
 
 /*****************************************************************************\
-|*   22  : Set the text-colour
+|*   26 : Get the RGB values of a colour index
 \*****************************************************************************/
-void vst_color(int16_t handle, int16_t idx);
+void vq_color(int16_t handle, int16_t idx, int16_t flag, int16_t* rgb);
 
 /*****************************************************************************\
 |*   32  : Set the writing-mode

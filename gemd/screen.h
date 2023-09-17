@@ -14,6 +14,7 @@ QT_END_NAMESPACE
 |* Forward references
 \*****************************************************************************/
 class ConnectionMgr;
+class Workstation;
 
 /*****************************************************************************\
 |* Class declaration
@@ -48,11 +49,22 @@ class Screen : public QMainWindow
 		inline ConnectionMgr * connectionManager(void)
 			{ return _conmgr; }
 
+
+		/*********************************************************************\
+		|* Install an event-filter to get mouse-movement
+		\*********************************************************************/
+		bool eventFilter(QObject *obj, QEvent *event);
+
 	public slots:
 		/*********************************************************************\
 		|* Slot: update the main widget
 		\*********************************************************************/
 		void doFrameUpdate(void);
+
+		/*********************************************************************\
+		|* Slot: We got a connection
+		\*********************************************************************/
+		void connectedTo(Workstation *ws);
 
 
 	private:

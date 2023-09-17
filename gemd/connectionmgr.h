@@ -55,6 +55,10 @@ class ConnectionMgr : public QObject
 		void setPhysicalWorkstation(Workstation *ws);
 
 	signals:
+		/*********************************************************************\
+		|* Signal: we connected this virtual workstation
+		\*********************************************************************/
+		void connection(Workstation *ws);
 
 	private slots:
 		/*********************************************************************\

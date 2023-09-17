@@ -65,6 +65,7 @@ void ConnectionMgr::_connection(void)
 				this, QOverload<>::of(&ConnectionMgr::_incomingData));
 
 		client = _server.nextPendingConnection();
+		emit connection(ws);
 		}
 	fprintf(stderr, "Connection! %d clients\n", (int) _conns.size());
 	}
@@ -76,6 +77,10 @@ void ConnectionMgr::_disconnection(void)
 	{
 	QLocalSocket *socket	= (QLocalSocket *) QObject::sender();
 	_conns.remove(socket->socketDescriptor());
+
+	// FIXME: Needs to cycle back through list, only be nullptr when no
+	// applications left
+	VDI::sharedInstance().setTop(nullptr);
 
 	fprintf(stderr, "Disconnection! %d left\n", (int) _conns.size());
 	}
@@ -297,6 +302,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vsf_color(ws, &cm);
 				break;
 
+			case ClientMsg::VQ_COLOR:		// 26
+				VDI::sharedInstance().vq_color(ws, &cm);
+				break;
+
 			case ClientMsg::VSWR_MODE:		// 32
 				VDI::sharedInstance().vswr_mode(ws, &cm);
 				break;
@@ -338,7 +347,7 @@ void ConnectionMgr::_incomingData(void)
 				break;
 
 			default:
-				WARN("Unknown message type %d", cm.type());
+				WARN("\n** Unknown message type %d", cm.type());
 				break;
 			}
 		}

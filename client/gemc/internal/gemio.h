@@ -66,6 +66,7 @@ enum
 	MSG_VSF_INTERIOR	= 23,
 	MSG_VSF_STYLE		= 24,
 	MSG_VSF_COLOR		= 25,
+	MSG_VQ_COLOR		= 26,
 	MSG_VSWR_MODE		= 32,
 	MSG_VST_ALIGNMENT	= 39,
 	MSG_V_OPNVWK		= 100,
@@ -77,6 +78,9 @@ enum
 	MSG_VS_CLIP			= 129,
 	MSG_VQT_NAME		= 130,
 	MSG_REPLY_OFFSET	= 8192,
+
+
+	EVT_MOUSE_MOVE		= 17000,
 	};
 	
 /*****************************************************************************\
@@ -104,5 +108,11 @@ int _gemIoRead(GemMsg *msg);
 \*****************************************************************************/
 int _gemIoWaitForMessageOfType(GemMsg *msg, int16_t type);
 	
+/*****************************************************************************\
+|* Function to request a blocking read of a message, filtering on a list of
+|* message types. This always tries to read from the socket
+\*****************************************************************************/
+int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types);
+
 
 #endif /* gemio_h */

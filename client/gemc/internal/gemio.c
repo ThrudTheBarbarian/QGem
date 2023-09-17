@@ -105,7 +105,47 @@ int _gemIoRead(GemMsg *msg)
 	\*************************************************************************/
 	else
 		ok = _gemMsgRead(msg, _gemfd);
+
+	return ok;
+	}
+
+/*****************************************************************************\
+|* Function to request a blocking read of a message, filtering on a list of
+|* message types. This always tries to read from the socket
+\*****************************************************************************/
+int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types)
+	{
+	GemMsg incoming;
 	
+	int ok = _gemMsgRead(&incoming, _gemfd);
+	while (ok)
+		{
+		/*************************************************************************\
+		|* FIXME: For now, if it's a mouse-move event, just print it
+		\*************************************************************************/
+		if (incoming.type == EVT_MOUSE_MOVE)
+			{
+			fprintf(stderr, "Mouse moved to %d,%d [btns:%04x, mods:%0x]\n",
+				ntohs(incoming.vec.data[0]),
+				ntohs(incoming.vec.data[1]),
+				ntohs(incoming.vec.data[2]),
+				ntohs(incoming.vec.data[3]));
+			}
+		else
+			{
+			int idx = -1;
+			vec_find(types, incoming.type, idx);
+			if (idx >= 0)
+				{
+				*msg = incoming;				// Transfers ownership of memory
+				break;
+				}
+			else
+				vec_push(&_msgs, incoming);		// Transfers ownership of memory
+			}
+		ok = _gemMsgRead(&incoming, _gemfd);
+		}
+		
 	return ok;
 	}
 
@@ -115,21 +155,10 @@ int _gemIoRead(GemMsg *msg)
 \*****************************************************************************/
 int _gemIoWaitForMessageOfType(GemMsg *msg, int16_t type)
 	{
-	GemMsg incoming;
-	
-	int ok = _gemMsgRead(&incoming, _gemfd);
-	while (ok)
-		{
-		if (incoming.type == type)
-			{
-			*msg = incoming;			// Transfers ownership of memory
-			break;
-			}
-		vec_push(&_msgs, incoming);		// Transfers ownership of memory
-		ok = _gemMsgRead(&incoming, _gemfd);
-		}
-		
-	return ok;
+	vec_word_t types;
+	vec_init(&types);
+	vec_push(&types, type);
+	return _gemIoWaitForMessages(msg, &types);
 	}
 	
 

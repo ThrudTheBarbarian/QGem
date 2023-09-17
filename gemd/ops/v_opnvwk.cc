@@ -147,4 +147,11 @@ void VDI::v_opnvwk(Workstation *ws, ClientMsg *cm)
 	|* Send the message down the wire
 	\**************************************************************************/
 	ws->send(cm);
+
+	/**************************************************************************\
+	|* This is a kludge to get events working, until we actually get windows,
+	|* but set the 'workstation with focus' to the most-recently connected
+	|* virtual workstation
+	\**************************************************************************/
+	vdi.setTop(ws);
 	}

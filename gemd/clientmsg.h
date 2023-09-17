@@ -3,6 +3,7 @@
 
 #include <QByteArray>
 #include <QIODevice>
+#include <QMouseEvent>
 
 #include "properties.h"
 #include "macros.h"
@@ -70,6 +71,7 @@ class ClientMsg
 		VSF_INTERIOR		= 23,
 		VSF_STYLE			= 24,
 		VSF_COLOR			= 25,
+		VQ_COLOR			= 26,
 		VSWR_MODE			= 32,
 		VST_ALIGNMENT		= 39,
 		V_OPNVWK			= 100,
@@ -80,6 +82,8 @@ class ClientMsg
 		VST_LOAD_FONTS		= 119,
 		VS_CLIP				= 129,
 		VQT_NAME			= 130,
+
+		EVT_MOUSE_MOVE		= 17000,
 		};
 
 	/*************************************************************************\
@@ -117,6 +121,11 @@ class ClientMsg
 		|* Populate the message from a socket
 		\*********************************************************************/
 		bool read(QIODevice *dev);
+
+		/*********************************************************************\
+		|* Populate the message from a mouse event
+		\*********************************************************************/
+		void fromMouseEvent(QMouseEvent* ev);
 
 		/*********************************************************************\
 		|* Clear the properties so we can re-use the message
