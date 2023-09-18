@@ -1,8 +1,8 @@
 //
-//  v_rbox.c
+//  vqt_attributes.c
 //  gemc
 //
-//  Created by ThrudTheBarbarian on 9/16/23.
+//  Created by ThrudTheBarbarian on 9/17/23.
 //
 
 #include <stdio.h>
@@ -12,9 +12,11 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*  11.8: Draw a rounded rect
+|*   38  : Get the current text attributes
+|*         returns: font, colour, angle, halign, valign, mode, charW, charH,
+|*                  cellW, cellH
 \*****************************************************************************/
-void v_rbox(int16_t handle, int16_t*pts)
+void vqt_attributes(int16_t handle, int16_t*settings)
 	{
 	/*************************************************************************\
 	|* Check to see if we're connected
@@ -27,10 +29,21 @@ void v_rbox(int16_t handle, int16_t*pts)
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_V_RBOX);
-	_gemMsgAppend(&msg, pts, 4);
+	_gemMsgInit(&msg, MSG_VQT_ATTRIBUTES);
 	_gemIoWrite(&msg);
-			
+	
+	/*************************************************************************\
+	|* Wait for a response
+	\*************************************************************************/
+	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_VQT_ATTRIBUTES));
+
+	/*************************************************************************\
+	|* Copy data over if space is allocated
+	\*************************************************************************/
+	if (settings != NULL)
+		for (int i=0; i<10; i++)
+			settings[i] = ntohs(msg.vec.data[i]);
+		
 	/*************************************************************************\
 	|* Clear the message allocations
 	\*************************************************************************/

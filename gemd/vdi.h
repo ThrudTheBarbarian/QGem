@@ -440,6 +440,30 @@ class VDI : public QObject
 		void vsin_mode(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*  35: Get the current line style
+		\*********************************************************************/
+		void vql_attributes(qintptr handle, int16_t* settings);
+		void vql_attributes(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  36: Get the current marker style
+		\*********************************************************************/
+		void vqm_attributes(qintptr handle, int16_t* settings);
+		void vqm_attributes(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  37: Get the current fill style
+		\*********************************************************************/
+		void vqf_attributes(qintptr handle, int16_t* settings);
+		void vqf_attributes(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  38: Get the current text style
+		\*********************************************************************/
+		void vqt_attributes(qintptr handle, int16_t* settings);
+		void vqt_attributes(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|*  39: Request the text alignment and get the actual set values
 		\*********************************************************************/
 		void vst_alignment(qintptr handle, int16_t  hIn,  int16_t  vIn,

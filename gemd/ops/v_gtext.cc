@@ -33,6 +33,12 @@ void VDI::v_gtext(qintptr handle, int16_t x, int16_t y, int16_t w, char *txt)
 		if (ws->enableClip())
 			painter.setClipRect(ws->clip());
 
+		/*********************************************************************\
+		|* Set up the writing mode
+		\*********************************************************************/
+		ws->setWritingMode(painter);
+
+
 		QFont font				= QFont(ws->currentFont(), _img);
 		QFontMetrics *metrics	= ws->fm();
 

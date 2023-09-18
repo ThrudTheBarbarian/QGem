@@ -55,6 +55,10 @@ SOURCES += \
     ops/vq_exit_cur.cc \
     ops/vq_hardcopy.cc \
     ops/vq_tabstatus.cc \
+    ops/vqf_attributes.cc \
+    ops/vql_attributes.cc \
+    ops/vqm_attributes.cc \
+    ops/vqt_attributes.cc \
     ops/vqt_name.cc \
     ops/vs_clip.cc \
     ops/vs_color.cc \

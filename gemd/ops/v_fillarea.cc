@@ -40,6 +40,11 @@ void VDI::v_fillarea(qintptr handle, FillType type, int16_t num, int16_t*pxy)
 			painter.setClipRect(ws->clip());
 
 		/*********************************************************************\
+		|* Set up the writing mode
+		\*********************************************************************/
+		ws->setWritingMode(painter);
+
+		/*********************************************************************\
 		|* Create the path that we'll fill / draw
 		\*********************************************************************/
 		QPainterPath path;

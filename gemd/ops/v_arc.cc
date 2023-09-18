@@ -34,6 +34,11 @@ void VDI::v_arc(qintptr handle, int16_t x, int16_t y, int16_t radius,
 			painter.setClipRect(ws->clip());
 
 		/*********************************************************************\
+		|* Set up the writing mode
+		\*********************************************************************/
+		ws->setWritingMode(painter);
+
+		/*********************************************************************\
 		|* Create the path that we'll draw
 		\*********************************************************************/
 		QPainterPath path;

@@ -310,6 +310,22 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vswr_mode(ws, &cm);
 				break;
 
+			case ClientMsg::VQL_ATTRIBUTES:	// 35
+				VDI::sharedInstance().vql_attributes(ws, &cm);
+				break;
+
+			case ClientMsg::VQM_ATTRIBUTES:	// 36
+				VDI::sharedInstance().vqm_attributes(ws, &cm);
+				break;
+
+			case ClientMsg::VQF_ATTRIBUTES:	// 37
+				VDI::sharedInstance().vqf_attributes(ws, &cm);
+				break;
+
+			case ClientMsg::VQT_ATTRIBUTES:	// 38
+				VDI::sharedInstance().vqt_attributes(ws, &cm);
+				break;
+
 			case ClientMsg::VST_ALIGNMENT:	// 39
 				VDI::sharedInstance().vst_alignment(ws, &cm);
 				break;

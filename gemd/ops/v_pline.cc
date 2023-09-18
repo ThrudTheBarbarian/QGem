@@ -42,6 +42,11 @@ void VDI::v_pline(qintptr handle, int16_t num, int16_t*pxy)
 		if (ws->enableClip())
 			painter.setClipRect(ws->clip());
 
+		/*********************************************************************\
+		|* Set up the writing mode
+		\*********************************************************************/
+		ws->setWritingMode(painter);
+
 		bool penNeedsReset = false;
 		int W	= ws->lineWidth() * 3 + 3;
 

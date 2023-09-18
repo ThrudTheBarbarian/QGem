@@ -30,6 +30,11 @@ void VDI::v_pmarker(qintptr handle, int16_t num, int16_t*pxy)
 		if (ws->enableClip())
 			painter.setClipRect(ws->clip());
 
+		/*********************************************************************\
+		|* Set up the writing mode
+		\*********************************************************************/
+		ws->setWritingMode(painter);
+
 		int idx   = 0;
 		int delta = (ws->markerHeight() - 1)/2;
 

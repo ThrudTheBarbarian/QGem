@@ -35,7 +35,7 @@ class Workstation : public QObject
 	GETSET(int, fontId, FontId);						// font id to use
 	GETSET(int, textColour, TextColour);				// colour index for text
 	GETSET(int, textAlign, TextAlign);					// Text alignment
-	GETSET(int, textHeight, TextHeight);				// Text height
+	GET(int, textHeight);								// Text height
 	GETSET(int, textRotation, TextRotation);			// Text rotation angle
 	GETSET(int, textEffect, TextEffect);				// Text drawing effect
 	GETSET(int, fillType, FillType);					// type of fill to use
@@ -44,7 +44,7 @@ class Workstation : public QObject
 	GETSET(bool, drawPerimeter, DrawPerimeter);			// Draw perim or not
 	GETSET(int, coordType, CoordType);					// NDC or Raster co-ords
 	GETSET(int, pageSize, PageSize);					// Page size to use
-	GETSET(QPainter::CompositionMode, wrMode, WrMode);	// Composition mode
+	GETSET(int, wrMode, WrMode);						// Composition mode
 	GETSET(QRect, clip, Clip);							// Clipping rectangle
 	GETSET(bool, enableClip, EnableClip);				// Clipping enabled
 	GETSET(LineStyle, userType, UserType);				// User defined line
@@ -99,16 +99,24 @@ class Workstation : public QObject
 		|* Set the current font and font-metrics
 		\*********************************************************************/
 		bool setFont(int fontId);
+		void setTextHeight(int height);
 
 		/*********************************************************************\
 		|* Get the current font-metrics
 		\*********************************************************************/
 		inline QFontMetrics * fm() { return _fm; }
+		int16_t horizontalTextAlignment(void);
+		int16_t verticalTextAlignment(void);
 
 		/*********************************************************************\
 		|* Set up the input mode for various devices
 		\*********************************************************************/
 		void setInputMode(int device, int mode);
+
+		/*********************************************************************\
+		|* Set up the writing mode
+		\*********************************************************************/
+		void setWritingMode(QPainter& painter);
 
 		/*********************************************************************\
 		|* Set up the pen for drawing based on the local state

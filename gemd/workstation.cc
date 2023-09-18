@@ -44,7 +44,7 @@ Workstation::Workstation(QLocalSocket *client, QObject *parent)
 			,_drawPerimeter(true)
 			,_coordType(COORD_RASTER)
 			,_pageSize(PG_DIN_A4)
-			,_wrMode(QPainter::CompositionMode_Source)
+			,_wrMode(WR_REPLACE)
 			,_clip(QRect(0,0,0,0))
 			,_enableClip(false)
 			,_startCap(CAP_SQUARE)
@@ -84,7 +84,7 @@ Workstation::Workstation(QObject *parent)
 	,_drawPerimeter(true)
 	,_coordType(COORD_RASTER)
 	,_pageSize(PG_DIN_A4)
-	,_wrMode(QPainter::CompositionMode_Source)
+	,_wrMode(WR_REPLACE)
 	,_clip(QRect(0,0,0,0))
 	,_enableClip(false)
 	,_startCap(CAP_SQUARE)
@@ -167,6 +167,18 @@ bool Workstation::setFont(int fontId)
 	}
 
 /*****************************************************************************\
+|* Set the text height and re-create the metrics
+\*****************************************************************************/
+void Workstation::setTextHeight(int height)
+	{
+	_textHeight = height;
+	_currentFont.setPixelSize(height);
+	if (_fm)
+		DELETE(_fm);
+	_fm = new QFontMetrics(_currentFont);
+	}
+
+/*****************************************************************************\
 |* Set up the pen for drawing based on the local state
 \*****************************************************************************/
 void Workstation::setupPenForLine(QPen& pen)
@@ -207,7 +219,7 @@ void Workstation::setupPenForFill(QPen& pen)
 				QImage& img = ff.patternFor(_fillType, _fillStyle);
 				if (img.colorCount() == 2)
 					{
-					if (_wrMode == QPainter::CompositionMode_SourceOver)
+					if (_wrMode == WR_TRANSPARENT)
 						img.setColor(0, qRgba(0,0,0,0));
 					else
 						img.setColor(0, _palette[0].rgba());
@@ -247,6 +259,25 @@ void Workstation::setupPenForText(QPen& pen)
 	pen.setWidth(1);
 	}
 
+/*****************************************************************************\
+|* Helper routine to figure out the horizontal alignment constant
+\*****************************************************************************/
+int16_t Workstation::horizontalTextAlignment(void)
+	{
+	return ((_textAlign & Qt::AlignHCenter) != 0)	? ALGN_CENTER
+		   : ((_textAlign & Qt::AlignRight) != 0)	? ALGN_RIGHT
+		   : ALGN_LEFT;
+	}
+
+/*****************************************************************************\
+|* Helper routine to figure out the horizontal alignment constant
+\*****************************************************************************/
+int16_t Workstation::verticalTextAlignment(void)
+	{
+	return ((_textAlign & Qt::AlignTop) != 0)		? ALGN_TOP
+		   : ((_textAlign & Qt::AlignBottom) != 0)  ? ALGN_BOTTOM
+		   : ALGN_BASELINE;
+	}
 
 /*****************************************************************************\
 |* Set up whether to sample or request information from the various devices
@@ -259,5 +290,27 @@ void Workstation::setInputMode(int device, int mode)
 			_inputModes |= (1<<device);
 		else if (mode == INPUT_SAMPLE)
 			_inputModes &= ~(1<<device);
+		}
+	}
+
+/*********************************************************************\
+|* Set up the writing mode
+\*********************************************************************/
+void Workstation::setWritingMode(QPainter& painter)
+	{
+	switch (_wrMode)
+		{
+		case WR_REPLACE:
+			painter.setCompositionMode(QPainter::CompositionMode_Source);
+			break;
+		case WR_TRANSPARENT:
+			painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+			break;
+		case WR_XOR:
+			painter.setCompositionMode(QPainter::RasterOp_NotSourceXorDestination);
+			break;
+		case WR_REV_TRANS:	// Life is too short to figure out how this maps...
+			painter.setCompositionMode(QPainter::RasterOp_NotSourceAndDestination);
+			break;
 		}
 	}

@@ -318,6 +318,31 @@ void vswr_mode(int16_t handle, int16_t which);
 void vsin_mode(int16_t handle, int16_t device, int16_t mode);
 
 /*****************************************************************************\
+|*   35  : Get the current line attributes
+|*         returns: type, pen, mode, width
+\*****************************************************************************/
+void vql_attributes(int16_t handle, int16_t*settings);
+
+/*****************************************************************************\
+|*   36  : Get the current marker attributes
+|*         returns: type, pen, mode, height (pix)
+\*****************************************************************************/
+void vqm_attributes(int16_t handle, int16_t*settings);
+
+/*****************************************************************************\
+|*   37  : Get the current fill attributes
+|*         returns: interior style, colour, pattern index, perimeter
+\*****************************************************************************/
+void vqf_attributes(int16_t handle, int16_t*settings);
+
+/*****************************************************************************\
+|*   38  : Get the current text attributes
+|*         returns: font, colour, angle, halign, valign, mode, charW, charH,
+|*                  cellW, cellH
+\*****************************************************************************/
+void vqt_attributes(int16_t handle, int16_t*settings);
+
+/*****************************************************************************\
 |*   39  : Set the text-alignment
 \*****************************************************************************/
 void vst_alignment(int16_t handle, int16_t hIn,   int16_t vIn,
@@ -327,6 +352,11 @@ void vst_alignment(int16_t handle, int16_t hIn,   int16_t vIn,
 |*  100  : Open a virtual workstation
 \*****************************************************************************/
 void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut);
+
+/*****************************************************************************\
+|*  101  : Close a virtual workstation
+\*****************************************************************************/
+void v_clsvwk(int handle);
 
 /*****************************************************************************\
 |*  104  : Set whether to draw a perimeter around a fill

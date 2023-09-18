@@ -124,18 +124,39 @@ int main(int argc, const char * argv[])
 	vsf_interior(handle, FIS_HOLLOW);
 	int16_t tpts[] = {900, 500, 1300, 540};
 	vsl_color(handle, 1);
-	vsl_width(handle, 1);
+	vsl_width(handle, 2);
  	v_bar(handle, tpts);
 	
 	int16_t rgb[3] = {1000, 100, 500};
 	vs_color(handle, 1, rgb);
 	v_justified(handle, 900, 500, 400, 0,0, "The quick brown fox jumped over the lazy dog");
 
-	int16_t mx, my, mb;
-	vrq_locator(handle, 0,0, &mx, &my, &mb);
-	fprintf(stderr, "x=%d, y=%d, btn=%d\n", mx, my, mb);
+	int16_t attrs[10];
+	vql_attributes(handle, attrs);
+	fprintf(stderr, "type:%d, colour:%d, mode:%d width:%d\n",
+			attrs[0],attrs[1], attrs[2], attrs[3]);
+
+	vqm_attributes(handle, attrs);
+	fprintf(stderr, "type:%d, colour:%d, mode:%d height:%d\n",
+			attrs[0],attrs[1], attrs[2], attrs[3]);
+
+	vqf_attributes(handle, attrs);
+	fprintf(stderr, "type:%d, colour:%d, pattern:%d perim:%d\n",
+			attrs[0],attrs[1], attrs[2], attrs[3]);
+
+	vqt_attributes(handle, attrs);
+	fprintf(stderr, "font:%d, colour:%d, angle:%d, ha:%d, va:%d, mode:%d, w:%d, h:%d\n",
+			attrs[0],attrs[1], attrs[2], attrs[3],
+			attrs[4],attrs[5], attrs[6], attrs[7]);
+
+//	int16_t mx, my, mb;
+//	vrq_locator(handle, 0,0, &mx, &my, &mb);
+//	fprintf(stderr, "x=%d, y=%d, btn=%d\n", mx, my, mb);
+//
+//	char s[1024];
+//	vrq_string(handle, 9, 0, NULL, s);
+//	fprintf(stderr, "s='%s'\n", s);
 	
-	char s[1024];
-	vrq_string(handle, 9, 0, NULL, s);
-	fprintf(stderr, "s='%s'\n", s);
+	
+	v_clsvwk(handle);
 	}

@@ -20,21 +20,7 @@ void VDI::vswr_mode(Workstation *ws, int16_t mode)
 		}
 	else if (ws != nullptr)
 		{
-		switch (mode)
-			{
-			case WR_REPLACE:
-				ws->setWrMode(QPainter::CompositionMode_Source);
-				break;
-			case WR_TRANSPARENT:
-				ws->setWrMode(QPainter::CompositionMode_SourceOver);
-				break;
-			case WR_XOR:
-				ws->setWrMode(QPainter::RasterOp_NotSourceXorDestination);
-				break;
-			case WR_REV_TRANS:	// Life is too short to figure out how this maps...
-				ws->setWrMode(QPainter::RasterOp_NotSourceAndDestination);
-				break;
-			}
+		ws->setWrMode(mode);
 		}
 	}
 

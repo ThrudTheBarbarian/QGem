@@ -9,11 +9,11 @@
 /*****************************************************************************\
 |* 39: Request the text alignment and get the actual set values
 |*
-|* Original signature is: vst_lignment(int16_t handle,
-|*									   int16_t hIn,
-|*									   int16_t vIn,
-|*									   int16_t *hOut,
-|*									   int16_t *vOut);
+|* Original signature is: vst_alignment(int16_t handle,
+|*									    int16_t hIn,
+|*									    int16_t vIn,
+|*									    int16_t *hOut,
+|*									    int16_t *vOut);
 |*
 \*****************************************************************************/
 void VDI::vst_alignment(qintptr handle, int16_t  hIn,  int16_t vIn,

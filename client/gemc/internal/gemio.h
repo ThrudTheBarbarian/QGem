@@ -70,6 +70,10 @@ enum
 	MSG_V_LOCATOR		= 28,
 	MSG_VSWR_MODE		= 32,
 	MSG_VSIN_MODE		= 33,
+	MSG_VQL_ATTRIBUTES	= 35,
+	MSG_VQM_ATTRIBUTES	= 36,
+	MSG_VQF_ATTRIBUTES	= 37,
+	MSG_VQT_ATTRIBUTES	= 38,
 	MSG_VST_ALIGNMENT	= 39,
 	MSG_V_OPNVWK		= 100,
 	MSG_VSF_PERIMETER	= 104,
@@ -136,5 +140,10 @@ void _gemIoSetEventFilter(int value);
 |* Sample the current mouse/modifier state, any of these can be NULL
 \*****************************************************************************/
 void _gemIoMouseState(int16_t *x, int16_t *y, int16_t *btns, int16_t *mods);
+
+/*****************************************************************************\
+|* Disconnect from the server
+\*****************************************************************************/
+void _gemIoDisconnect(void);
 
 #endif /* gemio_h */
