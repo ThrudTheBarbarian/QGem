@@ -34,7 +34,8 @@ Workstation::Workstation(QLocalSocket *client, QObject *parent)
 			,_markerHeight(5)
 			,_fontId(0)
 			,_textColour(G_BLACK)
-			,_textAlign(0)
+			,_textHAlign(ALGN_LEFT)
+			,_textVAlign(ALGN_BASELINE)
 			,_textHeight(12)
 			,_textRotation(0)
 			,_textEffect(0)
@@ -74,7 +75,8 @@ Workstation::Workstation(QObject *parent)
 	,_markerHeight(5)
 	,_fontId(0)
 	,_textColour(G_BLACK)
-	,_textAlign(0)
+	,_textHAlign(ALGN_LEFT)
+	,_textVAlign(ALGN_BASELINE)
 	,_textHeight(12)
 	,_textRotation(0)
 	,_textEffect(0)
@@ -257,26 +259,6 @@ void Workstation::setupPenForText(QPen& pen)
 	pen.setColor(c);
 	pen.setBrush(c);
 	pen.setWidth(1);
-	}
-
-/*****************************************************************************\
-|* Helper routine to figure out the horizontal alignment constant
-\*****************************************************************************/
-int16_t Workstation::horizontalTextAlignment(void)
-	{
-	return ((_textAlign & Qt::AlignHCenter) != 0)	? ALGN_CENTER
-		   : ((_textAlign & Qt::AlignRight) != 0)	? ALGN_RIGHT
-		   : ALGN_LEFT;
-	}
-
-/*****************************************************************************\
-|* Helper routine to figure out the horizontal alignment constant
-\*****************************************************************************/
-int16_t Workstation::verticalTextAlignment(void)
-	{
-	return ((_textAlign & Qt::AlignTop) != 0)		? ALGN_TOP
-		   : ((_textAlign & Qt::AlignBottom) != 0)  ? ALGN_BOTTOM
-		   : ALGN_BASELINE;
 	}
 
 /*****************************************************************************\

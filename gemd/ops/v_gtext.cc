@@ -9,8 +9,6 @@
 #include "vdi.h"
 #include "workstation.h"
 
-#define VALIGN_MASK (Qt::AlignTop | Qt::AlignBottom | Qt::AlignBaseline)
-
 /*****************************************************************************\
 |* Opcode 8: Draw graphic text
 |*
@@ -53,12 +51,12 @@ void VDI::v_gtext(qintptr handle, int16_t x, int16_t y, int16_t w, char *txt)
 
 		// Y position is used as baseline, so if we have different vrtical
 		// alignment, we have to calculate that ourselves
-		switch (ws->textAlign() & VALIGN_MASK)
+		switch (ws->textVAlign())
 			{
-			case Qt::AlignTop:
+			case ALGN_TOP:
 				y -= metrics->ascent();
 				break;
-			case Qt::AlignBottom:
+			case ALGN_BOTTOM:
 				y += metrics->descent();
 				break;
 			}
@@ -84,9 +82,24 @@ void VDI::v_gtext(qintptr handle, int16_t x, int16_t y, int16_t w, char *txt)
 			}
 		else
 			{
+			int flags = 0;
+			switch (ws->textHAlign())
+				{
+				case ALGN_FULL:
+					flags	= Qt::TextJustificationForced | Qt::AlignJustify;
+					break;
+				case ALGN_CENTER:
+					flags = Qt::AlignCenter;
+					break;
+				case ALGN_RIGHT:
+					flags = Qt::AlignRight;
+					break;
+				default:
+					flags = Qt::AlignLeft;
+					break;
+				}
+
 			int h = ws->fm()->height();
-			int flags	= Qt::TextJustificationForced
-						| Qt::AlignJustify;
 			painter.drawText(x, y, w, h, flags, txt);
 			}
 		}

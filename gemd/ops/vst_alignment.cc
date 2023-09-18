@@ -24,19 +24,16 @@ void VDI::vst_alignment(qintptr handle, int16_t  hIn,  int16_t vIn,
 
 	if (ws != nullptr)
 		{
-		int flags = 0;
 		switch (hIn)
 			{
 			case ALGN_CENTER:
-				flags = Qt::AlignHCenter;
-				hOut = hIn;
-				break;
 			case ALGN_RIGHT:
-				flags = Qt::AlignRight;
+			case ALGN_FULL:
+				ws->setTextHAlign(hIn);
 				hOut = hIn;
 				break;
 			default:
-				flags = Qt::AlignLeft;
+				ws->setTextHAlign(ALGN_LEFT);
 				hOut = ALGN_LEFT;
 				break;
 			}
@@ -46,22 +43,21 @@ void VDI::vst_alignment(qintptr handle, int16_t  hIn,  int16_t vIn,
 			case ALGN_HALF:
 			case ALGN_ASCENT:
 			case ALGN_TOP:
-				flags |= Qt::AlignTop;
+				ws->setTextVAlign(ALGN_TOP);
 				vOut = ALGN_TOP;
 				break;
 
 			case ALGN_BOTTOM:
 			case ALGN_DESCENT:
-				flags |= Qt::AlignBottom;
+				ws->setTextVAlign(ALGN_BOTTOM);
 				vOut = ALGN_BOTTOM;
 				break;
 
 			default:
-				flags |= Qt::AlignBaseline;
+				ws->setTextVAlign(ALGN_BASELINE);
 				vOut = ALGN_BASELINE;
 				break;
 			}
-		ws->setTextAlign(flags);
 		}
 	}
 

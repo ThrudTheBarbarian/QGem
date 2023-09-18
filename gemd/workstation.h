@@ -34,7 +34,8 @@ class Workstation : public QObject
 	GETSET(int, markerHeight, MarkerHeight);			// pixel size of marker
 	GETSET(int, fontId, FontId);						// font id to use
 	GETSET(int, textColour, TextColour);				// colour index for text
-	GETSET(int, textAlign, TextAlign);					// Text alignment
+	GETSET(int, textHAlign, TextHAlign);				// Text horiz alignment
+	GETSET(int, textVAlign, TextVAlign);				// Text vert alignment
 	GET(int, textHeight);								// Text height
 	GETSET(int, textRotation, TextRotation);			// Text rotation angle
 	GETSET(int, textEffect, TextEffect);				// Text drawing effect
@@ -105,8 +106,6 @@ class Workstation : public QObject
 		|* Get the current font-metrics
 		\*********************************************************************/
 		inline QFontMetrics * fm() { return _fm; }
-		int16_t horizontalTextAlignment(void);
-		int16_t verticalTextAlignment(void);
 
 		/*********************************************************************\
 		|* Set up the input mode for various devices

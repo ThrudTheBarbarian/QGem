@@ -21,8 +21,8 @@ void VDI::vqt_attributes(qintptr handle, int16_t* settings)
 		settings[0] = ws->fontId();
 		settings[1] = ws->textColour();
 		settings[2] = ws->textRotation();
-		settings[3] = ws->horizontalTextAlignment();
-		settings[4] = ws->verticalTextAlignment();
+		settings[3] = ws->textHAlign();
+		settings[4] = ws->textVAlign();
 		settings[5] = ws->wrMode();
 		settings[6] = ws->fm()->maxWidth();
 		settings[7] = ws->fm()->height();

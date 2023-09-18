@@ -122,14 +122,24 @@ int main(int argc, const char * argv[])
 	
 	vst_height(handle, 12, NULL, NULL, NULL, NULL);
 	vsf_interior(handle, FIS_HOLLOW);
-	int16_t tpts[] = {900, 500, 1300, 540};
+	int16_t tpts[] = {900, 500, 1300, 580};
 	vsl_color(handle, 1);
 	vsl_width(handle, 2);
  	v_bar(handle, tpts);
 	
 	int16_t rgb[3] = {1000, 100, 500};
 	vs_color(handle, 1, rgb);
+	vst_alignment(handle, ALGN_LEFT, ALGN_BASELINE, NULL, NULL);
 	v_justified(handle, 900, 500, 400, 0,0, "The quick brown fox jumped over the lazy dog");
+
+	vst_alignment(handle, ALGN_CENTER, ALGN_BASELINE, NULL, NULL);
+	v_justified(handle, 900, 520, 400, 0,0, "The quick brown fox jumped over the lazy dog");
+
+	vst_alignment(handle, ALGN_RIGHT, ALGN_BASELINE, NULL, NULL);
+	v_justified(handle, 900, 540, 400, 0,0, "The quick brown fox jumped over the lazy dog");
+
+	vst_alignment(handle, ALGN_FULL, ALGN_BASELINE, NULL, NULL);
+	v_justified(handle, 900, 560, 400, 0,0, "The quick brown fox jumped over the lazy dog");
 
 	int16_t attrs[10];
 	vql_attributes(handle, attrs);
