@@ -1,0 +1,3 @@
+- change vst_alignment to be less native
+	- implement alignment in v_gtext
+

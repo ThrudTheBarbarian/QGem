@@ -177,6 +177,7 @@
 #define ALGN_LEFT		0
 #define ALGN_CENTER		1
 #define ALGN_RIGHT		2
+#define ALGN_FULL		3
 
 #define ALGN_BASELINE	0
 #define ALGN_HALF		1
