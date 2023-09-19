@@ -10,30 +10,13 @@
 #include "vdi.h"
 #include "workstation.h"
 
-/*****************************************************************************\
-|* Map RGB to something useful
-\*****************************************************************************/
-typedef struct Colour
-	{
-	uint8_t r;
-	uint8_t g;
-	uint8_t b;
-	uint8_t a;
-
-	bool operator ==(const Colour& other)
-		{
-		if ((other.r == r) && (other.g == g) && (other.b == b))
-			return true;
-		return false;
-		}
-	} Colour;
 
 /*****************************************************************************\
 |* Forward declarations
 \*****************************************************************************/
 static void _tile(QImage &src, QImage *dst);
 static void _fill(int x, int y, int w, int h,
-				  Colour c, Colour ** src, Colour ** dst);
+				  uint32_t c, uint32_t ** src, uint32_t ** dst);
 
 /*****************************************************************************\
 |* Defines and constants
@@ -137,23 +120,20 @@ void VDI::v_contourfill(qintptr handle, int16_t x, int16_t y, int16_t colour)
 		|* of the image to fill (the screen), even if the destination is not
 		|* of the same size
 		\*********************************************************************/
-		Colour ** src = new Colour * [H];
-		Colour ** dst = new Colour * [H];
+		uint32_t ** src = new uint32_t * [H];
+		uint32_t ** dst = new uint32_t * [H];
 
 		for (int i=0; i<H; i++)
 			{
-			src[i] = (Colour *) pattern->scanLine(i%h);
-			dst[i] = (Colour *) _img->scanLine(i);
+			src[i] = (uint32_t *) pattern->scanLine(i%h);
+			dst[i] = (uint32_t *) _img->scanLine(i);
 			}
 
 		/*********************************************************************\
 		|* Now flood-fill everywhere with the colour at x,y
 		\*********************************************************************/
 		QColor toFill = ws->colour(colour);
-		Colour c;
-		c.r = toFill.red();
-		c.g = toFill.green();
-		c.b = toFill.blue();
+		uint32_t c = toFill.rgb();
 
 		_fill(x, y, W, H, c, src, dst);
 
@@ -188,14 +168,14 @@ void VDI::v_contourfill(Workstation *ws, ClientMsg *cm)
 |* Flood-fill the image
 \*****************************************************************************/
 static void _fill(int x, int y, int w, int h,
-				  Colour fillColour, Colour ** src, Colour ** dst)
+				  uint32_t fillColour, uint32_t ** src, uint32_t ** dst)
 	{
 	int h2 = h-1;
 
 	/*********************************************************************\
 	|* Check we have work to do
 	\*********************************************************************/
-	Colour oldColour	= dst[y][x];		// Colour to look for
+	uint32_t oldColour	= dst[y][x];		// Colour to look for
 	if (fillColour == oldColour)
 		return;
 
@@ -244,7 +224,7 @@ static void _fill(int x, int y, int w, int h,
 		x ++;
 
 	int x2 = x;
-	while ((x1 >= 0) && (dst[y][x1] == oldColour))
+	while ((x1 > -1) && (dst[y][x1] == oldColour))
 		x1 --;
 	x1++;
 
@@ -253,7 +233,6 @@ static void _fill(int x, int y, int w, int h,
 	\*********************************************************************/
 	for (x=x1; x<x2; x++)
 		COPY_RGB(x,y);
-
 
 	/*********************************************************************\
 	|* Seed the stack
@@ -280,12 +259,12 @@ static void _fill(int x, int y, int w, int h,
 				y = q1;
 				if ((dst[y][x] == oldColour) && (!visited[y][x]))
 					{
-					for (int xx = x1; xx<x2; xx++)
-						COPY_RGB(xx,y);
+					for (x = x1; x<x2; x++)
+						COPY_RGB(x,y);
 
 					for (--y; y >= 0; y--)
 						{
-						if ((!(dst[y][x] == oldColour)) || (visited[y][x]))
+						if ((dst[y][x] != oldColour) || (visited[y][x]))
 							break;
 						COPY_RGB(x,y);
 						}
@@ -321,7 +300,7 @@ static void _fill(int x, int y, int w, int h,
 
 					for (++y; y < h; y++)
 						{
-						if ((!(dst[y][x] == oldColour)) || (visited[y][x]))
+						if ((dst[y][x] != oldColour) || (visited[y][x]))
 							break;
 						COPY_RGB(x,y);
 						}
@@ -357,7 +336,7 @@ static void _fill(int x, int y, int w, int h,
 
 					for (--x; x > -1; x--)
 						{
-						if ((!(dst[y][x] == oldColour)) || (visited[y][x]))
+						if ((dst[y][x] != oldColour) || (visited[y][x]))
 							break;
 						COPY_RGB(x,y);
 						}
@@ -393,7 +372,7 @@ static void _fill(int x, int y, int w, int h,
 
 					for (++x; x < w; x++)
 						{
-						if ((!(dst[y][x] == oldColour)) || (visited[y][x]))
+						if ((dst[y][x] != oldColour) || (visited[y][x]))
 							break;
 						COPY_RGB(x,y);
 						}
