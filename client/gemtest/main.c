@@ -170,7 +170,7 @@ int main(int argc, const char * argv[])
 //	vrq_string(handle, 9, 0, NULL, s);
 //	fprintf(stderr, "s='%s'\n", s);
 	
-	vsf_interior(handle, FIS_SOLID);
+	vsf_interior(handle, FIS_PATTERN);
 	v_contourfill(handle, 1005, 525, 3);
 	//int16_t bpts[] = {1005,525,1006,526};
 	//v_bar(handle, bpts);

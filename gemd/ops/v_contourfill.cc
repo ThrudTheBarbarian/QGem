@@ -18,6 +18,7 @@ typedef struct Colour
 	uint8_t r;
 	uint8_t g;
 	uint8_t b;
+	uint8_t a;
 
 	bool operator ==(const Colour& other)
 		{
@@ -60,8 +61,8 @@ static void _fill(int x, int y, int w, int h,
 	do {									\
 		dst[y][x] = src[y][x];				\
 		visited[y][x] = 1;					\
-		fprintf(stderr, "[%d,%d] ", x, y);	\
 	} while (0)
+//fprintf(stderr, "[%d,%d] ", x, y);	\
 
 /*****************************************************************************\
 |* Opcode 103: Flood fill an area
@@ -129,6 +130,7 @@ void VDI::v_contourfill(qintptr handle, int16_t x, int16_t y, int16_t colour)
 			default:
 				return;
 			}
+		fprintf(stderr, "Image fmt: %d\n", _img->format());
 
 		/*********************************************************************\
 		|* Create pointers to the scanline data that map 1:1 to the y co-ords
