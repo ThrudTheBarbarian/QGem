@@ -41,14 +41,15 @@ static void _fill(int x, int y, int w, int h,
 	} while (0)
 
 #define COPY_RGB(x, y)						\
-	do {									\
+	do	{									\
 		dst[y][x] = src[y][x];				\
 		visited[y][x] = 1;					\
-	} while (0)
+		} while (0)
+
 //fprintf(stderr, "[%d,%d] ", x, y);
 
-#define DST(x,y) dst[y][x]
-#define SEEN(x,y) visited[y][x]
+#define DST(x,y)	dst[y][x]
+#define SEEN(x,y)	visited[y][x]
 
 /*****************************************************************************\
 |* Opcode 103: Flood fill an area
@@ -174,8 +175,6 @@ void _fill(int x, int y, int w, int h,
 	{
 	(void)fillColour;
 
-	int h2 = h-1;
-
 	uint32_t oldColour	= dst[y][x];		// Colour to look for
 
 	/*********************************************************************\
@@ -233,55 +232,56 @@ void _fill(int x, int y, int w, int h,
 		POP(x3, x4, y1, y2);
 
 		y1 += y2;
-		if ((y1 < 0) || (y1 > h2))
-			continue;
-
-		int x5 = x3;
-		while ((x5 > -1) && (DST(x5,y1) == oldColour) && !SEEN(x5, y1))
-			x5--;
-		x5++;
-
-		int x6;
-		if (x5 <= x3)
+		if ((y1 >= 0) && (y1 < h))
 			{
-			x6 = x3 + 1;
-			while ((x6 < w) && (DST(x6,y1) == oldColour) && !SEEN(x6,y1))
-				x6++;
-			x6--;
+			int x5 = x3;
 
-			for (int i = x5; i <= x6; i++)
-				COPY_RGB(i,y1);
+			while ((x5 > -1) && (DST(x5,y1) == oldColour) && !SEEN(x5, y1))
+				x5--;
+			x5++;
 
-			if (x3 - 1 > x5)
-				PUSH(x5, x3-1, y1, -y2);
-
-			if (x6 > x4 + 1)
-				PUSH(x4+1,x6,y1, -y2);
-
-			PUSH(x5, x6, y1, y2);
-			}
-		else
-			x6 = x3;
-
-		while (x6 < x4)
-			{
-			x6++;
-			x5 = x6;
-			while ((x6 < w) && (DST(x6,y1) == oldColour) && !SEEN(x6,y1))
-				x6++;
-
-
-			if (x6 > x5)
+			int x6;
+			if (x5 <= x3)
 				{
+				x6 = x3 + 1;
+
+				while ((x6 < w) && (DST(x6,y1) == oldColour) && !SEEN(x6,y1))
+					x6++;
 				x6--;
 
 				for (int i = x5; i <= x6; i++)
-				COPY_RGB(i, y1);
+					COPY_RGB(i,y1);
+
+				if (x3 - 1 > x5)
+					PUSH(x5, x3-1, y1, -y2);
 
 				if (x6 > x4 + 1)
-					PUSH(x4+1, x6, y1, -y2);
+					PUSH(x4+1,x6,y1, -y2);
 
 				PUSH(x5, x6, y1, y2);
+				}
+			else
+				x6 = x3;
+
+			while (x6 < x4)
+				{
+				x6++;
+				x5 = x6;
+				while ((x6 < w) && (DST(x6,y1) == oldColour) && !SEEN(x6,y1))
+					x6++;
+
+				if (x6 > x5)
+					{
+					x6--;
+
+					for (int i = x5; i <= x6; i++)
+					COPY_RGB(i, y1);
+
+					if (x6 > x4 + 1)
+						PUSH(x4+1, x6, y1, -y2);
+
+					PUSH(x5, x6, y1, y2);
+					}
 				}
 			}
 		}
@@ -292,6 +292,40 @@ void _fill(int x, int y, int w, int h,
 	DELETE_ARRAY(visited);
 	}
 
+/*****************************************************************************\
+|* Tile a source image into a destination image
+\*****************************************************************************/
+static void _tile(QImage& src, QImage *dst)
+	{
+	int dstW = dst->width();
+	int dstH = dst->height();
+	int srcW = src.width();
+	int srcH = src.height();
+
+	int rows = dstH / srcH;
+	if (dstH != srcH)
+		rows ++;
+
+	int cols = dstW / srcW;
+	if (dstW != srcW)
+		cols ++;
+
+	int yc = 0;
+	QPainter p(dst);
+	for (int y=0; y<rows; y++)
+		{
+		int xc = 0;
+		for (int x=0; x<cols; x++)
+			{
+			p.drawImage(xc, yc, src);
+			xc += srcW;
+			}
+		yc += srcH;
+		}
+	}
+
+
+#if 0
 /*****************************************************************************\
 |* Flood-fill the image
 \*****************************************************************************/
@@ -529,36 +563,4 @@ static void _crossfill(int x, int y, int w, int h,
 		DELETE_ARRAY(visited[i]);
 	DELETE_ARRAY(visited);
 	}
-
-/*****************************************************************************\
-|* Tile a source image into a destination image
-\*****************************************************************************/
-static void _tile(QImage& src, QImage *dst)
-	{
-	int dstW = dst->width();
-	int dstH = dst->height();
-	int srcW = src.width();
-	int srcH = src.height();
-
-	int rows = dstH / srcH;
-	if (dstH != srcH)
-		rows ++;
-
-	int cols = dstW / srcW;
-	if (dstW != srcW)
-		cols ++;
-
-	int yc = 0;
-	QPainter p(dst);
-	for (int y=0; y<rows; y++)
-		{
-		int xc = 0;
-		for (int x=0; x<cols; x++)
-			{
-			p.drawImage(xc, yc, src);
-			xc += srcW;
-			}
-		yc += srcH;
-		}
-	}
-
+#endif
