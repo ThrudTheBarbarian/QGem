@@ -1,8 +1,8 @@
 //
-//  v_opnvwk.c
+//  vq_extnd.c
 //  gemc
 //
-//  Created by ThrudTheBarbarian on 9/7/23.
+//  Created by ThrudTheBarbarian on 9/18/23.
 //
 
 #include <stdio.h>
@@ -13,12 +13,10 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|* 100   : Open a virtual workstation
+|* 102   : Enquire about extended information
 \*****************************************************************************/
-void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
+void vq_extnd(int16_t handle, int16_t extend, int16_t *workOut)
 	{
-	static int16_t inputs[16];
-
 	/*************************************************************************\
 	|* Check to see if we're connected
 	\*************************************************************************/
@@ -27,28 +25,17 @@ void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 			return;
 	
 	/*************************************************************************\
-	|* Initialise values if none were provided
-	\*************************************************************************/
-	int16_t *arg = workIn;
-	if (workIn == NULL)
-		{
-		for (int i=0; i<16; i++)
-			inputs[i] = -1;
-		arg = inputs;
-		}
-		
-	/*************************************************************************\
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_V_OPNVWK);
-	_gemMsgAppend(&msg, arg, 16);
+	_gemMsgInit(&msg, MSG_VQ_EXTND);
+	_gemMsgAppend(&msg, &extend, 1);
 	_gemIoWrite(&msg);
 	
 	/*************************************************************************\
 	|* Wait for a response
 	\*************************************************************************/
-	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_V_OPNVWK));
+	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_VQ_EXTND));
 
 	/*************************************************************************\
 	|* Copy data over if space is allocated
@@ -61,17 +48,8 @@ void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 			workOut[i] = ntohs(workOut[i]);
 		}
 		
-	if ((handle != NULL) && (msg.vec.length > 56))
-		*handle = ntohs(msg.vec.data[57]);
-	
 	/*************************************************************************\
 	|* Clear the message allocations
 	\*************************************************************************/
 	_gemMsgDestroy(&msg);
-
-	/*************************************************************************\
-	|* Start receiving events
-	\*************************************************************************/
-	_gemIoSetEventFilter(ETYP_MOUSE_MOVE);
-	
 	}

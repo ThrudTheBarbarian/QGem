@@ -165,10 +165,10 @@
 \*****************************************************************************/
 #define TXT_NORMAL		0
 #define TXT_BOLD		(1<<0)
-#define TXT_LIGHT		(1<<2)
-#define TXT_ITALIC		(1<<3)
-#define TXT_UNDERLINE	(1<<4)
-#define TXT_OUTLINE		(1<<5)
+#define TXT_LIGHT		(1<<1)
+#define TXT_ITALIC		(1<<2)
+#define TXT_UNDERLINE	(1<<3)
+#define TXT_OUTLINE		(1<<4)
 #define TXT_MASK		(TXT_BOLD|TXT_LIGHT|TXT_ITALIC|TXT_UNDERLINE|TXT_OUTLINE)
 
 /*****************************************************************************\

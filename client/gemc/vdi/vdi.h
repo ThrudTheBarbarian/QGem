@@ -359,6 +359,16 @@ void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut);
 void v_clsvwk(int handle);
 
 /*****************************************************************************\
+|*  102  : Enquire about workstation details
+\*****************************************************************************/
+void vq_extnd(int16_t handle, int16_t extend, int16_t *workOut);
+
+/*****************************************************************************\
+|*  103  : Perform a flood-fill
+\*****************************************************************************/
+void v_contourfill(int16_t handle, int16_t x, int16_t y, int16_t index);
+
+/*****************************************************************************\
 |*  104  : Set whether to draw a perimeter around a fill
 \*****************************************************************************/
 int vsf_perimeter(int16_t handle, int16_t enable);

@@ -20,6 +20,7 @@ SOURCES += \
     ops/v_clear_disp_list.cc \
     ops/v_clrwk.cc \
     ops/v_clswk.cc \
+    ops/v_contourfill.cc \
     ops/v_curdown.cc \
     ops/v_curhome.cc \
     ops/v_curleft.cc \
@@ -53,6 +54,7 @@ SOURCES += \
     ops/vq_color.cc \
     ops/vq_curaddress.cc \
     ops/vq_exit_cur.cc \
+    ops/vq_extnd.cc \
     ops/vq_hardcopy.cc \
     ops/vq_tabstatus.cc \
     ops/vqf_attributes.cc \

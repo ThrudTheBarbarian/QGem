@@ -476,6 +476,18 @@ class VDI : public QObject
 		void v_opnvwk(Workstation *ws, ClientMsg *msg);
 
 		/*********************************************************************\
+		|* 100: Get extended information
+		\*********************************************************************/
+		void vq_extnd(qintptr handle, int16_t  extnd, int16_t* data);
+		void vq_extnd(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
+		|* 103: Flood fill an area
+		\*********************************************************************/
+		void v_contourfill(qintptr handle, int16_t x, int16_t y, int16_t colour);
+		void v_contourfill(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|* 104: Set whether to draw a perimeter around a fill
 		\*********************************************************************/
 		void vsf_perimeter(qintptr handle, int16_t  enable);

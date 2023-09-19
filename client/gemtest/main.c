@@ -122,24 +122,24 @@ int main(int argc, const char * argv[])
 	
 	vst_height(handle, 12, NULL, NULL, NULL, NULL);
 	vsf_interior(handle, FIS_HOLLOW);
-	int16_t tpts[] = {900, 500, 1300, 580};
+	int16_t tpts[] = {995, 495, 1405, 585};
 	vsl_color(handle, 1);
-	vsl_width(handle, 2);
+	vsl_width(handle, 1);
  	v_bar(handle, tpts);
 	
 	int16_t rgb[3] = {1000, 100, 500};
 	vs_color(handle, 1, rgb);
 	vst_alignment(handle, ALGN_LEFT, ALGN_BASELINE, NULL, NULL);
-	v_justified(handle, 900, 500, 400, 0,0, "The quick brown fox jumped over the lazy dog");
+	v_justified(handle, 1000, 500, 400, 0,0, "The quick brown fox jumped over the lazy dog");
 
 	vst_alignment(handle, ALGN_CENTER, ALGN_BASELINE, NULL, NULL);
-	v_justified(handle, 900, 520, 400, 0,0, "The quick brown fox jumped over the lazy dog");
+	v_justified(handle, 1000, 520, 400, 0,0, "The quick brown fox jumped over the lazy dog");
 
 	vst_alignment(handle, ALGN_RIGHT, ALGN_BASELINE, NULL, NULL);
-	v_justified(handle, 900, 540, 400, 0,0, "The quick brown fox jumped over the lazy dog");
+	v_justified(handle, 1000, 540, 400, 0,0, "The quick brown fox jumped over the lazy dog");
 
 	vst_alignment(handle, ALGN_FULL, ALGN_BASELINE, NULL, NULL);
-	v_justified(handle, 900, 560, 400, 0,0, "The quick brown fox jumped over the lazy dog");
+	v_justified(handle, 1000, 560, 400, 0,0, "The quick brown fox jumped over the lazy dog");
 
 	int16_t attrs[10];
 	vql_attributes(handle, attrs);
@@ -159,6 +159,9 @@ int main(int argc, const char * argv[])
 			attrs[0],attrs[1], attrs[2], attrs[3],
 			attrs[4],attrs[5], attrs[6], attrs[7]);
 
+	vq_extnd(handle, 1, workOut);
+	fprintf(stderr, "Text effect: %x\n", workOut[2]);
+
 //	int16_t mx, my, mb;
 //	vrq_locator(handle, 0,0, &mx, &my, &mb);
 //	fprintf(stderr, "x=%d, y=%d, btn=%d\n", mx, my, mb);
@@ -167,6 +170,10 @@ int main(int argc, const char * argv[])
 //	vrq_string(handle, 9, 0, NULL, s);
 //	fprintf(stderr, "s='%s'\n", s);
 	
+	vsf_interior(handle, FIS_SOLID);
+	v_contourfill(handle, 1005, 525, 3);
+	//int16_t bpts[] = {1005,525,1006,526};
+	//v_bar(handle, bpts);
 	
 	v_clsvwk(handle);
 	}
