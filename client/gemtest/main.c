@@ -176,19 +176,34 @@ int main(int argc, const char * argv[])
 	//int16_t bpts[] = {1005,525,1006,526};
 	//v_bar(handle, bpts);
 	
-	int16_t rgb = 0;
-	v_get_pixel(handle, 1005, 525, &rgb, NULL);
-	fprintf(stderr, "pix: %0x\n", rgb);
-	
-	int16_t prgb[3] = {0,128,64};
-	for (int i=0; i<255; i++)
+//	int16_t rgb = 0;
+//	v_get_pixel(handle, 1005, 525, &rgb, NULL);
+//	fprintf(stderr, "pix: %0x\n", rgb);
+//
+//	int16_t prgb[3] = {0,128,64};
+//	for (int i=0; i<255; i++)
+//		{
+//		prgb[1] = i;
+//		for (int j=0; j<255; j++)
+//			{
+//			prgb[2] = j;
+//			vs_pixrgb(handle, i, j, prgb);
+//			}
+//		}
+
+
+	MFDB srcMFDB =
 		{
-		prgb[1] = i;
-		for (int j=0; j<255; j++)
-			{
-			prgb[2] = j;
-			vs_pixrgb(handle, i, j, prgb);
-			}
-		}
+		.fd_addr = 0
+		};
+	
+	MFDB dstMFDB =
+		{
+		.fd_addr = 0
+		};
+	
+	int16_t pxyblit[8] = {0, 0, 400, 400, 400, 0, 400, 400};
+	vro_cpyfm(handle, S_XOR_D, pxyblit, &srcMFDB, &dstMFDB);
+	
 	v_clsvwk(handle);
 	}

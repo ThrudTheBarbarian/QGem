@@ -90,6 +90,7 @@ class ClientMsg
 		VST_EFFECTS			= 106,
 		VST_POINT			= 107,
 		VSL_ENDS			= 108,
+		VRO_CPYFM			= 109,
 		VST_LOAD_FONTS		= 119,
 		VS_CLIP				= 129,
 		VQT_NAME			= 130,
@@ -126,7 +127,7 @@ class ClientMsg
 		|* Append to a payload
 		\*********************************************************************/
 		bool append(int16_t value);
-		void append(uint8_t *data, int num);
+		void append(uint8_t *data, uint32_t num);
 		bool append(int16_t *value, int num);
 		inline bool append(Payload list)
 			{
@@ -159,9 +160,10 @@ class ClientMsg
 		QByteArray encode(void);
 
 		/*********************************************************************\
-		|* Fetch a byte-array encoded as {length, data} in the word-stream
+		|* Fetch a byte-array encoded as {length, data} in the word-stream.
+		|* returns the number of words consumed.
 		\*********************************************************************/
-		void fetchData(int idx, QByteArray& ba);
+		int fetchData(int idx, QByteArray& ba);
 
 		/*********************************************************************\
 		|* De-serialise from a byte-stream

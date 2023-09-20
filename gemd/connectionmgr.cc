@@ -370,6 +370,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vsl_ends(ws, &cm);
 				break;
 
+			case ClientMsg::VRO_CPYFM:		// 109
+				VDI::sharedInstance().vro_cpyfm(ws, &cm);
+				break;
+
 			case ClientMsg::VST_LOAD_FONTS:	// 119
 				VDI::sharedInstance().vst_load_fonts(ws, &cm);
 				break;

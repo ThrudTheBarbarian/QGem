@@ -50,14 +50,17 @@ void _gemMsgAppend(GemMsg *msg, int16_t *data, int numWords)
 |* Add data into the message with a preprended length. The length is byte-
 |* swapped, the data is not
 \*****************************************************************************/
-void _gemMsgAppendData(GemMsg *msg, uint8_t *data, int16_t numBytes)
+void _gemMsgAppendData(GemMsg *msg, uint8_t *data, uint32_t numBytes)
 	{
 	int16_t *ptr 		= (int16_t *)data;
 	
 	/*************************************************************************\
 	|* append the length of the data blob
 	\*************************************************************************/
-	_gemMsgAppend(msg, &numBytes, 1);
+	uint16_t hi = numBytes >> 16;
+	_gemMsgAppend(msg, (int16_t *)(&hi), 1);
+	uint16_t lo = numBytes & 0xFFFF;
+	_gemMsgAppend(msg, (int16_t *)(&lo), 1);
 	
 	/*************************************************************************\
 	|* Append the data blob

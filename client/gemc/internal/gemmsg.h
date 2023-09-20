@@ -32,7 +32,7 @@ void _gemMsgAppend(GemMsg *msg, int16_t *data, int numWords);
 /*****************************************************************************\
 |* Add data into the message with a preprended length
 \*****************************************************************************/
-void _gemMsgAppendData(GemMsg *msg, uint8_t *data, int16_t numBytes);
+void _gemMsgAppendData(GemMsg *msg, uint8_t *data, uint32_t numBytes);
 
 /*****************************************************************************\
 |* Prevent memory leaks

@@ -184,17 +184,18 @@ bool ClientMsg::append(int16_t *data, int num)
 |* Append data to the payload with a prepended length. The length will be
 |* byte-swapped, the data will not
 \*****************************************************************************/
-void ClientMsg::append(uint8_t *data, int numBytes)
+void ClientMsg::append(uint8_t *data, uint32_t numBytes)
 	{
 	/*************************************************************************\
 	|* append the length of the data blob
 	\*************************************************************************/
-	append(numBytes);
+	append(numBytes >> 16);
+	append(numBytes & 0xFFFF);
 
 	/*************************************************************************\
 	|* Append the data blob without byte-swapping. These are bytes...
 	\*************************************************************************/
-	for (int i=0; i<numBytes/2; i++)
+	for (uint32_t i=0; i<numBytes/2; i++)
 		{
 		int16_t *word = ((int16_t *)data) + i;
 		_payload.push_back(*word);
@@ -215,18 +216,24 @@ void ClientMsg::append(uint8_t *data, int numBytes)
 |* Get a QByteArray from the payload. This will read the length (byte-swapped)
 |* and then the data (not byte-swapped), appending the last byte if necessary
 \*****************************************************************************/
-void ClientMsg::fetchData(int idx, QByteArray& ba)
+int ClientMsg::fetchData(int idx, QByteArray& ba)
 	{
-	uint16_t bytes		= ntohs(_payload[idx]);
-	const char *data	= (const char *)(&(_payload[idx+1]));
+	uint32_t bytes		= ntohs(_payload[idx]);
+	bytes				= bytes << 16;
+	bytes			   += ntohs(_payload[idx+1]);
+
+	const char *data	= (const char *)(&(_payload[idx+2]));
 	int words			= bytes/2;
 
 	ba.clear();
 	ba.append(data, words*2);
 	if (bytes & 1)
 		{
-		int16_t val		= ntohs(_payload[idx + words + 1]);
+		int16_t val		= ntohs(_payload[idx + words + 2]);
 		const char c	= val & 0xFF;
 		ba.append(c);
+		words ++;
 		}
+
+	return words + 2;
 	}

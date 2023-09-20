@@ -1,6 +1,8 @@
 #ifndef __gem_defines_header__
 #define __gem_defines_header__
 
+#include <stdint.h>
+
 /*****************************************************************************\
 |* Line types for vsl_type 
 \*****************************************************************************/
@@ -262,6 +264,44 @@ enum
 	KY_HELP			= 0x100 + 156,
 	
 	};
+
+
+
+/*****************************************************************************\
+|* Raster operations 
+\*****************************************************************************/
+enum
+	{
+	ALL_WHITE		= 0,
+	S_AND_D,
+	S_AND_NOTD,
+	S_ONLY,
+	NOTS_AND_D,
+	D_ONLY,
+	S_XOR_D,
+	S_OR_D,
+	NOT_SORD,
+	NOT_SXORD,
+	D_INVERT,
+	NOT_D,
+	S_OR_NOTD,
+	NOTS_OR_D,
+	NOT_SANDD,
+	ALL_BLACK	
+	};
 	
+typedef struct
+	{
+   	void *fd_addr;					/* Pointer to the start of the
+                                    	memory block, e.g. the
+                                    	screen memory base address  	*/
+   	int16_t  fd_w;					/* Width in pixels             		*/
+   	int16_t  fd_h;					/* Height in pixels            		*/
+   	int16_t  fd_wdwidth;			/* Width of a line in words   		*/
+   	int16_t  fd_stand;				/* 0 = Device-specific format  		*/
+                                 	/* 1 = Standard format         		*/
+   	int16_t  fd_nplanes;			/* Number of planes            		*/
+   	int16_t  fd_r1, fd_r2, fd_r3;	/* Reserved, must be 0         		*/
+	} MFDB;
 	
 #endif /* !__gem_defines_header__ */

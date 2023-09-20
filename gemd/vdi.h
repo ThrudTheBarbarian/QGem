@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QObject>
 
+#include "gem.h"
 #include "properties.h"
 
 /*****************************************************************************\
@@ -531,6 +532,13 @@ class VDI : public QObject
 		\*********************************************************************/
 		void vsl_ends(qintptr handle, int16_t begin, int16_t end);
 		void vsl_ends(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
+		|* 109: Blit
+		\*********************************************************************/
+		void vro_cpyfm(qintptr handle, int16_t mode, int16_t *pxy,
+					   MFDB *src, MFDB *dst);
+		void vro_cpyfm(Workstation *ws, ClientMsg *msg);
 
 		/*********************************************************************\
 		|* 119: Load up the system fonts

@@ -64,6 +64,7 @@ SOURCES += \
     ops/vqm_attributes.cc \
     ops/vqt_attributes.cc \
     ops/vqt_name.cc \
+    ops/vro_cpyfm.cc \
     ops/vs_clip.cc \
     ops/vs_color.cc \
     ops/vs_curaddress.cc \

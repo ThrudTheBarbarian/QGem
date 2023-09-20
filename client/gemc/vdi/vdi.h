@@ -8,6 +8,7 @@
 #ifndef vdi_h
 #define vdi_h
 
+#include "gem.h"
 
 /*****************************************************************************\
 |*   3   : Clear a physical workstation (and all virtual workstations attached)
@@ -407,6 +408,12 @@ void vst_point(int16_t handle, int16_t height,
 |*  108  : Set the end-caps for lines
 \*****************************************************************************/
 void vsl_ends(int16_t handle, int16_t start, int16_t end);
+
+/*****************************************************************************\
+|*  109  : Blit opaque
+\*****************************************************************************/
+void vro_cpyfm(int16_t handle, int16_t mode, int16_t *pxy,
+			   MFDB *src, MFDB *dst);
 
 /*****************************************************************************\
 |*  119  : Load in any extra fonts
