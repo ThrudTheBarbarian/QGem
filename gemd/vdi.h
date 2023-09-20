@@ -6,7 +6,6 @@
 #include <QImage>
 #include <QObject>
 
-#include "gem.h"
 #include "properties.h"
 
 /*****************************************************************************\
@@ -471,6 +470,18 @@ class VDI : public QObject
 		void vst_alignment(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|*  59: Set a pixel's RGB
+		\*********************************************************************/
+		void vs_pixrgb(qintptr handle, int16_t x, int16_t y, int16_t *rgb);
+		void vs_pixrgb(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  60: Get a pixel's RGB
+		\*********************************************************************/
+		void vq_pixrgb(qintptr handle, int16_t x, int16_t y, int16_t *rgb);
+		void vq_pixrgb(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|* 100: Open a virtual workstation
 		\*********************************************************************/
 		void v_opnvwk(Workstation *ws, ClientMsg *msg);
@@ -494,18 +505,26 @@ class VDI : public QObject
 		void vsf_perimeter(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
-		|*  107 Set the height of text drawn (in points) and get metrics
+		|* 105: Get the pixel value. Note only returns pixel values to 16-bit
+		|*      resolution. Use v_get_pixelx to get 24-bit RGB
 		\*********************************************************************/
-		void vst_point(qintptr handle, int16_t height, int16_t& charWidth,
-					   int16_t& charHeight, int16_t& cellWidth,
-					   int16_t &cellHeight);
-		void vst_point(Workstation *ws, ClientMsg *cm);
+		void v_get_pixel(qintptr handle, int16_t x, int16_t y,
+						 int16_t& pixel, int16_t& idx);
+		void v_get_pixel(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|* 106: Set the way in which a font is rendered
 		\*********************************************************************/
 		void vst_effects(qintptr handle, int16_t effect);
 		void vst_effects(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
+		|*  107 Set the height of text drawn (in points) and get metrics
+		\*********************************************************************/
+		void vst_point(qintptr handle, int16_t height, int16_t& charWidth,
+					   int16_t& charHeight, int16_t& cellWidth,
+					   int16_t &cellHeight);
+		void vst_point(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|* 108: Set the ends of drawn lines

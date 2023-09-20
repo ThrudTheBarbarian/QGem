@@ -36,6 +36,7 @@ SOURCES += \
     ops/v_enter_cur.cc \
     ops/v_fillarea.cc \
     ops/v_form_adv.cc \
+    ops/v_get_pixel.cc \
     ops/v_gtext.cc \
     ops/v_justified.cc \
     ops/v_opnvwk.cc \
@@ -56,6 +57,7 @@ SOURCES += \
     ops/vq_exit_cur.cc \
     ops/vq_extnd.cc \
     ops/vq_hardcopy.cc \
+    ops/vq_pixrgb.cc \
     ops/vq_tabstatus.cc \
     ops/vqf_attributes.cc \
     ops/vql_attributes.cc \
@@ -65,6 +67,7 @@ SOURCES += \
     ops/vs_clip.cc \
     ops/vs_color.cc \
     ops/vs_curaddress.cc \
+    ops/vs_pixrgb.cc \
     ops/vsf_color.cc \
     ops/vsf_interior.cc \
     ops/vsf_perimeter.cc \

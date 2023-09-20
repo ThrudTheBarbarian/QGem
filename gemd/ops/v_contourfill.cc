@@ -14,9 +14,13 @@
 /*****************************************************************************\
 |* Forward declarations
 \*****************************************************************************/
+static int * _allocateStack(void);
+static uint8_t ** _allocateVisits(int w, int h);
 static void _tile(QImage &src, QImage *dst);
 static void _fill(int x, int y, int w, int h,
-				  uint32_t c, uint32_t ** src, uint32_t ** dst);
+				  uint32_t ** src, uint32_t ** dst);
+void _filluntil(int x, int y, int w, int h,
+				uint32_t fillColour, uint32_t ** src, uint32_t ** dst);
 
 /*****************************************************************************\
 |* Defines and constants
@@ -46,10 +50,9 @@ static void _fill(int x, int y, int w, int h,
 		visited[y][x] = 1;					\
 		} while (0)
 
-//fprintf(stderr, "[%d,%d] ", x, y);
-
 #define DST(x,y)	dst[y][x]
 #define SEEN(x,y)	visited[y][x]
+
 
 /*****************************************************************************\
 |* Opcode 103: Flood fill an area
@@ -134,12 +137,24 @@ void VDI::v_contourfill(qintptr handle, int16_t x, int16_t y, int16_t colour)
 			}
 
 		/*********************************************************************\
-		|* Now flood-fill everywhere with the colour at x,y
+		|* If the fill-index is negative, flood-fill from the point (x,y) over
+		|* any connected pixels which are the same colour
 		\*********************************************************************/
-		QColor toFill = ws->colour(colour);
-		uint32_t c = toFill.rgb();
+		if (colour < 0)
+			{
+			_fill(x, y, W, H, src, dst);
+			}
 
-		_fill(x, y, W, H, c, src, dst);
+		/*********************************************************************\
+		|* Otherwise get the colour from the index into the palette, and flood
+		|* fill everything until we reach that colour
+		\*********************************************************************/
+		else
+			{
+			QColor toFill = ws->colour(colour);
+			uint32_t c = toFill.rgb();
+			_filluntil(x, y, W, H, c, src, dst);
+			}
 
 		/*********************************************************************\
 		|* Tidy up
@@ -170,49 +185,143 @@ void VDI::v_contourfill(Workstation *ws, ClientMsg *cm)
 /*****************************************************************************\
 |* Flood-fill the image
 \*****************************************************************************/
-void _fill(int x, int y, int w, int h,
-		   uint32_t fillColour, uint32_t ** src, uint32_t ** dst)
+void _filluntil(int x, int y, int w, int h,
+				uint32_t fillColour, uint32_t ** src, uint32_t ** dst)
 	{
-	(void)fillColour;
+	/*********************************************************************\
+	|* Allocate a working stack
+	\*********************************************************************/
+	int SP = 0;							// Initialise the stack pointer
+	int *stack = _allocateStack();
+	if (stack == nullptr)
+		return;
 
+	/*********************************************************************\
+	|* Allocate a visited array
+	\*********************************************************************/
+	uint8_t **visited = _allocateVisits(w, h);
+	if (visited == nullptr)
+		{
+		DELETE_ARRAY(stack);
+		return;
+		}
+
+	/*********************************************************************\
+	|* Scan left and right to get seeds
+	\*********************************************************************/
+	int x1 = x;
+	while ((x1 > -1) && (DST(x1,y) != fillColour))
+		x1--;
+	x1++;
+
+	int x2 = x;
+	while ((x2 < h) && (DST(x2,y) != fillColour))
+		x2++;
+	x2--;
+
+	PUSH(x1, x2, y, 1);
+	PUSH(x1, x2, ++y, -1);
+
+	/*********************************************************************\
+	|* Operate until the stack is empty
+	\*********************************************************************/
+	for (int j = 0; j < SP;)
+		{
+		int x3, x4, y1, y2;
+		POP(x3, x4, y1, y2);
+
+		y1 += y2;
+		if ((y1 >= 0) && (y1 < h))
+			{
+			int x5 = x3;
+
+			while ((x5 > -1) && (DST(x5,y1) != fillColour) && !SEEN(x5, y1))
+				x5--;
+			x5++;
+
+			int x6;
+			if (x5 <= x3)
+				{
+				x6 = x3 + 1;
+
+				while ((x6 < w) && (DST(x6,y1) != fillColour) && !SEEN(x6,y1))
+				x6++;
+				x6--;
+
+				for (int i = x5; i <= x6; i++)
+				COPY_RGB(i,y1);
+
+				if (x3 - 1 > x5)
+				PUSH(x5, x3-1, y1, -y2);
+
+				if (x6 > x4 + 1)
+				PUSH(x4+1,x6,y1, -y2);
+
+				PUSH(x5, x6, y1, y2);
+				}
+			else
+				x6 = x3;
+
+			while (x6 < x4)
+				{
+				x6++;
+				x5 = x6;
+				while ((x6 < w) && (DST(x6,y1) != fillColour) && !SEEN(x6,y1))
+				x6++;
+
+				if (x6 > x5)
+					{
+					x6--;
+
+					for (int i = x5; i <= x6; i++)
+						COPY_RGB(i, y1);
+
+					if (x6 > x4 + 1)
+						PUSH(x4+1, x6, y1, -y2);
+
+					PUSH(x5, x6, y1, y2);
+					}
+				}
+			}
+		}
+
+	/*********************************************************************\
+	|* Clean up the memory
+	\*********************************************************************/
+	DELETE_ARRAY(stack);
+	for (int i=0; i<h; i++)
+		DELETE_ARRAY(visited[i]);
+	DELETE_ARRAY(visited);
+	}
+
+/*****************************************************************************\
+|* Flood-fill the image
+\*****************************************************************************/
+void _fill(int x, int y, int w, int h, uint32_t ** src, uint32_t ** dst)
+	{
 	uint32_t oldColour	= dst[y][x];		// Colour to look for
 
 	/*********************************************************************\
 	|* Allocate a working stack
 	\*********************************************************************/
 	int SP = 0;							// Initialise the stack pointer
-	int *stack = new int[STACK_SIZE];
+	int *stack = _allocateStack();
 	if (stack == nullptr)
-		{
-		WARN("Could not allocate floodfill stack!");
 		return;
-		}
 
 	/*********************************************************************\
 	|* Allocate a visited array
 	\*********************************************************************/
-	uint8_t **visited = new uint8_t*[h];
+	uint8_t **visited = _allocateVisits(w, h);
 	if (visited == nullptr)
 		{
-		WARN("Could not allocate floodfill visited top array!");
 		DELETE_ARRAY(stack);
 		return;
 		}
-	for (int i=0; i<h; i++)
-		{
-		visited[i] = new uint8_t[w];
-		if (visited[i] == nullptr)
-			{
-			WARN("Could not allocated floodfill index array!");
-			DELETE_ARRAY(stack);
-			for (int j=0; j<i-1; j++)
-				DELETE_ARRAY(visited[j]);
-			DELETE_ARRAY(visited);
-			return;
-			}
-		memset(visited[i], 0, w);
-		}
 
+	/*********************************************************************\
+	|* Scan left and right to get seeds
+	\*********************************************************************/
 	int x1 = x;
 	while ((x1 > -1) && (DST(x1,y) == oldColour))
 		x1--;
@@ -226,6 +335,9 @@ void _fill(int x, int y, int w, int h,
 	PUSH(x1, x2, y, 1);
 	PUSH(x1, x2, ++y, -1);
 
+	/*********************************************************************\
+	|* Operate until the stack is empty
+	\*********************************************************************/
 	for (int j = 0; j < SP;)
 		{
 		int x3, x4, y1, y2;
@@ -286,6 +398,9 @@ void _fill(int x, int y, int w, int h,
 			}
 		}
 
+	/*********************************************************************\
+	|* Clean up the memory
+	\*********************************************************************/
 	DELETE_ARRAY(stack);
 	for (int i=0; i<h; i++)
 		DELETE_ARRAY(visited[i]);
@@ -324,6 +439,46 @@ static void _tile(QImage& src, QImage *dst)
 		}
 	}
 
+/*****************************************************************************\
+|* Allocate a stack to operate the flood-fill inside
+\*****************************************************************************/
+static int * _allocateStack(void)
+	{
+	int *stack = new int[STACK_SIZE];
+	if (stack == nullptr)
+		WARN("Could not allocate floodfill stack!");
+	return stack;
+	}
+
+
+/*****************************************************************************\
+|* Allocate a stack to operate the flood-fill inside
+\*****************************************************************************/
+static uint8_t ** _allocateVisits(int w, int h)
+	{
+	uint8_t **visited = new uint8_t*[h];
+	if (visited == nullptr)
+		{
+		WARN("Could not allocate floodfill visited top array!");
+		}
+	else
+		{
+		for (int i=0; i<h; i++)
+			{
+			visited[i] = new uint8_t[w];
+			if (visited[i] == nullptr)
+				{
+				WARN("Could not allocated floodfill index array!");
+				for (int j=0; j<i-1; j++)
+					DELETE_ARRAY(visited[j]);
+				DELETE_ARRAY(visited);
+				break;
+				}
+			memset(visited[i], 0, w);
+			}
+		}
+	return visited;
+	}
 
 #if 0
 /*****************************************************************************\

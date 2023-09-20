@@ -127,8 +127,8 @@ int main(int argc, const char * argv[])
 	vsl_width(handle, 1);
  	v_bar(handle, tpts);
 	
-	int16_t rgb[3] = {1000, 100, 500};
-	vs_color(handle, 1, rgb);
+	//int16_t rgb[3] = {1000, 100, 500};
+	//vs_color(handle, 1, rgb);
 	vst_alignment(handle, ALGN_LEFT, ALGN_BASELINE, NULL, NULL);
 	v_justified(handle, 1000, 500, 400, 0,0, "The quick brown fox jumped over the lazy dog");
 
@@ -171,10 +171,24 @@ int main(int argc, const char * argv[])
 //	fprintf(stderr, "s='%s'\n", s);
 	
 	vsf_interior(handle, FIS_SOLID);
-	vsf_color(handle, 1);
-	v_contourfill(handle, 1005, 525, 3);
+	vsf_color(handle, 2);
+	v_contourfill(handle, 1005, 525, 1);
 	//int16_t bpts[] = {1005,525,1006,526};
 	//v_bar(handle, bpts);
 	
+	int16_t rgb = 0;
+	v_get_pixel(handle, 1005, 525, &rgb, NULL);
+	fprintf(stderr, "pix: %0x\n", rgb);
+	
+	int16_t prgb[3] = {0,128,64};
+	for (int i=0; i<255; i++)
+		{
+		prgb[1] = i;
+		for (int j=0; j<255; j++)
+			{
+			prgb[2] = j;
+			vs_pixrgb(handle, i, j, prgb);
+			}
+		}
 	v_clsvwk(handle);
 	}

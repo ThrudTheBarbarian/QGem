@@ -349,6 +349,16 @@ void vst_alignment(int16_t handle, int16_t hIn,   int16_t vIn,
 								   int16_t *hOut, int16_t *vOut);
 
 /*****************************************************************************\
+|*   59  : Set a pixel to a colour
+\*****************************************************************************/
+void vs_pixrgb(int16_t handle, int16_t x,   int16_t y, int16_t *rgb);
+
+/*****************************************************************************\
+|*   60  : Get a pixel's colour
+\*****************************************************************************/
+void vq_pixrgb(int16_t handle, int16_t x,   int16_t y, int16_t *rgb);
+
+/*****************************************************************************\
 |*  100  : Open a virtual workstation
 \*****************************************************************************/
 void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut);
@@ -372,6 +382,14 @@ void v_contourfill(int16_t handle, int16_t x, int16_t y, int16_t index);
 |*  104  : Set whether to draw a perimeter around a fill
 \*****************************************************************************/
 int vsf_perimeter(int16_t handle, int16_t enable);
+
+/*****************************************************************************\
+|*  105  : Get a pixel. This is compatible with the old GEM interface
+|*        	but only works to 16-bit colour resolution. Use vq_pixrgb
+|*			(opcode 60) to get 24-bit RGB
+\*****************************************************************************/
+void v_get_pixel(int16_t handle, int16_t x, int16_t y,
+				 int16_t* pixel, int16_t *idx);
 
 /*****************************************************************************\
 |*  106  : Set the text-effects

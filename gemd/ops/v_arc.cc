@@ -4,7 +4,6 @@
 
 #include "clientmsg.h"
 #include "connectionmgr.h"
-#include "gem.h"
 #include "screen.h"
 #include "vdi.h"
 #include "workstation.h"
