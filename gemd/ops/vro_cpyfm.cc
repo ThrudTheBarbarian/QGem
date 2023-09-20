@@ -174,6 +174,12 @@ void VDI::vro_cpyfm(Workstation *ws, ClientMsg *cm)
 	src.fd_r2			= ntohs(p[idx++]);
 	src.fd_r3			= ntohs(p[idx++]);
 
+	if (src.fd_stand != 0)
+		{
+		WARN("Cannot copy src MFDB in standard form. Need to vr_trnfm()");
+		return;
+		}
+
 	if (fd_addr != 0)
 		{
 		src.fd_addr		= new uint8_t[src.fd_wdwidth * 2 * src.fd_h];
@@ -193,6 +199,13 @@ void VDI::vro_cpyfm(Workstation *ws, ClientMsg *cm)
 	dst.fd_r1			= ntohs(p[idx++]);
 	dst.fd_r2			= ntohs(p[idx++]);
 	dst.fd_r3			= ntohs(p[idx++]);
+
+
+	if (dst.fd_stand != 0)
+		{
+		WARN("Cannot copy dst MFDB in standard form. Need to vr_trnfm()");
+		return;
+		}
 
 	if (fd_addr != 0)
 		{

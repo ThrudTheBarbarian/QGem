@@ -14,9 +14,7 @@
 #include <sys/time.h>
 
 #ifndef __FILENAME__
-#  define __FILENAME__ (strrchr(__FILE__, '/')                      \
-                        ? strrchr(__FILE__, '/') + 1                \
-                        : __FILE__)
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 #endif
 
 /*****************************************************************************\
@@ -42,11 +40,11 @@
 |* stage. The macros here just dump to stdout
 \*****************************************************************************/
 
-
+#ifdef __cplusplus
 
 # define LOG(...) 													\
 	{																\
-    fprintf(stderr, "[" __FILENAME__ " " __FUNCTION__ ": "			\
+    fprintf(stderr, "[ " __FILENAME__ " " __FUNCTION__ ": "			\
 			__LINE__ "]" __VA_ARGS__);								\
     fprintf(stderr, "\n");											\
     }
@@ -70,6 +68,47 @@ extern int debugLevel(void);
 # define WARN(...)
 # define INFO(...)
 #endif // DEBUG defined
+
+#else
+
+#if defined(DEBUG)
+
+#define LOG(...) 													\
+	do 																\
+		{ 															\
+		fprintf(stderr, "%s:%d ", __FILENAME__, __LINE__);			\
+		fprintf(stderr,  __VA_ARGS__);								\
+		fprintf(stderr, "\n");										\
+		} while (0)
+
+#define WARN(...) 													\
+	do 																\
+		{ 															\
+		if (debugLevel() > 0) 										\
+			{														\
+			fprintf(stderr, "%s:%d ", __FILENAME__, __LINE__);		\
+			fprintf(stderr,  __VA_ARGS__); 							\
+			fprintf(stderr, "\n");									\
+			} 														\
+		} while (0)
+
+#define INFO(...) 													\
+	do 																\
+		{ 															\
+		if (debugLevel() > 1) 										\
+			{														\
+			fprintf(stderr, "%s:%d ", __FILENAME__, __LINE__);		\
+			fprintf(stderr, __VA_ARGS__); 							\
+			fprintf(stderr, "\n");									\
+		} while (0)
+
+#else
+# define LOG(...)
+# define WARN(...)
+# define INFO(...)
+#endif // DEBUG defined
+
+#endif
 
 /*****************************************************************************\
 |* Provide weakly-defined debugLevel call that can be overridden by code

@@ -194,12 +194,14 @@ int main(int argc, const char * argv[])
 
 	MFDB srcMFDB =
 		{
-		.fd_addr = 0
+		.fd_addr = 0,
+		.fd_stand = 0
 		};
 	
 	MFDB dstMFDB =
 		{
-		.fd_addr = 0
+		.fd_addr = 0,
+		.fd_stand = 0
 		};
 	
 	int16_t pxyblit[8] = {0, 0, 400, 400, 400, 0, 400, 400};
