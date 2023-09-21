@@ -303,5 +303,11 @@ typedef struct
    	int16_t  fd_nplanes;			/* Number of planes            		*/
    	int16_t  fd_r1, fd_r2, fd_r3;	/* Reserved, must be 0         		*/
 	} MFDB;
+
+enum 
+	{
+	MFDB_DEVICE	= 0,
+	MFDB_STANDARD
+	};
 	
 #endif /* !__gem_defines_header__ */

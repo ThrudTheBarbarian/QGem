@@ -86,6 +86,8 @@
 		F46A864C2ABA69AA00FA3ABC /* vs_pixrgb.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A864B2ABA69AA00FA3ABC /* vs_pixrgb.c */; };
 		F46A864E2ABA6A2F00FA3ABC /* vq_pixrgb.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A864D2ABA6A2F00FA3ABC /* vq_pixrgb.c */; };
 		F46A86502ABAAAA600FA3ABC /* vro_cpyfm.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A864F2ABAAAA600FA3ABC /* vro_cpyfm.c */; };
+		F46A86582ABB89B100FA3ABC /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86572ABB89B100FA3ABC /* main.c */; };
+		F46A865E2ABB89CC00FA3ABC /* libgemc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E340AA2AAAD3E1002390BA /* libgemc.a */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -98,6 +100,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F46A865C2ABB89C700FA3ABC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E340942AAAD389002390BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4E340A92AAAD3E1002390BA;
+			remoteInfo = gemc;
+		};
 		F4E340C12AAADF56002390BA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F4E340942AAAD389002390BA /* Project object */;
@@ -108,6 +117,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		F46A86532ABB89B100FA3ABC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		F4E3409A2AAAD389002390BA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -199,6 +217,8 @@
 		F46A864B2ABA69AA00FA3ABC /* vs_pixrgb.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vs_pixrgb.c; sourceTree = "<group>"; };
 		F46A864D2ABA6A2F00FA3ABC /* vq_pixrgb.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_pixrgb.c; sourceTree = "<group>"; };
 		F46A864F2ABAAAA600FA3ABC /* vro_cpyfm.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vro_cpyfm.c; sourceTree = "<group>"; };
+		F46A86552ABB89B100FA3ABC /* vr_trnfm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vr_trnfm; sourceTree = BUILT_PRODUCTS_DIR; };
+		F46A86572ABB89B100FA3ABC /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E3409C2AAAD389002390BA /* client */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = client; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E3409F2AAAD389002390BA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E340AA2AAAD3E1002390BA /* libgemc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgemc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -213,6 +233,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F46A86522ABB89B100FA3ABC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F46A865E2ABB89CC00FA3ABC /* libgemc.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F4E340992AAAD389002390BA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -231,11 +259,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F46A86562ABB89B100FA3ABC /* vr_trnfm */ = {
+			isa = PBXGroup;
+			children = (
+				F46A86572ABB89B100FA3ABC /* main.c */,
+			);
+			path = vr_trnfm;
+			sourceTree = "<group>";
+		};
 		F4E340932AAAD389002390BA = {
 			isa = PBXGroup;
 			children = (
 				F4E340AE2AAAD43B002390BA /* gemc */,
 				F4E3409E2AAAD389002390BA /* gemtest */,
+				F46A86562ABB89B100FA3ABC /* vr_trnfm */,
 				F4E3409D2AAAD389002390BA /* Products */,
 				F4E340BF2AAADF4F002390BA /* Frameworks */,
 			);
@@ -246,6 +283,7 @@
 			children = (
 				F4E3409C2AAAD389002390BA /* client */,
 				F4E340AA2AAAD3E1002390BA /* libgemc.a */,
+				F46A86552ABB89B100FA3ABC /* vr_trnfm */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -399,6 +437,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		F46A86542ABB89B100FA3ABC /* vr_trnfm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F46A865B2ABB89B100FA3ABC /* Build configuration list for PBXNativeTarget "vr_trnfm" */;
+			buildPhases = (
+				F46A86512ABB89B100FA3ABC /* Sources */,
+				F46A86522ABB89B100FA3ABC /* Frameworks */,
+				F46A86532ABB89B100FA3ABC /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F46A865D2ABB89C700FA3ABC /* PBXTargetDependency */,
+			);
+			name = vr_trnfm;
+			productName = vr_trnfm;
+			productReference = F46A86552ABB89B100FA3ABC /* vr_trnfm */;
+			productType = "com.apple.product-type.tool";
+		};
 		F4E3409B2AAAD389002390BA /* client */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4E340A32AAAD389002390BA /* Build configuration list for PBXNativeTarget "client" */;
@@ -443,6 +499,9 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
+					F46A86542ABB89B100FA3ABC = {
+						CreatedOnToolsVersion = 14.0.1;
+					};
 					F4E3409B2AAAD389002390BA = {
 						CreatedOnToolsVersion = 14.0.1;
 					};
@@ -466,11 +525,20 @@
 			targets = (
 				F4E3409B2AAAD389002390BA /* client */,
 				F4E340A92AAAD3E1002390BA /* gemc */,
+				F46A86542ABB89B100FA3ABC /* vr_trnfm */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F46A86512ABB89B100FA3ABC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F46A86582ABB89B100FA3ABC /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F4E340982AAAD389002390BA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -572,6 +640,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		F46A865D2ABB89C700FA3ABC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4E340A92AAAD3E1002390BA /* gemc */;
+			targetProxy = F46A865C2ABB89C700FA3ABC /* PBXContainerItemProxy */;
+		};
 		F4E340C22AAADF56002390BA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F4E340A92AAAD3E1002390BA /* gemc */;
@@ -580,6 +653,30 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		F46A86592ABB89B100FA3ABC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Debug;
+		};
+		F46A865A2ABB89B100FA3ABC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Release;
+		};
 		F4E340A12AAAD389002390BA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -738,6 +835,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F46A865B2ABB89B100FA3ABC /* Build configuration list for PBXNativeTarget "vr_trnfm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F46A86592ABB89B100FA3ABC /* Debug */,
+				F46A865A2ABB89B100FA3ABC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F4E340972AAAD389002390BA /* Build configuration list for PBXProject "client" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
