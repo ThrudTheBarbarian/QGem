@@ -175,7 +175,7 @@ static void _convPlanarGreyscale8(MFDB *src, MFDB *dst)
 	int delta = src->fd_wdwidth*2 - src->fd_w;
 
 	/*************************************************************************\
-	|* Run over the source data, planifying
+	|* Run over the source data, plane-ifying
 	\*************************************************************************/
 	uint8_t *data = src->fd_addr;
 	for (int i=0; i<H; i++)
@@ -186,10 +186,10 @@ static void _convPlanarGreyscale8(MFDB *src, MFDB *dst)
 		for (int j=0; j<W;)
 			{
 			/*****************************************************************\
-			|* Is this a full 16-bits, or whatever we have left over
+			|* Is this a full 16-bits, or just whatever we have left over
 			\*****************************************************************/
-			int loops 	= MIN(8, W-j);
-			int rotate	= 16;
+			int loops 	= MIN(16, W-j);
+			int shift	= 16;
 			
 			uint16_t p0 = 0, p1 = 0, p2 = 0, p3 = 0;
 			uint16_t p4 = 0, p5 = 0, p6 = 0, p7 = 0;
@@ -197,61 +197,40 @@ static void _convPlanarGreyscale8(MFDB *src, MFDB *dst)
 			/*****************************************************************\
 			|* Read 'loops' bytes of the line, and disperse over the 8 planes
 			\*****************************************************************/
-			uint8_t set = 0x80;
 			for (int k=0; k<loops; k++)
 				{
 				uint8_t bit 	= 0x80;
 				uint8_t val 	= *data ++;
 				
-				p0 |= ((val & bit) ? set : 0); bit >>=1;
-				p1 |= ((val & bit) ? set : 0); bit >>=1;
-				p2 |= ((val & bit) ? set : 0); bit >>=1;
-				p3 |= ((val & bit) ? set : 0); bit >>=1;
-				p4 |= ((val & bit) ? set : 0); bit >>=1;
-				p5 |= ((val & bit) ? set : 0); bit >>=1;
-				p6 |= ((val & bit) ? set : 0); bit >>=1;
-				p7 |= ((val & bit) ? set : 0); bit >>=1;
-				set >>= 1;
-				rotate --;
+				p0 <<= 1; if (val & bit) p0 |= 1; bit >>= 1;
+				p1 <<= 1; if (val & bit) p1 |= 1; bit >>= 1;
+				p2 <<= 1; if (val & bit) p2 |= 1; bit >>= 1;
+				p3 <<= 1; if (val & bit) p3 |= 1; bit >>= 1;
+				p4 <<= 1; if (val & bit) p4 |= 1; bit >>= 1;
+				p5 <<= 1; if (val & bit) p5 |= 1; bit >>= 1;
+				p6 <<= 1; if (val & bit) p6 |= 1; bit >>= 1;
+				p7 <<= 1; if (val & bit) p7 |= 1;
+				
+				if (loops == 7)
+					{
+					bit 	= 0x80;
+					val 	= *data ++;
+					}
+				shift --;
 				}
 			j += loops;
-			
-			if (loops == 8)
-				{
-				loops  = MIN(8, W-j);
-				
-				/*************************************************************\
-				|* Read 'loops' more bytes, and disperse over the 8 planes
-				\*************************************************************/
-				for (int k=0; k<loops; k++)
-					{
-					uint8_t bit 	= 0x80;
-					uint8_t val 	= *data ++;
-					
-					p0 = (val & bit) ? (p0 << 1) | 1 : (p0 << 1);	bit >>= 1;
-					p1 = (val & bit) ? (p1 << 1) | 1 : (p0 << 1);	bit >>= 1;
-					p2 = (val & bit) ? (p2 << 1) | 1 : (p0 << 1);	bit >>= 1;
-					p3 = (val & bit) ? (p3 << 1) | 1 : (p0 << 1);	bit >>= 1;
-					p4 = (val & bit) ? (p4 << 1) | 1 : (p0 << 1);	bit >>= 1;
-					p5 = (val & bit) ? (p5 << 1) | 1 : (p0 << 1);	bit >>= 1;
-					p6 = (val & bit) ? (p6 << 1) | 1 : (p0 << 1);	bit >>= 1;
-					p7 = (val & bit) ? (p7 << 1) | 1 : (p0 << 1);
-					rotate --;
-					}
-				j += loops;
-				}
 			
 			/*****************************************************************\
 			|* Update all the plane data
 			\*****************************************************************/
-			*ptr[0] ++ = p0 << rotate;
-			*ptr[1] ++ = p1 << rotate;
-			*ptr[2] ++ = p2 << rotate;
-			*ptr[3] ++ = p3 << rotate;
-			*ptr[4] ++ = p4 << rotate;
-			*ptr[5] ++ = p5 << rotate;
-			*ptr[6] ++ = p6 << rotate;
-			*ptr[7] ++ = p7 << rotate;
+			*ptr[0] ++ = p0 << shift;
+			*ptr[1] ++ = p1 << shift;
+			*ptr[2] ++ = p2 << shift;
+			*ptr[3] ++ = p3 << shift;
+			*ptr[4] ++ = p4 << shift;
+			*ptr[5] ++ = p5 << shift;
+			*ptr[6] ++ = p6 << shift;
+			*ptr[7] ++ = p7 << shift;
 			}
 			
 		/*********************************************************************\
