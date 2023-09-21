@@ -19,6 +19,7 @@ static void _convPlanar16(MFDB *src, MFDB *dst);
 static void _convPlanar24(MFDB *src, MFDB *dst);
 static void _convPlanarGreyscale8(MFDB *src, MFDB *dst);
 static void _convPlanar16(MFDB *src, MFDB *dst);
+static void _convPlanar24(MFDB *src, MFDB *dst);
 
 
 /*****************************************************************************\
@@ -77,7 +78,7 @@ void vr_trnfm(int16_t handle, MFDB *src, MFDB *dst)
 				_convPlanar16(src, dst);
 				break;
 			case 24:
-				//_convPlanar24(src, dst);
+				_convPlanar24(src, dst);
 				break;
 			default:
 				WARN("Unknown sourcce bitmap format %d in vr_trnfm",
@@ -98,7 +99,7 @@ static void _convPlanarIndexed8(MFDB *src, MFDB *dst)
 	switch (src->fd_r3)
 		{
 		case 0:
-			/* greyscale */
+			/* greyscale or unindexed */
 			_convPlanarGreyscale8(src, dst);
 			break;
 		case 2:
@@ -117,22 +118,11 @@ static void _convPlanarIndexed8(MFDB *src, MFDB *dst)
 	}
 
 /*****************************************************************************\
-|* Convert 8-bit greyscale to planar
+|* Handle memory allocation
 \*****************************************************************************/
-static void _convPlanarGreyscale8(MFDB *src, MFDB *dst)
+static int _allocMFDB(MFDB *src, MFDB *dst, int bytesRequired)
 	{
-	int W = src->fd_w;
-	int H = src->fd_h;
-	
-	/*************************************************************************\
-	|* Each plane is 8-bits in size
-	\*************************************************************************/
-	int wordsPerPlanePerLine	= (W/16) + (((W & 15) != 0) ? 1 : 0);
-
-	/*************************************************************************\
-	|* Multiply by 8 planes and H lines, then x2 to get the bytes required
-	\*************************************************************************/
-	int bytesRequired		 	= wordsPerPlanePerLine * 8 * H * 2;
+	int needsCopy = 0;
 	
 	/*************************************************************************\
 	|* If the destination MFDB has a NULL data reference, alloc memory
@@ -143,31 +133,59 @@ static void _convPlanarGreyscale8(MFDB *src, MFDB *dst)
 		if (dst->fd_addr == NULL)
 			{
 			WARN("Failed to allocate space for conversion in vr_trnfm");
-			return;
+			return -1;
 			}
 		}
 	
 	/*************************************************************************\
 	|* If the src and dest are the same, alloc and copy it over later
 	\*************************************************************************/
-	int needsCopy = 0;
 	if (src->fd_addr == dst->fd_addr)
 		{
 		dst->fd_addr = malloc(bytesRequired);
 		if (dst->fd_addr == NULL)
 			{
 			WARN("Failed to allocate space for conversion in vr_trnfm");
-			return;
+			return -1;
 			}
 		needsCopy = 1;
 		}
+		
+	return needsCopy;
+	}
+	
+/*****************************************************************************\
+|* Convert 8-bit greyscale to planar
+\*****************************************************************************/
+static void _convPlanarGreyscale8(MFDB *src, MFDB *dst)
+	{
+	int W = src->fd_w;
+	int H = src->fd_h;
+	
+	/*************************************************************************\
+	|* Each plane is 16-bits in quantum
+	\*************************************************************************/
+	int wordsPerPlanePerLine	= (W/16) + (((W & 15) != 0) ? 1 : 0);
+
+	/*************************************************************************\
+	|* Multiply by 8 planes and H lines, then x2 to get the bytes required
+	\*************************************************************************/
+	int bytesRequired		 	= wordsPerPlanePerLine * 8 * H * 2;
+	
+	/*************************************************************************\
+	|* Handle memory allocation
+	\*************************************************************************/
+	int needsCopy = _allocMFDB(src, dst, bytesRequired);
+	if (needsCopy < 0)
+		return;
 		
 	/*************************************************************************\
 	|* Set up pointers to the start of the per-plane data
 	\*************************************************************************/
 	uint16_t *ptr[8];
 	for (int i=0; i<8; i++)
-		ptr[i] = (uint16_t *)(dst->fd_addr) + i * wordsPerPlanePerLine * src->fd_h;
+		ptr[i] = (uint16_t *)(dst->fd_addr)
+			   + i * wordsPerPlanePerLine * src->fd_h;
 	
 	/*************************************************************************\
 	|* Figure out if there is a skip at the end of the source MFDB lines
@@ -252,7 +270,7 @@ static void _convPlanarGreyscale8(MFDB *src, MFDB *dst)
 	dst->fd_stand 	= MFDB_STANDARD;
 	dst->fd_w		= W;
 	dst->fd_h		= H;
-	dst->fd_wdwidth	= wordsPerPlanePerLine  * dst->fd_h;
+	dst->fd_wdwidth	= wordsPerPlanePerLine;
 	dst->fd_nplanes	= 8;
 	dst->fd_r1		= 0;
 	dst->fd_r2		= 0;
@@ -267,66 +285,82 @@ static void _convPlanar16(MFDB *src, MFDB *dst)
 	int W = src->fd_w;
 	int H = src->fd_h;
 	
-	if (dst->fd_addr == NULL)
-		{
-		dst->fd_addr = malloc(W*H*2);
-		if (dst->fd_addr == NULL)
-			{
-			WARN("Failed to allocate space for conversion in vr_trnfm");
-			return;
-			}
-		}
+	/*************************************************************************\
+	|* Each plane is 16-bits in quantum
+	\*************************************************************************/
+	int wordsPerPlanePerLine	= (W/16) + (((W & 15) != 0) ? 1 : 0);
+
+	/*************************************************************************\
+	|* Multiply by 16 planes and H lines, then x2 to get the bytes required
+	\*************************************************************************/
+	int bytesRequired		 	= wordsPerPlanePerLine * 16 * H * 2;
 	
-	int needsCopy = 0;
-	if (src->fd_addr == dst->fd_addr)
-		{
-		dst->fd_addr = malloc(W*H*2);
-		if (dst->fd_addr == NULL)
-			{
-			WARN("Failed to allocate space for conversion in vr_trnfm");
-			return;
-			}
-		needsCopy = 1;
-		}
+	/*************************************************************************\
+	|* Handle memory allocation
+	\*************************************************************************/
+	int needsCopy = _allocMFDB(src, dst, bytesRequired);
+	if (needsCopy < 0)
+		return;
 		
-	uint8_t *ptr[16];
+	/*************************************************************************\
+	|* Set up pointers to the start of the per-plane data
+	\*************************************************************************/
+	uint16_t *ptr[16];
 	for (int i=0; i<16; i++)
-		ptr[i] = dst->fd_addr + i * ((W*H)/8);
+		ptr[i] = (uint16_t *)(dst->fd_addr)
+			   + i * wordsPerPlanePerLine * src->fd_h;
 	
+	/*************************************************************************\
+	|* Run over the source data, plane-ifying
+	\*************************************************************************/
 	uint16_t *data = src->fd_addr;
 	for (int i=0; i<H; i++)
 		{
+		/*********************************************************************\
+		|* For each line...
+		\*********************************************************************/
 		for (int j=0; j<W;)
 			{
-			int loops = MIN(8, W-j);
-			uint8_t p0 = 0, p1 = 0, p2 = 0, p3 = 0;
-			uint8_t p4 = 0, p5 = 0, p6 = 0, p7 = 0;
+			/*****************************************************************\
+			|* Is this a full 16-pixels, or just whatever we have left over
+			\*****************************************************************/
+			int loops 	= MIN(16, W-j);
+			int shift	= 16;
 			
+			uint16_t p[16];
+			memset(p, 0, 32);
+			
+			/*****************************************************************\
+			|* Read 'loops' bytes of the line, and disperse over the 8 planes
+			\*****************************************************************/
 			for (int k=0; k<loops; k++)
 				{
-				uint16_t val = *data ++;
-				p0 = (p0 << 1) | (val & 1); val >>= 1;
-				p1 = (p1 << 1) | (val & 1); val >>= 1;
-				p2 = (p2 << 1) | (val & 1); val >>= 1;
-				p3 = (p3 << 1) | (val & 1); val >>= 1;
-				p4 = (p4 << 1) | (val & 1); val >>= 1;
-				p5 = (p5 << 1) | (val & 1); val >>= 1;
-				p6 = (p6 << 1) | (val & 1); val >>= 1;
-				p7 = (p7 << 1) | (val & 1); val >>= 1;
+				uint16_t bit 	= 0x8000;
+				uint16_t val 	= *data ++;
+				
+				for (int l=0; l<16; l++)
+					{
+					p[l] <<= 1;
+					if (val & bit)
+						p[l] |= 1;
+					bit >>= 1;
+					}
+				
+				shift --;
 				}
 			j += loops;
 			
-			*ptr[0] ++ = p0;
-			*ptr[1] ++ = p1;
-			*ptr[2] ++ = p2;
-			*ptr[3] ++ = p3;
-			*ptr[4] ++ = p4;
-			*ptr[5] ++ = p5;
-			*ptr[6] ++ = p6;
-			*ptr[7] ++ = p7;
+			/*****************************************************************\
+			|* Update all the plane data
+			\*****************************************************************/
+			for (int i=0; i<16; i++)
+				*ptr[i] ++ = p[i] << shift;
 			}
 		}
 	
+	/*************************************************************************\
+	|* If MFDB pointers were the same, copy the results back in and free
+	\*************************************************************************/
 	if (needsCopy)
 		{
 		memcpy(src->fd_addr, dst->fd_addr, W*H);
@@ -334,5 +368,125 @@ static void _convPlanar16(MFDB *src, MFDB *dst)
 		dst->fd_addr = src->fd_addr;
 		}
 	
-	dst->fd_stand = MFDB_STANDARD;
+	dst->fd_stand 	= MFDB_STANDARD;
+	dst->fd_w		= W;
+	dst->fd_h		= H;
+	dst->fd_wdwidth	= wordsPerPlanePerLine;
+	dst->fd_nplanes	= 16;
+	dst->fd_r1		= 0;
+	dst->fd_r2		= 0;
+	dst->fd_r3		= 0;
+	}
+	
+/*****************************************************************************\
+|* Convert 24-bit RGB to planar
+\*****************************************************************************/
+static void _convPlanar24(MFDB *src, MFDB *dst)
+	{
+	int W = src->fd_w;
+	int H = src->fd_h;
+	
+	/*************************************************************************\
+	|* Each plane is 16-bits in quantum
+	\*************************************************************************/
+	int wordsPerPlanePerLine	= (W/16) + (((W & 15) != 0) ? 1 : 0);
+
+	/*************************************************************************\
+	|* Multiply by 24 planes and H lines, then x2 to get the bytes required
+	\*************************************************************************/
+	int bytesRequired		 	= wordsPerPlanePerLine * 24 * H * 2;
+	
+	/*************************************************************************\
+	|* Handle memory allocation
+	\*************************************************************************/
+	int needsCopy = _allocMFDB(src, dst, bytesRequired);
+	if (needsCopy < 0)
+		return;
+		
+	/*************************************************************************\
+	|* Set up pointers to the start of the per-plane data
+	\*************************************************************************/
+	uint16_t *ptr[24];
+	for (int i=0; i<24; i++)
+		ptr[i] = (uint16_t *)(dst->fd_addr)
+			   + i * wordsPerPlanePerLine * src->fd_h;
+	
+	/*************************************************************************\
+	|* Figure out if there is a skip at the end of the source MFDB lines
+	\*************************************************************************/
+	int delta = src->fd_wdwidth*2 - src->fd_w*3;
+
+	/*************************************************************************\
+	|* Run over the source data, plane-ifying
+	\*************************************************************************/
+	uint8_t *data = src->fd_addr;
+	for (int i=0; i<H; i++)
+		{
+		/*********************************************************************\
+		|* For each line...
+		\*********************************************************************/
+		for (int j=0; j<W;)
+			{
+			/*****************************************************************\
+			|* Is this a full 16-pixels, or just whatever we have left over
+			\*****************************************************************/
+			int loops 	= MIN(24, W-j);
+			int shift	= 15;
+			
+			uint16_t p[24];
+			memset(p, 0, 48);
+			
+			/*****************************************************************\
+			|* Read 'loops' bytes of the line, and disperse over the 8 planes
+			\*****************************************************************/
+			for (int k=0; k<loops; k++)
+				{
+				uint32_t bit 	= 0x800000;
+				uint32_t val 	= *data ++;
+				val				= (val << 8) | *data ++;
+				val				= (val << 8) | *data ++;
+				
+				for (int l=0; l<24; l++)
+					{
+					p[l] <<= 1;
+					if (val & bit)
+						p[l] |= 1;
+					bit >>= 1;
+					}
+				
+				shift --;
+				}
+			j += loops;
+			
+			/*****************************************************************\
+			|* Update all the plane data
+			\*****************************************************************/
+			for (int i=0; i<24; i++)
+				*ptr[i] ++ = p[i] << shift;
+			}
+			
+		/*********************************************************************\
+		|* Add in any offset in the source so we're at the start of the line
+		\*********************************************************************/
+		data += delta;
+		}
+	
+	/*************************************************************************\
+	|* If MFDB pointers were the same, copy the results back in and free
+	\*************************************************************************/
+	if (needsCopy)
+		{
+		memcpy(src->fd_addr, dst->fd_addr, W*H);
+		free(dst->fd_addr);
+		dst->fd_addr = src->fd_addr;
+		}
+	
+	dst->fd_stand 	= MFDB_STANDARD;
+	dst->fd_w		= W;
+	dst->fd_h		= H;
+	dst->fd_wdwidth	= wordsPerPlanePerLine;
+	dst->fd_nplanes	= 24;
+	dst->fd_r1		= 0;
+	dst->fd_r2		= 0;
+	dst->fd_r3		= 0;
 	}
