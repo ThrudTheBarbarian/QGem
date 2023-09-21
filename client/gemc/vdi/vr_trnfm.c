@@ -18,6 +18,7 @@ static void _convPlanarIndexed8(MFDB *src, MFDB *dst);
 static void _convPlanar16(MFDB *src, MFDB *dst);
 static void _convPlanar24(MFDB *src, MFDB *dst);
 static void _convPlanarGreyscale8(MFDB *src, MFDB *dst);
+static void _convPlanar2(MFDB *src, MFDB *dst);
 static void _convPlanar16(MFDB *src, MFDB *dst);
 static void _convPlanar24(MFDB *src, MFDB *dst);
 
@@ -103,7 +104,7 @@ static void _convPlanarIndexed8(MFDB *src, MFDB *dst)
 			_convPlanarGreyscale8(src, dst);
 			break;
 		case 2:
-			//_convPlanar2(src, dst);
+			_convPlanar2(src, dst);
 			break;
 		case 4:
 			//_convPlanar4(src, dst);
@@ -469,6 +470,108 @@ static void _convPlanar24(MFDB *src, MFDB *dst)
 		|* Add in any offset in the source so we're at the start of the line
 		\*********************************************************************/
 		data += delta;
+		}
+	
+	/*************************************************************************\
+	|* If MFDB pointers were the same, copy the results back in and free
+	\*************************************************************************/
+	if (needsCopy)
+		{
+		memcpy(src->fd_addr, dst->fd_addr, W*H);
+		free(dst->fd_addr);
+		dst->fd_addr = src->fd_addr;
+		}
+	
+	dst->fd_stand 	= MFDB_STANDARD;
+	dst->fd_w		= W;
+	dst->fd_h		= H;
+	dst->fd_wdwidth	= wordsPerPlanePerLine;
+	dst->fd_nplanes	= 24;
+	dst->fd_r1		= 0;
+	dst->fd_r2		= 0;
+	dst->fd_r3		= 0;
+	}
+
+/*****************************************************************************\
+|* Convert 2-bit indexed to planar
+\*****************************************************************************/
+static void _convPlanar24(MFDB *src, MFDB *dst)
+	{
+	int W = src->fd_w;
+	int H = src->fd_h;
+	
+	/*************************************************************************\
+	|* Each plane is 16-bits in quantum
+	\*************************************************************************/
+	int wordsPerPlanePerLine	= (W/16) + (((W & 15) != 0) ? 1 : 0);
+
+	/*************************************************************************\
+	|* Multiply by 2 planes and H lines, then x2 to get the bytes required
+	\*************************************************************************/
+	int bytesRequired		 	= wordsPerPlanePerLine * 2 * H * 2;
+	
+	/*************************************************************************\
+	|* Handle memory allocation
+	\*************************************************************************/
+	int needsCopy = _allocMFDB(src, dst, bytesRequired);
+	if (needsCopy < 0)
+		return;
+		
+	/*************************************************************************\
+	|* Set up pointers to the start of the per-plane data
+	\*************************************************************************/
+	uint16_t *ptr[2];
+	for (int i=0; i<2; i++)
+		ptr[i] = (uint16_t *)(dst->fd_addr)
+			   + i * wordsPerPlanePerLine * src->fd_h;
+	
+	/*************************************************************************\
+	|* Run over the source data, plane-ifying
+	\*************************************************************************/
+	uint16_t *data = src->fd_addr;
+	for (int i=0; i<H; i++)
+		{
+		/*********************************************************************\
+		|* For each line...
+		\*********************************************************************/
+		for (int j=0; j<W;)
+			{
+			/*****************************************************************\
+			|* Is this a full 16-pixels, or just whatever we have left over
+			\*****************************************************************/
+			int loops 	= MIN(8, W-j);
+			int shift	= 15;
+			
+			uint16_t p[24];
+			memset(p, 0, 48);
+			
+			/*****************************************************************\
+			|* Read 'loops' words of the line, and disperse over the 2 planes
+			\*****************************************************************/
+			for (int k=0; k<loops; k++)
+				{
+				uint32_t bit 	= 0x8000;
+				uint16_t val 	= *data ++;
+				val				= (val << 8) | *data ++;
+				
+				for (int l=0; l<24; l++)
+					{
+					p[l] <<= 1;
+					if (val & bit)
+						p[l] |= 1;
+					bit >>= 1;
+					}
+				
+				shift --;
+				}
+			j += loops;
+			
+			/*****************************************************************\
+			|* Update all the plane data
+			\*****************************************************************/
+			for (int i=0; i<24; i++)
+				*ptr[i] ++ = p[i] << shift;
+			}
 		}
 	
 	/*************************************************************************\
