@@ -75,6 +75,8 @@ void convPlanarGreyscale8(void)
 	memset(&dst, 0, sizeof(MFDB));
 	
 	vr_trnfm(0, &chunky, &dst);
+	
+	
 	uint16_t *ptr = (uint16_t *)dst.fd_addr;
 	printf(" - 8-bit unindexed   : %s",
 		(memcmp(ptr, expected, 32) != 0) ? ("FAIL\n") : ("pass\n"));
@@ -194,15 +196,16 @@ void convPlanar2(void)
 	chunky.fd_h			= 2;
 	chunky.fd_wdwidth	= 1;
 	chunky.fd_stand		= MFDB_DEVICE;
-	chunky.fd_nplanes	= 8;
+	chunky.fd_nplanes	= 2;
 	chunky.fd_r1		= 0;
 	chunky.fd_r2		= 0;
-	chunky.fd_r3		= 2;
+	chunky.fd_r3		= 4;
 	
 	MFDB dst;
 	memset(&dst, 0, sizeof(MFDB));
 	vr_trnfm(0, &chunky, &dst);
 	
+	//dump(&dst);
 	uint16_t *ptr = (uint16_t *)dst.fd_addr;
 	printf(" - 2-bit indexed     : %s",
 		(memcmp(ptr, expected, 20) != 0) ? ("FAIL\n") : ("pass\n"));
@@ -256,10 +259,10 @@ void convPlanar4(void)
 	chunky.fd_h			= 2;
 	chunky.fd_wdwidth	= 2;
 	chunky.fd_stand		= MFDB_DEVICE;
-	chunky.fd_nplanes	= 8;
+	chunky.fd_nplanes	= 4;
 	chunky.fd_r1		= 0;
 	chunky.fd_r2		= 0;
-	chunky.fd_r3		= 4;
+	chunky.fd_r3		= 16;
 	
 	
 	MFDB dst;
@@ -281,10 +284,10 @@ void convPlanar4(void)
 void convPlanar8(void)
 	{
 	uint16_t expected[] = {
-							0x000f, 0x0000, 0x000c, 0x0003,
-							0x000a, 0x0005, 0x000f, 0x0000,
-							0x000f, 0x0000, 0x000c, 0x0003,
-							0x000a, 0x0005, 0x0000, 0x000f,
+							0xf000, 0x0000, 0xc000, 0x3000,
+							0xa000, 0x5000, 0xf000, 0x0000,
+							0xf000, 0x0000, 0xc000, 0x3000,
+							0xa000, 0x5000, 0x0000, 0xf000,
 							
 							// RGB
 							0xffff, 0x00ff, 0x0000, 0xffff,
@@ -327,7 +330,7 @@ void convPlanar8(void)
 	chunky.fd_nplanes	= 8;
 	chunky.fd_r1		= 0;
 	chunky.fd_r2		= 0;
-	chunky.fd_r3		= 8;
+	chunky.fd_r3		= 16;
 	
 	
 	MFDB dst;
@@ -335,9 +338,59 @@ void convPlanar8(void)
 	vr_trnfm(0, &chunky, &dst);
 
 	//dump(&dst);
-
 	uint16_t *ptr = (uint16_t *)dst.fd_addr;
 	printf(" - 8-bit indexed     : %s",
+		(memcmp(ptr, expected, 78) != 0) ? ("FAIL\n") : ("pass\n"));
+	
+	}
+
+
+
+/*****************************************************************************\
+|* Test 2-bit planar to chunky
+\*****************************************************************************/
+void convChunky2(void)
+	{
+	uint16_t expected[] = {
+							0x000f, 0x0000, 0x000c, 0x0003,
+							0x000a, 0x0005, 0x000f, 0x0000,
+							0x000f, 0x0000, 0x000c, 0x0003,
+							0x000a, 0x0005, 0x0000, 0x000f,
+							
+							// RGB
+							0xffff, 0x00ff, 0x0000, 0xffff,
+							0x0000, 0xff00,
+							};
+							
+	
+	uint8_t img4x2[] 	= {	0xF0, 0x00, 0xF0, 0x00,
+							0x0F, 0x00, 0x0F, 0x00,
+							// RGB data
+							0xff, 0xff, 0xff,
+							0x00, 0x00, 0x00,
+							0xff, 0xff, 0x00,
+							0x00, 0x00, 0xff,
+							};
+	MFDB planar;
+	planar.fd_addr 		= img4x2;
+	planar.fd_w			= 4;
+	planar.fd_h			= 2;
+	planar.fd_wdwidth	= 1;
+	planar.fd_stand		= MFDB_STANDARD;
+	planar.fd_nplanes	= 2;
+	planar.fd_r1		= 0;
+	planar.fd_r2		= 0;
+	planar.fd_r3		= 4;
+	
+	
+	MFDB dst;
+	memset(&dst, 0, sizeof(MFDB));
+	vr_trnfm(0, &planar, &dst);
+
+	dump(&dst);
+
+	uint16_t *ptr = (uint16_t *)dst.fd_addr;
+	printf(" - 2-bit indexed     : %s",
 		(memcmp(ptr, expected, 78) != 0) ? ("FAIL\n") : ("pass\n"));
 	
 	}
@@ -356,4 +409,7 @@ int main(int argc, const char * argv[])
 	convPlanar24();
 
 	printf("\nplanar to chunky:\n");
+	convChunky2();
+	
+	printf("\n\n");
 	}
