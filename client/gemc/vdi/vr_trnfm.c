@@ -25,6 +25,8 @@ static void _convToPlanar4(MFDB *src, MFDB *dst);
 static void _convToPlanar8(MFDB *src, MFDB *dst);
 
 static void _convToChunky2(MFDB *src, MFDB *dst);
+static void _convToChunky4(MFDB *src, MFDB *dst);
+static void _convToChunky8(MFDB *src, MFDB *dst);
 
 #pragma mark - Entry point
 
@@ -70,7 +72,7 @@ void vr_trnfm(int16_t handle, MFDB *src, MFDB *dst)
 	/*************************************************************************\
 	|* If we're going from device -> "standard" ...
 	\*************************************************************************/
-	if (src->fd_stand == 0)
+	if (src->fd_stand == MFDB_DEVICE)
 		{
 		switch (src->fd_nplanes)
 			{
@@ -113,10 +115,10 @@ void vr_trnfm(int16_t handle, MFDB *src, MFDB *dst)
 				_convToChunky2(src, dst);
 				break;
 			case 4:
-				//_convToChunky2(src, dst);
+				_convToChunky4(src, dst);
 				break;
 			case 8:
-				//_convToChunky2(src, dst);
+				_convToChunky8(src, dst);
 				break;
 			case 16:
 				//_convPlanar16(src, dst);
@@ -793,10 +795,15 @@ static void _convToChunky2(MFDB *src, MFDB *dst)
 	int words			= src->fd_wdwidth;
 	
 	/*************************************************************************\
-	|* Figoure out how many words we need per line. Each pixel takes 2 bits
+	|* Figure out how many words we need per line. Each pixel takes 4 bits
 	\*************************************************************************/
 	int wordsPerPlanePerLine	= (W/16) + (((W & 15) != 0) ? 1 : 0);
 	int wordsPerLine			= (W/8)  + (((W &  7) != 0) ? 1 : 0);
+	
+	/*************************************************************************\
+	|* Take into account the number of planes
+	\*************************************************************************/
+	wordsPerLine *= src->fd_nplanes;
 	
 	/*************************************************************************\
 	|* Multiply by H lines, then x2 to get the bytes required
@@ -832,9 +839,9 @@ static void _convToChunky2(MFDB *src, MFDB *dst)
 	
 	for (int i=0; i<H; i++)
 		{
-		d[0]	= ((uint8_t *) ptr[0]) 	  	+ (i * words * 2);
-		d[1]	= ((uint8_t *) ptr[1]) 	  	+ (i * words * 2);
-		pix 	= ((uint8_t *)dst->fd_addr)	+ (i * words * 2);
+		d[0]	= ((uint8_t *) ptr[0]) 	  	+ (i * words 		* 2);
+		d[1]	= ((uint8_t *) ptr[1]) 	  	+ (i * words 		* 2);
+		pix 	= ((uint8_t *)dst->fd_addr)	+ (i * wordsPerLine * 2);
 		
 		for (int j=0; j<words; j++)
 			{
@@ -856,9 +863,14 @@ static void _convToChunky2(MFDB *src, MFDB *dst)
 			
 			for (int k=0; k<16; k++)
 				{
-				for (int l=0; l<2; l++)
-					val |= (p[l] & mask) != 0 ? l+1 : 0;
+				static int map[2] = {2, 1};
+				
 				val <<= 2;
+//				val += (p[0] & mask) == 0 ? 0 : 2;
+//				val += (p[1] & mask) == 0 ? 0 : 1;
+				
+				for (int l=0; l<2; l++)
+					val |= (p[l] & mask) != 0 ? map[l] : 0;
 				mask >>= 1;
 				
 				if ((k&3) == 3)
@@ -875,8 +887,9 @@ static void _convToChunky2(MFDB *src, MFDB *dst)
 	\*************************************************************************/
 	if (colourMapSize)
 		{
-		uint8_t * srcRgb = ((uint8_t *)src->fd_addr) + (H * words * 2);
-		uint8_t * dstRgb = ((uint8_t *)dst->fd_addr) + (H * words * 2);
+		int srcOffset 		= H * words * 2 /* -> bytes */ *2; /* planes */
+		uint8_t * srcRgb 	= ((uint8_t *)src->fd_addr) + srcOffset;
+		uint8_t * dstRgb 	= ((uint8_t *)dst->fd_addr) + (H * wordsPerLine * 2);
 		memcpy(dstRgb, srcRgb, colourMapSize * 3);
 		}
 		
@@ -895,6 +908,270 @@ static void _convToChunky2(MFDB *src, MFDB *dst)
 	dst->fd_h		= H;
 	dst->fd_wdwidth	= wordsPerLine;
 	dst->fd_nplanes	= 2;
+	dst->fd_r1		= 0;
+	dst->fd_r2		= 0;
+	dst->fd_r3		= colourMapSize;
+	}
+
+/*****************************************************************************\
+|* Convert 4-bit planar to chunky
+\*****************************************************************************/
+static void _convToChunky4(MFDB *src, MFDB *dst)
+	{
+	int W 				= src->fd_w;
+	int H 				= src->fd_h;
+	int colourMapSize 	= src->fd_r3;
+	int words			= src->fd_wdwidth;
+	
+	/*************************************************************************\
+	|* Figure out how many words we need per line. Each pixel takes 2 bits
+	\*************************************************************************/
+	int wordsPerPlanePerLine	= (W/16) + (((W & 15) != 0) ? 1 : 0);
+	int wordsPerLine			= (W/4)  + (((W &  3) != 0) ? 1 : 0);
+		
+	/*************************************************************************\
+	|* Multiply by H lines, then x2 to get the bytes required
+	\*************************************************************************/
+	int bytesRequired			= wordsPerLine * H * 2;
+	
+	/*************************************************************************\
+	|* Add on space for the RGB values for each of the 4 possible colours
+	\*************************************************************************/
+	if (colourMapSize)
+		bytesRequired 			+= colourMapSize * 3;
+	
+	/*************************************************************************\
+	|* Handle memory allocation
+	\*************************************************************************/
+	int needsCopy = _allocMFDB(src, dst, bytesRequired);
+	if (needsCopy < 0)
+		return;
+		
+	/*************************************************************************\
+	|* Set up pointers to the start of the each plane's data
+	\*************************************************************************/
+	uint16_t *ptr[4];
+	for (int i=0; i<4; i++)
+		{
+		ptr[i] = (uint16_t *)(src->fd_addr)
+			   + i * wordsPerPlanePerLine * src->fd_h;
+	
+		//printf("ptr[%d] set to %p (+%d)\n", i, ptr[i], ptr[i] - (uint16_t*)src->fd_addr);
+		}
+		
+	/*************************************************************************\
+	|* Run over the source data, chunk-ifying
+	\*************************************************************************/
+	uint8_t *d[4];								// Data pointers to planes
+	uint8_t *pix = NULL;
+	
+	for (int i=0; i<H; i++)
+		{
+		d[0]	= ((uint8_t *) ptr[0]) 	  	+ (i * words 		* 2);
+		d[1]	= ((uint8_t *) ptr[1]) 	  	+ (i * words 		* 2);
+		d[2]	= ((uint8_t *) ptr[2]) 	  	+ (i * words 		* 2);
+		d[3]	= ((uint8_t *) ptr[3]) 	  	+ (i * words 		* 2);
+		pix 	= ((uint8_t *)dst->fd_addr)	+ (i * wordsPerLine * 2);
+		
+		for (int j=0; j<W;)
+			{
+			uint16_t p[4] = {0,0,0,0};			// Aggregated plane values
+			/*****************************************************************\
+			|* Read the next word from each plane
+			\*****************************************************************/
+			for (int k=0; k<4; k++)
+				{
+				p[k] 	= (*d[k] ++) << 8;
+				p[k]   |= *d[k] ++;
+				//printf("loading %04x into plane %d\n", p[k], k);
+				}
+
+			/*****************************************************************\
+			|* Compose pixels from the plane data and store them
+			\*****************************************************************/
+			int mask	= 0x8000;
+			uint8_t val	= 0;
+			int written	= 0;
+			int loops	= MIN(W-j, 16);
+			
+			for (int k=0; k<loops; k++)
+				{
+				written = 0;
+				static int map[4] = {8, 4, 2, 1};
+				
+				val <<= 4;
+				for (int l=0; l<4; l++)
+					val |= (p[l] & mask) != 0 ? map[l] : 0;
+				mask >>= 1;
+				
+				if ((k&1) == 1)
+					{
+					written = 1;
+					//fprintf(stderr, "  writing %02x to %p\n", val, pix);
+					*pix++ = val;
+					val = 0;
+					}
+				j++;
+				}
+			if (written == 0)
+				{
+				written = 1;
+				//fprintf(stderr, "+ writing %02x to %p\n", val, pix);
+				*pix++ = val;
+				val = 0;
+				}
+			
+			}
+		}
+		
+	/*************************************************************************\
+	|* We have the RGB values at the end of the source pixel data
+	\*************************************************************************/
+	if (colourMapSize)
+		{
+		int srcOffset 		= H * words * 2 /* -> bytes */ * 4; /* planes */
+		uint8_t * srcRgb 	= ((uint8_t *)src->fd_addr) + srcOffset;
+		uint8_t * dstRgb 	= ((uint8_t *)dst->fd_addr) + (H * wordsPerLine * 2);
+		memcpy(dstRgb, srcRgb, colourMapSize * 3);
+		}
+		
+	/*************************************************************************\
+	|* If MFDB pointers were the same, copy the results back in and free
+	\*************************************************************************/
+	if (needsCopy)
+		{
+		memcpy(src->fd_addr, dst->fd_addr, bytesRequired);
+		free(dst->fd_addr);
+		dst->fd_addr = src->fd_addr;
+		}
+	
+	dst->fd_stand 	= MFDB_DEVICE;
+	dst->fd_w		= W;
+	dst->fd_h		= H;
+	dst->fd_wdwidth	= wordsPerLine;
+	dst->fd_nplanes	= 4;
+	dst->fd_r1		= 0;
+	dst->fd_r2		= 0;
+	dst->fd_r3		= colourMapSize;
+	}
+
+/*****************************************************************************\
+|* Convert 8-bit planar to chunky
+\*****************************************************************************/
+static void _convToChunky8(MFDB *src, MFDB *dst)
+	{
+	int W 				= src->fd_w;
+	int H 				= src->fd_h;
+	int colourMapSize 	= src->fd_r3;
+	int words			= src->fd_wdwidth;
+	
+	/*************************************************************************\
+	|* Figure out how many words we need per line. Each pixel takes 2 bits
+	\*************************************************************************/
+	int wordsPerPlanePerLine	= (W/16) + (((W & 15) != 0) ? 1 : 0);
+	int wordsPerLine			= (W/2)  + (W & 1);
+		
+	/*************************************************************************\
+	|* Multiply by H lines, then x2 to get the bytes required
+	\*************************************************************************/
+	int bytesRequired			= wordsPerLine * H * 2;
+	
+	/*************************************************************************\
+	|* Add on space for the RGB values for each of the 4 possible colours
+	\*************************************************************************/
+	if (colourMapSize)
+		bytesRequired 			+= colourMapSize * 3;
+	
+	/*************************************************************************\
+	|* Handle memory allocation
+	\*************************************************************************/
+	int needsCopy = _allocMFDB(src, dst, bytesRequired);
+	if (needsCopy < 0)
+		return;
+		
+	/*************************************************************************\
+	|* Set up pointers to the start of the each plane's data
+	\*************************************************************************/
+	uint16_t *ptr[8];
+	for (int i=0; i<8; i++)
+		ptr[i] = (uint16_t *)(src->fd_addr)
+			   + i * wordsPerPlanePerLine * src->fd_h;
+		
+	/*************************************************************************\
+	|* Run over the source data, chunk-ifying
+	\*************************************************************************/
+	uint8_t *d[8];								// Data pointers to planes
+	uint8_t *pix = NULL;
+	
+	for (int i=0; i<H; i++)
+		{
+		for (int j=0; j<8; j++)
+			d[j]	= ((uint8_t *) ptr[j]) 	  	+ (i * words 		* 2);
+		pix 		= ((uint8_t *)dst->fd_addr)	+ (i * wordsPerLine * 2);
+		
+		for (int j=0; j<W;)
+			{
+			uint16_t p[8];						// Aggregated plane values
+			memset(p, 0, 16);
+			
+			/*****************************************************************\
+			|* Read the next word from each plane
+			\*****************************************************************/
+			for (int k=0; k<8; k++)
+				{
+				p[k] 	= (*d[k] ++) << 8;
+				p[k]   |= *d[k] ++;
+				}
+
+			/*****************************************************************\
+			|* Compose pixels from the plane data and store them
+			\*****************************************************************/
+			int mask	= 0x8000;
+			int written	= 0;
+			int loops	= MIN(W-j, 16);
+			
+			for (int k=0; k<loops; k++)
+				{
+				written = 0;
+				static int map[8] = {128, 64, 32, 16, 8, 4, 2, 1};
+				
+				uint8_t val = 0;
+				for (int l=0; l<8; l++)
+					val |= (p[l] & mask) != 0 ? map[l] : 0;
+				mask >>= 1;
+				
+				*pix++ = val;
+				j++;
+				}
+			}
+		}
+		
+	/*************************************************************************\
+	|* We have the RGB values at the end of the source pixel data
+	\*************************************************************************/
+	if (colourMapSize)
+		{
+		int srcOffset 		= H * words * 2 /* -> bytes */ * 8; /* planes */
+		uint8_t * srcRgb 	= ((uint8_t *)src->fd_addr) + srcOffset;
+		uint8_t * dstRgb 	= ((uint8_t *)dst->fd_addr) + (H * wordsPerLine * 2);
+		memcpy(dstRgb, srcRgb, colourMapSize * 3);
+		}
+		
+	/*************************************************************************\
+	|* If MFDB pointers were the same, copy the results back in and free
+	\*************************************************************************/
+	if (needsCopy)
+		{
+		memcpy(src->fd_addr, dst->fd_addr, bytesRequired);
+		free(dst->fd_addr);
+		dst->fd_addr = src->fd_addr;
+		}
+	
+	dst->fd_stand 	= MFDB_DEVICE;
+	dst->fd_w		= W;
+	dst->fd_h		= H;
+	dst->fd_wdwidth	= wordsPerLine;
+	dst->fd_nplanes	= 8;
 	dst->fd_r1		= 0;
 	dst->fd_r2		= 0;
 	dst->fd_r3		= colourMapSize;
