@@ -2,7 +2,7 @@
 //  main.c
 //  vr_trnfm
 //
-//  Created by Simon Gornall on 9/20/23.
+//  Created by ThrudTheBarbarian on 9/20/23.
 //
 
 #include <stdio.h>

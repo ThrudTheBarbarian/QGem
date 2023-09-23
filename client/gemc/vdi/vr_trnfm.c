@@ -14,10 +14,8 @@
 /*****************************************************************************\
 |* Forward declarations
 \*****************************************************************************/
-static void _convToPlanarIndexed8(MFDB *src, MFDB *dst);
 static void _convToPlanar16(MFDB *src, MFDB *dst);
 static void _convToPlanar24(MFDB *src, MFDB *dst);
-static void _convToPlanarGreyscale8(MFDB *src, MFDB *dst);
 static void _convToPlanar2(MFDB *src, MFDB *dst);
 static void _convToPlanar16(MFDB *src, MFDB *dst);
 static void _convToPlanar24(MFDB *src, MFDB *dst);
