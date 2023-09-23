@@ -22,6 +22,7 @@ static const char *const usages[] =
 
 static const char *prefix 	= "\nDump out the structure of an RSC file";
 static const char *postfix	= "\nEnjoy.";
+static int _debugLevel		= 10;
 
 /*****************************************************************************\
 |* Tool to dump out an RSC file so we can play with the innards
@@ -40,6 +41,7 @@ int main(int argc, const char * argv[])
         OPT_GROUP("Basic options"),
         OPT_STRING('f', "file", &path, "path to RSC file", NULL, 0, 0),
         OPT_BOOLEAN('v', "verbose", &verbose, "Be chatty", NULL, 0, 0),
+        OPT_BOOLEAN('d', "debug", &_debugLevel, "Debugging flag", NULL, 0, 0),
         OPT_END(),
 		};
 
@@ -62,3 +64,7 @@ int main(int argc, const char * argv[])
 			}
 		}
 	}
+
+
+int debugLevel(void)
+	{ return _debugLevel; }

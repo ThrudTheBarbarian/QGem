@@ -65,7 +65,7 @@ typedef struct
 	int16_t *	colourMask;			/* n words of colout-mask data			*/
 	int16_t *	selectData;			/* n words of select data				*/
 	int16_t *	selectMask;			/* n words of select-mask data			*/
-	} CIcon;
+	} CICON;
 	
 /*****************************************************************************\
 |* Define the internal representation the coloured icons
@@ -73,13 +73,10 @@ typedef struct
 typedef struct
 	{
 	ICONBLK 	monoIcon;			/* The ICONBLk for the mono icon 		*/
-	uint32_t	nCIcons;			/* Number of CICONS at different res	*/
-	uint16_t *	monoData;			/* Monochrome bitmap data				*/
-	uint16_t *	monoMask;			/* Monochrome bitmap mask				*/
-	char		iconText[12];		/* Text for icon (max 11 chars)			*/
-	CIcon **	icons;				/* Structure per resolution				*/
+	CICON *		icons;				/* Structure per resolution				*/
 	} CICONBLK;
-	
+
+
 /*****************************************************************************\
 |* Define the internal representation of an RSC file
 \*****************************************************************************/
@@ -89,9 +86,9 @@ typedef struct
 	uint16_t	version;			/* Version, old = 0 or 1, new = 4		*/
 	uint32_t	size;				/* File size							*/
 	int 		nObjects;			/* Number of OBJECT structures 			*/
-	OBJECT **	objects;			/* Pointers to each OBJECT structure 	*/
+	OBJECT *	objects;			/* Pointer to each OBJECT structure 	*/
 	int			nCicons;			/* Number of CICON structures			*/
-	CICONBLK**	cIcons;				/* The actual CICON data				*/
+	CICONBLK*	cIcons;				/* The actual CICON data				*/
 	} RscFile;
 
 

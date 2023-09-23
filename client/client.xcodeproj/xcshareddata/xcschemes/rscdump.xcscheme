@@ -53,7 +53,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-f /Users/simon/src/QT/QGem/gemd/resources/icons1.rsc"
+            argument = "-f $HOME/icons1.rsc"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
