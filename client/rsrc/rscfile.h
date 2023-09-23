@@ -53,18 +53,14 @@ typedef struct
 |*
 |* 'n' below  is defined as numPlanes * [words in mono icon]
 \*****************************************************************************/
-typedef struct
+typedef struct CICON_t
 	{
-	uint16_t	numPlanes;			/* Number of planes this icon is for	*/
-	uint32_t	colData;			/* empty on disk, calculated on load	*/
-	uint32_t	colMask;			/* empty on disk, calculated on load	*/
-	uint32_t	selData;			/* must be !0 if selected data exists	*/
-	uint32_t 	selMask;			/* calculated at load					*/
-	int32_t		nextRes;			/* 1 if more icons to follow			*/
-	int16_t *	colourData;			/* n words of colour data				*/
-	int16_t *	colourMask;			/* n words of colout-mask data			*/
-	int16_t *	selectData;			/* n words of select data				*/
-	int16_t *	selectMask;			/* n words of select-mask data			*/
+	uint16_t		 numPlanes;		/* Number of planes this icon is for	*/
+	int16_t *		 colData;		/* empty on disk, calculated on load	*/
+	int16_t *		 colMask;		/* empty on disk, calculated on load	*/
+	int16_t *		 selData;		/* must be !0 if selected data exists	*/
+	int16_t * 		 selMask;		/* calculated at load					*/
+	struct CICON_t * next;			/* pointer to next in line, or NULL		*/
 	} CICON;
 	
 /*****************************************************************************\

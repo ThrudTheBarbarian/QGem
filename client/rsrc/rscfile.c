@@ -167,7 +167,7 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 	cursor		= _fetch16(data, cursor, &(iblk->ib_wicon));
 	cursor		= _fetch16(data, cursor, &(iblk->ib_hicon));
 	cursor		= _fetch16(data, cursor, (uint16_t *)(&(iblk->ib_xtext)));
-	cursor		= _fetch16(data, cursor, &(iblk->ib_ytext));
+	cursor		= _fetch16(data, cursor, (uint16_t *)(&(iblk->ib_ytext)));
 	cursor		= _fetch16(data, cursor, &(iblk->ib_wtext));
 	cursor		= _fetch16(data, cursor, &(iblk->ib_htext));
 	cursor		= _fetch16(data, cursor, &(iblk->ib_resvd));
@@ -175,13 +175,13 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 	/*************************************************************************\
 	|* Read in the number of colour icons, one per resolution
 	\*************************************************************************/
-	int16_t ncIcons = 0;
-	if (fread(&ncIcons, 2, 1, fp) != 1)
+	int16_t numIcons = 0;
+	if (fread(&numIcons, 2, 1, fp) != 1)
 		{
 		WARN("Cannot read number of colour icons for icon %d", idx);
 		return 0;
 		}
-	ncIcons = ntohs(ncIcons);
+	numIcons = ntohs(numIcons);
 	
 	/*************************************************************************\
 	|* Read in the data for the monochrome data
@@ -221,7 +221,7 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 	/*************************************************************************\
 	|* Read in the icon string
 	\*************************************************************************/
-	iblk->ib_ptext	= (uint8_t *) malloc (13);
+	iblk->ib_ptext	= (int8_t *) malloc (13);
 	if (iblk->ib_ptext == NULL)
 		{
 		WARN("Cannot allocate text data for icon %d", idx);
@@ -235,5 +235,117 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 	iblk->ib_ptext[12] = '\0';
 	
 	printf("icon: '%s'\n", iblk->ib_ptext);
+
+		
+	/*************************************************************************\
+	|* Reserve the correct number of CICON structures
+	\*************************************************************************/
+	rsc->cIcons[idx].icons = (CICON *) malloc (sizeof(CICON) * numIcons);
+	if (rsc->cIcons[idx].icons == NULL)
+		{
+		WARN("Cannot allocate space for %d colour icons for icon %d",
+			 numIcons, idx);
+		return 0;
+		}
+	
+	for (int j=0; j<numIcons; j++)
+		{
+		/*********************************************************************\
+		|* Read in the number of planes for this colour icon
+		\*********************************************************************/
+		int16_t planes;
+		if (fread(&planes, 2, 1, fp) != 1)
+			{
+			WARN("Cannot read #planes for icon %d.%d", idx, j);
+			return 0;
+			}
+		rsc->cIcons[idx].icons[j].numPlanes = ntohs(planes);
+		
+		/*********************************************************************\
+		|* Read in the embedded pointers and figure out if there's 'sel' data
+		\*********************************************************************/
+		uint32_t ptrs[5];		// Embedded (usually nil) pointers in file
+		if (fread(ptrs, 5*4, 1, fp) != 1)
+			{
+			WARN("Cannot read embedded ptrs for colour icon %d.%d", idx, j);
+			return 0;
+			}
+		int selDataPresent 	= (ptrs[2] != 0) ? 1 : 0;
+		
+ 		/*********************************************************************\
+		|* Read in the data and form the structure: icon itself
+		\*********************************************************************/
+		int cDataSize	= words * rsc->cIcons[idx].icons[j].numPlanes * 2;
+		
+		rsc->cIcons[idx].icons[j].colData = (int16_t *) malloc(cDataSize);
+		if (rsc->cIcons[idx].icons[j].colData == NULL)
+			{
+			WARN("Cannot alloc space for colour data for icon %d.%d", idx, j);
+			return 0;
+			}
+		
+		if (fread(rsc->cIcons[idx].icons[j].colData, cDataSize, 1, fp) != 1)
+			{
+			WARN("Cannot read info data for colour icon %d.%d", idx, j);
+			return 0;
+			}
+			
+		/*********************************************************************\
+		|* Read in the data and form the structure: icon mask
+		\*********************************************************************/
+		rsc->cIcons[idx].icons[j].colMask = (int16_t *) malloc(words*2);
+		if (rsc->cIcons[idx].icons[j].colMask == NULL)
+			{
+			WARN("Cannot alloc space for colour mask for icon %d.%d", idx, j);
+			return 0;
+			}
+		
+		if (fread(rsc->cIcons[idx].icons[j].colMask, words*2, 1, fp) != 1)
+			{
+			WARN("Cannot read info data for colour mask %d.%d", idx, j);
+			return 0;
+			}
+
+		if (selDataPresent)
+			{
+			/*****************************************************************\
+			|* Read in the data and form the structure: icon itself
+			\*****************************************************************/
+			rsc->cIcons[idx].icons[j].selData = (int16_t *) malloc(cDataSize);
+			if (rsc->cIcons[idx].icons[j].selData == NULL)
+				{
+				WARN("Cannot alloc space for sel data for icon %d.%d", idx, j);
+				return 0;
+				}
+			
+			if (fread(rsc->cIcons[idx].icons[j].selData, cDataSize, 1, fp) != 1)
+				{
+				WARN("Cannot read data for sel data for icon %d.%d", idx, j);
+				return 0;
+				}
+				
+			/*****************************************************************\
+			|* Read in the data and form the structure: icon mask
+			\*****************************************************************/
+			rsc->cIcons[idx].icons[j].selMask = (int16_t *) malloc(words*2);
+			if (rsc->cIcons[idx].icons[j].selMask == NULL)
+				{
+				WARN("Cannot alloc space for sel mask for icon %d.%d", idx, j);
+				return 0;
+				}
+			
+			if (fread(rsc->cIcons[idx].icons[j].selMask, words*2, 1, fp) != 1)
+				{
+				WARN("Cannot read data for sel mask %d.%d", idx, j);
+				return 0;
+				}
+			}
+		else
+			{
+			rsc->cIcons[idx].icons[j].selData = NULL;
+			rsc->cIcons[idx].icons[j].selMask = NULL;
+			}
+		}
+	
 	return 1;
 	}
