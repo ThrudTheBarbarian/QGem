@@ -499,7 +499,7 @@ void convChunky8(int cols)
 							};
 							
 	
-	uint8_t img8x2[] 	= {	0xF0, 0x01, 0xF0, 0x01,
+	uint8_t img16x2[] 	= {	0xF0, 0x01, 0xF0, 0x01,
 							0xF0, 0x02, 0xF0, 0x02,
 							0xF0, 0x04, 0xF0, 0x04,
 							0xF0, 0x08, 0xF0, 0x08,
@@ -526,7 +526,7 @@ void convChunky8(int cols)
 							0x00, 0x00, 0xff,
 							};
 	MFDB planar;
-	planar.fd_addr 		= img8x2;
+	planar.fd_addr 		= img16x2;
 	planar.fd_w			= 16;
 	planar.fd_h			= 2;
 	planar.fd_wdwidth	= 1;
@@ -552,6 +552,127 @@ void convChunky8(int cols)
 	}
 
 /*****************************************************************************\
+|* Test 24-bit planar to chunky
+\*****************************************************************************/
+void convChunky24(void)
+	{
+	uint16_t expected[] = {
+							0x00ff, 0xff00, 0x0000, 0x00ff,
+							0xff00, 0x0000, 0xff00, 0x00ff,
+							0xffff, 0xff00, 0x00ff, 0xffff,
+							0x0300, 0x0003, 0x0c0c, 0x3000,
+							0x0030, 0xc0c0, 0x0003, 0x0c00,
+							0x0000, 0x0030, 0xc000, 0x0000
+							};
+							
+	
+	uint8_t img16x1[] 	= {	0xF0, 0x01,
+							0xF0, 0x01,
+							0xF0, 0x02,
+							0xF0, 0x02,
+							0xF0, 0x04,
+							0xF0, 0x04,
+							0xF0, 0x08,
+							0xF0, 0x08,
+							
+							0x0F, 0x10,
+							0x0F, 0x10,
+							0x0F, 0x20,
+							0x0F, 0x20,
+							0x0F, 0x40,
+							0x0F, 0x40,
+							0x0F, 0x80,
+							0x0F, 0x80,
+							
+							0x0F, 0x10,
+							0x0F, 0x10,
+							0x0F, 0x20,
+							0x0F, 0x20,
+							0x0F, 0x40,
+							0x0F, 0x40,
+							0x0F, 0x80,
+							0x0F, 0x80,
+							};
+	MFDB planar;
+	planar.fd_addr 		= img16x1;
+	planar.fd_w			= 16;
+	planar.fd_h			= 1;
+	planar.fd_wdwidth	= 1;
+	planar.fd_stand		= MFDB_STANDARD;
+	planar.fd_nplanes	= 24;
+	planar.fd_r1		= 0;
+	planar.fd_r2		= 0;
+	planar.fd_r3		= 0;
+	
+	
+	MFDB dst;
+	memset(&dst, 0, sizeof(MFDB));
+	vr_trnfm(0, &planar, &dst);
+
+	//dump(&dst);
+
+	uint16_t *ptr 	= (uint16_t *)dst.fd_addr;
+	printf(" - 24-bit RGB        : %s",
+			(memcmp(ptr, expected, 32) != 0) ? ("FAIL\n") : ("pass\n"));
+	
+	}
+
+/*****************************************************************************\
+|* Test 16-bit planar to chunky
+\*****************************************************************************/
+void convChunky16(void)
+	{
+	uint16_t expected[] = {
+							0x00ff, 0x00ff, 0x00ff, 0x00ff,
+							0xff00, 0xff00, 0xff00, 0xff00,
+							0x0300, 0x0c00, 0x3000, 0xc000,
+							0x0003, 0x000c, 0x0030, 0x00c0
+							};
+							
+	
+	uint8_t img16x1[] 	= {	0xF0, 0x01,
+							0xF0, 0x01,
+							0xF0, 0x02,
+							0xF0, 0x02,
+							0xF0, 0x04,
+							0xF0, 0x04,
+							0xF0, 0x08,
+							0xF0, 0x08,
+							
+							0x0F, 0x10,
+							0x0F, 0x10,
+							0x0F, 0x20,
+							0x0F, 0x20,
+							0x0F, 0x40,
+							0x0F, 0x40,
+							0x0F, 0x80,
+							0x0F, 0x80,
+							};
+	MFDB planar;
+	planar.fd_addr 		= img16x1;
+	planar.fd_w			= 16;
+	planar.fd_h			= 1;
+	planar.fd_wdwidth	= 1;
+	planar.fd_stand		= MFDB_STANDARD;
+	planar.fd_nplanes	= 16;
+	planar.fd_r1		= 0;
+	planar.fd_r2		= 0;
+	planar.fd_r3		= 0;
+	
+	
+	MFDB dst;
+	memset(&dst, 0, sizeof(MFDB));
+	vr_trnfm(0, &planar, &dst);
+
+	//dump(&dst);
+
+	uint16_t *ptr 	= (uint16_t *)dst.fd_addr;
+	printf(" - 16-bit RGB        : %s",
+			(memcmp(ptr, expected, 32) != 0) ? ("FAIL\n") : ("pass\n"));
+	
+	}
+
+/*****************************************************************************\
 |* Program entry point
 \*****************************************************************************/
 int main(int argc, const char * argv[])
@@ -569,6 +690,8 @@ int main(int argc, const char * argv[])
 	convChunky4();
 	convChunky8(16);
 	convChunky8(0);
+	convChunky16();
+	convChunky24();
 	
 	printf("\n\n");
 	}
