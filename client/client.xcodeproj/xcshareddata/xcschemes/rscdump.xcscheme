@@ -53,7 +53,19 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-f $HOME/icons1.rsc"
+            argument = "-f /Users/simon/src/QT/QGem/gemd/resources/icons1.rsc"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-l"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-e"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-m cam"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

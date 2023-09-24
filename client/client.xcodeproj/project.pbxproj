@@ -98,6 +98,8 @@
 		F46A86832ABEA97200FA3ABC /* args.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86812ABEA97200FA3ABC /* args.c */; };
 		F46A86872ABFDBDF00FA3ABC /* match.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86862ABFDBDF00FA3ABC /* match.c */; };
 		F46A868A2ABFEE1E00FA3ABC /* listing.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86892ABFEE1E00FA3ABC /* listing.c */; };
+		F46A86902AC0997B00FA3ABC /* export.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A868F2AC0997B00FA3ABC /* export.c */; };
+		F46A86932AC0AAF900FA3ABC /* pam.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86922AC0AAF900FA3ABC /* pam.c */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -264,6 +266,10 @@
 		F46A86862ABFDBDF00FA3ABC /* match.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = match.c; sourceTree = "<group>"; };
 		F46A86882ABFEE1E00FA3ABC /* listing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = listing.h; sourceTree = "<group>"; };
 		F46A86892ABFEE1E00FA3ABC /* listing.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = listing.c; sourceTree = "<group>"; };
+		F46A868E2AC0997B00FA3ABC /* export.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = export.h; sourceTree = "<group>"; };
+		F46A868F2AC0997B00FA3ABC /* export.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = export.c; sourceTree = "<group>"; };
+		F46A86912AC0AAF900FA3ABC /* pam.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pam.h; sourceTree = "<group>"; };
+		F46A86922AC0AAF900FA3ABC /* pam.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pam.c; sourceTree = "<group>"; };
 		F4E3409C2AAAD389002390BA /* client */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = client; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E3409F2AAAD389002390BA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E340AA2AAAD3E1002390BA /* libgemc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgemc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -346,6 +352,10 @@
 				F46A86862ABFDBDF00FA3ABC /* match.c */,
 				F46A86882ABFEE1E00FA3ABC /* listing.h */,
 				F46A86892ABFEE1E00FA3ABC /* listing.c */,
+				F46A868E2AC0997B00FA3ABC /* export.h */,
+				F46A868F2AC0997B00FA3ABC /* export.c */,
+				F46A86912AC0AAF900FA3ABC /* pam.h */,
+				F46A86922AC0AAF900FA3ABC /* pam.c */,
 			);
 			path = rscdump;
 			sourceTree = "<group>";
@@ -716,9 +726,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F46A86932AC0AAF900FA3ABC /* pam.c in Sources */,
 				F46A86762ABEA73A00FA3ABC /* main.c in Sources */,
 				F46A86872ABFDBDF00FA3ABC /* match.c in Sources */,
 				F46A868A2ABFEE1E00FA3ABC /* listing.c in Sources */,
+				F46A86902AC0997B00FA3ABC /* export.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,7 +913,10 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../shared",
+					"$(PROJECT_DIR)/../gemd",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -913,7 +928,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9DMW7WK55;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../shared",
+					"$(PROJECT_DIR)/../gemd",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

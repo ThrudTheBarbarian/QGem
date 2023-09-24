@@ -266,6 +266,15 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 		WARN("Cannot read mono data for icon %d", idx);
 		return 0;
 		}
+	else
+		{
+		uint16_t *ptr = iblk->ib_pdata;
+		for (int i=0; i<words; i++)
+			{
+			*ptr = ntohs(*ptr);
+			ptr ++;
+			}
+		}
 		
 	/*************************************************************************\
 	|* Read in the mask for the monochrome data
@@ -280,6 +289,15 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 		{
 		WARN("Cannot read mono mask data for icon %d", idx);
 		return 0;
+		}
+	else
+		{
+		uint16_t *ptr = iblk->ib_pmask;
+		for (int i=0; i<words; i++)
+			{
+			*ptr = ntohs(*ptr);
+			ptr ++;
+			}
 		}
 		
 	/*************************************************************************\
@@ -350,6 +368,15 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 			WARN("Cannot read info data for colour icon %d.%d", idx, j);
 			return 0;
 			}
+		else
+			{
+			uint16_t *ptr = (uint16_t *)(rsc->cIcons[idx].icons[j].colData);
+			for (int i=0; i<cDataSize/2; i++)
+				{
+				*ptr = ntohs(*ptr);
+				ptr ++;
+				}
+			}
 			
 		/*********************************************************************\
 		|* Read in the data and form the structure: icon mask
@@ -365,6 +392,15 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 			{
 			WARN("Cannot read info data for colour mask %d.%d", idx, j);
 			return 0;
+			}
+		else
+			{
+			uint16_t *ptr = (uint16_t *)(rsc->cIcons[idx].icons[j].colMask);
+			for (int i=0; i<words; i++)
+				{
+				*ptr = ntohs(*ptr);
+				ptr ++;
+				}
 			}
 
 		if (selDataPresent)
@@ -384,6 +420,15 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 				WARN("Cannot read data for sel data for icon %d.%d", idx, j);
 				return 0;
 				}
+			else
+				{
+				uint16_t *ptr = (uint16_t *)(rsc->cIcons[idx].icons[j].selData);
+				for (int i=0; i<cDataSize/2; i++)
+					{
+					*ptr = ntohs(*ptr);
+					ptr ++;
+					}
+				}
 				
 			/*****************************************************************\
 			|* Read in the data and form the structure: icon mask
@@ -399,6 +444,15 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 				{
 				WARN("Cannot read data for sel mask %d.%d", idx, j);
 				return 0;
+				}
+			else
+				{
+				uint16_t *ptr = (uint16_t *)(rsc->cIcons[idx].icons[j].selMask);
+				for (int i=0; i<words; i++)
+					{
+					*ptr = ntohs(*ptr);
+					ptr ++;
+					}
 				}
 			}
 		else

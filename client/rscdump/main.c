@@ -8,6 +8,7 @@
 #include <stdio.h>
 
 #include "args.h"
+#include "export.h"
 #include "listing.h"
 #include "match.h"
 #include "rscfile.h"
@@ -104,6 +105,15 @@ int main(int argc, const char * argv[])
 			{
 			for (int i=0; i<objIds.length; i++)
 				listObject(&(rsc.objects[objIds.data[i]]));
+			}
+		
+		/*********************************************************************\
+		|* Do any export we can
+		\*********************************************************************/
+		if (export)
+			{
+			for (int i=0; i<objIds.length; i++)
+				exportObject(&(rsc.objects[objIds.data[i]]));
 			}
 		}
 	}
