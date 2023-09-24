@@ -8,7 +8,10 @@
 #include <stdio.h>
 
 #include "args.h"
+#include "listing.h"
+#include "match.h"
 #include "rscfile.h"
+#include "vec.h"
 
 /*****************************************************************************\
 |* Commandline options stuff
@@ -29,8 +32,11 @@ static int _debugLevel		= 10;
 \*****************************************************************************/
 int main(int argc, const char * argv[])
 	{
-	const char *path = NULL;
-	int verbose		 = 0;
+	const char *path 		= NULL;
+	int verbose		 		= 0;
+	int export		 		= 0;
+	int listToStdout		= 0;
+	const char *criterion 	= NULL;
 	
 	/*************************************************************************\
 	|* Define the command-line options...
@@ -42,6 +48,11 @@ int main(int argc, const char * argv[])
         OPT_STRING('f', "file", &path, "path to RSC file", NULL, 0, 0),
         OPT_BOOLEAN('v', "verbose", &verbose, "Be chatty", NULL, 0, 0),
         OPT_BOOLEAN('d', "debug", &_debugLevel, "Debugging flag", NULL, 0, 0),
+        OPT_GROUP("Filtering options"),
+        OPT_STRING('m', "match", &criterion, "substring match for export", NULL, 0, 0),
+        OPT_GROUP("Output options"),
+        OPT_BOOLEAN('e', "export", &export, "Export to files", NULL, 0, 0),
+        OPT_BOOLEAN('l', "list", &listToStdout, "List to stdout", NULL, 0, 0),
         OPT_END(),
 		};
 
@@ -52,7 +63,13 @@ int main(int argc, const char * argv[])
     argparse_init(&argparse, options, usages, 0);
     argparse_describe(&argparse, prefix, postfix);
     argc = argparse_parse(&argparse, argc, argv);
-	
+
+	/*************************************************************************\
+	|* List of object-ids to show
+	\*************************************************************************/
+	vec_int_t objIds;
+	vec_init(&objIds);
+
 	if (path != NULL)
 		{
 		RscFile rsc;
@@ -61,6 +78,32 @@ int main(int argc, const char * argv[])
 			{
 			printf("RSC file size          : %u bytes\n", rsc.size);
 			printf("RSC contains           : %d colour icons\n", rsc.nCicons);
+			}
+		
+		/*********************************************************************\
+		|* Preselect all objects by default
+		\*********************************************************************/
+		for (int i=0; i<rsc.nObjects; i++)
+			vec_push(&objIds, i);
+			
+		/*********************************************************************\
+		|* Run through the object tree and see if anything matches
+		\*********************************************************************/
+		if (criterion != NULL)
+			{
+			vec_clear(&objIds);
+			for (int i=0; i<rsc.nObjects; i++)
+				if (match(&(rsc.objects[i]), criterion))
+					vec_push(&objIds, i);
+			}
+		
+		/*********************************************************************\
+		|* Do any listing
+		\*********************************************************************/
+		if (listToStdout)
+			{
+			for (int i=0; i<objIds.length; i++)
+				listObject(&(rsc.objects[objIds.data[i]]));
 			}
 		}
 	}

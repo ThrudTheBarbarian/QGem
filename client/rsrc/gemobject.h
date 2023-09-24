@@ -8,7 +8,31 @@
 #ifndef gemobject_h
 #define gemobject_h
 
-typedef struct
+/*****************************************************************************\
+|* Object types
+\*****************************************************************************/
+enum
+	{
+	G_BOX		= 20,
+	G_TEXT,
+	G_BOXTEXT,
+	G_IMAGE,
+	G_PROGDEF,
+	G_IBOX,
+	G_BUTTON,
+	G_BOXCHAR,
+	G_STRING,
+	G_FTEXT,
+	G_FBOXTEXT,
+	G_ICON,
+	G_TITLE,
+	G_CICON,
+	G_SWBUTTON,
+	G_POPUP
+	};
+
+
+typedef struct Object_t
 	{
 	int16_t    ob_next;   			/* The next object               		*/
 	int16_t    ob_head;   			/* First child                   		*/
@@ -43,5 +67,39 @@ typedef struct
 	uint16_t  ib_htext;     		/* Height of the text                 	*/
 	uint16_t  ib_resvd;     		/* Reserved                           	*/
 	} ICONBLK;
+
+/*****************************************************************************\
+|* Define the representation of a coloured icon
+|*
+|* 'n' below  is defined as numPlanes * [words in mono icon]
+\*****************************************************************************/
+typedef struct CICON_t
+	{
+	uint16_t		 numPlanes;		/* Number of planes this icon is for	*/
+	int16_t *		 colData;		/* empty on disk, calculated on load	*/
+	int16_t *		 colMask;		/* empty on disk, calculated on load	*/
+	int16_t *		 selData;		/* must be !0 if selected data exists	*/
+	int16_t * 		 selMask;		/* calculated at load					*/
+	struct CICON_t * next;			/* pointer to next in line, or NULL		*/
+	} CICON;
+	
+/*****************************************************************************\
+|* Define the representation the coloured icons
+\*****************************************************************************/
+typedef struct
+	{
+	ICONBLK 	monoIcon;			/* The ICONBLk for the mono icon 		*/
+	CICON *		icons;				/* Structure per resolution				*/
+	} CICONBLK;
+
+/*****************************************************************************\
+|* Switch info
+\*****************************************************************************/
+typedef struct
+	{
+    int8_t  *string;     			/* Perhaps 'TOS|KAOS|MAG!X'            */
+    int16_t  num;        			/* Index of current character string   */
+    int16_t  maxnum;     			/* Maximum permitted num               */
+	} SWINFO;
 
 #endif /* gemobject_h */

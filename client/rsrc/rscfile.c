@@ -19,6 +19,27 @@ static int _parseObjects(FILE *fp, RscFileHeader *hdr, RscFile *rsc);
 static int _parseCIcons(FILE *fp, RscFileHeader *hdr, RscFile *rsc);
 static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int n);
 
+
+/*****************************************************************************\
+|* Helper functions to parse values
+\*****************************************************************************/
+static inline int _fetch32(void *ptr, int offset, uint32_t* value)
+	{
+	uint8_t *bPtr 	= ((uint8_t *)ptr) + offset;
+	uint32_t val	= *((uint32_t *)bPtr);
+	*value 			= ntohl(val);
+	return offset + 4;
+	}
+	
+static inline int _fetch16(void *ptr, int offset, uint16_t* value)
+	{
+	uint8_t *bPtr 	= ((uint8_t *)ptr) + offset;
+	uint16_t val	= *((uint16_t *)bPtr);
+	*value 			= ntohs(val);
+	return offset + 2;
+	}
+	
+
 /*****************************************************************************\
 |* Read an RSC file into memory
 \*****************************************************************************/
@@ -40,8 +61,8 @@ int resourceLoad(const char * filename, RscFile *rsc)
 				}
 			rsc->version 	= hdr.rsh_vrsn;
 			
-			_parseObjects(fp, &hdr, rsc);
 			_parseCIcons(fp, &hdr, rsc);
+			_parseObjects(fp, &hdr, rsc);
 			}
 		else
 			perror("Reading RSC file header");
@@ -50,12 +71,74 @@ int resourceLoad(const char * filename, RscFile *rsc)
 	return ok;
 	}
 
+static char *objType[] = {
+	"#0",  "#1",  "#2",  "#3",  "#4",  "#5",  "#6",  "#7",  "#8",  "#9",
+	"#10", "#11", "#12", "#13", "#14", "#15", "#16", "#17", "#18", "#19",
+	"G_Box", "G_Text", "G_BoxText", "G_Image", "G_Userdef",
+	"G_Ibox", "G_Button", "G_Boxchar", "G_String", "G_Ftext",
+	"G_FBoxText", "G_Icon", "G_Title", "G_CIcon", "G_SwButton",
+	"G_Popup", "G_WinTitle", "G_Edit", "G_Shortcut", "G_SList"
+	};
+
 /*****************************************************************************\
 |* Parse the objects out of the file
 \*****************************************************************************/
 static int _parseObjects(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 	{
 	rsc->nObjects	= hdr->rsh_nobs;
+
+	/*************************************************************************\
+	|* Seek to the correct offset
+	\*************************************************************************/
+	fseek(fp, hdr->rsh_object, SEEK_SET);
+	
+	/*************************************************************************\
+	|* Reserve space for all the OBJECT structures
+	\*************************************************************************/
+	rsc->objects = (OBJECT *) malloc(sizeof(OBJECT) * rsc->nObjects);
+	if (rsc->objects == NULL)
+		{
+		WARN("Cannot allocate space for OBJECT structures");
+		return 0;
+		}
+	
+	/*************************************************************************\
+	|* Read in the objects
+	\*************************************************************************/
+	for (int i=0; i<rsc->nObjects; i++)
+		{
+		/*********************************************************************\
+		|* Read the disk format of the structure
+		\*********************************************************************/
+		uint8_t data[24];		// Size of an OBJECT on disk
+		if (fread(data, 24, 1, fp) != 1)
+			{
+			WARN("Failed to read OBJECT %d", i);
+			return 0;
+			}
+			
+		/*********************************************************************\
+		|* Create an OBJECT structure from the data
+		\*********************************************************************/
+		int cursor  = 0;
+		OBJECT *obj	= &(rsc->objects[i]);
+		uint32_t ob_spec;
+		
+		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_next)));
+		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_head)));
+		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_tail)));
+		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_type)));
+		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_flags)));
+		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_state)));
+		cursor		= _fetch32(data, cursor, &ob_spec);
+		if ((ob_spec >= 0) && (ob_spec < rsc->nCicons))
+			obj->ob_spec = (void *)(&(rsc->cIcons[ob_spec]));
+			
+		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_x)));
+		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_y)));
+		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_width)));
+		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_height)));
+		}
 	return 1;
 	}
 
@@ -122,25 +205,6 @@ static int _parseCIcons(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 	return 1;
 	}
 
-/*****************************************************************************\
-|* Helper functions to parse values
-\*****************************************************************************/
-static inline int _fetch32(void *ptr, int offset, uint32_t* value)
-	{
-	uint8_t *bPtr 	= ((uint8_t *)ptr) + offset;
-	uint32_t val	= *((uint32_t *)bPtr);
-	*value 			= ntohl(val);
-	return offset + 4;
-	}
-	
-static inline int _fetch16(void *ptr, int offset, uint16_t* value)
-	{
-	uint8_t *bPtr 	= ((uint8_t *)ptr) + offset;
-	uint16_t val	= *((uint16_t *)bPtr);
-	*value 			= ntohs(val);
-	return offset + 2;
-	}
-	
 /*****************************************************************************\
 |* Read in the CICONBLK structures and parse
 \*****************************************************************************/
@@ -233,9 +297,6 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 		return 0;
 		}
 	iblk->ib_ptext[12] = '\0';
-	
-	printf("icon: '%s'\n", iblk->ib_ptext);
-
 		
 	/*************************************************************************\
 	|* Reserve the correct number of CICON structures

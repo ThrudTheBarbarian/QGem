@@ -49,31 +49,6 @@ typedef struct
 	} RscFileHeader;
 
 /*****************************************************************************\
-|* Define the internal representation of a coloured icon
-|*
-|* 'n' below  is defined as numPlanes * [words in mono icon]
-\*****************************************************************************/
-typedef struct CICON_t
-	{
-	uint16_t		 numPlanes;		/* Number of planes this icon is for	*/
-	int16_t *		 colData;		/* empty on disk, calculated on load	*/
-	int16_t *		 colMask;		/* empty on disk, calculated on load	*/
-	int16_t *		 selData;		/* must be !0 if selected data exists	*/
-	int16_t * 		 selMask;		/* calculated at load					*/
-	struct CICON_t * next;			/* pointer to next in line, or NULL		*/
-	} CICON;
-	
-/*****************************************************************************\
-|* Define the internal representation the coloured icons
-\*****************************************************************************/
-typedef struct
-	{
-	ICONBLK 	monoIcon;			/* The ICONBLk for the mono icon 		*/
-	CICON *		icons;				/* Structure per resolution				*/
-	} CICONBLK;
-
-
-/*****************************************************************************\
 |* Define the internal representation of an RSC file
 \*****************************************************************************/
 
