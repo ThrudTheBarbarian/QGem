@@ -77,8 +77,11 @@ void vr_trnfm(int16_t handle, MFDB *src, MFDB *dst)
 		switch (src->fd_nplanes)
 			{
 			case 1:
-				/* do nothing */
-				break;
+				/* copy src to dst */
+				if (dst->fd_addr !=NULL)
+					free(dst->fd_addr);
+				memcpy(dst, src, sizeof(MFDB));
+				dst->fd_stand = MFDB_STANDARD;
 			case 2:
 				_convToPlanar2(src, dst);
 				break;
@@ -109,7 +112,11 @@ void vr_trnfm(int16_t handle, MFDB *src, MFDB *dst)
 		switch (src->fd_nplanes)
 			{
 			case 1:
-				/* do nothing */
+				/* copy src to dst */
+				if (dst->fd_addr !=NULL)
+					free(dst->fd_addr);
+				memcpy(dst, src, sizeof(MFDB));
+				dst->fd_stand = MFDB_DEVICE;
 				break;
 			case 2:
 				_convToChunky2(src, dst);

@@ -71,15 +71,6 @@ int resourceLoad(const char * filename, RscFile *rsc)
 	return ok;
 	}
 
-static char *objType[] = {
-	"#0",  "#1",  "#2",  "#3",  "#4",  "#5",  "#6",  "#7",  "#8",  "#9",
-	"#10", "#11", "#12", "#13", "#14", "#15", "#16", "#17", "#18", "#19",
-	"G_Box", "G_Text", "G_BoxText", "G_Image", "G_Userdef",
-	"G_Ibox", "G_Button", "G_Boxchar", "G_String", "G_Ftext",
-	"G_FBoxText", "G_Icon", "G_Title", "G_CIcon", "G_SwButton",
-	"G_Popup", "G_WinTitle", "G_Edit", "G_Shortcut", "G_SList"
-	};
-
 /*****************************************************************************\
 |* Parse the objects out of the file
 \*****************************************************************************/
