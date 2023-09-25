@@ -7,15 +7,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BA33BE07-3AAD-4417-A329-5A29294B6CB5"
+            uuid = "6C157AFB-8B31-4AA2-97F1-2092DE40BC4B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "rscdump/pam.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "_writePam16(fp, img, mask)"
             landmarkType = "9">
          </BreakpointContent>
@@ -23,16 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1312C407-09B7-4389-A154-44CDC8367370"
+            uuid = "B5AA608E-AB78-4464-8DA4-8DB4B848A862"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "rscdump/export.c"
+            filePath = "rscdump/pam.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
-            landmarkName = "_exportCIcon(o, name)"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "_writePam16(fp, img, mask)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

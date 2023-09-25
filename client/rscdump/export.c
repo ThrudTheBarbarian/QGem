@@ -137,10 +137,12 @@ int _exportCIcon(OBJECT *o, const char *name)
 		src.fd_addr 	= icon->colData;
 		src.fd_w		= blk->monoIcon.ib_wicon;
 		src.fd_h		= blk->monoIcon.ib_hicon;
-		src.fd_wdwidth	= ((icon->numPlanes * src.fd_w) / 16)
-						+ ((src.fd_w & 15) != 0 ? 1 : 0);
+		src.fd_wdwidth	= ((src.fd_w) / 16) + ((src.fd_w & 15) != 0 ? 1 : 0);
 		src.fd_stand	= MFDB_STANDARD;
 		src.fd_nplanes	= icon->numPlanes;
+		src.fd_r1		= 0;
+		src.fd_r2		= 0;
+		src.fd_r3		= 0;
 		
 		/*********************************************************************\
 		|* Create an empty MFDB for the result, and transform to 'chunky'
@@ -156,7 +158,8 @@ int _exportCIcon(OBJECT *o, const char *name)
 		memset(&imgMask, 0, sizeof(MFDB));
 		if (icon->colMask != NULL)
 			{
-			src.fd_addr = icon->colMask;
+			src.fd_addr 	= icon->colMask;
+			src.fd_nplanes 	= 1;
 			vr_trnfm(0, &src, &imgMask);
 			}
 			

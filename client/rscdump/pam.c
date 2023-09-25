@@ -29,21 +29,21 @@ typedef struct
 	
 static RGB _palette16[16] = {
 	{255, 255, 255},		// white
-	{0, 0, 0},				// black
-	{255, 0, 0},			// red
-	{0, 255, 0},			// green
-	{0, 0, 255},			// blue
-	{0, 255, 255},			// cyan
-	{255, 255, 0},			// yellow
-	{255, 0, 255},			// magenta
-	{192, 192, 192},		// light grey
 	{128, 128, 128}, 		// dark grey
-	{182, 0, 0},			// dark red
-	{0, 182, 0},			// dark green
+	{0, 0, 255},			// blue
 	{0, 0, 182},			// dark blue
+	{0, 255, 0},			// green
+	{0, 182, 0},			// dark green
+	{0, 255, 255},			// cyan
 	{0, 182, 182},			// dark cyan
-	{182, 182, 0},			// dark yellow
+	{255, 0, 0},			// red
+	{182, 0, 0},			// dark red
+	{255, 0, 255},			// magenta
 	{182, 0, 182},			// dark magenta
+	{255, 255, 0},			// yellow
+	{182, 182, 0},			// dark yellow
+	{192, 192, 192},		// light grey
+	{0, 0, 0},				// black
 	};
 
 static char _pix[16] = {'.','X','R','G','B','C','Y','M',
@@ -137,22 +137,20 @@ int _writePam16(FILE *fp, MFDB *img, MFDB *mask)
 			{
 			uint16_t *bits 		= ((uint16_t *)img->fd_addr)
 								+ img->fd_wdwidth * i;
-			uint16_t bitmask  	= 0xF000;
-			int shift			= 12;
 			for (int j=0; j<words; j++)
 				{
-				uint16_t data = *bits ++;
+				uint16_t bitmask  	= 0xF000;
+				int shift			= 12;
+				uint16_t data 		= ntohs(*bits ++);
 				for (int k=0; k<4; k++)
 					{
 					uint8_t pixel = (data & bitmask) >> shift;
-					printf("%c", _pix[pixel]);
 					bitmask >>= 4;
 					shift -= 4;
 					rgbp->rgb = _palette16[pixel];
 					rgbp ++;
 					}
 				}
-			printf("\n");
 			}
 			
 		/*********************************************************************\

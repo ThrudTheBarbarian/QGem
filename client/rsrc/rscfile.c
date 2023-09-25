@@ -362,7 +362,7 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 			WARN("Cannot alloc space for colour data for icon %d.%d", idx, j);
 			return 0;
 			}
-		
+			
 		if (fread(rsc->cIcons[idx].icons[j].colData, cDataSize, 1, fp) != 1)
 			{
 			WARN("Cannot read info data for colour icon %d.%d", idx, j);

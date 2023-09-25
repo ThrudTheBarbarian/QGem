@@ -981,8 +981,9 @@ static void _convToChunky4(MFDB *src, MFDB *dst)
 			\*****************************************************************/
 			for (int k=0; k<4; k++)
 				{
-				p[k] 	= (*d[k] ++) << 8;
-				p[k]   |= *d[k] ++;
+				uint16_t lo = *d[k] ++;
+				uint16_t hi	= *d[k] ++;
+				p[k]   		= (hi<<8) | lo;
 				//printf("loading %04x into plane %d\n", p[k], k);
 				}
 
@@ -1020,7 +1021,6 @@ static void _convToChunky4(MFDB *src, MFDB *dst)
 				*pix++ = val;
 				val = 0;
 				}
-			
 			}
 		}
 		

@@ -114,7 +114,7 @@ static void _listCIcon(OBJECT *o)
 		strcat(planes, tmp);
 		icons = icons->next;
 		}
-	printf("[%-12s:%dx%d, planes:%-14s]", icon->monoIcon.ib_ptext
+	printf("[%-12s:%dx%d, planes:%-12s]", icon->monoIcon.ib_ptext
 						  , icon->monoIcon.ib_wicon
 						  , icon->monoIcon.ib_hicon
 						  , planes);
