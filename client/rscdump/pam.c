@@ -172,10 +172,10 @@ int _writePam16(FILE *fp, MFDB *img, MFDB *mask)
 				{
 				uint16_t *bits		= ((uint16_t *)mask->fd_addr)
 									+ mask->fd_wdwidth * i;
-				uint16_t bitmask  	= 0x8000;
-				int shift			= 15;
 				for (int j=0; j<words; j++)
 					{
+					uint16_t bitmask  	= 0x8000;
+					int shift			= 15;
 					uint16_t data = *bits ++;
 					for (int k=0; k<16; k++)
 						{
