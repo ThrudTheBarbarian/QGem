@@ -141,9 +141,9 @@ void Workstation::_initialise(void)
 
 		for (int i=0; i<256; i++)
 			{
-			uint8_t r = ((*rgb ++ ) * 256) / 1000;
-			uint8_t g = ((*rgb ++ ) * 256) / 1000;
-			uint8_t b = ((*rgb ++ ) * 256) / 1000;
+			uint8_t r = ((int)(ntohs(*rgb)) * 255) / 1000; rgb ++;
+			uint8_t g = ((int)(ntohs(*rgb)) * 255) / 1000; rgb ++;
+			uint8_t b = ((int)(ntohs(*rgb)) * 255) / 1000; rgb ++;
 			setColour(i, r, g, b);
 			}
 		}
