@@ -5,16 +5,20 @@
 //  Created by ThrudTheBarbarian on 9/7/23.
 //
 
-#include <unistd.h>
-#include <stdlib.h>
 #include <math.h>
+#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+
 #include "vdi.h"
 #include "gem.h"
 
 int debugLevel(void)
 	{ return 10; }
 	
+
+void tstTrans(int w, int wds, int planes,int num);
 
 int main(int argc, const char * argv[])
 	{
@@ -192,20 +196,61 @@ int main(int argc, const char * argv[])
 //		}
 
 
+//	MFDB srcMFDB =
+//		{
+//		.fd_addr = 0,
+//		.fd_stand = 0
+//		};
+//
+//	MFDB dstMFDB =
+//		{
+//		.fd_addr = 0,
+//		.fd_stand = 0
+//		};
+//
+//	int16_t pxyblit[8] = {0, 0, 400, 400, 400, 0, 400, 400};
+//	vro_cpyfm(handle, S_XOR_D, pxyblit, &srcMFDB, &dstMFDB);
+	
+	
+	tstTrans(32, 4, 4, 16);
+	tstTrans(32, 2, 8, 32);
+	
+	v_clsvwk(handle);
+	}
+
+
+void tstTrans(int w, int wds, int planes,int num)
+	{
+	uint8_t pbuf[1024];
+	for (int i=0; i<1024; i++)
+		pbuf[i] = i & 0xff;
+	
 	MFDB srcMFDB =
 		{
-		.fd_addr = 0,
-		.fd_stand = 0
+		.fd_addr 	= &(pbuf[0]),
+		.fd_stand	= 1,
+		.fd_w		= w,
+		.fd_h		= 1,
+		.fd_wdwidth	= wds,
+		.fd_nplanes	= planes
 		};
-	
+
 	MFDB dstMFDB =
 		{
 		.fd_addr = 0,
 		.fd_stand = 0
 		};
 	
-	int16_t pxyblit[8] = {0, 0, 400, 400, 400, 0, 400, 400};
-	vro_cpyfm(handle, S_XOR_D, pxyblit, &srcMFDB, &dstMFDB);
+	vr_trnfm(0, &srcMFDB, &dstMFDB);
 	
-	v_clsvwk(handle);
+	MFDB dstMFDB2 =
+		{
+		.fd_addr = 0,
+		.fd_stand = 1
+		};
+	vr_trnfm(0, &dstMFDB, &dstMFDB2);
+	
+	printf("memcmp [%d] = %d\n",
+		   planes,
+		   memcmp(dstMFDB2.fd_addr, srcMFDB.fd_addr, num));
 	}

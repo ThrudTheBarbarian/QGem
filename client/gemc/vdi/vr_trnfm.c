@@ -376,10 +376,10 @@ static void _convToPlanar4(MFDB *src, MFDB *dst)
 				pixMask   >>= 4;
 				pixShift   -= 4;
 				
-				p[0] 		= (p[0] << 1) | (pixel >> 3);
-				p[1]		= (p[1] << 1) | ((pixel >> 2) & 1);
-				p[2]		= (p[2] << 1) | ((pixel >> 1) & 1);
-				p[3]		= (p[3] << 1) | (pixel & 1);;
+				p[3] 		= (p[3] << 1) | (pixel >> 3);
+				p[2]		= (p[2] << 1) | ((pixel >> 2) & 1);
+				p[1]		= (p[1] << 1) | ((pixel >> 1) & 1);
+				p[0]		= (p[0] << 1) | (pixel & 1);;
 				}
 			
 			/*****************************************************************\
@@ -511,14 +511,14 @@ static void _convToPlanar8(MFDB *src, MFDB *dst)
 				pixMask   >>= 8;
 				pixShift   -= 8;
 				
-				p[0] 		= (p[0] << 1) | (pixel >> 7);
-				p[1]		= (p[1] << 1) | ((pixel >> 6) & 1);
-				p[2]		= (p[2] << 1) | ((pixel >> 5) & 1);
-				p[3]		= (p[3] << 1) | ((pixel >> 4) & 1);
-				p[4]		= (p[4] << 1) | ((pixel >> 3) & 1);
-				p[5]		= (p[5] << 1) | ((pixel >> 2) & 1);
-				p[6]		= (p[6] << 1) | ((pixel >> 1) & 1);
-				p[7]		= (p[7] << 1) | (pixel & 1);;
+				p[7] 		= (p[7] << 1) | (pixel >> 7);
+				p[6]		= (p[6] << 1) | ((pixel >> 6) & 1);
+				p[5]		= (p[5] << 1) | ((pixel >> 5) & 1);
+				p[4]		= (p[4] << 1) | ((pixel >> 4) & 1);
+				p[3]		= (p[3] << 1) | ((pixel >> 3) & 1);
+				p[2]		= (p[2] << 1) | ((pixel >> 2) & 1);
+				p[1]		= (p[1] << 1) | ((pixel >> 1) & 1);
+				p[0]		= (p[0] << 1) | (pixel & 1);;
 				
 				shift --;
 				}
@@ -539,7 +539,7 @@ static void _convToPlanar8(MFDB *src, MFDB *dst)
 			{
 			for (int i=0; i<8; i++)
 				*ptr[i] ++ = p[i] << shift;
-				memset(p, 0, 8*2);
+			memset(p, 0, 8*2);
 			}
 		}
 		
