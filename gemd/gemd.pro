@@ -53,6 +53,7 @@ SOURCES += \
     ops/v_updwk.cc \
     ops/vq_chcells.cc \
     ops/vq_color.cc \
+    ops/vq_colours.cc \
     ops/vq_curaddress.cc \
     ops/vq_exit_cur.cc \
     ops/vq_extnd.cc \

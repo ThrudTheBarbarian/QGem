@@ -436,5 +436,11 @@ void vs_clip(int16_t handle, int16_t enable, int16_t* pxy);
 \*****************************************************************************/
 int16_t vqt_name(int16_t handle, int16_t fontId, char *name);
 
+/*****************************************************************************\
+|*   1090  : Query a palette in effect right now - either the 16-colour palette
+|*           or the 256-colour palette
+\*****************************************************************************/
+void vq_colours(int16_t handle, int16_t cnum, int16_t *rgb);
+
 
 #endif /* vdi_h */

@@ -71,15 +71,6 @@ int resourceLoad(const char * filename, RscFile *rsc)
 	return ok;
 	}
 
-static char *objType[] = {
-	"#0",  "#1",  "#2",  "#3",  "#4",  "#5",  "#6",  "#7",  "#8",  "#9",
-	"#10", "#11", "#12", "#13", "#14", "#15", "#16", "#17", "#18", "#19",
-	"G_Box", "G_Text", "G_BoxText", "G_Image", "G_Userdef",
-	"G_Ibox", "G_Button", "G_Boxchar", "G_String", "G_Ftext",
-	"G_FBoxText", "G_Icon", "G_Title", "G_CIcon", "G_SwButton",
-	"G_Popup", "G_WinTitle", "G_Edit", "G_Shortcut", "G_SList"
-	};
-
 /*****************************************************************************\
 |* Parse the objects out of the file
 \*****************************************************************************/
@@ -192,8 +183,11 @@ static int _parseCIcons(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 				}
 			rsc->cIcons = (CICONBLK*)malloc(sizeof(CICONBLK) * rsc->nCicons);
 			if (rsc->cIcons == NULL)
+				{
+				WARN("Cannot allocate CICONBLK memory for %d icons",
+					 rsc->nCicons);
 				return 0;
-			
+				}
 			for (int i=0; i<rsc->nCicons; i++)
 				_readCiconBlock(fp, hdr, rsc, i);
 			}
@@ -248,7 +242,7 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 	numIcons = ntohs(numIcons);
 	
 	/*************************************************************************\
-	|* Read in the data for the monochrome data
+	|* Read in the monochrome icon data
 	\*************************************************************************/
 	int iconW	= iblk->ib_wicon / 16
 				+ (((iblk->ib_wicon & 15) != 0) ? 1 : 0);
@@ -329,6 +323,10 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 	
 	for (int j=0; j<numIcons; j++)
 		{
+		rsc->cIcons[idx].icons[j].next = NULL;
+		if (j>0)
+			rsc->cIcons[idx].icons[j-1].next = &(rsc->cIcons[idx].icons[j]);
+			
 		/*********************************************************************\
 		|* Read in the number of planes for this colour icon
 		\*********************************************************************/
@@ -338,8 +336,9 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 			WARN("Cannot read #planes for icon %d.%d", idx, j);
 			return 0;
 			}
-		rsc->cIcons[idx].icons[j].numPlanes = ntohs(planes);
-		
+		planes = ntohs(planes);
+		rsc->cIcons[idx].icons[j].numPlanes = planes;
+
 		/*********************************************************************\
 		|* Read in the embedded pointers and figure out if there's 'sel' data
 		\*********************************************************************/
@@ -354,7 +353,7 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
  		/*********************************************************************\
 		|* Read in the data and form the structure: icon itself
 		\*********************************************************************/
-		int cDataSize	= words * rsc->cIcons[idx].icons[j].numPlanes * 2;
+		int cDataSize	= words * planes * 2;
 		
 		rsc->cIcons[idx].icons[j].colData = (int16_t *) malloc(cDataSize);
 		if (rsc->cIcons[idx].icons[j].colData == NULL)
@@ -377,7 +376,7 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 				ptr ++;
 				}
 			}
-			
+		
 		/*********************************************************************\
 		|* Read in the data and form the structure: icon mask
 		\*********************************************************************/
@@ -406,7 +405,7 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 		if (selDataPresent)
 			{
 			/*****************************************************************\
-			|* Read in the data and form the structure: icon itself
+			|* Read in the data and form the structure: selected-icon itself
 			\*****************************************************************/
 			rsc->cIcons[idx].icons[j].selData = (int16_t *) malloc(cDataSize);
 			if (rsc->cIcons[idx].icons[j].selData == NULL)
@@ -431,7 +430,7 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 				}
 				
 			/*****************************************************************\
-			|* Read in the data and form the structure: icon mask
+			|* Read in the data and form the structure: selected-icon mask
 			\*****************************************************************/
 			rsc->cIcons[idx].icons[j].selMask = (int16_t *) malloc(words*2);
 			if (rsc->cIcons[idx].icons[j].selMask == NULL)

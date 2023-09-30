@@ -54,6 +54,18 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-f /Users/simon/src/QT/QGem/gemd/resources/icons1.rsc"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-m 13"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-f $(HOME)/Downloads/icons_13/PERI_APP.RSC"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-f $(HOME)/Downloads/fbb_154/cicons.rsc"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -65,8 +77,12 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-m cam"
+            argument = "-m folder2"
             isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-m cd3"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-v"

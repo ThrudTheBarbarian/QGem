@@ -13,6 +13,7 @@
 #include "match.h"
 #include "rscfile.h"
 #include "vec.h"
+#include "vdi.h"
 
 /*****************************************************************************\
 |* Commandline options stuff
@@ -27,6 +28,7 @@ static const char *const usages[] =
 static const char *prefix 	= "\nDump out the structure of an RSC file";
 static const char *postfix	= "\nEnjoy.";
 static int _debugLevel		= 10;
+static int16_t _handle		= -1;
 
 /*****************************************************************************\
 |* Tool to dump out an RSC file so we can play with the innards
@@ -118,6 +120,14 @@ int main(int argc, const char * argv[])
 		}
 	}
 
-
+/*****************************************************************************\
+|* Debugging level
+\*****************************************************************************/
 int debugLevel(void)
 	{ return _debugLevel; }
+
+/*****************************************************************************\
+|* Return the connection handle
+\*****************************************************************************/
+int16_t GEMhandle(void)
+	{ return _handle; }

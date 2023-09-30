@@ -967,10 +967,10 @@ static void _convToChunky4(MFDB *src, MFDB *dst)
 	
 	for (int i=0; i<H; i++)
 		{
-		d[0]	= ((uint8_t *) ptr[0]) 	  	+ (i * words 		* 2);
-		d[1]	= ((uint8_t *) ptr[1]) 	  	+ (i * words 		* 2);
-		d[2]	= ((uint8_t *) ptr[2]) 	  	+ (i * words 		* 2);
-		d[3]	= ((uint8_t *) ptr[3]) 	  	+ (i * words 		* 2);
+		d[3]	= ((uint8_t *) ptr[0]) 	  	+ (i * words 		* 2);
+		d[2]	= ((uint8_t *) ptr[1]) 	  	+ (i * words 		* 2);
+		d[1]	= ((uint8_t *) ptr[2]) 	  	+ (i * words 		* 2);
+		d[0]	= ((uint8_t *) ptr[3]) 	  	+ (i * words 		* 2);
 		pix 	= ((uint8_t *)dst->fd_addr)	+ (i * wordsPerLine * 2);
 		
 		for (int j=0; j<W;)
@@ -1077,7 +1077,7 @@ static void _convToChunky8(MFDB *src, MFDB *dst)
 	int bytesRequired			= wordsPerLine * H * 2;
 	
 	/*************************************************************************\
-	|* Add on space for the RGB values for each of the 4 possible colours
+	|* Add on space for the RGB values for each of the 256 possible colours
 	\*************************************************************************/
 	if (colourMapSize)
 		bytesRequired 			+= colourMapSize * 3;
@@ -1105,39 +1105,41 @@ static void _convToChunky8(MFDB *src, MFDB *dst)
 	
 	for (int i=0; i<H; i++)
 		{
-		for (int j=0; j<8; j++)
-			d[j]	= ((uint8_t *) ptr[j]) 	  	+ (i * words 		* 2);
-		pix 		= ((uint8_t *)dst->fd_addr)	+ (i * wordsPerLine * 2);
-		
+		pix = ((uint8_t *)dst->fd_addr)	+ (i * wordsPerLine * 2);
+		d[7]	= ((uint8_t *) ptr[0]) 	  	+ (i * words 		* 2);
+		d[6]	= ((uint8_t *) ptr[1]) 	  	+ (i * words 		* 2);
+		d[5]	= ((uint8_t *) ptr[2]) 	  	+ (i * words 		* 2);
+		d[4]	= ((uint8_t *) ptr[3]) 	  	+ (i * words 		* 2);
+		d[3]	= ((uint8_t *) ptr[4]) 	  	+ (i * words 		* 2);
+		d[2]	= ((uint8_t *) ptr[5]) 	  	+ (i * words 		* 2);
+		d[1]	= ((uint8_t *) ptr[6]) 	  	+ (i * words 		* 2);
+		d[0]	= ((uint8_t *) ptr[7]) 	  	+ (i * words 		* 2);
+				
 		for (int j=0; j<W;)
 			{
-			uint16_t p[8];						// Aggregated plane values
-			memset(p, 0, 16);
-			
 			/*****************************************************************\
 			|* Read the next word from each plane
 			\*****************************************************************/
+			uint16_t p[8];
 			for (int k=0; k<8; k++)
 				{
-				p[k] 	= (*d[k] ++) << 8;
-				p[k]   |= *d[k] ++;
+				p[k] 	= (*d[k] ++) ;
+				p[k]   |= (*d[k] ++) << 8;
 				}
-
+			
 			/*****************************************************************\
 			|* Compose pixels from the plane data and store them
 			\*****************************************************************/
 			int mask	= 0x8000;
-			int written	= 0;
 			int loops	= MIN(W-j, 16);
 			
 			for (int k=0; k<loops; k++)
 				{
-				written = 0;
 				static int map[8] = {128, 64, 32, 16, 8, 4, 2, 1};
-				
+			
 				uint8_t val = 0;
 				for (int l=0; l<8; l++)
-					val |= (p[l] & mask) != 0 ? map[l] : 0;
+					val += ((p[l] & mask) != 0) ? map[l] : 0;
 				mask >>= 1;
 				
 				*pix++ = val;

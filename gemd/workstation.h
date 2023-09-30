@@ -62,6 +62,11 @@ class Workstation : public QObject
 		QColor _palette[256];			// First 256 colours
 		QFontMetrics* _fm;				// Font metrics of current font
 
+		/*********************************************************************\
+		|* Initialise an instance
+		\*********************************************************************/
+		void _initialise(void);
+
 	public:
 		/*********************************************************************\
 		|* Constructor / Destructor
@@ -126,6 +131,11 @@ class Workstation : public QObject
 		void setupPenForFill(QPen& pen);
 
 		/*********************************************************************\
+		|* Return the current 256-entry palette
+		\*********************************************************************/
+		bool colourPalette(int16_t *rgb);
+
+		/*********************************************************************\
 		|* Return a handle id
 		\*********************************************************************/
 		inline qintptr handle(void)
@@ -144,11 +154,6 @@ class Workstation : public QObject
 		|* Send a message down the socket
 		\*********************************************************************/
 		void send(ClientMsg* msg, bool log=false);
-
-		/*********************************************************************\
-		|* Set the default colours for the workstation (first 16)
-		\*********************************************************************/
-		void setDefaultColours(void);
 
 	signals:
 

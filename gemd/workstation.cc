@@ -1,11 +1,19 @@
+#include <QFile>
 #include <QColor>
+
+#include <cstring>
 
 #include "clientmsg.h"
 #include "fillfactory.h"
 #include "fontmgr.h"
 #include "gem.h"
 #include "macros.h"
+#include "vdi.h"
 #include "workstation.h"
+
+
+#define PALETTE_OFFSET			"/System/Palettes/"
+#define SYSTEM_PALETTE_NAME		"system.pal"
 
 
 static Qt::PenStyle _styles[] =
@@ -55,9 +63,7 @@ Workstation::Workstation(QLocalSocket *client, QObject *parent)
 			,_client(client)
 			,_fm(nullptr)
 	{
-	setDefaultColours();
-	setFont(-1);
-	_userType << 3 << 1;
+	_initialise();
 	}
 
 
@@ -96,9 +102,7 @@ Workstation::Workstation(QObject *parent)
 	,_client(nullptr)
 	,_fm(nullptr)
 	{
-	setDefaultColours();
-	setFont(-1);
-	_userType << 3 << 1;
+	_initialise();
 	}
 
 
@@ -109,6 +113,44 @@ Workstation::~Workstation(void)
 	{
 	}
 
+
+/*****************************************************************************\
+|* Initialise the class instance
+\*****************************************************************************/
+void Workstation::_initialise(void)
+	{
+	std::string pPath = VDI::sharedInstance().rootDir() + PALETTE_OFFSET
+					  + SYSTEM_PALETTE_NAME;
+
+	QFile file(QString(pPath.c_str()));
+	int size	= (int)file.size();
+
+	if (file.open(QIODeviceBase::ReadOnly))
+		{
+		uint8_t data[size];
+		if (file.read((char *)data, size) != size)
+			{
+			WARN("Cannot read palette at %s", pPath.c_str());
+			return;
+			}
+
+		uint16_t * rgb	= (strncmp((char *)data, "PA01", 4) == 0)
+						? (uint16_t *)(data + 4)
+						: (uint16_t *)data;
+
+
+		for (int i=0; i<256; i++)
+			{
+			uint8_t r = ((*rgb ++ ) * 256) / 1000;
+			uint8_t g = ((*rgb ++ ) * 256) / 1000;
+			uint8_t b = ((*rgb ++ ) * 256) / 1000;
+			setColour(i, r, g, b);
+			}
+		}
+
+	setFont(-1);
+	_userType << 3 << 1;
+	}
 
 /*****************************************************************************\
 |* Write to the client
@@ -125,27 +167,42 @@ void Workstation::send(ClientMsg* msg, bool log)
 	}
 
 /*****************************************************************************\
-|* Set the default colours for the workstation
+|* Return the palette in VDI form
 \*****************************************************************************/
-void Workstation::setDefaultColours(void)
+bool Workstation::colourPalette(int16_t *rgb)
 	{
-	setColour(0,  255, 255, 255);		// white
-	setColour(1,  0,   0,   0);			// black
-	setColour(2,  255, 0,   0);			// red
-	setColour(3,  0,   255, 0);			// green
-	setColour(4,  0,   0,   255);		// blue
-	setColour(5,  0,   255, 255);		// cyan
-	setColour(6,  255, 255, 0);			// yellow
-	setColour(7,  255, 0,   255);		// magenta
-	setColour(8,  182, 182, 182);		// grey
-	setColour(9,  128, 128, 128);		// dark grey
-	setColour(10, 255, 109, 109);		// light red
-	setColour(11, 109, 109, 255);		// light green
-	setColour(12, 109, 255, 109);		// light blue
-	setColour(13, 109, 255, 255);		// light cyan
-	setColour(14, 255, 255, 109);		// light yellow
-	setColour(15, 255, 109, 255);		// light magenta
+	int idx = 0;
+	for (int i=0; i<256; i++)
+		{
+		rgb[idx++] = (_palette[i].red() * 1000) / 256;
+		rgb[idx++] = (_palette[i].green() * 1000) / 256;
+		rgb[idx++] = (_palette[i].blue() * 1000) / 256;
+		}
+	return true;
 	}
+
+///*****************************************************************************\
+//|* Set the default colours for the workstation
+//\*****************************************************************************/
+//void Workstation::setDefaultColours(void)
+//	{
+//	setColour(0,  255, 255, 255);		// white
+//	setColour(1,  0,   0,   0);			// black
+//	setColour(2,  255, 0,   0);			// red
+//	setColour(3,  0,   255, 0);			// green
+//	setColour(4,  0,   0,   255);		// blue
+//	setColour(5,  0,   255, 255);		// cyan
+//	setColour(6,  255, 255, 0);			// yellow
+//	setColour(7,  255, 0,   255);		// magenta
+//	setColour(8,  182, 182, 182);		// grey
+//	setColour(9,  128, 128, 128);		// dark grey
+//	setColour(10, 255, 109, 109);		// light red
+//	setColour(11, 109, 109, 255);		// light green
+//	setColour(12, 109, 255, 109);		// light blue
+//	setColour(13, 109, 255, 255);		// light cyan
+//	setColour(14, 255, 255, 109);		// light yellow
+//	setColour(15, 255, 109, 255);		// light magenta
+//	}
 
 /*****************************************************************************\
 |* Set up the font and query the font metrics for it

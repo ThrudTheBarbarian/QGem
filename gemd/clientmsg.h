@@ -95,6 +95,8 @@ class ClientMsg
 		VS_CLIP				= 129,
 		VQT_NAME			= 130,
 
+		VQ_COLOURS			= 2026,
+
 		EVT_MOUSE_MOVE		= 17000,
 		EVT_MOUSE_DOWN		= 17001,
 		EVT_MOUSE_UP		= 17002,

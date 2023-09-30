@@ -559,6 +559,12 @@ class VDI : public QObject
 		void vqt_name(Workstation *ws, ClientMsg *msg);
 
 		/*********************************************************************\
+		|* 2026 : Get the colour values for a palette
+		\*********************************************************************/
+		void vq_colours(qintptr handle, int16_t*rgb);
+		void vq_colours(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
 		|* 17100 : Change the event filter value
 		\*********************************************************************/
 		void setEventFilter(Workstation *ws, ClientMsg *msg);
