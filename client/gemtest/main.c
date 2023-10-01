@@ -11,15 +11,59 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "vdi.h"
 #include "gem.h"
+#include "rscfile.h"
+#include "vdi.h"
 
+/*****************************************************************************\
+|* For debugging
+\*****************************************************************************/
 int debugLevel(void)
 	{ return 10; }
 	
 
-void tstTrans(int w, int wds, int planes,int num);
+/*****************************************************************************\
+|* Test transform to and back again
+\*****************************************************************************/
+void tstTrans(int w, int wds, int planes,int num)
+	{
+	uint8_t pbuf[1024];
+	for (int i=0; i<1024; i++)
+		pbuf[i] = i & 0xff;
 
+	MFDB srcMFDB =
+		{
+		.fd_addr 	= &(pbuf[0]),
+		.fd_stand	= 1,
+		.fd_w		= w,
+		.fd_h		= 1,
+		.fd_wdwidth	= wds,
+		.fd_nplanes	= planes
+		};
+
+	MFDB dstMFDB =
+		{
+		.fd_addr = 0,
+		.fd_stand = 0
+		};
+
+	vr_trnfm(0, &srcMFDB, &dstMFDB);
+
+	MFDB dstMFDB2 =
+		{
+		.fd_addr = 0,
+		.fd_stand = 1
+		};
+	vr_trnfm(0, &dstMFDB, &dstMFDB2);
+
+	printf("memcmp [%d] = %d\n",
+		   planes,
+		   memcmp(dstMFDB2.fd_addr, srcMFDB.fd_addr, num));
+	}
+
+/*****************************************************************************\
+|* Program entry point
+\*****************************************************************************/
 int main(int argc, const char * argv[])
 	{
 	int16_t workIn[16];
@@ -176,7 +220,7 @@ int main(int argc, const char * argv[])
 	
 	vsf_interior(handle, FIS_SOLID);
 	vsf_color(handle, 2);
-	v_contourfill(handle, 1005, 525, 1);
+//	v_contourfill(handle, 1005, 525, 1);
 	//int16_t bpts[] = {1005,525,1006,526};
 	//v_bar(handle, bpts);
 	
@@ -214,43 +258,39 @@ int main(int argc, const char * argv[])
 	
 	tstTrans(32, 4, 4, 16);
 	tstTrans(32, 2, 8, 32);
-	
+
+	RscFile colourIcons;
+	if (resourceLoad("cicons.rsc", &colourIcons))
+ 		{
+		MFDB src;
+		src.fd_addr 	= colourIcons.cIcons[0].icons[1].colData;
+		src.fd_w		= colourIcons.cIcons[0].monoIcon.ib_wicon;
+		src.fd_h		= colourIcons.cIcons[0].monoIcon.ib_hicon;
+		src.fd_wdwidth	= ((src.fd_w) / 16) + ((src.fd_w & 15) != 0 ? 1 : 0);
+		src.fd_stand	= MFDB_STANDARD;
+		src.fd_nplanes	= colourIcons.cIcons[0].icons[1].numPlanes;
+		src.fd_r1		= 0;
+		src.fd_r2		= 0;
+		src.fd_r3		= 0;
+
+		MFDB dst;
+		memset(&dst, 0, sizeof(MFDB));
+		MFDB screen = dst;
+
+		vr_trnfm(handle, &src, &dst);
+		int16_t pxy[8]	=
+			{
+			0, 0,
+			src.fd_w-1, src.fd_h-1,
+			400, 400,
+			400+src.fd_w-1, 400+src.fd_h-1,
+			};
+
+		vro_cpyfm(handle, S_ONLY, pxy, &dst, &screen);
+		}
+	else
+		fprintf(stderr, "Failed to load icons\n");
+
 	v_clsvwk(handle);
 	}
-
-
-void tstTrans(int w, int wds, int planes,int num)
-	{
-	uint8_t pbuf[1024];
-	for (int i=0; i<1024; i++)
-		pbuf[i] = i & 0xff;
 	
-	MFDB srcMFDB =
-		{
-		.fd_addr 	= &(pbuf[0]),
-		.fd_stand	= 1,
-		.fd_w		= w,
-		.fd_h		= 1,
-		.fd_wdwidth	= wds,
-		.fd_nplanes	= planes
-		};
-
-	MFDB dstMFDB =
-		{
-		.fd_addr = 0,
-		.fd_stand = 0
-		};
-	
-	vr_trnfm(0, &srcMFDB, &dstMFDB);
-	
-	MFDB dstMFDB2 =
-		{
-		.fd_addr = 0,
-		.fd_stand = 1
-		};
-	vr_trnfm(0, &dstMFDB, &dstMFDB2);
-	
-	printf("memcmp [%d] = %d\n",
-		   planes,
-		   memcmp(dstMFDB2.fd_addr, srcMFDB.fd_addr, num));
-	}

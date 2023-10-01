@@ -5,12 +5,20 @@
 //  Created by ThrudTheBarbarian on 9/22/23.
 //
 
+#include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "debug.h"
 #include "rscfile.h"
 
+#ifndef SYSTEM_DIR
+#  define SYSTEM_DIR "/usr/local/atari/System"
+#endif
+
+#ifndef ICON_DIR
+#  define ICON_DIR "Icons"
+#endif
 
 /*****************************************************************************\
 |* Forward declarations
@@ -48,6 +56,13 @@ int resourceLoad(const char * filename, RscFile *rsc)
 	int ok = 0;
 	
 	FILE *fp = fopen(filename, "rb");
+	if (fp == NULL)
+		{
+		char path[PATH_MAX];
+		snprintf(path, PATH_MAX, "%s/%s/%s", SYSTEM_DIR, ICON_DIR, filename);
+		fp = fopen(path, "rb");
+		}
+
 	if (fp != NULL)
 		{
 		RscFileHeader hdr;
@@ -61,8 +76,9 @@ int resourceLoad(const char * filename, RscFile *rsc)
 				}
 			rsc->version 	= hdr.rsh_vrsn;
 			
-			_parseCIcons(fp, &hdr, rsc);
-			_parseObjects(fp, &hdr, rsc);
+			ok = _parseCIcons(fp, &hdr, rsc);
+			if (ok)
+				ok = _parseObjects(fp, &hdr, rsc);
 			}
 		else
 			perror("Reading RSC file header");

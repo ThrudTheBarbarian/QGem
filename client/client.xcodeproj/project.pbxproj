@@ -101,6 +101,7 @@
 		F46A86902AC0997B00FA3ABC /* export.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A868F2AC0997B00FA3ABC /* export.c */; };
 		F46A86932AC0AAF900FA3ABC /* pam.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86922AC0AAF900FA3ABC /* pam.c */; };
 		F46A86952AC373C100FA3ABC /* vq_colours.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86942AC373C100FA3ABC /* vq_colours.c */; };
+		F49059302ACA3C0A00F4F288 /* librsrc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F46A86632ABE9C1800FA3ABC /* librsrc.a */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -128,6 +129,13 @@
 			remoteInfo = gemc;
 		};
 		F46A867C2ABEA74800FA3ABC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E340942AAAD389002390BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F46A86622ABE9C1800FA3ABC;
+			remoteInfo = rsrc;
+		};
+		F49059312ACA3C0E00F4F288 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F4E340942AAAD389002390BA /* Project object */;
 			proxyType = 1;
@@ -315,6 +323,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F49059302ACA3C0A00F4F288 /* librsrc.a in Frameworks */,
 				F4E340C02AAADF4F002390BA /* libgemc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -617,6 +626,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				F49059322ACA3C0E00F4F288 /* PBXTargetDependency */,
 				F4E340C22AAADF56002390BA /* PBXTargetDependency */,
 			);
 			name = client;
@@ -856,6 +866,11 @@
 			isa = PBXTargetDependency;
 			target = F46A86622ABE9C1800FA3ABC /* rsrc */;
 			targetProxy = F46A867C2ABEA74800FA3ABC /* PBXContainerItemProxy */;
+		};
+		F49059322ACA3C0E00F4F288 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F46A86622ABE9C1800FA3ABC /* rsrc */;
+			targetProxy = F49059312ACA3C0E00F4F288 /* PBXContainerItemProxy */;
 		};
 		F4E340C22AAADF56002390BA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

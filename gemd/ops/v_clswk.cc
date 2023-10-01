@@ -16,5 +16,5 @@ void VDI::v_clswk(qintptr handle)
 		{
 		WARN("Non-screen devices currently unsupported");
 		}
-	DELETE(_dpy);
+	_dpy->deleteLater();
 	}

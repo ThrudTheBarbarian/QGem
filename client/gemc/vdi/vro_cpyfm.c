@@ -60,10 +60,13 @@ void append(GemMsg *msg, MFDB *mfdb)
 	_gemMsgAppend(msg, &(mfdb->fd_h), 1);
 	_gemMsgAppend(msg, &(mfdb->fd_wdwidth), 1);
 	_gemMsgAppend(msg, &(mfdb->fd_stand), 1);
+	_gemMsgAppend(msg, &(mfdb->fd_nplanes), 1);
 	_gemMsgAppend(msg, &(mfdb->fd_r1), 1);
 	_gemMsgAppend(msg, &(mfdb->fd_r2), 1);
 	_gemMsgAppend(msg, &(mfdb->fd_r3), 1);
 	
 	if (needsData)
-		_gemMsgAppendData(msg, mfdb->fd_addr, mfdb->fd_wdwidth * mfdb->fd_h);
+ 		_gemMsgAppendData(msg,
+ 						  mfdb->fd_addr,
+ 						  mfdb->fd_wdwidth * 2 * mfdb->fd_h);
 	}

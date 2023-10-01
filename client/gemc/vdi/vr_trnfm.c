@@ -1073,7 +1073,7 @@ static void _convToChunky8(MFDB *src, MFDB *dst)
 	int words			= src->fd_wdwidth;
 	
 	/*************************************************************************\
-	|* Figure out how many words we need per line. Each pixel takes 2 bits
+	|* Figure out how many words we need per line. Each pixel takes 8 bits
 	\*************************************************************************/
 	int wordsPerPlanePerLine	= (W/16) + (((W & 15) != 0) ? 1 : 0);
 	int wordsPerLine			= (W/2)  + (W & 1);

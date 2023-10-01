@@ -134,6 +134,7 @@ class Workstation : public QObject
 		|* Return the current 256-entry palette
 		\*********************************************************************/
 		bool colourPalette(int16_t *rgb);
+		bool colourTable(QList<QRgb>& palette);
 
 		/*********************************************************************\
 		|* Return a handle id
