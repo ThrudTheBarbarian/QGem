@@ -183,10 +183,16 @@ void VDI::vro_cpyfm(Workstation *ws, ClientMsg *cm)
 	int idx				= 0;
 	int16_t mode		= ntohs(p[idx++]);
 
+	/*************************************************************************\
+	|* Set up the drawing rects
+	\*************************************************************************/
 	int16_t pxy[8];
 	for (int i=0; i<8; i++)
 		pxy[i] = ntohs(p[idx++]);
 
+	/*************************************************************************\
+	|* Set up the source MFDB
+	\*************************************************************************/
 	MFDB src;
 	src.fd_addr			= 0;
 	int fd_addr			= ntohs(p[idx++]);
@@ -219,6 +225,9 @@ void VDI::vro_cpyfm(Workstation *ws, ClientMsg *cm)
 		memcpy(src.fd_addr, ba.constData(), ba.size());
 		}
 
+	/*************************************************************************\
+	|* Set up the destination MFDB
+	\*************************************************************************/
 	MFDB dst;
 	dst.fd_addr			= 0;
 	fd_addr				= ntohs(p[idx++]);
@@ -251,10 +260,93 @@ void VDI::vro_cpyfm(Workstation *ws, ClientMsg *cm)
 		memcpy(dst.fd_addr, ba.constData(), ba.size());
 		}
 
+	/*************************************************************************\
+	|* Call the actual drawing code, now that we've parsed the data
+	\*************************************************************************/
 	vro_cpyfm(ws->handle(), mode, pxy, &src, &dst);
+
+	/*************************************************************************\
+	|* And tidy up
+	\*************************************************************************/
+	if (src.fd_addr != 0)
+		delete [] ((uint8_t *)(src.fd_addr));
+	if (dst.fd_addr != 0)
+		delete [] ((uint8_t *)(dst.fd_addr));
 	}
 
 #pragma mark - Helper functions
+
+/*****************************************************************************\
+|* Create an image from a 4-bit MFDB. We need to convert this to an 8-bit img
+\*****************************************************************************/
+QImage * _imageFromMFDB4(MFDB *mfdb, Workstation *ws)
+	{
+	QImage *img			= nullptr;
+	int skip			= (mfdb->fd_w & 1) ? 1 : 0;
+	int wds				= (mfdb->fd_w + skip)/2;
+	uint8_t *imgData	= new uint8_t[wds * 2 * mfdb->fd_h];
+
+	if (imgData)
+		{
+		int idx = 0;
+		for (int i=0; i<mfdb->fd_h; i++)
+			{
+			uint8_t *data = ((uint8_t *)mfdb->fd_addr)
+						  + i * mfdb->fd_wdwidth * 2;
+			for (int j=0; j<mfdb->fd_w; )
+				{
+				uint8_t pixels	= *data ++;
+				imgData[idx++]	= _devtovdi8[pixels >> 4];
+				j++;
+				if (j < mfdb->fd_w-1)
+					{
+					imgData[idx++]	= _devtovdi8[pixels & 0xf];
+					j++;
+					}
+				}
+			idx += skip;
+			}
+
+		/*********************************************************************\
+		|* Remap the image with the 8-bit data
+		\*********************************************************************/
+		delete [] ((uint8_t *)(mfdb->fd_addr));
+		mfdb->fd_addr		= imgData;
+		mfdb->fd_nplanes	= 8;
+		mfdb->fd_wdwidth	= wds;
+
+		img = new QImage((uchar *)mfdb->fd_addr,
+						 mfdb->fd_w,
+						 mfdb->fd_h,
+						 mfdb->fd_wdwidth*2,
+						 QImage::Format_Indexed8);
+
+		QList<QRgb> palette;
+		if (ws->colourTable(palette))
+			img->setColorTable(palette);
+		}
+	else
+		WARN("Cannot allocate 8-bit image for 4-bit data in vro_cpyfm");
+
+	return img;
+	}
+
+/*****************************************************************************\
+|* Create an image from an 8-bit MFDB
+\*****************************************************************************/
+QImage * _imageFromMFDB8(MFDB *mfdb, Workstation *ws)
+	{
+	QList<QRgb> palette;
+	QImage *img = new QImage((uchar *)mfdb->fd_addr,
+							 mfdb->fd_w,
+							 mfdb->fd_h,
+							 mfdb->fd_wdwidth*2,
+							 QImage::Format_Indexed8);
+	if (ws->colourTable(palette))
+		img->setColorTable(palette);
+
+	return img;
+	}
 
 /*****************************************************************************\
 |* Create an image from the MFDB
@@ -262,44 +354,29 @@ void VDI::vro_cpyfm(Workstation *ws, ClientMsg *cm)
 static QImage * _imageFromMFDB(MFDB *mfdb, Workstation *ws)
 	{
 	QImage *img = nullptr;
+
 	if (IS_OK(mfdb))
 		{
-		QImage::Format fmt;
 		switch (mfdb->fd_nplanes)
 			{
 			default:
-				fmt = QImage::Format_Mono;
+				//fmt = QImage::Format_Mono;
+				break;
+			case 4:
+				img = _imageFromMFDB4(mfdb, ws);
 				break;
 			case 8:
-				fmt = QImage::Format_Indexed8;
+				img = _imageFromMFDB8(mfdb, ws);
 				break;
 			case 16:
-				fmt = QImage::Format_RGB16;
+				//fmt = QImage::Format_RGB16;
 				break;
 			case 24:
-				fmt = QImage::Format_RGB888;
+				//fmt = QImage::Format_RGB888;
 				break;
 			case 32:
-				fmt = QImage::Format_RGB32;
+				//fmt = QImage::Format_RGB32;
 				break;
-			}
-
-		img = new QImage((uchar *)mfdb->fd_addr,
-						 mfdb->fd_w,
-						 mfdb->fd_h,
-						 mfdb->fd_wdwidth*2,
-						 fmt);
-
-		QList<QRgb> palette;
-		if (ws->colourTable(palette))
-			img->setColorTable(palette);
-
-		int numWords	= mfdb->fd_wdwidth * mfdb->fd_h;
-		uint16_t *ptr	= (uint16_t *) mfdb->fd_addr;
-		for (int i=0; i<numWords; i++)
-			{
-			*ptr = ntohs(*ptr);
-			ptr ++;
 			}
 		}
 

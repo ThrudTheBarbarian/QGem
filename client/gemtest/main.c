@@ -263,12 +263,12 @@ int main(int argc, const char * argv[])
 	if (resourceLoad("cicons.rsc", &colourIcons))
  		{
 		MFDB src;
-		src.fd_addr 	= colourIcons.cIcons[0].icons[1].colData;
-		src.fd_w		= colourIcons.cIcons[0].monoIcon.ib_wicon;
-		src.fd_h		= colourIcons.cIcons[0].monoIcon.ib_hicon;
+		src.fd_addr 	= colourIcons.cIcons[29].icons[1].colData;
+		src.fd_w		= colourIcons.cIcons[29].monoIcon.ib_wicon;
+		src.fd_h		= colourIcons.cIcons[29].monoIcon.ib_hicon;
 		src.fd_wdwidth	= ((src.fd_w) / 16) + ((src.fd_w & 15) != 0 ? 1 : 0);
 		src.fd_stand	= MFDB_STANDARD;
-		src.fd_nplanes	= colourIcons.cIcons[0].icons[1].numPlanes;
+		src.fd_nplanes	= colourIcons.cIcons[29].icons[1].numPlanes;
 		src.fd_r1		= 0;
 		src.fd_r2		= 0;
 		src.fd_r3		= 0;
