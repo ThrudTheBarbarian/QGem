@@ -374,6 +374,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vro_cpyfm(ws, &cm);
 				break;
 
+			case ClientMsg::VSC_FORM:		// 111
+				VDI::sharedInstance().vsc_form(ws, &cm);
+				break;
+
 			case ClientMsg::VST_LOAD_FONTS:	// 119
 				VDI::sharedInstance().vst_load_fonts(ws, &cm);
 				break;

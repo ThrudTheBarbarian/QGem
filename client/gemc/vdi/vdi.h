@@ -421,6 +421,19 @@ void vro_cpyfm(int16_t handle, int16_t mode, int16_t *pxy,
 void vr_trnfm(int16_t handle, MFDB *src, MFDB *dst);
 
 /*****************************************************************************\
+|*  111  : Set the mouse form
+|*
+|* pform[0]	X-coordinate, and
+|* pform[1]	Y-coordinate of hot-spot
+|* pform[2]	Number of planes, must be 1
+|* pform[3]	Colour index of background mask (should be 0)
+|* pform[4]	Colour index of foreground mask (should be 1)
+|* pform[05..20]	Definition of background mask
+|* pform[21..36]	Definition of foreground mask
+\*****************************************************************************/
+void vsc_form(int16_t handle, int16_t *pform);
+
+/*****************************************************************************\
 |*  119  : Load in any extra fonts
 \*****************************************************************************/
 int vst_load_fonts(int16_t handle, int16_t dummy);

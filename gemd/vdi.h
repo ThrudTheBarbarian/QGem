@@ -541,6 +541,12 @@ class VDI : public QObject
 		void vro_cpyfm(Workstation *ws, ClientMsg *msg);
 
 		/*********************************************************************\
+		|* 111: Set the mouse form
+		\*********************************************************************/
+		void vsc_form(qintptr handle, int16_t *form);
+		void vsc_form(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
 		|* 119: Load up the system fonts
 		\*********************************************************************/
 		int16_t vst_load_fonts(void);

@@ -167,6 +167,8 @@ void Workstation::_initialise(void)
 			setColour(i, r, g, b);
 			}
 		}
+	else
+		WARN("Cannot open palette file %s", pPath.c_str());
 
 	setFont(-1);
 	_userType << 3 << 1;

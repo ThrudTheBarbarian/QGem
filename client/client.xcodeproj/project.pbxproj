@@ -12,6 +12,7 @@
 		F4680BDD2AB3724B0020BB5B /* vst_rotation.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BDC2AB3724B0020BB5B /* vst_rotation.c */; };
 		F4680BDF2AB376190020BB5B /* vst_font.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BDE2AB376190020BB5B /* vst_font.c */; };
 		F4680BE12ABB68220020BB5B /* vr_trnfm.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BE02ABB68220020BB5B /* vr_trnfm.c */; };
+		F4680BE32ACB268D0020BB5B /* vsc_form.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BE22ACB268D0020BB5B /* vsc_form.c */; };
 		F46A85B42AAEA2AE00FA3ABC /* v_clrwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */; };
 		F46A85B62AAEA56200FA3ABC /* v_updwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B52AAEA56200FA3ABC /* v_updwk.c */; };
 		F46A85BA2AAEA5A100FA3ABC /* vq_chcells.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */; };
@@ -187,6 +188,7 @@
 		F4680BDC2AB3724B0020BB5B /* vst_rotation.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_rotation.c; sourceTree = "<group>"; };
 		F4680BDE2AB376190020BB5B /* vst_font.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_font.c; sourceTree = "<group>"; };
 		F4680BE02ABB68220020BB5B /* vr_trnfm.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vr_trnfm.c; sourceTree = "<group>"; };
+		F4680BE22ACB268D0020BB5B /* vsc_form.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsc_form.c; sourceTree = "<group>"; };
 		F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_clrwk.c; sourceTree = "<group>"; };
 		F46A85B52AAEA56200FA3ABC /* v_updwk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_updwk.c; sourceTree = "<group>"; };
 		F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_chcells.c; sourceTree = "<group>"; };
@@ -501,6 +503,7 @@
 				F46A864F2ABAAAA600FA3ABC /* vro_cpyfm.c */,
 				F4680BE02ABB68220020BB5B /* vr_trnfm.c */,
 				F46A86942AC373C100FA3ABC /* vq_colours.c */,
+				F4680BE22ACB268D0020BB5B /* vsc_form.c */,
 			);
 			path = vdi;
 			sourceTree = "<group>";
@@ -821,6 +824,7 @@
 				F46A862C2AB6624B00FA3ABC /* v_rbox.c in Sources */,
 				F46A86202AB62EA500FA3ABC /* v_circle.c in Sources */,
 				F46A864A2ABA66DA00FA3ABC /* v_get_pixel.c in Sources */,
+				F4680BE32ACB268D0020BB5B /* vsc_form.c in Sources */,
 				F46A85BA2AAEA5A100FA3ABC /* vq_chcells.c in Sources */,
 				F46A85EC2AAF684D00FA3ABC /* v_clear_disp_list.c in Sources */,
 				F46A86162AB4F82C00FA3ABC /* vsf_perimeter.c in Sources */,
