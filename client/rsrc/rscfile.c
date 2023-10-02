@@ -154,7 +154,9 @@ static int _parseObjects(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 \*****************************************************************************/
 static int _parseCIcons(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 	{
-	uint32_t cIconOffset = 0;
+	uint32_t cIconOffset 	= 0;
+	uint32_t cPaletteOffset	= 0;
+	
 	/*************************************************************************\
 	|* If we have the correct version
 	\*************************************************************************/
@@ -167,10 +169,12 @@ static int _parseCIcons(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 		/*********************************************************************\
 		|* Read extension pointers until done
 		\*********************************************************************/
-		while (token != 0)
+		for(;;)
 			{
 			fread(&token, sizeof(uint32_t), 1, fp);
 			token = ntohl(token);
+			if (token == 0)
+				break;
 			switch (idx)
 				{
 				case 0:
@@ -178,6 +182,9 @@ static int _parseCIcons(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 					break;
 				case 1:
 					cIconOffset = token;
+					break;
+				case 2:
+					cPaletteOffset = token;
 					break;
 				}
 			idx ++;
