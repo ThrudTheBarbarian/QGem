@@ -277,6 +277,32 @@ void VDI::vro_cpyfm(Workstation *ws, ClientMsg *cm)
 #pragma mark - Helper functions
 
 /*****************************************************************************\
+|* Create an image from a 1-bit MFDB
+\*****************************************************************************/
+QImage * _imageFromMFDB1(MFDB *mfdb, Workstation *ws)
+	{
+	QList<QRgb> palette;
+
+	uint16_t *ptr	= (uint16_t *)(mfdb->fd_addr);
+	int numWords	= mfdb->fd_wdwidth * mfdb->fd_h;
+	for (int i=0; i<numWords; i++)
+		{
+		*ptr = ntohs(*ptr);
+		ptr ++;
+		}
+
+	QImage *img = new QImage((uchar *)mfdb->fd_addr,
+							 mfdb->fd_w,
+							 mfdb->fd_h,
+							 mfdb->fd_wdwidth*2,
+							 QImage::Format_Mono);
+	if (ws->colourTable(palette))
+		img->setColorTable(palette);
+
+	return img;
+	}
+
+/*****************************************************************************\
 |* Create an image from a 4-bit MFDB. We need to convert this to an 8-bit img
 \*****************************************************************************/
 QImage * _imageFromMFDB4(MFDB *mfdb, Workstation *ws)
@@ -348,31 +374,6 @@ QImage * _imageFromMFDB8(MFDB *mfdb, Workstation *ws)
 	return img;
 	}
 
-/*****************************************************************************\
-|* Create an image from a 1-bit MFDB
-\*****************************************************************************/
-QImage * _imageFromMFDB1(MFDB *mfdb, Workstation *ws)
-	{
-	QList<QRgb> palette;
-
-	uint16_t *ptr	= (uint16_t *)(mfdb->fd_addr);
-	int numWords	= mfdb->fd_wdwidth * mfdb->fd_h;
-	for (int i=0; i<numWords; i++)
-		{
-		*ptr = ntohs(*ptr);
-		ptr ++;
-		}
-
-	QImage *img = new QImage((uchar *)mfdb->fd_addr,
-							 mfdb->fd_w,
-							 mfdb->fd_h,
-							 mfdb->fd_wdwidth*2,
-							 QImage::Format_Mono);
-	if (ws->colourTable(palette))
-		img->setColorTable(palette);
-
-	return img;
-	}
 
 /*****************************************************************************\
 |* Create an image from the MFDB
@@ -395,13 +396,15 @@ static QImage * _imageFromMFDB(MFDB *mfdb, Workstation *ws)
 				img = _imageFromMFDB8(mfdb, ws);
 				break;
 			case 16:
-				//fmt = QImage::Format_RGB16;
+				WARN("16-bit images currently not implemented");
+				// FIXME: fmt = QImage::Format_RGB16;
 				break;
 			case 24:
-				//fmt = QImage::Format_RGB888;
+				WARN("24-bit images currently not implemented");
+				// FIXME: fmt = QImage::Format_RGB888;
 				break;
 			case 32:
-				//fmt = QImage::Format_RGB32;
+				WARN("Unknown image depth of %d", mfdb->fd_nplanes);
 				break;
 			}
 		}
