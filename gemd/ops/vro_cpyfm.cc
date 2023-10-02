@@ -349,6 +349,32 @@ QImage * _imageFromMFDB8(MFDB *mfdb, Workstation *ws)
 	}
 
 /*****************************************************************************\
+|* Create an image from a 1-bit MFDB
+\*****************************************************************************/
+QImage * _imageFromMFDB1(MFDB *mfdb, Workstation *ws)
+	{
+	QList<QRgb> palette;
+
+	uint16_t *ptr	= (uint16_t *)(mfdb->fd_addr);
+	int numWords	= mfdb->fd_wdwidth * mfdb->fd_h;
+	for (int i=0; i<numWords; i++)
+		{
+		*ptr = ntohs(*ptr);
+		ptr ++;
+		}
+
+	QImage *img = new QImage((uchar *)mfdb->fd_addr,
+							 mfdb->fd_w,
+							 mfdb->fd_h,
+							 mfdb->fd_wdwidth*2,
+							 QImage::Format_Mono);
+	if (ws->colourTable(palette))
+		img->setColorTable(palette);
+
+	return img;
+	}
+
+/*****************************************************************************\
 |* Create an image from the MFDB
 \*****************************************************************************/
 static QImage * _imageFromMFDB(MFDB *mfdb, Workstation *ws)
@@ -360,7 +386,7 @@ static QImage * _imageFromMFDB(MFDB *mfdb, Workstation *ws)
 		switch (mfdb->fd_nplanes)
 			{
 			default:
-				//fmt = QImage::Format_Mono;
+				img = _imageFromMFDB1(mfdb, ws);
 				break;
 			case 4:
 				img = _imageFromMFDB4(mfdb, ws);

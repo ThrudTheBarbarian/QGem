@@ -263,12 +263,14 @@ int main(int argc, const char * argv[])
 	if (resourceLoad("cicons.rsc", &colourIcons))
  		{
 		MFDB src;
-		src.fd_addr 	= colourIcons.cIcons[29].icons[1].colData;
+		//src.fd_addr 	= colourIcons.cIcons[29].icons[1].colData;
+		src.fd_addr 	= colourIcons.cIcons[29].monoIcon.ib_pdata;
 		src.fd_w		= colourIcons.cIcons[29].monoIcon.ib_wicon;
 		src.fd_h		= colourIcons.cIcons[29].monoIcon.ib_hicon;
 		src.fd_wdwidth	= ((src.fd_w) / 16) + ((src.fd_w & 15) != 0 ? 1 : 0);
 		src.fd_stand	= MFDB_STANDARD;
-		src.fd_nplanes	= colourIcons.cIcons[29].icons[1].numPlanes;
+		//src.fd_nplanes	= colourIcons.cIcons[29].icons[1].numPlanes;
+		src.fd_nplanes	= 1;
 		src.fd_r1		= 0;
 		src.fd_r2		= 0;
 		src.fd_r3		= 0;
@@ -289,7 +291,8 @@ int main(int argc, const char * argv[])
 		vro_cpyfm(handle, S_ONLY, pxy, &dst, &screen);
 		}
 	else
-		fprintf(stderr, "Failed to load icons\n");
+		fprintf(stderr, "Failed to load colour icons\n");
+
 
 	v_clsvwk(handle);
 	}
