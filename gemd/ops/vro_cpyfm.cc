@@ -4,38 +4,11 @@
 
 #include "clientmsg.h"
 #include "connectionmgr.h"
+#include "fillfactory.h"
 #include "macros.h"
 #include "screen.h"
 #include "vdi.h"
 #include "workstation.h"
-
-/*****************************************************************************\
-|* Forward references
-\*****************************************************************************/
-static QImage * _imageFromMFDB(MFDB* mfdb, Workstation *ws);
-
-/*****************************************************************************\
-|* Colour index conversion
-\*****************************************************************************/
-static const short _devtovdi8[256] =
-	{
-	0, 2, 3, 6, 4, 7, 5, 8, 9, 10, 11,14,12,15,13,255,
-	16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
-	32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,
-	48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,
-	64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,
-	80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,
-	96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,
-	112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,
-	128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,
-	144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,
-	160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,
-	176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,
-	192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,
-	208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,
-	224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,
-	240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,1
-  };
 
 /*****************************************************************************\
 |* Opcode 109	Perform a blit
@@ -87,8 +60,9 @@ void VDI::vro_cpyfm(qintptr handle, int16_t mode, int16_t *pxy,
 		/*********************************************************************\
 		|* Check to see if either MFDB points to the screen
 		\*********************************************************************/
-		srcP = (src->fd_addr == 0) ? _img : _imageFromMFDB(src, ws);
-		dstP = (dst->fd_addr == 0) ? _img : _imageFromMFDB(dst, ws);
+		FillFactory& ff = FillFactory::sharedInstance();
+		srcP = (src->fd_addr == 0) ? _img : ff.imageFromMFDB(src, ws);
+		dstP = (dst->fd_addr == 0) ? _img : ff.imageFromMFDB(dst, ws);
 
 		QPainter painter(dstP);
 		if (ws->enableClip())
@@ -276,139 +250,4 @@ void VDI::vro_cpyfm(Workstation *ws, ClientMsg *cm)
 
 #pragma mark - Helper functions
 
-/*****************************************************************************\
-|* Create an image from a 1-bit MFDB
-\*****************************************************************************/
-QImage * _imageFromMFDB1(MFDB *mfdb, Workstation *ws)
-	{
-	QList<QRgb> palette;
-
-	uint16_t *ptr	= (uint16_t *)(mfdb->fd_addr);
-	int numWords	= mfdb->fd_wdwidth * mfdb->fd_h;
-	for (int i=0; i<numWords; i++)
-		{
-		*ptr = ntohs(*ptr);
-		ptr ++;
-		}
-
-	QImage *img = new QImage((uchar *)mfdb->fd_addr,
-							 mfdb->fd_w,
-							 mfdb->fd_h,
-							 mfdb->fd_wdwidth*2,
-							 QImage::Format_Mono);
-	if (ws->colourTable(palette))
-		img->setColorTable(palette);
-
-	return img;
-	}
-
-/*****************************************************************************\
-|* Create an image from a 4-bit MFDB. We need to convert this to an 8-bit img
-\*****************************************************************************/
-QImage * _imageFromMFDB4(MFDB *mfdb, Workstation *ws)
-	{
-	QImage *img			= nullptr;
-	int skip			= (mfdb->fd_w & 1) ? 1 : 0;
-	int wds				= (mfdb->fd_w + skip)/2;
-	uint8_t *imgData	= new uint8_t[wds * 2 * mfdb->fd_h];
-
-	if (imgData)
-		{
-		int idx = 0;
-		for (int i=0; i<mfdb->fd_h; i++)
-			{
-			uint8_t *data = ((uint8_t *)mfdb->fd_addr)
-						  + i * mfdb->fd_wdwidth * 2;
-			for (int j=0; j<mfdb->fd_w; )
-				{
-				uint8_t pixels	= *data ++;
-				imgData[idx++]	= _devtovdi8[pixels >> 4];
-				j++;
-				if (j < mfdb->fd_w-1)
-					{
-					imgData[idx++]	= _devtovdi8[pixels & 0xf];
-					j++;
-					}
-				}
-			idx += skip;
-			}
-
-		/*********************************************************************\
-		|* Remap the image with the 8-bit data
-		\*********************************************************************/
-		delete [] ((uint8_t *)(mfdb->fd_addr));
-		mfdb->fd_addr		= imgData;
-		mfdb->fd_nplanes	= 8;
-		mfdb->fd_wdwidth	= wds;
-
-		img = new QImage((uchar *)mfdb->fd_addr,
-						 mfdb->fd_w,
-						 mfdb->fd_h,
-						 mfdb->fd_wdwidth*2,
-						 QImage::Format_Indexed8);
-
-		QList<QRgb> palette;
-		if (ws->colourTable(palette))
-			img->setColorTable(palette);
-		}
-	else
-		WARN("Cannot allocate 8-bit image for 4-bit data in vro_cpyfm");
-
-	return img;
-	}
-
-/*****************************************************************************\
-|* Create an image from an 8-bit MFDB
-\*****************************************************************************/
-QImage * _imageFromMFDB8(MFDB *mfdb, Workstation *ws)
-	{
-	QList<QRgb> palette;
-	QImage *img = new QImage((uchar *)mfdb->fd_addr,
-							 mfdb->fd_w,
-							 mfdb->fd_h,
-							 mfdb->fd_wdwidth*2,
-							 QImage::Format_Indexed8);
-	if (ws->colourTable(palette))
-		img->setColorTable(palette);
-
-	return img;
-	}
-
-
-/*****************************************************************************\
-|* Create an image from the MFDB
-\*****************************************************************************/
-static QImage * _imageFromMFDB(MFDB *mfdb, Workstation *ws)
-	{
-	QImage *img = nullptr;
-
-	if (IS_OK(mfdb))
-		{
-		switch (mfdb->fd_nplanes)
-			{
-			default:
-				img = _imageFromMFDB1(mfdb, ws);
-				break;
-			case 4:
-				img = _imageFromMFDB4(mfdb, ws);
-				break;
-			case 8:
-				img = _imageFromMFDB8(mfdb, ws);
-				break;
-			case 16:
-				WARN("16-bit images currently not implemented");
-				// FIXME: fmt = QImage::Format_RGB16;
-				break;
-			case 24:
-				WARN("24-bit images currently not implemented");
-				// FIXME: fmt = QImage::Format_RGB888;
-				break;
-			case 32:
-				WARN("Unknown image depth of %d", mfdb->fd_nplanes);
-				break;
-			}
-		}
-
-	return img;
-	}
 

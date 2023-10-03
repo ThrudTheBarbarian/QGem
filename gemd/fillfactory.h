@@ -5,6 +5,13 @@
 #include <QMap>
 #include <QPixmap>
 
+#include "gem.h"
+
+/*****************************************************************************\
+|* Forward declarations
+\*****************************************************************************/
+class Workstation;
+
 /*****************************************************************************\
 |* Class constructor
 \*****************************************************************************/
@@ -54,14 +61,26 @@ class FillFactory : public QObject
 		/*********************************************************************\
 		|* Allow setting of the user-defined fill-pattern
 		\*********************************************************************/
-		// FIXME: Needs implementation
-		bool setUserFill(uint8_t *data, int depth);
+		bool setUserFill(MFDB *mfdb, Workstation *ws);
+
+		/*********************************************************************\
+		|* Create an image from an MFDB
+		\*********************************************************************/
+		QImage * imageFromMFDB(MFDB *mfdb, Workstation *ws);
+
 
 	private:
 		/*********************************************************************\
 		|* Actually create a pixmap and store it
 		\*********************************************************************/
 		QImage& _create(int type, int style, uint8_t *src, int planes=1);
+
+		/*********************************************************************\
+		|* Different depths of MFDB to create an image from
+		\*********************************************************************/
+		QImage * _imageFromMFDB1(MFDB *mfdb, Workstation *ws);
+		QImage * _imageFromMFDB4(MFDB *mfdb, Workstation *ws);
+		QImage * _imageFromMFDB8(MFDB *mfdb, Workstation *ws);
 
 	};
 

@@ -75,6 +75,7 @@ SOURCES += \
     ops/vsf_interior.cc \
     ops/vsf_perimeter.cc \
     ops/vsf_style.cc \
+    ops/vsf_udpat.cc \
     ops/vsin_mode.cc \
     ops/vsl_color.cc \
     ops/vsl_ends.cc \

@@ -378,6 +378,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vsc_form(ws, &cm);
 				break;
 
+			case ClientMsg::VSF_UDPAT:		// 112
+				VDI::sharedInstance().vsf_udpat(ws, &cm);
+				break;
+
 			case ClientMsg::VST_LOAD_FONTS:	// 119
 				VDI::sharedInstance().vst_load_fonts(ws, &cm);
 				break;

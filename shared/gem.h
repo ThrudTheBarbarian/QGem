@@ -56,7 +56,7 @@
 #define FIS_PATTERN		2	/**< patterned fill, see vsf_interior() */
 #define FIS_HATCH		3	/**< hatched fill, see vsf_interior() */
 #define FIS_USER		4	/**< user-defined fill, see vsf_interior() */
-
+#define FIS_ERROR		5
 
 /*****************************************************************************\
 |* Patern indexes : These are valid for fill-type == pattern 

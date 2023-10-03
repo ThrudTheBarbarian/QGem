@@ -101,6 +101,13 @@ class VDI : public QObject
 			{ return _img; }
 
 
+		/*********************************************************************\
+		|* Get the physical workstation
+		\*********************************************************************/
+		inline Workstation * ws(void)
+			{ return _dpy; }
+
+
 		#pragma mark - VDI operations
 
 		/*********************************************************************\
@@ -545,6 +552,12 @@ class VDI : public QObject
 		\*********************************************************************/
 		void vsc_form(qintptr handle, int16_t *form);
 		void vsc_form(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
+		|* 112: Set the user-defined fill pattern
+		\*********************************************************************/
+		void vsf_udpat(qintptr handle, int16_t *pat, int16_t planes);
+		void vsf_udpat(Workstation *ws, ClientMsg *msg);
 
 		/*********************************************************************\
 		|* 119: Load up the system fonts

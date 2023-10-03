@@ -434,6 +434,11 @@ void vr_trnfm(int16_t handle, MFDB *src, MFDB *dst);
 void vsc_form(int16_t handle, int16_t *pform);
 
 /*****************************************************************************\
+|*  112  : Set a user-defined pattern fill
+\*****************************************************************************/
+void vsf_udpat(int16_t handle, int16_t *pat, int16_t planes);
+
+/*****************************************************************************\
 |*  119  : Load in any extra fonts
 \*****************************************************************************/
 int vst_load_fonts(int16_t handle, int16_t dummy);

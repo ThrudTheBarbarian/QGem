@@ -92,6 +92,7 @@ class ClientMsg
 		VSL_ENDS			= 108,
 		VRO_CPYFM			= 109,
 		VSC_FORM			= 111,
+		VSF_UDPAT			= 112,
 		VST_LOAD_FONTS		= 119,
 		VS_CLIP				= 129,
 		VQT_NAME			= 130,

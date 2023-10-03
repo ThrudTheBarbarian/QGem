@@ -42,6 +42,13 @@
 										} 							\
 									while (false)
 
+#define DELETE_TYPED_ARRAY(x,y)		do 								\
+										{ 							\
+										delete [] (y*)(x); 			\
+										x = nullptr; 				\
+										} 							\
+									while (false)
+
 #define GPU_FREE(x)					do								\
 										{							\
 										GPU_FreeImage(x);			\
