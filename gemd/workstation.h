@@ -29,6 +29,7 @@ class Workstation : public QObject
 	GETSET(int, lineType, LineType);					// SOLID -> USERLINE
 	GETSET(int, lineColour, LineColour);				// colour to draw
 	GETSET(int, lineWidth, LineWidth);					// width of lines
+	GETSET(LineStyle, userLineType, UserLineType);		// User defined line
 	GETSET(int, markerType, MarkerType);				// MRKR_{DOT -> DIAMOND}
 	GETSET(int, markerColour, MarkerColour);			// colour for markers
 	GETSET(int, markerHeight, MarkerHeight);			// pixel size of marker
@@ -48,7 +49,6 @@ class Workstation : public QObject
 	GETSET(int, wrMode, WrMode);						// Composition mode
 	GETSET(QRect, clip, Clip);							// Clipping rectangle
 	GETSET(bool, enableClip, EnableClip);				// Clipping enabled
-	GETSET(LineStyle, userType, UserType);				// User defined line
 	GETSET(int, startCap, StartCap);					// Cap-style of start
 	GETSET(int, endCap, EndCap);						// Cap-style of end
 	GETSET(int, inputModes, InputModes);				// Request (bit=1)

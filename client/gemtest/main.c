@@ -155,7 +155,8 @@ int main(int argc, const char * argv[])
 	vsf_style(handle, PT_DOTS2);
 	v_ellpie(handle, 800,700, 100, 50, 0, 900);
 
-	vsl_type(handle, SOLID);
+	vsf_udsty(handle, 0xcfcf);
+	vsl_type(handle, USERLINE);
 	vsf_color(handle, 3);
 	vsf_interior(handle, FIS_USER);
 	vsf_style(handle, PT_DIAMONDS);

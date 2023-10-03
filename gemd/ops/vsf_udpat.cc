@@ -11,31 +11,11 @@
 #include "workstation.h"
 
 /*****************************************************************************\
-|* Opcode 109	Perform a blit
+|* Opcode 112: Set the user-defined fill pattern
 |*
 |* Original signature is:
 |*
-|* void vro_cpyfm(qintptr handle, int16_t mode, int16_t *pxy,
-|*				  MFDB *src, MFDB *dst);
-|*
-|* Mode is specified as:
-|*
-|*  0: ALL_WHITE	- RasterOp_ClearDestination
-|*  1: S_AND_D		- RasterOp_SourceAndDestination
-|*  2: S_AND_NOTD	- RasterOp_NotSourceAndNotDestination
-|*  3: S_ONLY		- CompositionMode_Source
-|*  4: NOTS_AND_D	- RasterOp_NotSourceAndDestination
-|*  5: D_ONLY		- nop
-|*  6: S_XOR_D		- RasterOp_SourceXorDestination
-|*  7: S_OR_D		- RasterOp_SourceOrDestination
-|*  8: NOT_SORD		- RasterOp_NotSourceOrDestination
-|*  9: NOT_SXORD	- RasterOp_NotSourceXorDestination
-|* 10: D_INVERT		- RasterOp_NotDestination
-|* 11: NOT_D		- RasterOp_SourceOrNotDestination
-|* 12: S_OR_NOTD	- RasterOp_NotSource
-|* 13: NOTS_OR_D	- RasterOp_NotSourceOrDestination
-|* 14: NOT_SANDD	- RasterOp_NotSourceAndNotDestination
-|* 15: ALL_BLACK	- RasterOp_SetDestination
+|* void vsf_udpat(int16_t handle, int16_t *pat, int16_t planes)
 |*
 \*****************************************************************************/
 void VDI::vsf_udpat(qintptr handle, int16_t *pat, int16_t planes)

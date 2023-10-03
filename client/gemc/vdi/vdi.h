@@ -439,6 +439,11 @@ void vsc_form(int16_t handle, int16_t *pform);
 void vsf_udpat(int16_t handle, int16_t *pat, int16_t planes);
 
 /*****************************************************************************\
+|*  112  : Set a user-defined line-style
+\*****************************************************************************/
+void vsf_udsty(int16_t handle, int16_t pat);
+
+/*****************************************************************************\
 |*  119  : Load in any extra fonts
 \*****************************************************************************/
 int vst_load_fonts(int16_t handle, int16_t dummy);

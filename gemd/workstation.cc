@@ -171,7 +171,7 @@ void Workstation::_initialise(void)
 		WARN("Cannot open palette file %s", pPath.c_str());
 
 	setFont(-1);
-	_userType << 3 << 1;
+	_userLineType << 3 << 1;
 	}
 
 /*****************************************************************************\
@@ -283,12 +283,11 @@ void Workstation::setupPenForLine(QPen& pen)
 		pen.setDashPattern(dashes);
 		}
 	else if (_lineType == USERLINE)
-		pen.setDashPattern(_userType);
+		pen.setDashPattern(_userLineType);
 	else
 		pen.setStyle(_styles[_lineType]);
 
 	pen.setColor(_palette[_lineColour]);
-	pen.setBrush(_palette[_lineColour]);
 	pen.setWidth(_lineWidth);
 	}
 
