@@ -454,6 +454,11 @@ void v_recfl(int16_t handle, int16_t* pxy);
 void vqin_mode(int16_t handle, int16_t dev_type, int16_t *input_mode);
 
 /*****************************************************************************\
+|*  116  : Get text extents
+\*****************************************************************************/
+void vqt_extent(int16_t handle, char* str, int16_t *pxy8);
+
+/*****************************************************************************\
 |*  119  : Load in any extra fonts
 \*****************************************************************************/
 int vst_load_fonts(int16_t handle, int16_t dummy);

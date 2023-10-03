@@ -572,6 +572,12 @@ class VDI : public QObject
 		void vqin_mode(Workstation *ws, ClientMsg *msg);
 
 		/*********************************************************************\
+		|* 116: Get text extents
+		\*********************************************************************/
+		void vqt_extent(qintptr handle, char *str, int16_t* pxy);
+		void vqt_extent(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
 		|* 119: Load up the system fonts
 		\*********************************************************************/
 		int16_t vst_load_fonts(void);

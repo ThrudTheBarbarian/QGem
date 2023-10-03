@@ -394,6 +394,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vqin_mode(ws, &cm);
 				break;
 
+			case ClientMsg::VQT_EXTENT:		// 116
+				VDI::sharedInstance().vqt_extent(ws, &cm);
+				break;
+
 			case ClientMsg::VST_LOAD_FONTS:	// 119
 				VDI::sharedInstance().vst_load_fonts(ws, &cm);
 				break;

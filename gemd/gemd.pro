@@ -65,6 +65,7 @@ SOURCES += \
     ops/vql_attributes.cc \
     ops/vqm_attributes.cc \
     ops/vqt_attributes.cc \
+    ops/vqt_extent.cc \
     ops/vqt_name.cc \
     ops/vro_cpyfm.cc \
     ops/vs_clip.cc \

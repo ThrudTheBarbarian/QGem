@@ -95,6 +95,7 @@ class ClientMsg
 		VSF_UDPAT			= 112,
 		VSF_UDSTY			= 113,
 		VQIN_MODE			= 115,
+		VQT_EXTENT			= 116,
 		VST_LOAD_FONTS		= 119,
 		VS_CLIP				= 129,
 		VQT_NAME			= 130,

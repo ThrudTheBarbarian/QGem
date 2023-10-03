@@ -321,7 +321,23 @@ int main(int argc, const char * argv[])
 	vqin_mode(handle, INP_LOCATOR, &mode);
 	fprintf(stderr, "SetInpReq  : %s\n",
 			(mode == INPUT_SAMPLE) ? ("ok") : "failed");
-		
+	
+	
+	int16_t extents[8];
+	vst_rotation(handle, 0);
+	vst_height(handle, 10, NULL, NULL, NULL, NULL);
+	vqt_extent(handle, "Hi there", extents);
+	for(int i=0; i<8; i+=2)
+		fprintf(stderr, "[%d,%d] ", extents[i], extents[i+1]);
+	fprintf(stderr, "\n");
+	
+	vst_rotation(handle, 900);
+	vst_height(handle, 10, NULL, NULL, NULL, NULL);
+	vqt_extent(handle, "Hi there", extents);
+	for(int i=0; i<8; i+=2)
+		fprintf(stderr, "[%d,%d] ", extents[i], extents[i+1]);
+	fprintf(stderr, "\n");
+	
 	v_clsvwk(handle);
 	}
 	
