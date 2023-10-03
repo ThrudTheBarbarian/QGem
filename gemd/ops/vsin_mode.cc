@@ -9,7 +9,9 @@
 /*****************************************************************************\
 |* Opcode 33: Set the input mode.
 |*
-|* Original signature is: vswr_mode(int16_t handle, int16_t mode);
+|* Original signature is: vsin_mode(int16_t handle,
+|*									int16_t device,
+|*									int16_t mode);
 |*
 \*****************************************************************************/
 void VDI::vsin_mode(qintptr handle, int16_t device, int16_t mode)
@@ -24,10 +26,7 @@ void VDI::vsin_mode(qintptr handle, int16_t device, int16_t mode)
 	}
 
 /*****************************************************************************\
-|* Opcode 32: Set the writing mode.
-|*
-|* Original signature is: vswr_mode(int16_t handle, int16_t mode);
-|*
+|* And from the socket interface
 \*****************************************************************************/
 void VDI::vsin_mode(Workstation *ws, ClientMsg *cm)
 	{

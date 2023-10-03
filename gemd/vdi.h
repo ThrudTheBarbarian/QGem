@@ -560,10 +560,16 @@ class VDI : public QObject
 		void vsf_udpat(Workstation *ws, ClientMsg *msg);
 
 		/*********************************************************************\
-		|* 112: Set the user-defined line-style
+		|* 113: Set the user-defined line-style
 		\*********************************************************************/
 		void vsf_udsty(qintptr handle, int16_t pat);
 		void vsf_udsty(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
+		|* 115: Query the input mode for a device
+		\*********************************************************************/
+		void vqin_mode(qintptr handle, int16_t device, int16_t& mode);
+		void vqin_mode(Workstation *ws, ClientMsg *msg);
 
 		/*********************************************************************\
 		|* 119: Load up the system fonts

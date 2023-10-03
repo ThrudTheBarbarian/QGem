@@ -365,6 +365,20 @@ void Workstation::setInputMode(int device, int mode)
 		}
 	}
 
+/*****************************************************************************\
+|* Return whether to sample or request information from the various devices
+\*****************************************************************************/
+int16_t Workstation::inputMode(int device)
+	{
+	int mode = -1;
+	if ((device >= INP_LOCATOR) && (device <= INP_STRING))
+		{
+		int mask = 1 << device;
+		mode = ((_inputModes & mask) != 0) ? INPUT_REQUEST : INPUT_SAMPLE;
+		}
+	return mode;
+	}
+
 /*********************************************************************\
 |* Set up the writing mode
 \*********************************************************************/

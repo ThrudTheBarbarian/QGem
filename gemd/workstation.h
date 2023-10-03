@@ -116,6 +116,7 @@ class Workstation : public QObject
 		|* Set up the input mode for various devices
 		\*********************************************************************/
 		void setInputMode(int device, int mode);
+		int16_t inputMode(int device);
 
 		/*********************************************************************\
 		|* Set up the writing mode

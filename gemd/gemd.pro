@@ -61,6 +61,7 @@ SOURCES += \
     ops/vq_pixrgb.cc \
     ops/vq_tabstatus.cc \
     ops/vqf_attributes.cc \
+    ops/vqin_mode.cc \
     ops/vql_attributes.cc \
     ops/vqm_attributes.cc \
     ops/vqt_attributes.cc \

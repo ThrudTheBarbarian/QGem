@@ -311,6 +311,17 @@ int main(int argc, const char * argv[])
 //		};
 //	vsf_udpat(handle, cdata, 4);
 	
+	int16_t mode;
+	vsin_mode(handle, INP_LOCATOR, INPUT_REQUEST);
+	vqin_mode(handle, INP_LOCATOR, &mode);
+	fprintf(stderr, "SetInpReq  : %s\n",
+			((mode == INPUT_REQUEST) ? ("ok") : ("failed")));
+	
+	vsin_mode(handle, INP_LOCATOR, INPUT_SAMPLE);
+	vqin_mode(handle, INP_LOCATOR, &mode);
+	fprintf(stderr, "SetInpReq  : %s\n",
+			(mode == INPUT_SAMPLE) ? ("ok") : "failed");
+		
 	v_clsvwk(handle);
 	}
 	

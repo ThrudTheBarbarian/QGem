@@ -310,6 +310,10 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vswr_mode(ws, &cm);
 				break;
 
+			case ClientMsg::VSIN_MODE:		// 33
+				VDI::sharedInstance().vsin_mode(ws, &cm);
+				break;
+
 			case ClientMsg::VQL_ATTRIBUTES:	// 35
 				VDI::sharedInstance().vql_attributes(ws, &cm);
 				break;
@@ -384,6 +388,10 @@ void ConnectionMgr::_incomingData(void)
 
 			case ClientMsg::VSF_UDSTY:		// 113
 				VDI::sharedInstance().vsf_udsty(ws, &cm);
+				break;
+
+			case ClientMsg::VQIN_MODE:		// 115
+				VDI::sharedInstance().vqin_mode(ws, &cm);
 				break;
 
 			case ClientMsg::VST_LOAD_FONTS:	// 119
