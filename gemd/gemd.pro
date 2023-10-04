@@ -51,6 +51,7 @@ SOURCES += \
     ops/v_rvoff.cc \
     ops/v_rvon.cc \
     ops/v_updwk.cc \
+    ops/vex_timv.cc \
     ops/vq_chcells.cc \
     ops/vq_color.cc \
     ops/vq_colours.cc \
@@ -67,6 +68,7 @@ SOURCES += \
     ops/vqt_attributes.cc \
     ops/vqt_extent.cc \
     ops/vqt_name.cc \
+    ops/vqt_width.cc \
     ops/vro_cpyfm.cc \
     ops/vs_clip.cc \
     ops/vs_color.cc \

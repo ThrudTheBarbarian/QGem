@@ -68,7 +68,7 @@ void v_eeol(int16_t handle);
 /*****************************************************************************\
 |*   5.11 : Get the number of character cells on the alpha screen
 \*****************************************************************************/
-void vs_curadress(int16_t handle, int16_t row, int16_t col);
+void vs_curaddress(int16_t handle, int16_t row, int16_t col);
 
 /*****************************************************************************\
 |*   5.12 : Output text to the current cursor position
@@ -457,6 +457,24 @@ void vqin_mode(int16_t handle, int16_t dev_type, int16_t *input_mode);
 |*  116  : Get text extents
 \*****************************************************************************/
 void vqt_extent(int16_t handle, char* str, int16_t *pxy8);
+
+/*****************************************************************************\
+|*  117  : Get character width
+\*****************************************************************************/
+void vqt_width(int16_t handle,
+			   char c,
+			   int16_t *cellWidth,
+			   int16_t *leftDelta,
+			   int16_t * rightDelta);
+
+/*****************************************************************************\
+|*  118  : Register a timer-vector callback. This doesn't work quite the same
+|*         way as the original TOS one. It ought to be comparable, though
+\*****************************************************************************/
+void vex_timv(int16_t handle,
+			  GemTimerFunction newFunc,
+			  GemTimerFunction *oldFunc,
+			  int16_t *mpt);
 
 /*****************************************************************************\
 |*  119  : Load in any extra fonts

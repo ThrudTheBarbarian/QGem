@@ -164,6 +164,15 @@ void ClientMsg::fromKeyEvent(QKeyEvent *e, int16_t type)
 	}
 
 /*****************************************************************************\
+|* Construct a message from a timer event
+\*****************************************************************************/
+void ClientMsg::fromTimerEvent(void)
+	{
+	_type = EVT_TIMER;
+	_payload.clear();
+	}
+
+/*****************************************************************************\
 |* Append 16-bit int(s) to the payload. Data will be byte-swapped
 \*****************************************************************************/
 bool ClientMsg::append(int16_t value)

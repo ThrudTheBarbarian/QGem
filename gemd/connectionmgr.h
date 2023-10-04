@@ -6,6 +6,8 @@
 #include <QLocalSocket>
 #include <QObject>
 
+#include "macros.h"
+#include "properties.h"
 
 /*****************************************************************************\
 |* Forward declarations
@@ -19,6 +21,12 @@ class Workstation;
 class ConnectionMgr : public QObject
 	{
 	Q_OBJECT
+
+	/*************************************************************************\
+	|* Properties
+	\*************************************************************************/
+	GET(TimerList, timerList);					// List of handles that have
+												// timer-events registered
 
 	/*************************************************************************\
 	|* Private state
@@ -48,6 +56,11 @@ class ConnectionMgr : public QObject
 		|* Return the workstation for a given handle
 		\*********************************************************************/
 		Workstation * findWorkstationForHandle(qintptr handle);
+
+		/*********************************************************************\
+		|* Add or remove a connection from the list that wants timer events
+		\*********************************************************************/
+		void updateTimerInterest(qintptr handle, int16_t enable);
 
 		/*********************************************************************\
 		|* Set the physical workstation as handle 0

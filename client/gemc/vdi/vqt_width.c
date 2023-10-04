@@ -1,8 +1,8 @@
 //
-//  vs_curaddress.c
+//  vqt_width.c
 //  gemc
 //
-//  Created by ThrudTheBarbarian on 9/10/23.
+//  Created by ThrudTheBarbarian on 10/3/23.
 //
 
 #include <stdio.h>
@@ -12,9 +12,13 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*   5.11 : Get the number of character cells on the alpha screen
+|*  117  : Get character width
 \*****************************************************************************/
-void vs_curaddress(int16_t handle, int16_t row, int16_t col)
+void vqt_width(int16_t handle,
+			   char c,
+			   int16_t *cellWidth,
+			   int16_t *leftDelta,
+			   int16_t * rightDelta)
 	{
 	/*************************************************************************\
 	|* Check to see if we're connected
@@ -22,16 +26,33 @@ void vs_curaddress(int16_t handle, int16_t row, int16_t col)
 	if (!_gemIoIsConnected())
 		if (!_gemIoConnect())
 			return;
-	
+
+
 	/*************************************************************************\
 	|* Construct and send the message
 	\*************************************************************************/
+	int16_t letter = c;
+
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_VS_CURADDRESS);
-	_gemMsgAppend(&msg, &row, 1);
-	_gemMsgAppend(&msg, &col, 1);
+	_gemMsgInit(&msg, MSG_VQT_WIDTH);
+	_gemMsgAppend(&msg, &letter, 1);
 	_gemIoWrite(&msg);
-			
+	
+	/*************************************************************************\
+	|* Wait for a response
+	\*************************************************************************/
+	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_VQT_WIDTH));
+
+	/*************************************************************************\
+	|* Copy data over if space is allocated
+	\*************************************************************************/
+	if (cellWidth != NULL)
+		*cellWidth = ntohs(msg.vec.data[0]);
+	if (leftDelta != NULL)
+		*leftDelta = ntohs(msg.vec.data[1]);
+	if (rightDelta != NULL)
+		*rightDelta = ntohs(msg.vec.data[2]);
+		
 	/*************************************************************************\
 	|* Clear the message allocations
 	\*************************************************************************/

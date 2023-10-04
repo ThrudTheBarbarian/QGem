@@ -54,7 +54,24 @@ Screen::~Screen()
 \*****************************************************************************/
 void Screen::doFrameUpdate(void)
 	{
+	static int count = 0;
+
 	_ui->centralwidget->update();
+
+	count ++;
+	if (count == 3)		// 60fps/3 ~= 20 times per second.
+		{
+		count = 0;
+		TimerList list = _conmgr->timerList();
+		for (qintptr handle : list)
+			{
+			ClientMsg msg;
+			msg.fromTimerEvent();
+			Workstation *ws = _conmgr->findWorkstationForHandle(handle);
+			if (ws != nullptr)
+				ws->client()->write(msg.encode());
+			}
+		}
 	}
 
 /*****************************************************************************\

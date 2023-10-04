@@ -96,6 +96,8 @@ class ClientMsg
 		VSF_UDSTY			= 113,
 		VQIN_MODE			= 115,
 		VQT_EXTENT			= 116,
+		VQT_WIDTH			= 117,
+		VEX_TIMV			= 118,
 		VST_LOAD_FONTS		= 119,
 		VS_CLIP				= 129,
 		VQT_NAME			= 130,
@@ -106,6 +108,7 @@ class ClientMsg
 		EVT_MOUSE_DOWN		= 17001,
 		EVT_MOUSE_UP		= 17002,
 		EVT_KEY_PRESS		= 17010,
+		EVT_TIMER			= 17020,
 
 		EVT_FILTER_SET		= 17100,
 		};
@@ -155,6 +158,11 @@ class ClientMsg
 		|* Populate the message from a key event
 		\*********************************************************************/
 		void fromKeyEvent(QKeyEvent* ev, int16_t type);
+
+		/*********************************************************************\
+		|* Populate the message from a timer event
+		\*********************************************************************/
+		void fromTimerEvent(void);
 
 		/*********************************************************************\
 		|* Clear the properties so we can re-use the message

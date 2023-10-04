@@ -12,6 +12,8 @@
 #include <unistd.h>
 
 #include "gem.h"
+#include "gemio.h"
+#include "gemmsg.h"
 #include "rscfile.h"
 #include "vdi.h"
 
@@ -61,6 +63,17 @@ void tstTrans(int w, int wds, int planes,int num)
 		   memcmp(dstMFDB2.fd_addr, srcMFDB.fd_addr, num));
 	}
 
+
+/*****************************************************************************\
+|* Test function for timer callback
+\*****************************************************************************/
+void tcb(void)
+	{
+	static int count = 0;
+	count ++;
+	fprintf(stderr, "%d\n", count);
+	}
+	
 /*****************************************************************************\
 |* Program entry point
 \*****************************************************************************/
@@ -337,6 +350,19 @@ int main(int argc, const char * argv[])
 	for(int i=0; i<8; i+=2)
 		fprintf(stderr, "[%d,%d] ", extents[i], extents[i+1]);
 	fprintf(stderr, "\n");
+	
+	
+	int16_t cw, ld, rd;
+	vqt_width(handle, 'X', &cw, &ld, &rd);
+	fprintf(stderr, "X: %d, %d, %d\n", cw, ld, rd);
+	
+//	int16_t ms;
+//	vex_timv(handle, tcb, NULL, &ms);
+//	fprintf(stderr, "ms=%d\n", ms);
+//	
+//	GemMsg msg;
+//	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_VQT_WIDTH));
+	
 	
 	v_clsvwk(handle);
 	}

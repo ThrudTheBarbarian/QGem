@@ -578,6 +578,22 @@ class VDI : public QObject
 		void vqt_extent(Workstation *ws, ClientMsg *msg);
 
 		/*********************************************************************\
+		|* 117: Get character width
+		\*********************************************************************/
+		void vqt_width(qintptr handle,
+					   char c,
+					   int16_t& cellWidth,
+					   int16_t& leftDelta,
+					   int16_t& rightDelta);
+		void vqt_width(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
+		|* 118: Set up the timer vector callback
+		\*********************************************************************/
+		void vex_timv(qintptr handle, int16_t enable);
+		void vex_timv(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
 		|* 119: Load up the system fonts
 		\*********************************************************************/
 		int16_t vst_load_fonts(void);

@@ -14,9 +14,10 @@
 #include <sys/un.h>
 #include <unistd.h>
 
-
 #include "gemio.h"
-	
+
+extern void _gemProcessTimerEvent(void);
+
 #define SOCKET_NAME	 					"/tmp/gemd"
 
 
@@ -166,6 +167,10 @@ int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types)
 		/*************************************************************************\
 		|* FIXME: For now, if it's a mouse-move event, just print it
 		\*************************************************************************/
+		else if (incoming.type == EVT_TIMER)
+			{
+			_gemProcessTimerEvent();
+			}
 		else if (incoming.type == EVT_MOUSE_MOVE)
 			{
 			_mx 	= incoming.vec.data[0];

@@ -9,9 +9,9 @@
 #include "workstation.h"
 
 /*****************************************************************************\
-|* Opcode 8: Draw graphic text
+|* Opcode 116: Get text extents
 |*
-|* Original signature is: v_gtext(int16_t hndl, int16_t x, int16_t y, char *s);
+|* Original signature is: vqt_extent(int16_t handle, char *txt, int16_t *pxy)
 |*
 \*****************************************************************************/
 void VDI::vqt_extent(qintptr handle, char *txt, int16_t *pxy)

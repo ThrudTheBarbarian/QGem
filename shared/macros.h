@@ -120,6 +120,7 @@
 	typedef std::vector<int16_t>	Payload;
 	typedef std::vector<uint8_t>	ByteStream;
 	typedef QList<qreal> 			LineStyle;
+	typedef QList<qintptr>			TimerList;
 #endif
 
 #endif /* macros_h */

@@ -76,7 +76,11 @@ void ConnectionMgr::_connection(void)
 void ConnectionMgr::_disconnection(void)
 	{
 	QLocalSocket *socket	= (QLocalSocket *) QObject::sender();
-	_conns.remove(socket->socketDescriptor());
+	qintptr handle			= socket->socketDescriptor();
+	_conns.remove(handle);
+
+	if (_timerList.contains(handle))
+		_timerList.removeOne(handle);
 
 	// FIXME: Needs to cycle back through list, only be nullptr when no
 	// applications left
@@ -95,6 +99,20 @@ Workstation * ConnectionMgr::findWorkstationForHandle(qintptr handle)
 	return nullptr;
 	}
 
+
+/*****************************************************************************\
+|* Enable (Add) or disable (remove) a timer-interest to the list
+\*****************************************************************************/
+void ConnectionMgr::updateTimerInterest(qintptr handle, int16_t enable)
+	{
+	if (enable)
+		{
+		if (!_timerList.contains(handle))
+			_timerList.append(handle);
+		}
+	else if (_timerList.contains(handle))
+		_timerList.removeOne(handle);
+	}
 
 /*****************************************************************************\
 |* Set the physical workstation as handle 0
@@ -398,6 +416,14 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vqt_extent(ws, &cm);
 				break;
 
+			case ClientMsg::VQT_WIDTH:		// 117
+				VDI::sharedInstance().vqt_width(ws, &cm);
+				break;
+
+			case ClientMsg::VEX_TIMV:		// 118
+				VDI::sharedInstance().vex_timv(ws, &cm);
+				break;
+
 			case ClientMsg::VST_LOAD_FONTS:	// 119
 				VDI::sharedInstance().vst_load_fonts(ws, &cm);
 				break;
@@ -414,13 +440,12 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vq_colours(ws, &cm);
 				break;
 
-
 			case ClientMsg::EVT_FILTER_SET:	// 17100
 				VDI::sharedInstance().setEventFilter(ws, &cm);
 				break;
 
 			default:
-				WARN("\n** Unknown message type %d", cm.type());
+				fprintf(stderr, "\n** Unknown message type %d", cm.type());
 				break;
 			}
 		}
