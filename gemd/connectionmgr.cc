@@ -428,6 +428,11 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vst_load_fonts(ws, &cm);
 				break;
 
+
+			case ClientMsg::VRT_CPYFM:		// 121
+				VDI::sharedInstance().vrt_cpyfm(ws, &cm);
+				break;
+
 			case ClientMsg::VS_CLIP:		// 129
 				VDI::sharedInstance().vs_clip(ws, &cm);
 				break;

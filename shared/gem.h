@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#include "gemTypes.h"
+
 /*****************************************************************************\
 |* Line types for vsl_type 
 \*****************************************************************************/
@@ -289,20 +291,6 @@ enum
 	NOT_SANDD,
 	ALL_BLACK	
 	};
-	
-typedef struct
-	{
-   	void *fd_addr;					/* Pointer to the start of the
-                                    	memory block, e.g. the
-                                    	screen memory base address  	*/
-   	int16_t  fd_w;					/* Width in pixels             		*/
-   	int16_t  fd_h;					/* Height in pixels            		*/
-   	int16_t  fd_wdwidth;			/* Width of a line in words   		*/
-   	int16_t  fd_stand;				/* 0 = Device-specific format  		*/
-                                 	/* 1 = Standard format         		*/
-   	int16_t  fd_nplanes;			/* Number of planes            		*/
-   	int16_t  fd_r1, fd_r2, fd_r3;	/* Reserved, must be 0         		*/
-	} MFDB;
 
 enum 
 	{

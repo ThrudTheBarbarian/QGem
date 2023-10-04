@@ -17,6 +17,7 @@
 		F4680BE72ACC9BED0020BB5B /* v_recfl.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BE62ACC9BED0020BB5B /* v_recfl.c */; };
 		F4680BE92ACC9F550020BB5B /* vqin_mode.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BE82ACC9F550020BB5B /* vqin_mode.c */; };
 		F4680BEB2ACCB8FC0020BB5B /* vqt_extent.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BEA2ACCB8FB0020BB5B /* vqt_extent.c */; };
+		F4680BED2ACE05D50020BB5B /* vrt_cpyfm.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BEC2ACE05D50020BB5B /* vrt_cpyfm.c */; };
 		F46A85B42AAEA2AE00FA3ABC /* v_clrwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */; };
 		F46A85B62AAEA56200FA3ABC /* v_updwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B52AAEA56200FA3ABC /* v_updwk.c */; };
 		F46A85BA2AAEA5A100FA3ABC /* vq_chcells.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */; };
@@ -201,6 +202,7 @@
 		F4680BE62ACC9BED0020BB5B /* v_recfl.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_recfl.c; sourceTree = "<group>"; };
 		F4680BE82ACC9F550020BB5B /* vqin_mode.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vqin_mode.c; sourceTree = "<group>"; };
 		F4680BEA2ACCB8FB0020BB5B /* vqt_extent.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vqt_extent.c; sourceTree = "<group>"; };
+		F4680BEC2ACE05D50020BB5B /* vrt_cpyfm.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vrt_cpyfm.c; sourceTree = "<group>"; };
 		F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_clrwk.c; sourceTree = "<group>"; };
 		F46A85B52AAEA56200FA3ABC /* v_updwk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_updwk.c; sourceTree = "<group>"; };
 		F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_chcells.c; sourceTree = "<group>"; };
@@ -526,6 +528,7 @@
 				F4680BDA2AB370E60020BB5B /* vst_point.c */,
 				F4680BDC2AB3724B0020BB5B /* vst_rotation.c */,
 				F49059392ACD262C00F4F288 /* vst_unload_fonts.c */,
+				F4680BEC2ACE05D50020BB5B /* vrt_cpyfm.c */,
 				F46A85FD2AB24A2700FA3ABC /* vsm_type.c */,
 				F46A86192AB56C2000FA3ABC /* vswr_mode.c */,
 			);
@@ -816,6 +819,7 @@
 				F46A860E2AB3C38B00FA3ABC /* v_gtext.c in Sources */,
 				F46A86422AB7F16800FA3ABC /* vqt_attributes.c in Sources */,
 				F46A85D02AAEC47900FA3ABC /* vs_curaddress.c in Sources */,
+				F4680BED2ACE05D50020BB5B /* vrt_cpyfm.c in Sources */,
 				F46A860A2AB3A91F00FA3ABC /* vst_load_fonts.c in Sources */,
 				F46A862E2AB667B400FA3ABC /* v_justified.c in Sources */,
 				F46A85D62AAED14600FA3ABC /* v_rvoff.c in Sources */,

@@ -70,6 +70,7 @@ SOURCES += \
     ops/vqt_name.cc \
     ops/vqt_width.cc \
     ops/vro_cpyfm.cc \
+    ops/vrt_cpyfm.cc \
     ops/vs_clip.cc \
     ops/vs_color.cc \
     ops/vs_curaddress.cc \

@@ -487,6 +487,16 @@ int vst_load_fonts(int16_t handle, int16_t dummy);
 void vst_unload_fonts(int16_t handle, int16_t dummy);
 
 /*****************************************************************************\
+|*  121  : Blit a monochrome raster onto a colour raster
+\*****************************************************************************/
+void vrt_cpyfm (int16_t handle,
+				int16_t mode,
+				int16_t *pxy8,
+				MFDB *src,
+				MFDB *dst,
+				int16_t *colour_index);
+				
+/*****************************************************************************\
 |*   129  : Set the clip rectangle
 \*****************************************************************************/
 void vs_clip(int16_t handle, int16_t enable, int16_t* pxy);

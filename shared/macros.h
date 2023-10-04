@@ -16,6 +16,7 @@
 
 #include <stdlib.h>
 #include "debug.h"
+#include "gemTypes.h"
 
 /*****************************************************************************\
 |* These will release the memory they point to (from various allocators) and
@@ -112,15 +113,5 @@
 |* Null test
 \*****************************************************************************/
 #define IS_OK(x) 	((x) != nullptr)
-
-/*****************************************************************************\
-|* Typedefs
-\*****************************************************************************/
-#ifdef __cplusplus
-	typedef std::vector<int16_t>	Payload;
-	typedef std::vector<uint8_t>	ByteStream;
-	typedef QList<qreal> 			LineStyle;
-	typedef QList<qintptr>			TimerList;
-#endif
 
 #endif /* macros_h */

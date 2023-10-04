@@ -600,6 +600,13 @@ class VDI : public QObject
 		void vst_load_fonts(Workstation *ws, ClientMsg *msg);
 
 		/*********************************************************************\
+		|* 109: Blit monochrome transparent
+		\*********************************************************************/
+		void vrt_cpyfm(qintptr handle, int16_t mode, int16_t *pxy,
+					   MFDB *src, MFDB *dst, int16_t *colours);
+		void vrt_cpyfm(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
 		|* 129: Set the clipping rectangle
 		\*********************************************************************/
 		void vs_clip(qintptr handle, int16_t enableClip, int16_t *pxy);

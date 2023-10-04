@@ -9,6 +9,8 @@
 #define gemmsg_h
 
 #include <stdio.h>
+
+#include "gemTypes.h"
 #include "vec.h"
 
 typedef struct
@@ -33,6 +35,11 @@ void _gemMsgAppend(GemMsg *msg, int16_t *data, int numWords);
 |* Add data into the message with a preprended length
 \*****************************************************************************/
 void _gemMsgAppendData(GemMsg *msg, uint8_t *data, uint32_t numBytes);
+
+/*****************************************************************************\
+|* Append an MFDB to a message
+\*****************************************************************************/
+void _gemMsgAppendMfdb(GemMsg *msg, MFDB *mfdb);
 
 /*****************************************************************************\
 |* Prevent memory leaks

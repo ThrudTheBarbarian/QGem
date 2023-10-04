@@ -278,14 +278,14 @@ int main(int argc, const char * argv[])
 	if (resourceLoad("cicons.rsc", &colourIcons))
  		{
 		MFDB src;
-		src.fd_addr 	= colourIcons.cIcons[29].icons[1].colData;
-		//src.fd_addr 	= colourIcons.cIcons[29].monoIcon.ib_pdata;
+		//src.fd_addr 	= colourIcons.cIcons[29].icons[1].colData;
+		src.fd_addr 	= colourIcons.cIcons[29].monoIcon.ib_pdata;
 		src.fd_w		= colourIcons.cIcons[29].monoIcon.ib_wicon;
 		src.fd_h		= colourIcons.cIcons[29].monoIcon.ib_hicon;
 		src.fd_wdwidth	= ((src.fd_w) / 16) + ((src.fd_w & 15) != 0 ? 1 : 0);
 		src.fd_stand	= MFDB_STANDARD;
-		src.fd_nplanes	= colourIcons.cIcons[29].icons[1].numPlanes;
-		//src.fd_nplanes	= 1;
+		//src.fd_nplanes	= colourIcons.cIcons[29].icons[1].numPlanes;
+		src.fd_nplanes	= 1;
 		src.fd_r1		= 0;
 		src.fd_r2		= 0;
 		src.fd_r3		= 0;
@@ -304,7 +304,10 @@ int main(int argc, const char * argv[])
 			};
 
 		int16_t mode = ((int16_t)0x8000) | S_ONLY;
-		vro_cpyfm(handle, mode, pxy, &dst, &screen);
+		//vro_cpyfm(handle, mode, pxy, &dst, &screen);
+		
+		int16_t cols[2] = {0,1};
+		vrt_cpyfm(handle, mode, pxy, &dst, &screen, cols);
 		}
 	else
 		fprintf(stderr, "Failed to load colour icons\n");

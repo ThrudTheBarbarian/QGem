@@ -99,6 +99,7 @@ class ClientMsg
 		VQT_WIDTH			= 117,
 		VEX_TIMV			= 118,
 		VST_LOAD_FONTS		= 119,
+		VRT_CPYFM			= 121,
 		VS_CLIP				= 129,
 		VQT_NAME			= 130,
 

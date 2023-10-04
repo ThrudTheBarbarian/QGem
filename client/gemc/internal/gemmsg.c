@@ -78,7 +78,30 @@ void _gemMsgAppendData(GemMsg *msg, uint8_t *data, uint32_t numBytes)
 		_gemMsgAppend(msg, &value, 1);
 		}
 	}
+
+/*****************************************************************************\
+|* Append an MFDB to a message
+\*****************************************************************************/
+void _gemMsgAppendMfdb(GemMsg *msg, MFDB *mfdb)
+	{
+	int16_t needsData = (mfdb->fd_addr == 0) ? 0 : 1;
 	
+	_gemMsgAppend(msg, &needsData, 1);
+	_gemMsgAppend(msg, &(mfdb->fd_w), 1);
+	_gemMsgAppend(msg, &(mfdb->fd_h), 1);
+	_gemMsgAppend(msg, &(mfdb->fd_wdwidth), 1);
+	_gemMsgAppend(msg, &(mfdb->fd_stand), 1);
+	_gemMsgAppend(msg, &(mfdb->fd_nplanes), 1);
+	_gemMsgAppend(msg, &(mfdb->fd_r1), 1);
+	_gemMsgAppend(msg, &(mfdb->fd_r2), 1);
+	_gemMsgAppend(msg, &(mfdb->fd_r3), 1);
+	
+	if (needsData)
+ 		_gemMsgAppendData(msg,
+ 						  mfdb->fd_addr,
+ 						  mfdb->fd_wdwidth * 2 * mfdb->fd_h);
+	}
+
 /*****************************************************************************\
 |* Prevent memory leaks
 \*****************************************************************************/

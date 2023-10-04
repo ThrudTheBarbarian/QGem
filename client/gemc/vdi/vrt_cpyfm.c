@@ -1,8 +1,8 @@
 //
-//  vro_cpyfm.c
+//  vrt_cpyfm.c
 //  gemc
 //
-//  Created by ThrudTheBarbarian on 9/19/23.
+//  Created by ThrudTheBarbarian on 10/4/23.
 //
 
 #include <stdio.h>
@@ -13,10 +13,14 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*  109  : Blit an opaque rect
+|*  121  : Blit a monochrome raster onto a colour raster
 \*****************************************************************************/
-void vro_cpyfm(int16_t handle, int16_t mode, int16_t *pxy,
-			   MFDB *src, MFDB *dst)
+void vrt_cpyfm (int16_t handle,
+				int16_t mode,
+				int16_t *pxy8,
+				MFDB *src,
+				MFDB *dst,
+				int16_t *colourIndex)
 	{
 	/*************************************************************************\
 	|* Check to see if we're connected
@@ -26,15 +30,24 @@ void vro_cpyfm(int16_t handle, int16_t mode, int16_t *pxy,
 			return;
 	
 	/*************************************************************************\
+	|* Make sure the values passed in are all ok
+	\*************************************************************************/
+	if ((dst == NULL) || (src == NULL) || (colourIndex == NULL))
+		{
+		WARN("Parameter error in vrt_cpyfm");
+		return;
+		}
+		
+	/*************************************************************************\
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_VRO_CPYFM);
+	_gemMsgInit(&msg, MSG_VRT_CPYFM);
 	_gemMsgAppend(&msg, &mode, 1);
-	_gemMsgAppend(&msg, pxy, 8);
+	_gemMsgAppend(&msg, colourIndex, 2);
+	_gemMsgAppend(&msg, pxy8, 8);
 	_gemMsgAppendMfdb(&msg, src);
 	_gemMsgAppendMfdb(&msg, dst);
-	
 	_gemIoWrite(&msg);
 			
 	/*************************************************************************\
