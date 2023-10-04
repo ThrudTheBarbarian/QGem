@@ -482,6 +482,11 @@ void vex_timv(int16_t handle,
 int vst_load_fonts(int16_t handle, int16_t dummy);
 
 /*****************************************************************************\
+|*  120  : Dummy function to unload fonts. Does nothing
+\*****************************************************************************/
+void vst_unload_fonts(int16_t handle, int16_t dummy);
+
+/*****************************************************************************\
 |*   129  : Set the clip rectangle
 \*****************************************************************************/
 void vs_clip(int16_t handle, int16_t enable, int16_t* pxy);
