@@ -369,6 +369,8 @@ int main(int argc, const char * argv[])
 //	GemMsg msg;
 //	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_VQT_WIDTH));
 	
+	//v_hide_c(handle);
+	//v_show_c(handle, 1);
 	
 	v_clsvwk(handle);
 	}

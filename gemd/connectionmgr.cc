@@ -428,9 +428,16 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vst_load_fonts(ws, &cm);
 				break;
 
-
 			case ClientMsg::VRT_CPYFM:		// 121
 				VDI::sharedInstance().vrt_cpyfm(ws, &cm);
+				break;
+
+			case ClientMsg::V_SHOW_C:		// 122
+				VDI::sharedInstance().v_show_c(ws, &cm);
+				break;
+
+			case ClientMsg::V_HIDE_C:		// 123
+				VDI::sharedInstance().v_hide_c(ws, &cm);
 				break;
 
 			case ClientMsg::VS_CLIP:		// 129

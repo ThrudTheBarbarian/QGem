@@ -15,10 +15,10 @@ void VDI::v_curup(qintptr handle)
 		{
 		if (_cursorY > 0)
 			{
-			bool erased = _eraseCursor();
+			bool erased = _eraseAlphaCursor();
 			_cursorY --;
 			if (erased)
-				_drawCursor();
+				_drawAlphaCursor();
 			}
 		}
 	else

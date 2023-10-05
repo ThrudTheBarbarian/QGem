@@ -15,10 +15,10 @@ void VDI::v_curright(qintptr handle)
 		int lastCol = _screen->width() / _charWidth;
 		if (_cursorX < lastCol - 1)
 			{
-			bool erased = _eraseCursor();
+			bool erased = _eraseAlphaCursor();
 			_cursorX ++;
 			if (erased)
-				_drawCursor();
+				_drawAlphaCursor();
 			}
 		}
 	else

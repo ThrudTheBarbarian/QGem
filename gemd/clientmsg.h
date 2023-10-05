@@ -100,6 +100,8 @@ class ClientMsg
 		VEX_TIMV			= 118,
 		VST_LOAD_FONTS		= 119,
 		VRT_CPYFM			= 121,
+		V_SHOW_C			= 122,
+		V_HIDE_C			= 123,
 		VS_CLIP				= 129,
 		VQT_NAME			= 130,
 

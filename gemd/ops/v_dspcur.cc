@@ -2,7 +2,6 @@
 
 #include "clientmsg.h"
 #include "debug.h"
-#include "macros.h"
 #include "screen.h"
 #include "vdi.h"
 #include "workstation.h"
@@ -10,7 +9,7 @@
 /*****************************************************************************\
 |* Opcode 5.10: Erase to end-of-line.
 |*
-|* Original signature is: v_eeol(int16_t handle);
+|* Original signature is: v_dspcur(int1`6_t handle, int16_t x, int16_t y)
 |*
 \*****************************************************************************/
 void VDI::v_dspcur(qintptr handle, int16_t x, int16_t y)

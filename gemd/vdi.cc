@@ -1,5 +1,6 @@
 #include <QPainter>
 
+#include "screen.h"
 #include "vdi.h"
 #include "workstation.h"
 
@@ -20,6 +21,7 @@ VDI::VDI(QObject *parent)
 	,_dpy(nullptr)
 	,_screen(nullptr)
 	,_frames(0)
+	,_cursorHideCount(0)
 	{}
 
 
@@ -37,10 +39,10 @@ void VDI::frameRendered(void)
 	\**************************************************************************/
 	if (_alphaMode && ((_frames %30) == 0))
 		{
-		if (_cursorShown)
-			_eraseCursor();
+		if (_alphaCursorShown)
+			_eraseAlphaCursor();
 		else
-			_drawCursor();
+			_drawAlphaCursor();
 		}
 	}
 
@@ -51,16 +53,16 @@ void VDI::frameRendered(void)
 /*****************************************************************************\
 |* Erase the cursor
 \*****************************************************************************/
-bool VDI::_eraseCursor(void)
+bool VDI::_eraseAlphaCursor(void)
 	{
 	bool hid = false;
 
-	if (_cursorShown == true)
+	if (_alphaCursorShown == true)
 		{
-		_cursorShown = false;
-		int x			= _cursorX * _charWidth;
-		int y			= _cursorY * _charHeight;
-		int descent		= _dpy->fm()->descent();
+		_alphaCursorShown	= false;
+		int x				= _cursorX * _charWidth;
+		int y				= _cursorY * _charHeight;
+		int descent			= _dpy->fm()->descent();
 
 		QPoint pt = {x,y+descent};
 		QPainter painter(_img);
@@ -74,21 +76,43 @@ bool VDI::_eraseCursor(void)
 /*****************************************************************************\
 |* Draw the cursor
 \*****************************************************************************/
-void VDI::_drawCursor(void)
+void VDI::_drawAlphaCursor(void)
 	{
-	if (_cursorShown == false)
+	if (_alphaCursorShown == false)
 		{
-		_cursorShown = true;
-		int x			= _cursorX * _charWidth;
-		int y			= _cursorY * _charHeight;
-		int w			= _charWidth/2;
-		int h			= _charHeight;
-		int descent		= _dpy->fm()->descent();
+		_alphaCursorShown	= true;
+		int x				= _cursorX * _charWidth;
+		int y				= _cursorY * _charHeight;
+		int w				= _charWidth/2;
+		int h				= _charHeight;
+		int descent			= _dpy->fm()->descent();
 
-		QRect r			= {x,y+descent,w,h};
-		_cursorBacking	= _img->copy(r);
+		QRect r				= {x,y+descent,w,h};
+		_cursorBacking		= _img->copy(r);
 
 		QPainter painter(_img);
 		painter.fillRect(r, _dpy->colour(1));
 		}
+	}
+
+/*****************************************************************************\
+|* Show the mouse cursor
+\*****************************************************************************/
+void VDI::_showCursor(bool enable, int16_t reset)
+	{
+	if (reset == 0)
+		_cursorHideCount = 0;
+	else if (enable)
+		_cursorHideCount --;
+	else
+		_cursorHideCount ++;
+
+	if (_cursorHideCount < 0)
+		_cursorHideCount = 0;
+
+	fprintf(stderr, "Cursor Hide count: %d\n", _cursorHideCount);
+	if (_cursorHideCount > 0)
+		_screen->setCursor(Qt::BlankCursor);
+	else
+		_screen->setCursor(Qt::ArrowCursor);
 	}

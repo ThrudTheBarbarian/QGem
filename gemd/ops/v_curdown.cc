@@ -17,10 +17,10 @@ void VDI::v_curdown(qintptr handle)
 		int lastRow = _screen->height() / _charHeight;
 		if (_cursorY < lastRow - 1)
 			{
-			bool erased = _eraseCursor();
+			bool erased = _eraseAlphaCursor();
 			_cursorY ++;
 			if (erased)
-				_drawCursor();
+				_drawAlphaCursor();
 			}
 		}
 	else

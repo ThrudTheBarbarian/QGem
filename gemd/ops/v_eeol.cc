@@ -12,7 +12,7 @@
 \*****************************************************************************/
 void VDI::v_eeol(Workstation *ws)
 	{
-	bool erased = _eraseCursor();
+	bool erased = _eraseAlphaCursor();
 
 	QRect r = {_cursorX * _charWidth,
 			   _cursorY * _charHeight,
@@ -23,5 +23,5 @@ void VDI::v_eeol(Workstation *ws)
 	painter.fillRect(r, ws->colour(0));
 
 	if (erased)
-		_drawCursor();
+		_drawAlphaCursor();
 	}

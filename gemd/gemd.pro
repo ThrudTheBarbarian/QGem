@@ -38,6 +38,7 @@ SOURCES += \
     ops/v_form_adv.cc \
     ops/v_get_pixel.cc \
     ops/v_gtext.cc \
+    ops/v_hide_c.cc \
     ops/v_justified.cc \
     ops/v_opnvwk.cc \
     ops/v_opnwk.cc \
@@ -50,6 +51,7 @@ SOURCES += \
     ops/v_rmcur.cc \
     ops/v_rvoff.cc \
     ops/v_rvon.cc \
+    ops/v_show_c.cc \
     ops/v_updwk.cc \
     ops/vex_timv.cc \
     ops/vq_chcells.cc \

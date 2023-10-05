@@ -12,10 +12,10 @@ void VDI::v_curhome(qintptr handle)
 	{
 	if (handle == 0)
 		{
-		bool erased = _eraseCursor();
+		bool erased = _eraseAlphaCursor();
 		_cursorX = _cursorY = 0;
 		if (erased)
-			_drawCursor();
+			_drawAlphaCursor();
 		}
 	else
 		{

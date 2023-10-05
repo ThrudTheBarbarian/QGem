@@ -1,7 +1,6 @@
 
 #include "clientmsg.h"
 #include "debug.h"
-#include "macros.h"
 #include "screen.h"
 #include "vdi.h"
 
@@ -26,11 +25,11 @@ void VDI::vs_curaddress(qintptr handle, int16_t row, int16_t col)
 			: (col > maxX)	? maxX
 			: col;
 
-		bool erased = _eraseCursor();
+		bool erased = _eraseAlphaCursor();
 		_cursorX = col;
 		_cursorY = row;
 		if (erased)
-			_drawCursor();
+			_drawAlphaCursor();
 		}
 	else
 		{

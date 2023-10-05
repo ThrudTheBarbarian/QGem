@@ -13,7 +13,7 @@
 \*****************************************************************************/
 void VDI::v_curtext(Workstation *ws, const char* str)
 	{
-	bool erased = _eraseCursor();
+	bool erased = _eraseAlphaCursor();
 
 	QColor fg	= ws->colour((_reverseVideo) ? 0 : 1);
 	QColor bg	= ws->colour((_reverseVideo) ? 1 : 0);
@@ -39,7 +39,7 @@ void VDI::v_curtext(Workstation *ws, const char* str)
 		_cursorX = maxX;
 
 	if (erased)
-		_drawCursor();
+		_drawAlphaCursor();
 	}
 
 /*****************************************************************************\

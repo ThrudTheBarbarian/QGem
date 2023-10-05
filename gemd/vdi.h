@@ -6,7 +6,7 @@
 #include <QImage>
 #include <QObject>
 
-#include "gem.h"
+#include "gemTypes.h"
 #include "properties.h"
 
 /*****************************************************************************\
@@ -61,8 +61,9 @@ class VDI : public QObject
 		Screen *_screen;				// Main window
 		QImage *_img;					// Where drawing happens
 		uint64_t _frames;				// Frame counter
-		bool _cursorShown;				// Cursor is actually drawn
+		bool _alphaCursorShown;			// Cursor is actually drawn
 		QImage _cursorBacking;			// What was underneath the cursor
+		int _cursorHideCount;			// How many times mouse has 'hidden'
 
 		/*********************************************************************\
 		|* Private constructor
@@ -607,6 +608,18 @@ class VDI : public QObject
 		void vrt_cpyfm(Workstation *ws, ClientMsg *msg);
 
 		/*********************************************************************\
+		|* 122: Show the cursor
+		\*********************************************************************/
+		void v_show_c(qintptr handle, int16_t reset);
+		void v_show_c(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
+		|* 123: Hide the cursor
+		\*********************************************************************/
+		void v_hide_c(qintptr handle);
+		void v_hide_c(Workstation *ws, ClientMsg *msg);
+
+		/*********************************************************************\
 		|* 129: Set the clipping rectangle
 		\*********************************************************************/
 		void vs_clip(qintptr handle, int16_t enableClip, int16_t *pxy);
@@ -637,11 +650,12 @@ class VDI : public QObject
 
 	private:
 		/*********************************************************************\
-		|* Cursor drawing/erasing
+		|* Cursor drawing/erasing, both Alpha cursor and mouse cursor
 		\*********************************************************************/
-		bool _eraseCursor(void);
-		void _drawCursor(void);
+		bool _eraseAlphaCursor(void);
+		void _drawAlphaCursor(void);
 
+		void _showCursor(bool enable, int16_t reset);
 	};
 
 #endif // VDI_H

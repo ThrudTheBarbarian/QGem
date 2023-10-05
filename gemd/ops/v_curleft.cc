@@ -14,10 +14,10 @@ void VDI::v_curleft(qintptr handle)
 		{
 		if (_cursorX > 0)
 			{
-			bool erased = _eraseCursor();
+			bool erased = _eraseAlphaCursor();
 			_cursorX --;
 			if (erased)
-				_drawCursor();
+				_drawAlphaCursor();
 			}
 		}
 	else
