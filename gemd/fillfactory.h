@@ -67,6 +67,7 @@ class FillFactory : public QObject
 		|* Create an image from an MFDB
 		\*********************************************************************/
 		QImage * imageFromMFDB(MFDB *mfdb, Workstation *ws);
+		QPixmap bitmapFromMFDB(MFDB *mfdb, Palette palette);
 
 
 	private:

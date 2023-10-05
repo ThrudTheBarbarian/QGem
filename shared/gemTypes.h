@@ -28,11 +28,13 @@ typedef struct
 #ifdef __cplusplus
 	#include <vector>
 	#include <QList>
-
+	#include <QColor>		// For QRgb
+	
 	typedef std::vector<int16_t>	Payload;
 	typedef std::vector<uint8_t>	ByteStream;
 	typedef QList<qreal> 			LineStyle;
 	typedef QList<qintptr>			TimerList;
+	typedef QList<QRgb>				Palette;
 #endif
 
 #endif /* ! __gem_types_header__ */

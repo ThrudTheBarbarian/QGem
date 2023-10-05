@@ -295,18 +295,21 @@ int main(int argc, const char * argv[])
 		MFDB screen = dst;
 
 		vr_trnfm(handle, &src, &dst);
+		int px = 600;
+		int py = 300;
 		int16_t pxy[8]	=
 			{
 			0, 0,
 			src.fd_w-1, src.fd_h-1,
-			400, 400,
-			400+src.fd_w*4, 400+src.fd_h*4,
+			px, py,
+			px+src.fd_w*4, py+src.fd_h*4,
 			};
 
-		int16_t mode = ((int16_t)0x8000) | S_ONLY;
+		//int16_t mode = ((int16_t)0x8000) | S_ONLY;
 		//vro_cpyfm(handle, mode, pxy, &dst, &screen);
 		
-		int16_t cols[2] = {0,1};
+		int16_t cols[2] = {1,0};
+		int16_t mode = ((int16_t)0x8000) | WR_REV_TRANS;
 		vrt_cpyfm(handle, mode, pxy, &dst, &screen, cols);
 		}
 	else

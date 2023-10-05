@@ -1,3 +1,5 @@
+#include <QBitmap>
+
 #include "fillfactory.h"
 #include "vdi.h"
 #include "workstation.h"
@@ -506,6 +508,31 @@ QImage& FillFactory::_create(int type, int style, uint8_t *src, int planes)
 			DELETE_TYPED_ARRAY(mfdb.fd_addr, uint8_t);
 		}
 	return _patterns[patternId];
+	}
+
+/*****************************************************************************\
+|* Create a pixmap from a 1-bit MFDB
+\*****************************************************************************/
+QPixmap FillFactory::bitmapFromMFDB(MFDB *mfdb, Palette pal)
+	{
+	uint16_t *ptr	= (uint16_t *)(mfdb->fd_addr);
+	int numWords	= mfdb->fd_wdwidth * mfdb->fd_h;
+	for (int i=0; i<numWords; i++)
+		{
+		*ptr = ntohs(*ptr);
+		ptr ++;
+		}
+
+	QImage img((uchar *)mfdb->fd_addr,
+			   mfdb->fd_w,
+			   mfdb->fd_h,
+			   mfdb->fd_wdwidth*2,
+			   QImage::Format_Mono);
+
+	img.setColorTable(pal);
+
+	QPixmap bmp = QPixmap::fromImage(img);
+	return bmp;
 	}
 
 /*****************************************************************************\

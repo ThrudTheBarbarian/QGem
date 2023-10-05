@@ -36,26 +36,21 @@ void VDI::vrt_cpyfm(qintptr handle, int16_t mode, int16_t *pxy,
 	ConnectionMgr *cm = _screen->connectionManager();
 	Workstation *ws   = cm->findWorkstationForHandle(handle);
 
-	QImage *srcP = nullptr;
+	QPixmap srcP;
 	QImage *dstP = nullptr;
 
 
 	if (IS_OK(ws) && IS_OK(src) && IS_OK(dst) && IS_OK(pxy) && IS_OK(colours))
 		{
 		/*********************************************************************\
-		|* Extract the X1,Y1 -> X2,Y2 from the pxy arrays
-		\*********************************************************************/
-		bool scale = (mode & 0x8000) ? true : false;
-		QRect srcR(pxy[0], pxy[1], pxy[2] - pxy[0], pxy[3] - pxy[1]);
-		QRect dstR(pxy[4], pxy[5], pxy[6] - pxy[4], pxy[7] - pxy[5]);
-
-		/*********************************************************************\
-		|* Check to see if either MFDB points to the screen
+		|* Check to see if the MFDB points to the screen
 		\*********************************************************************/
 		FillFactory& ff = FillFactory::sharedInstance();
-		srcP = (src->fd_addr == 0) ? _img : ff.imageFromMFDB(src, ws);
 		dstP = (dst->fd_addr == 0) ? _img : ff.imageFromMFDB(dst, ws);
 
+		/*********************************************************************\
+		|* Set up the painter
+		\*********************************************************************/
 		QPainter painter(dstP);
 		if (ws->enableClip())
 			painter.setClipRect(ws->clip());
@@ -63,22 +58,41 @@ void VDI::vrt_cpyfm(qintptr handle, int16_t mode, int16_t *pxy,
 		/*********************************************************************\
 		|* Set up the writing mode
 		\*********************************************************************/
+		Palette palette;
 		QPainter::CompositionMode op;
 		switch (mode & 0x7FFF)
 			{
 			case WR_REPLACE:
+				palette << ws->colour(colours[0]).rgba()
+						<< ws->colour(colours[1]).rgba();
 				op = QPainter::CompositionMode_Source;
 				break;
 			case WR_TRANSPARENT:
+				{
+				if (colours[1] == 0)
+					palette << QColor(Qt::transparent).rgba()
+							<< ws->colour(colours[0]).rgba();
+
+				else
+					palette << ws->colour(colours[1]).rgba()
+							<< ws->colour(colours[0]).rgba();
+
 				op = QPainter::CompositionMode_SourceOver;
 				break;
+				}
 			case WR_XOR:
+				palette << ws->colour(colours[0]).rgba()
+						<< ws->colour(colours[1]).rgba();
 				op = QPainter::RasterOp_NotSourceXorDestination;
 				break;
 			case WR_REV_TRANS:
+				palette << ws->colour(colours[0]).rgba()
+						<< ws->colour(colours[1]).rgba();
 				op = QPainter::RasterOp_NotSourceAndDestination;
 				break;
 			default:
+				palette << ws->colour(colours[0]).rgba()
+						<< ws->colour(colours[1]).rgba();
 				op = QPainter::CompositionMode_Source;
 				WARN("Unknown raster operation %0x", mode & 0x7FFF);
 				break;
@@ -87,18 +101,24 @@ void VDI::vrt_cpyfm(qintptr handle, int16_t mode, int16_t *pxy,
 
 
 		/*********************************************************************\
+		|* Extract the X1,Y1 -> X2,Y2 from the pxy arrays
+		\*********************************************************************/
+		bool scale = (mode & 0x8000) ? true : false;
+		QRect srcR(pxy[0], pxy[1], pxy[2] - pxy[0], pxy[3] - pxy[1]);
+		QRect dstR(pxy[4], pxy[5], pxy[6] - pxy[4], pxy[7] - pxy[5]);
+
+		/*********************************************************************\
 		|* Blit from one to the other
 		\*********************************************************************/
+		srcP = ff.bitmapFromMFDB(src, palette);
 		if (scale)
-			painter.drawImage(dstR, *srcP, srcR);
+			painter.drawPixmap(dstR, srcP, srcR);
 		else
-			painter.drawImage(dstR.topLeft(), *srcP, srcR);
+			painter.drawPixmap(dstR.topLeft(), srcP, srcR);
 
 		/*********************************************************************\
 		|* Tidy up
 		\*********************************************************************/
-		if ((srcP != _img) && (srcP != nullptr))
-			delete srcP;
 		if ((dstP != _img) && (dstP != nullptr))
 			delete dstP;
 		}
