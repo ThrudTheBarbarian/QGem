@@ -54,6 +54,6 @@ int16_t _gemMsgData(GemMsg *msg, int idx);
 /*****************************************************************************\
 |* Read a message from the wire
 \*****************************************************************************/
-int _gemMsgRead(GemMsg *msg, int fd);
+int _gemMsgRead(GemMsg *msg, int fd, int msecs);
 
 #endif /* gemmsg_h */

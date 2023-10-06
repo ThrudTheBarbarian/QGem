@@ -74,6 +74,24 @@ void tcb(void)
 	fprintf(stderr, "%d\n", count);
 	}
 	
+
+/*****************************************************************************\
+|* Test function for mouse-button callback
+\*****************************************************************************/
+void mbcb(int state)
+	{
+	static int count = 0;
+	fprintf(stderr, "Buttons: %d [%x]\n", ++count, state);
+	}
+	
+/*****************************************************************************\
+|* Test function for mouse-move callback
+\*****************************************************************************/
+void mvcb(int x, int y)
+	{
+	fprintf(stderr, "@: %d,%d\n", x,y);
+	}
+	
 /*****************************************************************************\
 |* Program entry point
 \*****************************************************************************/
@@ -371,6 +389,19 @@ int main(int argc, const char * argv[])
 	
 	//v_hide_c(handle);
 	//v_show_c(handle, 1);
+	
+	vex_butv(handle, mbcb, NULL);
+	GemMsg msg;
+	int16_t btns = 0;
+	while (btns != 3)
+		{
+		_gemIoWaitForMessageOfTypeWithTimeout(&msg, 10453, 10);
+		vq_mouse(handle, &btns, NULL, NULL);
+		if (btns == 1)
+			vex_motv(handle, mvcb, NULL);
+		else if (btns == 2)
+			vex_motv(handle, NULL, NULL);
+		}
 	
 	v_clsvwk(handle);
 	}

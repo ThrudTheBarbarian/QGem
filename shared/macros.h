@@ -2,8 +2,7 @@
 //  macros.h
 //  dbio
 //
-//  Created by Simon Gornall on 7/17/20.
-//  Copyright © 2020 Simon Gornall. All rights reserved.
+//  Created by ThrudTheBarbarian on 7/17/20.
 //
 
 #ifndef macros_h

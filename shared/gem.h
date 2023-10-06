@@ -299,8 +299,10 @@ enum
 	};
 
 /*****************************************************************************\
-|* vex_timv  
+|* events  
 \*****************************************************************************/
 typedef void (*GemTimerFunction)(void);
+typedef void (*GemMouseButtonFunction)(int btnState);
+typedef void (*GemMouseMoveFunction)(int x, int y);
 
 #endif /* !__gem_defines_header__ */

@@ -17,6 +17,9 @@
 #include "gemio.h"
 
 extern void _gemProcessTimerEvent(void);
+extern void _gemProcessButtonEvent(int mouseState);
+extern void _gemProcessMoveEvent(int x, int y);
+extern void _gemProcessCursorEvent(int x, int y);
 
 #define SOCKET_NAME	 					"/tmp/gemd"
 
@@ -118,7 +121,7 @@ void _gemIoDisconnect(void)
 /*****************************************************************************\
 |* Read from the socket
 \*****************************************************************************/
-int _gemIoRead(GemMsg *msg)
+int _gemIoRead(GemMsg *msg, int msecs)
 	{
 	int ok = 0;
 	
@@ -140,7 +143,7 @@ int _gemIoRead(GemMsg *msg)
 	|* Otherwise read the next one from the socket
 	\*************************************************************************/
 	else
-		ok = _gemMsgRead(msg, _gemfd);
+		ok = _gemMsgRead(msg, _gemfd, msecs);
 
 	return ok;
 	}
@@ -151,10 +154,19 @@ int _gemIoRead(GemMsg *msg)
 \*****************************************************************************/
 int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types)
 	{
+	return _gemIoWaitForMessagesWithTimeout(msg, types, -1);
+	}
+	
+/*****************************************************************************\
+|* Function to request a blocking read of a message, filtering on a list of
+|* message types. This always tries to read from the socket
+\*****************************************************************************/
+int _gemIoWaitForMessagesWithTimeout(GemMsg *msg, vec_word_t *types, int msecs)
+	{
 	GemMsg incoming;
 	
-	int ok = _gemMsgRead(&incoming, _gemfd);
-	while (ok)
+	int ok = _gemMsgRead(&incoming, _gemfd, msecs);
+	while (ok == 1)
 		{
 		int idx = -1;
 		vec_find(types, incoming.type, idx);
@@ -173,18 +185,27 @@ int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types)
 			}
 		else if (incoming.type == EVT_MOUSE_MOVE)
 			{
-			_mx 	= incoming.vec.data[0];
-			_my 	= incoming.vec.data[1];
-			_mb 	= incoming.vec.data[2];
-			_mods 	= incoming.vec.data[3];
+			_mx 	= ntohs(incoming.vec.data[0]);
+			_my 	= ntohs(incoming.vec.data[1]);
+			_mb 	= ntohs(incoming.vec.data[2]);
+			_mods 	= ntohs(incoming.vec.data[3]);
+			_gemProcessMoveEvent(_mx, _my);
+			_gemProcessCursorEvent(_mx, _my);
 			}
 		else if (incoming.type == EVT_MOUSE_DOWN)
 			{
-			fprintf(stderr, "Mouse down\n");
+			_mx 	= ntohs(incoming.vec.data[0]);
+			_my 	= ntohs(incoming.vec.data[1]);
+			_mb 	= ntohs(incoming.vec.data[2]);
+			_mods 	= ntohs(incoming.vec.data[3]);
+			_gemProcessButtonEvent(_mb);
 			}
 		else if (incoming.type == EVT_MOUSE_UP)
 			{
-			fprintf(stderr, "Mouse up\n");
+			_mx 	= ntohs(incoming.vec.data[0]);
+			_my 	= ntohs(incoming.vec.data[1]);
+			_mb 	= ntohs(incoming.vec.data[2]);
+			_mods 	= ntohs(incoming.vec.data[3]);
 			}
 		else if (incoming.type == EVT_KEY_PRESS)
 			{
@@ -194,7 +215,7 @@ int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types)
 			{
 			vec_push(&_msgs, incoming);		// Transfers ownership of memory
 			}
-		ok = _gemMsgRead(&incoming, _gemfd);
+		ok = _gemMsgRead(&incoming, _gemfd, msecs);
 		}
 		
 	return ok;
@@ -206,10 +227,18 @@ int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types)
 \*****************************************************************************/
 int _gemIoWaitForMessageOfType(GemMsg *msg, int16_t type)
 	{
+	return _gemIoWaitForMessageOfTypeWithTimeout(msg, type, -1);
+	}
+
+/*****************************************************************************\
+|* Function to request a blocking read of a message with a timeout
+\*****************************************************************************/
+int _gemIoWaitForMessageOfTypeWithTimeout(GemMsg *msg, int16_t type, int msecs)
+	{
 	vec_word_t types;
 	vec_init(&types);
 	vec_push(&types, type);
-	return _gemIoWaitForMessages(msg, &types);
+	return _gemIoWaitForMessagesWithTimeout(msg, &types, msecs);
 	}
 	
 

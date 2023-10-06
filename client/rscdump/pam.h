@@ -2,7 +2,7 @@
 //  pam.h
 //  rscdump
 //
-//  Created by Simon Gornall on 9/24/23.
+//  Created by ThrudTheBarbarian on 9/24/23.
 //
 
 #ifndef pam_h

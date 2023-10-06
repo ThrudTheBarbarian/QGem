@@ -2,7 +2,7 @@
 //  pam.c
 //  rscdump
 //
-//  Created by Simon Gornall on 9/24/23.
+//  Created by ThrudTheBarbarian on 9/24/23.
 //
 
 #include <limits.h>

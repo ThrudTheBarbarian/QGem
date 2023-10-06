@@ -2,7 +2,7 @@
 //  vex_timv.c
 //  gemc
 //
-//  Created by Simon Gornall on 10/3/23.
+//  Created by ThrudTheBarbarian on 10/3/23.
 //
 
 #include <stdio.h>

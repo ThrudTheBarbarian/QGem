@@ -507,6 +507,32 @@ void v_show_c(int16_t handle, int16_t reset);
 void v_hide_c(int16_t handle);
 
 /*****************************************************************************\
+|*  124  : Get the mouse state
+\*****************************************************************************/
+void vq_mouse(int16_t handle, int16_t *status, int16_t *x, int16_t *y);
+
+/*****************************************************************************\
+|*  125  : Register a mouse-button-pressed function
+\*****************************************************************************/
+void vex_butv(int16_t handle,
+			  GemMouseButtonFunction newFunc,
+			  GemMouseButtonFunction *oldFunc);
+
+/*****************************************************************************\
+|*  126  : Register a mouse-moved function
+\*****************************************************************************/
+void vex_motv(int16_t handle,
+			  GemMouseMoveFunction newFunc,
+			  GemMouseMoveFunction *oldFunc);
+
+/*****************************************************************************\
+|*  127  : Register a cursor-change function
+\*****************************************************************************/
+void vex_curv(int16_t handle,
+			  GemMouseMoveFunction newFunc,
+			  GemMouseMoveFunction *oldFunc);
+
+/*****************************************************************************\
 |*   129  : Set the clip rectangle
 \*****************************************************************************/
 void vs_clip(int16_t handle, int16_t enable, int16_t* pxy);

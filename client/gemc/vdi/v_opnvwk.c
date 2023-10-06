@@ -72,6 +72,6 @@ void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut)
 	/*************************************************************************\
 	|* Start receiving events
 	\*************************************************************************/
-	_gemIoSetEventFilter(ETYP_MOUSE_MOVE);
+	_gemIoSetEventFilter(ETYP_MOUSE_MOVE|ETYP_MOUSE_BTN);
 	
 	}

@@ -5,9 +5,11 @@
 //  Created by ThrudTheBarbarian on 9/7/23.
 //
 
+#include "gemio.h"
 #include "gemmsg.h"
 
 #include <sys/ioctl.h>
+#include <sys/select.h>
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
@@ -112,12 +114,37 @@ void _gemMsgDestroy(GemMsg *msg)
 	}
 
 /*****************************************************************************\
-|* Read a message from the wire. This will block
+|* Read a message from the wire. This will block up to msecs millisecs, or
+|* indefinitely if msecs == -1.
+|*
+|* Return values:
+|*	-1:	Timeout
+|*   0: Read failed
+|*   1: Message available
 \*****************************************************************************/
-int _gemMsgRead(GemMsg *msg, int fd)
+int _gemMsgRead(GemMsg *msg, int fd, int msecs)
 	{
 	int ok = 0;
 	
+	/*************************************************************************\
+	|* Wait until there's a message to be read, or we timed out
+	\*************************************************************************/
+	struct timeval tv =
+		{
+		.tv_sec 	=  msecs / 1000,
+		.tv_usec	= (msecs % 1000) * 1000
+		};
+
+	fd_set rfds;
+	FD_ZERO(&rfds);
+	FD_SET(fd, &rfds);
+	ok = select(fd+1, &rfds, NULL, NULL, msecs < 0 ? NULL : &tv);
+	if (ok == 0)
+		{
+		msg->type = MSG_NONE;
+		return -1;
+		}
+		
 	/*************************************************************************\
 	|* Get the size of the payload in words, including type
 	\*************************************************************************/

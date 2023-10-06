@@ -18,6 +18,7 @@
 \*****************************************************************************/
 enum
 	{
+	MSG_NONE			= -1,
 	MSG_V_CLRWK			= 3,
 	MSG_VQ_CHCELLS		= 5001,	/* Really 5.1 etc. */
 	MSG_VQ_EXIT_CUR		= 5002,
@@ -132,7 +133,7 @@ int _gemIoWrite(GemMsg *msg);
 /*****************************************************************************\
 |* Read from the socket
 \*****************************************************************************/
-int _gemIoRead(GemMsg *msg);
+int _gemIoRead(GemMsg *msg, int msecs);
 
 /*****************************************************************************\
 |* Read from the socket, looking for a specific response
@@ -140,11 +141,20 @@ int _gemIoRead(GemMsg *msg);
 int _gemIoWaitForMessageOfType(GemMsg *msg, int16_t type);
 	
 /*****************************************************************************\
+|* Read from the socket, looking for a specific response
+\*****************************************************************************/
+int _gemIoWaitForMessageOfTypeWithTimeout(GemMsg *msg, int16_t type, int msecs);
+	
+/*****************************************************************************\
 |* Function to request a blocking read of a message, filtering on a list of
 |* message types. This always tries to read from the socket
 \*****************************************************************************/
 int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types);
 
+/*****************************************************************************\
+|* Function to request a blocking read of a message with a timeout
+\*****************************************************************************/
+int _gemIoWaitForMessagesWithTimeout(GemMsg *msg, vec_word_t *types, int msecs);
 
 /*****************************************************************************\
 |* Return the current GEM message event-filter

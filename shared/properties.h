@@ -2,7 +2,7 @@
 //  properties.h
 //  iodb
 //
-//  Created by Simon Gornall on 2/23/22.
+//  Created by ThrudTheBarbarian on 2/23/22.
 //
 
 #ifndef properties_h

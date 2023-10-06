@@ -114,6 +114,10 @@
 		F490593A2ACD262C00F4F288 /* vst_unload_fonts.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059392ACD262C00F4F288 /* vst_unload_fonts.c */; };
 		F490593C2ACE66DD00F4F288 /* v_show_c.c in Sources */ = {isa = PBXBuildFile; fileRef = F490593B2ACE66DD00F4F288 /* v_show_c.c */; };
 		F490593E2ACE6C9D00F4F288 /* v_hide_c.c in Sources */ = {isa = PBXBuildFile; fileRef = F490593D2ACE6C9D00F4F288 /* v_hide_c.c */; };
+		F49059402ACFA93100F4F288 /* vq_mouse.c in Sources */ = {isa = PBXBuildFile; fileRef = F490593F2ACFA93100F4F288 /* vq_mouse.c */; };
+		F49059422ACFADAC00F4F288 /* vex_butv.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059412ACFADAC00F4F288 /* vex_butv.c */; };
+		F49059442ACFB26200F4F288 /* vex_motv.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059432ACFB26200F4F288 /* vex_motv.c */; };
+		F49059462ACFB41A00F4F288 /* vex_curv.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059452ACFB41A00F4F288 /* vex_curv.c */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -305,6 +309,10 @@
 		F49059392ACD262C00F4F288 /* vst_unload_fonts.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_unload_fonts.c; sourceTree = "<group>"; };
 		F490593B2ACE66DD00F4F288 /* v_show_c.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_show_c.c; sourceTree = "<group>"; };
 		F490593D2ACE6C9D00F4F288 /* v_hide_c.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_hide_c.c; sourceTree = "<group>"; };
+		F490593F2ACFA93100F4F288 /* vq_mouse.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_mouse.c; sourceTree = "<group>"; };
+		F49059412ACFADAC00F4F288 /* vex_butv.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vex_butv.c; sourceTree = "<group>"; };
+		F49059432ACFB26200F4F288 /* vex_motv.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vex_motv.c; sourceTree = "<group>"; };
+		F49059452ACFB41A00F4F288 /* vex_curv.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vex_curv.c; sourceTree = "<group>"; };
 		F4E3409C2AAAD389002390BA /* client */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = client; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E3409F2AAAD389002390BA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E340AA2AAAD3E1002390BA /* libgemc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgemc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -484,7 +492,10 @@
 				F46A85D32AAED0F400FA3ABC /* v_rvon.c */,
 				F490593B2ACE66DD00F4F288 /* v_show_c.c */,
 				F46A85B52AAEA56200FA3ABC /* v_updwk.c */,
+				F49059412ACFADAC00F4F288 /* vex_butv.c */,
+				F49059452ACFB41A00F4F288 /* vex_curv.c */,
 				F49059372ACD180F00F4F288 /* vex_timv.c */,
+				F49059432ACFB26200F4F288 /* vex_motv.c */,
 				F46A86352AB785C900FA3ABC /* vrq_locator.c */,
 				F46A86392AB7BAE000FA3ABC /* vrq_string.c */,
 				F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */,
@@ -494,6 +505,7 @@
 				F46A85BB2AAEB56700FA3ABC /* vq_exit_cur.c */,
 				F46A86452AB8EE0100FA3ABC /* vq_extnd.c */,
 				F46A85D92AAF636F00FA3ABC /* vq_hardcopy.c */,
+				F490593F2ACFA93100F4F288 /* vq_mouse.c */,
 				F46A864D2ABA6A2F00FA3ABC /* vq_pixrgb.c */,
 				F46A85DC2AAF640500FA3ABC /* vq_tabstatus.c */,
 				F46A863F2AB7EEF300FA3ABC /* vqf_attributes.c */,
@@ -864,6 +876,7 @@
 				F46A862C2AB6624B00FA3ABC /* v_rbox.c in Sources */,
 				F46A86202AB62EA500FA3ABC /* v_circle.c in Sources */,
 				F46A864A2ABA66DA00FA3ABC /* v_get_pixel.c in Sources */,
+				F49059442ACFB26200F4F288 /* vex_motv.c in Sources */,
 				F490593A2ACD262C00F4F288 /* vst_unload_fonts.c in Sources */,
 				F4680BE32ACB268D0020BB5B /* vsc_form.c in Sources */,
 				F46A85BA2AAEA5A100FA3ABC /* vq_chcells.c in Sources */,
@@ -874,6 +887,7 @@
 				F4680BEB2ACCB8FC0020BB5B /* vqt_extent.c in Sources */,
 				F46A85E42AAF66A200FA3ABC /* v_rmcur.c in Sources */,
 				F46A86022AB24EF500FA3ABC /* vsm_color.c in Sources */,
+				F49059462ACFB41A00F4F288 /* vex_curv.c in Sources */,
 				F4680BDB2AB370E60020BB5B /* vst_point.c in Sources */,
 				F46A864C2ABA69AA00FA3ABC /* vs_pixrgb.c in Sources */,
 				F46A86282AB648BD00FA3ABC /* v_arc.c in Sources */,
@@ -883,6 +897,8 @@
 				F4680BDF2AB376190020BB5B /* vst_font.c in Sources */,
 				F4E340B82AAAD6DE002390BA /* gemio.c in Sources */,
 				F46A85BC2AAEB56700FA3ABC /* vq_exit_cur.c in Sources */,
+				F49059402ACFA93100F4F288 /* vq_mouse.c in Sources */,
+				F49059422ACFADAC00F4F288 /* vex_butv.c in Sources */,
 				F46A85D42AAED0F400FA3ABC /* v_rvon.c in Sources */,
 				F46A85FA2AB01E1F00FA3ABC /* v_pline.c in Sources */,
 				F4680BE12ABB68220020BB5B /* vr_trnfm.c in Sources */,
