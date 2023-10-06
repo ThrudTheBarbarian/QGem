@@ -222,11 +222,11 @@ enum
 /*****************************************************************************\
 |* Key modifiers 
 \*****************************************************************************/
-#define MDFY_SHIFT		1
-#define MDFY_CTRL		2
-#define MDFY_ALT		4
-#define MDFY_META		8
-#define MDFY_KEYPAD		16
+#define MDFY_SHIFT		3
+#define MDFY_CTRL		4
+#define MDFY_ALT		8
+#define MDFY_META		16
+#define MDFY_KEYPAD		32
 
 /*****************************************************************************\
 |* Keys. Basically ASCII + extra bits

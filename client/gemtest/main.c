@@ -393,12 +393,17 @@ int main(int argc, const char * argv[])
 	vex_butv(handle, mbcb, NULL);
 	GemMsg msg;
 	int16_t btns = 0;
+	int16_t mods = 0;
 	while (btns != 3)
 		{
 		_gemIoWaitForMessageOfTypeWithTimeout(&msg, 10453, 10);
 		vq_mouse(handle, &btns, NULL, NULL);
 		if (btns == 1)
+			{
 			vex_motv(handle, mvcb, NULL);
+			vq_key_s(handle, &mods);
+			fprintf(stderr, "mods: %x\n", mods);
+			}
 		else if (btns == 2)
 			vex_motv(handle, NULL, NULL);
 		}

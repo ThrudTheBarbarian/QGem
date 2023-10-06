@@ -118,6 +118,7 @@
 		F49059422ACFADAC00F4F288 /* vex_butv.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059412ACFADAC00F4F288 /* vex_butv.c */; };
 		F49059442ACFB26200F4F288 /* vex_motv.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059432ACFB26200F4F288 /* vex_motv.c */; };
 		F49059462ACFB41A00F4F288 /* vex_curv.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059452ACFB41A00F4F288 /* vex_curv.c */; };
+		F49059482ACFB97600F4F288 /* vq_key_s.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059472ACFB97600F4F288 /* vq_key_s.c */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -313,6 +314,7 @@
 		F49059412ACFADAC00F4F288 /* vex_butv.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vex_butv.c; sourceTree = "<group>"; };
 		F49059432ACFB26200F4F288 /* vex_motv.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vex_motv.c; sourceTree = "<group>"; };
 		F49059452ACFB41A00F4F288 /* vex_curv.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vex_curv.c; sourceTree = "<group>"; };
+		F49059472ACFB97600F4F288 /* vq_key_s.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_key_s.c; sourceTree = "<group>"; };
 		F4E3409C2AAAD389002390BA /* client */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = client; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E3409F2AAAD389002390BA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E340AA2AAAD3E1002390BA /* libgemc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgemc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -549,6 +551,7 @@
 				F4680BEC2ACE05D50020BB5B /* vrt_cpyfm.c */,
 				F46A85FD2AB24A2700FA3ABC /* vsm_type.c */,
 				F46A86192AB56C2000FA3ABC /* vswr_mode.c */,
+				F49059472ACFB97600F4F288 /* vq_key_s.c */,
 			);
 			path = vdi;
 			sourceTree = "<group>";
@@ -857,6 +860,7 @@
 				F46A863A2AB7BAE000FA3ABC /* vrq_string.c in Sources */,
 				F46A85F22AAFBD7500FA3ABC /* vsl_color.c in Sources */,
 				F46A863C2AB7D7A400FA3ABC /* vql_attributes.c in Sources */,
+				F49059482ACFB97600F4F288 /* vq_key_s.c in Sources */,
 				F46A85FC2AB23D6900FA3ABC /* v_pmarker.c in Sources */,
 				F4680BD92AB370150020BB5B /* vst_height.c in Sources */,
 				F46A85D22AAECACA00FA3ABC /* v_curtext.c in Sources */,
