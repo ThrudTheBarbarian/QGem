@@ -158,8 +158,10 @@ int main(int argc, const char * argv[])
 	
 	vst_font(handle, 87);
 	vst_effects(handle, TXT_OUTLINE);
+	vst_rotation(handle, 3400);
 	vst_height(handle, 96, NULL, NULL, NULL, NULL);
 	v_gtext(handle, 250, 250, "hi there!");
+	vst_rotation(handle, 0);
 	
 	vswr_mode(handle, WR_TRANSPARENT);
 	
@@ -326,9 +328,34 @@ int main(int argc, const char * argv[])
 		//int16_t mode = ((int16_t)0x8000) | S_ONLY;
 		//vro_cpyfm(handle, mode, pxy, &dst, &screen);
 		
-		int16_t cols[2] = {1,0};
+		int16_t cols[2] = {1,6};
 		int16_t mode = ((int16_t)0x8000) | WR_REV_TRANS;
 		vrt_cpyfm(handle, mode, pxy, &dst, &screen, cols);
+		
+		
+		src.fd_addr 	= colourIcons.cIcons[29].icons[1].colData;
+		src.fd_stand	= MFDB_STANDARD;
+		src.fd_nplanes	= colourIcons.cIcons[29].icons[1].numPlanes;
+		src.fd_r1		= 0;
+		src.fd_r2		= 0;
+		src.fd_r3		= 0;
+
+		memset(&dst, 0, sizeof(MFDB));
+		screen = dst;
+
+		vr_trnfm(handle, &src, &dst);
+		px = 300;
+		py = 300;
+		int16_t pxy2[8]	=
+			{
+			0, 0,
+			src.fd_w-1, src.fd_h-1,
+			px, py,
+			px+src.fd_w*4, py+src.fd_h*4,
+			};
+
+		mode = ((int16_t)0x8000) | S_ONLY;
+		vro_cpyfm(handle, mode, pxy2, &dst, &screen);
 		}
 	else
 		fprintf(stderr, "Failed to load colour icons\n");
