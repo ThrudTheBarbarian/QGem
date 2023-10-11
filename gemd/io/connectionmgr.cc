@@ -1,3 +1,4 @@
+#include "aes.h"
 #include "clientmsg.h"
 #include "connectionmgr.h"
 #include "screen.h"
@@ -136,323 +137,331 @@ void ConnectionMgr::_incomingData(void)
 		fprintf(stderr, "Despatch message of type: %d\n", cm.type());
 		switch (cm.type())
 			{
-			case ClientMsg::V_CLRWK:		// 3
+			case ClientMsg::V_CLRWK:				// 3
 				VDI::sharedInstance().v_clrwk(ws);
 				break;
 
-			case ClientMsg::VQ_CHCELLS:		// 5.1
+			case ClientMsg::VQ_CHCELLS:				// 5.1
 				VDI::sharedInstance().vq_chcells(ws, &cm);
 				break;
 
-			case ClientMsg::VQ_EXIT_CUR:	// 5.3
+			case ClientMsg::VQ_EXIT_CUR:			// 5.3
 				VDI::sharedInstance().vq_exit_cur(ws);
 				break;
 
-			case ClientMsg::V_ENTER_CUR:	// 5.3
+			case ClientMsg::V_ENTER_CUR:			// 5.3
 				VDI::sharedInstance().v_enter_cur(ws);
 				break;
 
-			case ClientMsg::V_CURUP:		// 5.4
+			case ClientMsg::V_CURUP:				// 5.4
 				VDI::sharedInstance().v_curup(ws);
 				break;
 
-			case ClientMsg::V_CURDOWN:		// 5.5
+			case ClientMsg::V_CURDOWN:				// 5.5
 				VDI::sharedInstance().v_curdown(ws);
 				break;
 
-			case ClientMsg::V_CURRIGHT:		// 5.6
+			case ClientMsg::V_CURRIGHT:				// 5.6
 				VDI::sharedInstance().v_curright(ws);
 				break;
 
-			case ClientMsg::V_CURLEFT:		// 5.7
+			case ClientMsg::V_CURLEFT:				// 5.7
 				VDI::sharedInstance().v_curleft(ws);
 				break;
 
-			case ClientMsg::V_CURHOME:		// 5.8
+			case ClientMsg::V_CURHOME:				// 5.8
 				VDI::sharedInstance().v_curhome(ws);
 				break;
 
-			case ClientMsg::V_EEOS:			// 5.9
+			case ClientMsg::V_EEOS:					// 5.9
 				VDI::sharedInstance().v_eeos(ws);
 				break;
 
-			case ClientMsg::V_EEOL:			// 5.10
+			case ClientMsg::V_EEOL:					// 5.10
 				VDI::sharedInstance().v_eeol(ws);
 				break;
 
-			case ClientMsg::VS_CURADDRESS:	// 5.11
+			case ClientMsg::VS_CURADDRESS:			// 5.11
 				VDI::sharedInstance().vs_curaddress(ws, &cm);
 				break;
 
-			case ClientMsg::V_CURTEXT:		// 5.12
+			case ClientMsg::V_CURTEXT:				// 5.12
 				VDI::sharedInstance().v_curtext(ws, &cm);
 				break;
 
-			case ClientMsg::V_RVON	:		// 5.13
+			case ClientMsg::V_RVON	:				// 5.13
 				VDI::sharedInstance().v_rvon(ws);
 				break;
 
-			case ClientMsg::V_RVOFF:		// 5.14
+			case ClientMsg::V_RVOFF:				// 5.14
 				VDI::sharedInstance().v_rvoff(ws);
 				break;
 
-			case ClientMsg::VQ_CURADDRESS:	// 5.15
+			case ClientMsg::VQ_CURADDRESS:			// 5.15
 				VDI::sharedInstance().vq_curaddress(ws, &cm);
 				break;
 
-			case ClientMsg::V_DSPCUR:		// 5.18
+			case ClientMsg::V_DSPCUR:				// 5.18
 				VDI::sharedInstance().v_dspcur(ws, &cm);
 				break;
 
-			case ClientMsg::V_RMCUR:		// 5.19
+			case ClientMsg::V_RMCUR:				// 5.19
 				VDI::sharedInstance().v_rmcur(ws);
 				break;
 
-			case ClientMsg::V_PLINE:		// 6
+			case ClientMsg::V_PLINE:				// 6
 				VDI::sharedInstance().v_pline(ws, &cm);
 				break;
 
-			case ClientMsg::V_PMARKER:		// 7
+			case ClientMsg::V_PMARKER:				// 7
 				VDI::sharedInstance().v_pmarker(ws, &cm);
 				break;
 
-			case ClientMsg::V_GTEXT:		// 8
+			case ClientMsg::V_GTEXT:				// 8
 				VDI::sharedInstance().v_gtext(ws, &cm);
 				break;
 
-			case ClientMsg::V_FILLAREA:		// 9
+			case ClientMsg::V_FILLAREA:				// 9
 				VDI::sharedInstance().v_fillarea(ws, &cm);
 				break;
 
-			case ClientMsg::V_BAR:			// 11.1
+			case ClientMsg::V_BAR:					// 11.1
 				VDI::sharedInstance().v_bar(ws, &cm);
 				break;
 
-			case ClientMsg::V_ARC:			// 11.2
+			case ClientMsg::V_ARC:					// 11.2
 				VDI::sharedInstance().v_arc(ws, &cm);
 				break;
 
-			case ClientMsg::V_PIE:			// 11.3
+			case ClientMsg::V_PIE:					// 11.3
 				VDI::sharedInstance().v_pie(ws, &cm);
 				break;
 
-			case ClientMsg::V_CIRCLE:		// 11.4
+			case ClientMsg::V_CIRCLE:				// 11.4
 				VDI::sharedInstance().v_circle(ws, &cm);
 				break;
 
-			case ClientMsg::V_ELLIPSE:		// 11.5
+			case ClientMsg::V_ELLIPSE:				// 11.5
 				VDI::sharedInstance().v_ellipse(ws, &cm);
 				break;
 
-			case ClientMsg::V_ELLARC:		// 11.6
+			case ClientMsg::V_ELLARC:				// 11.6
 				VDI::sharedInstance().v_ellarc(ws, &cm);
 				break;
 
-			case ClientMsg::V_ELLPIE:		// 11.7
+			case ClientMsg::V_ELLPIE:				// 11.7
 				VDI::sharedInstance().v_ellpie(ws, &cm);
 				break;
 
-			case ClientMsg::V_RBOX:			// 11.8
+			case ClientMsg::V_RBOX:					// 11.8
 				VDI::sharedInstance().v_rbox(ws, &cm);
 				break;
 
-			case ClientMsg::V_RFBOX:		// 11.9
+			case ClientMsg::V_RFBOX:				// 11.9
 				VDI::sharedInstance().v_rfbox(ws, &cm);
 				break;
 
-			case ClientMsg::V_JUSTIFIED:		// 11.10
+			case ClientMsg::V_JUSTIFIED:			// 11.10
 				VDI::sharedInstance().v_justified(ws, &cm);
 				break;
 
-			case ClientMsg::VST_HEIGHT:		// 12
+			case ClientMsg::VST_HEIGHT:				// 12
 				VDI::sharedInstance().vst_height(ws, &cm);
 				break;
 
-			case ClientMsg::VST_ROTATION:	// 13
+			case ClientMsg::VST_ROTATION:			// 13
 				VDI::sharedInstance().vst_rotation(ws, &cm);
 				break;
 
-			case ClientMsg::VS_COLOR:		// 14
+			case ClientMsg::VS_COLOR:				// 14
 				VDI::sharedInstance().vs_color(ws, &cm);
 				break;
 
-			case ClientMsg::VSL_TYPE:		// 15
+			case ClientMsg::VSL_TYPE:				// 15
 				VDI::sharedInstance().vsl_type(ws, &cm);
 				break;
 
-			case ClientMsg::VSL_WIDTH:		// 16
+			case ClientMsg::VSL_WIDTH:				// 16
 				VDI::sharedInstance().vsl_width(ws, &cm);
 				break;
 
-			case ClientMsg::VSL_COLOR:		// 17
+			case ClientMsg::VSL_COLOR:				// 17
 				VDI::sharedInstance().vsl_color(ws, &cm);
 				break;
 
-			case ClientMsg::VSM_TYPE:		// 18
+			case ClientMsg::VSM_TYPE:				// 18
 				VDI::sharedInstance().vsm_type(ws, &cm);
 				break;
 
-			case ClientMsg::VSM_HEIGHT:		// 19
+			case ClientMsg::VSM_HEIGHT:				// 19
 				VDI::sharedInstance().vsm_height(ws, &cm);
 				break;
 
-			case ClientMsg::VSM_COLOR:		// 20
+			case ClientMsg::VSM_COLOR:				// 20
 				VDI::sharedInstance().vsm_color(ws, &cm);
 				break;
 
-			case ClientMsg::VST_FONT:		// 21
+			case ClientMsg::VST_FONT:				// 21
 				VDI::sharedInstance().vst_font(ws, &cm);
 				break;
 
-			case ClientMsg::VST_COLOR:		// 22
+			case ClientMsg::VST_COLOR:				// 22
 				VDI::sharedInstance().vst_color(ws, &cm);
 				break;
 
-			case ClientMsg::VSF_INTERIOR:	// 23
+			case ClientMsg::VSF_INTERIOR:			// 23
 				VDI::sharedInstance().vsf_interior(ws, &cm);
 				break;
 
-			case ClientMsg::VSF_STYLE:		// 24
+			case ClientMsg::VSF_STYLE:				// 24
 				VDI::sharedInstance().vsf_style(ws, &cm);
 				break;
 
-			case ClientMsg::VSF_COLOR:		// 25
+			case ClientMsg::VSF_COLOR:				// 25
 				VDI::sharedInstance().vsf_color(ws, &cm);
 				break;
 
-			case ClientMsg::VQ_COLOR:		// 26
+			case ClientMsg::VQ_COLOR:				// 26
 				VDI::sharedInstance().vq_color(ws, &cm);
 				break;
 
-			case ClientMsg::VSWR_MODE:		// 32
+			case ClientMsg::VSWR_MODE:				// 32
 				VDI::sharedInstance().vswr_mode(ws, &cm);
 				break;
 
-			case ClientMsg::VSIN_MODE:		// 33
+			case ClientMsg::VSIN_MODE:				// 33
 				VDI::sharedInstance().vsin_mode(ws, &cm);
 				break;
 
-			case ClientMsg::VQL_ATTRIBUTES:	// 35
+			case ClientMsg::VQL_ATTRIBUTES:			// 35
 				VDI::sharedInstance().vql_attributes(ws, &cm);
 				break;
 
-			case ClientMsg::VQM_ATTRIBUTES:	// 36
+			case ClientMsg::VQM_ATTRIBUTES:			// 36
 				VDI::sharedInstance().vqm_attributes(ws, &cm);
 				break;
 
-			case ClientMsg::VQF_ATTRIBUTES:	// 37
+			case ClientMsg::VQF_ATTRIBUTES:			// 37
 				VDI::sharedInstance().vqf_attributes(ws, &cm);
 				break;
 
-			case ClientMsg::VQT_ATTRIBUTES:	// 38
+			case ClientMsg::VQT_ATTRIBUTES:			// 38
 				VDI::sharedInstance().vqt_attributes(ws, &cm);
 				break;
 
-			case ClientMsg::VST_ALIGNMENT:	// 39
+			case ClientMsg::VST_ALIGNMENT:			// 39
 				VDI::sharedInstance().vst_alignment(ws, &cm);
 				break;
 
-			case ClientMsg::VS_PIXRGB	:	// 59
+			case ClientMsg::VS_PIXRGB	:			// 59
 				VDI::sharedInstance().vs_pixrgb(ws, &cm);
 				break;
 
-			case ClientMsg::VQ_PIXRGB	:	// 60
+			case ClientMsg::VQ_PIXRGB	:			// 60
 				VDI::sharedInstance().vq_pixrgb(ws, &cm);
 				break;
 
-			case ClientMsg::V_OPNVWK:		// 100
+			case ClientMsg::V_OPNVWK:				// 100
 				VDI::sharedInstance().v_opnvwk(ws, &cm);
 				break;
 
-			case ClientMsg::VQ_EXTND:		// 102
+			case ClientMsg::VQ_EXTND:				// 102
 				VDI::sharedInstance().vq_extnd(ws, &cm);
 				break;
 
-			case ClientMsg::V_CONTOURFILL:	// 103
+			case ClientMsg::V_CONTOURFILL:			// 103
 				VDI::sharedInstance().v_contourfill(ws, &cm);
 				break;
 
-			case ClientMsg::V_GET_PIXEL:	// 105
+			case ClientMsg::V_GET_PIXEL:			// 105
 				VDI::sharedInstance().v_get_pixel(ws, &cm);
 				break;
 
-			case ClientMsg::VSF_PERIMETER:	// 105
+			case ClientMsg::VSF_PERIMETER:			// 105
 				VDI::sharedInstance().vsf_perimeter(ws, &cm);
 				break;
 
-			case ClientMsg::VST_EFFECTS:	// 106
+			case ClientMsg::VST_EFFECTS:			// 106
 				VDI::sharedInstance().vst_effects(ws, &cm);
 				break;
 
-			case ClientMsg::VST_POINT:		// 107
+			case ClientMsg::VST_POINT:				// 107
 				VDI::sharedInstance().vst_point(ws, &cm);
 				break;
 
-			case ClientMsg::VSL_ENDS:		// 108
+			case ClientMsg::VSL_ENDS:				// 108
 				VDI::sharedInstance().vsl_ends(ws, &cm);
 				break;
 
-			case ClientMsg::VRO_CPYFM:		// 109
+			case ClientMsg::VRO_CPYFM:				// 109
 				VDI::sharedInstance().vro_cpyfm(ws, &cm);
 				break;
 
-			case ClientMsg::VSC_FORM:		// 111
+			case ClientMsg::VSC_FORM:				// 111
 				VDI::sharedInstance().vsc_form(ws, &cm);
 				break;
 
-			case ClientMsg::VSF_UDPAT:		// 112
+			case ClientMsg::VSF_UDPAT:				// 112
 				VDI::sharedInstance().vsf_udpat(ws, &cm);
 				break;
 
-			case ClientMsg::VSF_UDSTY:		// 113
+			case ClientMsg::VSF_UDSTY:				// 113
 				VDI::sharedInstance().vsf_udsty(ws, &cm);
 				break;
 
-			case ClientMsg::VQIN_MODE:		// 115
+			case ClientMsg::VQIN_MODE:				// 115
 				VDI::sharedInstance().vqin_mode(ws, &cm);
 				break;
 
-			case ClientMsg::VQT_EXTENT:		// 116
+			case ClientMsg::VQT_EXTENT:				// 116
 				VDI::sharedInstance().vqt_extent(ws, &cm);
 				break;
 
-			case ClientMsg::VQT_WIDTH:		// 117
+			case ClientMsg::VQT_WIDTH:				// 117
 				VDI::sharedInstance().vqt_width(ws, &cm);
 				break;
 
-			case ClientMsg::VEX_TIMV:		// 118
+			case ClientMsg::VEX_TIMV:				// 118
 				VDI::sharedInstance().vex_timv(ws, &cm);
 				break;
 
-			case ClientMsg::VST_LOAD_FONTS:	// 119
+			case ClientMsg::VST_LOAD_FONTS:			// 119
 				VDI::sharedInstance().vst_load_fonts(ws, &cm);
 				break;
 
-			case ClientMsg::VRT_CPYFM:		// 121
+			case ClientMsg::VRT_CPYFM:				// 121
 				VDI::sharedInstance().vrt_cpyfm(ws, &cm);
 				break;
 
-			case ClientMsg::V_SHOW_C:		// 122
+			case ClientMsg::V_SHOW_C:				// 122
 				VDI::sharedInstance().v_show_c(ws, &cm);
 				break;
 
-			case ClientMsg::V_HIDE_C:		// 123
+			case ClientMsg::V_HIDE_C:				// 123
 				VDI::sharedInstance().v_hide_c(ws, &cm);
 				break;
 
-			case ClientMsg::VS_CLIP:		// 129
+			case ClientMsg::VS_CLIP:				// 129
 				VDI::sharedInstance().vs_clip(ws, &cm);
 				break;
 
-			case ClientMsg::VQT_NAME:		// 130
+			case ClientMsg::VQT_NAME:				// 130
 				VDI::sharedInstance().vqt_name(ws, &cm);
 				break;
 
-			case ClientMsg::VQ_COLOURS:		// 2026
+			case ClientMsg::VQ_COLOURS:				// 2026
 				VDI::sharedInstance().vq_colours(ws, &cm);
 				break;
 
-			case ClientMsg::EVT_FILTER_SET:	// 17100
+
+			case ClientMsg::AES_APPL_INIT:			// 6007
+				AES::sharedInstance().appl_init(ws, &cm);
+
+			case ClientMsg::AES_GRAF_HANDLE:		// 6902
+				AES::sharedInstance().graf_handle(ws, &cm);
+
+
+			case ClientMsg::EVT_FILTER_SET:			// 17100
 				VDI::sharedInstance().setEventFilter(ws, &cm);
 				break;
 

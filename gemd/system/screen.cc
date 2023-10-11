@@ -62,7 +62,7 @@ void Screen::doFrameUpdate(void)
 	if (count == 3)		// 60fps/3 ~= 20 times per second.
 		{
 		count = 0;
-		TimerList list = _conmgr->timerList();
+		HandleList list = _conmgr->timerList();
 		for (qintptr handle : list)
 			{
 			ClientMsg msg;

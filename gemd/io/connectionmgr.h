@@ -25,7 +25,7 @@ class ConnectionMgr : public QObject
 	/*************************************************************************\
 	|* Properties
 	\*************************************************************************/
-	GET(TimerList, timerList);					// List of handles that have
+	GET(HandleList, timerList);					// List of handles that have
 												// timer-events registered
 
 	/*************************************************************************\

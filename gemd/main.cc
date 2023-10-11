@@ -1,3 +1,4 @@
+#include "aes.h"
 #include "fontmgr.h"
 #include "screen.h"
 #include "vdi.h"
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
 
 	VDI& vdi		= VDI::sharedInstance();
 	FontMgr& fm		= FontMgr::sharedInstance();
+	AES& aes		= AES::sharedInstance();
 
 	/*************************************************************************\
 	|* Set the system root dir into the classes that want it
@@ -33,6 +35,7 @@ int main(int argc, char *argv[])
 	\*************************************************************************/
 	vdi.setScreen(w);
 	fm.initialise();
+	aes.setVdi(&vdi);
 
 	/*************************************************************************\
 	|* Open the physical workstation

@@ -13,7 +13,6 @@
 |* Forward declarations
 \*****************************************************************************/
 class ClientMsg;
-class SocketThread;
 class Screen;
 class Workstation;
 
@@ -56,7 +55,6 @@ class VDI : public QObject
 		/*********************************************************************\
 		|* Private state
 		\*********************************************************************/
-		SocketThread *_io;				// Thread to run socket io
 		Workstation *_dpy;				// Physical workstation
 		Screen *_screen;				// Main window
 		QImage *_img;					// Where drawing happens

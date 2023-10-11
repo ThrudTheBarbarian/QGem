@@ -33,7 +33,7 @@ typedef struct
 	typedef std::vector<int16_t>	Payload;
 	typedef std::vector<uint8_t>	ByteStream;
 	typedef QList<qreal> 			LineStyle;
-	typedef QList<qintptr>			TimerList;
+	typedef QList<qintptr>			HandleList;
 	typedef QList<QRgb>				Palette;
 #endif
 

@@ -1,6 +1,7 @@
 #ifndef AES_H
 #define AES_H
 
+#include <QMap>
 #include <QObject>
 
 #include "gemTypes.h"
@@ -9,7 +10,9 @@
 /*****************************************************************************\
 |* Forward declarations
 \*****************************************************************************/
-
+class ClientMsg;
+class VDI;
+class Workstation;
 
 /*****************************************************************************\
 |* Class declaration
@@ -33,11 +36,25 @@ class AES : public QObject
 		/*********************************************************************\
 		|* Typedefs and enums
 		\*********************************************************************/
+		typedef struct
+			{
+			int16_t appId;			// Application id
+			} AppContext;
+
+
+		typedef QMap<qintptr, AppContext>	HandleMap;
+
+		/*********************************************************************\
+		|* Properties
+		\*********************************************************************/
+		GETSETP(VDI*, vdi, Vdi);	// Accessor to most of the internals
+		GET(HandleMap, apps);
 
 	private:
 		/*********************************************************************\
 		|* Private state
 		\*********************************************************************/
+		int16_t _nextApp;		// Counter for application-id
 
 		/*********************************************************************\
 		|* Private constructor
@@ -62,8 +79,19 @@ class AES : public QObject
 		AES(AES const&)                 = delete;
 		void operator=(AES const&)      = delete;
 
+		#pragma mark - AES operations
 
-	#pragma mark - AES operations
+		/*********************************************************************\
+		|* 6007: Register the application with the AES and get an app-id
+		\*********************************************************************/
+		int16_t appl_init(qintptr handle);
+		void	appl_init(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|* 6902: Retrieve the AES physical workstation id and char stats
+		\*********************************************************************/
+		int16_t graf_handle(qintptr handle, int16_t *info);
+		void	graf_handle(Workstation *ws, ClientMsg *cm);
 
 	};
 

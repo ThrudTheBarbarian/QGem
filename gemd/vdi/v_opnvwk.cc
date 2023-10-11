@@ -1,6 +1,5 @@
 #include "clientmsg.h"
 #include "gem.h"
-#include "macros.h"
 #include "screen.h"
 #include "vdi.h"
 #include "workstation.h"
@@ -140,7 +139,7 @@ void VDI::v_opnvwk(Workstation *ws, ClientMsg *cm)
 	cm->append(120);				// 55: maximum marker width in pixels
 	cm->append(88);					// 56: maximum marker height in pixels
 	cm->append(ws->client()->socketDescriptor());
-	cm->setType(ClientMsg::MSG_REPLY_OFFSET + ClientMsg::V_OPNVWK);
+	cm->setType(MSG_REPLY(ClientMsg::V_OPNVWK));
 
 
 	/**************************************************************************\

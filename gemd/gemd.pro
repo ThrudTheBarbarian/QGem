@@ -5,11 +5,13 @@ CONFIG+=sdk_no_version_check
 INCLUDEPATH +=  $$PWD/../shared \
 				$$PWD/io \
 				$$PWD/system  \
-				$$PWD/vdi
+				$$PWD/vdi \
+				$$PWD/aes
 
 SOURCES += \
 	aes/aes.cc \
     aes/appl_init.cc \
+	aes/graf_handle.cc \
 	io/clientmsg.cc \
     io/connectionmgr.cc \
     system/fillfactory.cc \

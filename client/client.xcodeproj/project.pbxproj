@@ -119,6 +119,11 @@
 		F49059442ACFB26200F4F288 /* vex_motv.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059432ACFB26200F4F288 /* vex_motv.c */; };
 		F49059462ACFB41A00F4F288 /* vex_curv.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059452ACFB41A00F4F288 /* vex_curv.c */; };
 		F49059482ACFB97600F4F288 /* vq_key_s.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059472ACFB97600F4F288 /* vq_key_s.c */; };
+		F4BAB29C2AD61DBE00DBAD9F /* appl_init.c in Sources */ = {isa = PBXBuildFile; fileRef = F4BAB29B2AD61DBE00DBAD9F /* appl_init.c */; };
+		F4BAB2A42AD6446600DBAD9F /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4BAB2A32AD6446600DBAD9F /* main.c */; };
+		F4BAB2AD2AD645DD00DBAD9F /* libgemc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E340AA2AAAD3E1002390BA /* libgemc.a */; };
+		F4BAB2AE2AD645DD00DBAD9F /* librsrc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F46A86632ABE9C1800FA3ABC /* librsrc.a */; };
+		F4BAB2B12AD64B8B00DBAD9F /* graf_handle.c in Sources */ = {isa = PBXBuildFile; fileRef = F4BAB2B02AD64B8B00DBAD9F /* graf_handle.c */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -159,6 +164,20 @@
 			remoteGlobalIDString = F46A86622ABE9C1800FA3ABC;
 			remoteInfo = rsrc;
 		};
+		F4BAB2A92AD645D500DBAD9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E340942AAAD389002390BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4E340A92AAAD3E1002390BA;
+			remoteInfo = gemc;
+		};
+		F4BAB2AB2AD645D500DBAD9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E340942AAAD389002390BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F46A86622ABE9C1800FA3ABC;
+			remoteInfo = rsrc;
+		};
 		F4E340C12AAADF56002390BA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F4E340942AAAD389002390BA /* Project object */;
@@ -179,6 +198,15 @@
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 		F46A86712ABEA73A00FA3ABC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		F4BAB29F2AD6446600DBAD9F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -315,6 +343,11 @@
 		F49059432ACFB26200F4F288 /* vex_motv.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vex_motv.c; sourceTree = "<group>"; };
 		F49059452ACFB41A00F4F288 /* vex_curv.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vex_curv.c; sourceTree = "<group>"; };
 		F49059472ACFB97600F4F288 /* vq_key_s.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_key_s.c; sourceTree = "<group>"; };
+		F4BAB29B2AD61DBE00DBAD9F /* appl_init.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = appl_init.c; sourceTree = "<group>"; };
+		F4BAB2A12AD6446600DBAD9F /* aestest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = aestest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4BAB2A32AD6446600DBAD9F /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		F4BAB2A82AD6451400DBAD9F /* aes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
+		F4BAB2B02AD64B8B00DBAD9F /* graf_handle.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = graf_handle.c; sourceTree = "<group>"; };
 		F4E3409C2AAAD389002390BA /* client */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = client; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E3409F2AAAD389002390BA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E340AA2AAAD3E1002390BA /* libgemc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgemc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -350,6 +383,15 @@
 			files = (
 				F46A867E2ABEA75000FA3ABC /* libgemc.a in Frameworks */,
 				F46A867F2ABEA75000FA3ABC /* librsrc.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4BAB29E2AD6446600DBAD9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4BAB2AD2AD645DD00DBAD9F /* libgemc.a in Frameworks */,
+				F4BAB2AE2AD645DD00DBAD9F /* librsrc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,14 +449,33 @@
 			path = rscdump;
 			sourceTree = "<group>";
 		};
+		F4BAB29A2AD61D8900DBAD9F /* aes */ = {
+			isa = PBXGroup;
+			children = (
+				F4BAB2A82AD6451400DBAD9F /* aes.h */,
+				F4BAB29B2AD61DBE00DBAD9F /* appl_init.c */,
+				F4BAB2B02AD64B8B00DBAD9F /* graf_handle.c */,
+			);
+			path = aes;
+			sourceTree = "<group>";
+		};
+		F4BAB2A22AD6446600DBAD9F /* aestest */ = {
+			isa = PBXGroup;
+			children = (
+				F4BAB2A32AD6446600DBAD9F /* main.c */,
+			);
+			path = aestest;
+			sourceTree = "<group>";
+		};
 		F4E340932AAAD389002390BA = {
 			isa = PBXGroup;
 			children = (
 				F46A86672ABE9C5100FA3ABC /* rsrc */,
 				F4E340AE2AAAD43B002390BA /* gemc */,
-				F4E3409E2AAAD389002390BA /* gemtest */,
+				F4E3409E2AAAD389002390BA /* vditest */,
 				F46A86562ABB89B100FA3ABC /* vr_trnfm */,
 				F46A86742ABEA73A00FA3ABC /* rscdump */,
+				F4BAB2A22AD6446600DBAD9F /* aestest */,
 				F4E3409D2AAAD389002390BA /* Products */,
 				F4E340BF2AAADF4F002390BA /* Frameworks */,
 			);
@@ -428,21 +489,23 @@
 				F46A86552ABB89B100FA3ABC /* vr_trnfm */,
 				F46A86632ABE9C1800FA3ABC /* librsrc.a */,
 				F46A86732ABEA73A00FA3ABC /* rscdump */,
+				F4BAB2A12AD6446600DBAD9F /* aestest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F4E3409E2AAAD389002390BA /* gemtest */ = {
+		F4E3409E2AAAD389002390BA /* vditest */ = {
 			isa = PBXGroup;
 			children = (
 				F4E3409F2AAAD389002390BA /* main.c */,
 			);
-			path = gemtest;
+			path = vditest;
 			sourceTree = "<group>";
 		};
 		F4E340AE2AAAD43B002390BA /* gemc */ = {
 			isa = PBXGroup;
 			children = (
+				F4BAB29A2AD61D8900DBAD9F /* aes */,
 				F4E340B92AAADE13002390BA /* util */,
 				F4E340B32AAAD6C3002390BA /* internal */,
 				F4E340B12AAAD6C3002390BA /* vdi */,
@@ -666,6 +729,26 @@
 			productReference = F46A86732ABEA73A00FA3ABC /* rscdump */;
 			productType = "com.apple.product-type.tool";
 		};
+		F4BAB2A02AD6446600DBAD9F /* aestest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4BAB2A52AD6446600DBAD9F /* Build configuration list for PBXNativeTarget "aestest" */;
+			buildPhases = (
+				F4BAB29D2AD6446600DBAD9F /* Sources */,
+				F4BAB29E2AD6446600DBAD9F /* Frameworks */,
+				F4BAB29F2AD6446600DBAD9F /* CopyFiles */,
+				F4BAB2AF2AD6468A00DBAD9F /* Install in ~/bin */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F4BAB2AA2AD645D500DBAD9F /* PBXTargetDependency */,
+				F4BAB2AC2AD645D500DBAD9F /* PBXTargetDependency */,
+			);
+			name = aestest;
+			productName = aestest;
+			productReference = F4BAB2A12AD6446600DBAD9F /* aestest */;
+			productType = "com.apple.product-type.tool";
+		};
 		F4E3409B2AAAD389002390BA /* client */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4E340A32AAAD389002390BA /* Build configuration list for PBXNativeTarget "client" */;
@@ -720,6 +803,9 @@
 					F46A86722ABEA73A00FA3ABC = {
 						CreatedOnToolsVersion = 14.0.1;
 					};
+					F4BAB2A02AD6446600DBAD9F = {
+						CreatedOnToolsVersion = 14.0.1;
+					};
 					F4E3409B2AAAD389002390BA = {
 						CreatedOnToolsVersion = 14.0.1;
 					};
@@ -746,6 +832,7 @@
 				F46A86542ABB89B100FA3ABC /* vr_trnfm */,
 				F46A86622ABE9C1800FA3ABC /* rsrc */,
 				F46A86722ABEA73A00FA3ABC /* rscdump */,
+				F4BAB2A02AD6446600DBAD9F /* aestest */,
 			);
 		};
 /* End PBXProject section */
@@ -768,6 +855,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncp \"$BUILT_PRODUCTS_DIR/rscdump\" \"$HOME/bin\"\n";
+		};
+		F4BAB2AF2AD6468A00DBAD9F /* Install in ~/bin */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Install in ~/bin";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncp \"$BUILT_PRODUCTS_DIR/aestest\" \"$HOME/bin\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -797,6 +902,14 @@
 				F46A86872ABFDBDF00FA3ABC /* match.c in Sources */,
 				F46A868A2ABFEE1E00FA3ABC /* listing.c in Sources */,
 				F46A86902AC0997B00FA3ABC /* export.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4BAB29D2AD6446600DBAD9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4BAB2A42AD6446600DBAD9F /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -854,6 +967,7 @@
 				F46A86832ABEA97200FA3ABC /* args.c in Sources */,
 				F46A85C42AAEB99600FA3ABC /* v_curdown.c in Sources */,
 				F4E340BD2AAADE13002390BA /* vec.c in Sources */,
+				F4BAB29C2AD61DBE00DBAD9F /* appl_init.c in Sources */,
 				F46A86322AB67A4F00FA3ABC /* vq_color.c in Sources */,
 				F4E340C62AAAE05A002390BA /* gemmsg.c in Sources */,
 				F46A86082AB3A7BA00FA3ABC /* vst_effects.c in Sources */,
@@ -884,6 +998,7 @@
 				F490593A2ACD262C00F4F288 /* vst_unload_fonts.c in Sources */,
 				F4680BE32ACB268D0020BB5B /* vsc_form.c in Sources */,
 				F46A85BA2AAEA5A100FA3ABC /* vq_chcells.c in Sources */,
+				F4BAB2B12AD64B8B00DBAD9F /* graf_handle.c in Sources */,
 				F46A85EC2AAF684D00FA3ABC /* v_clear_disp_list.c in Sources */,
 				F46A86162AB4F82C00FA3ABC /* vsf_perimeter.c in Sources */,
 				F46A85E22AAF646100FA3ABC /* v_dspcur.c in Sources */,
@@ -939,6 +1054,16 @@
 			isa = PBXTargetDependency;
 			target = F46A86622ABE9C1800FA3ABC /* rsrc */;
 			targetProxy = F49059312ACA3C0E00F4F288 /* PBXContainerItemProxy */;
+		};
+		F4BAB2AA2AD645D500DBAD9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4E340A92AAAD3E1002390BA /* gemc */;
+			targetProxy = F4BAB2A92AD645D500DBAD9F /* PBXContainerItemProxy */;
+		};
+		F4BAB2AC2AD645D500DBAD9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F46A86622ABE9C1800FA3ABC /* rsrc */;
+			targetProxy = F4BAB2AB2AD645D500DBAD9F /* PBXContainerItemProxy */;
 		};
 		F4E340C22AAADF56002390BA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1022,6 +1147,30 @@
 					"$(PROJECT_DIR)/../gemd",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		F4BAB2A62AD6446600DBAD9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Debug;
+		};
+		F4BAB2A72AD6446600DBAD9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -1206,6 +1355,15 @@
 			buildConfigurations = (
 				F46A86782ABEA73A00FA3ABC /* Debug */,
 				F46A86792ABEA73A00FA3ABC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4BAB2A52AD6446600DBAD9F /* Build configuration list for PBXNativeTarget "aestest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4BAB2A62AD6446600DBAD9F /* Debug */,
+				F4BAB2A72AD6446600DBAD9F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

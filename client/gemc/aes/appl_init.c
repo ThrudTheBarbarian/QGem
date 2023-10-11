@@ -1,8 +1,8 @@
 //
-//  vq_chcells.c
+//  appl_init.c
 //  gemc
 //
-//  Created by ThrudTheBarbarian on 9/10/23.
+//  Created by ThrudTheBarbarian on 10/10/23.
 //
 
 #include <stdio.h>
@@ -12,40 +12,44 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*   5.1 : Get the number of character cells on the alpha screen
+|*  6007 : appl_init()
+|*		 : Registers the application under AES
 \*****************************************************************************/
-void vq_chcells(int16_t handle, int16_t* rows, int16_t* cols)
+int16_t appl_init(void)
 	{
+	int16_t appId = -1;
+	
 	/*************************************************************************\
 	|* Check to see if we're connected
 	\*************************************************************************/
 	if (!_gemIoIsConnected())
 		if (!_gemIoConnect())
-			return;
+			return appId;
 	
 	/*************************************************************************\
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_VQ_CHCELLS);
+	_gemMsgInit(&msg, MSG_AES_APPL_INIT);
 	_gemIoWrite(&msg);
-	
+
 	/*************************************************************************\
 	|* Wait for a response
 	\*************************************************************************/
-	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_VQ_CHCELLS));
+	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_AES_APPL_INIT));
 
 	/*************************************************************************\
-	|* Copy data over if space is allocated
+	|* Get back an application handle
 	\*************************************************************************/
-	if (rows != NULL)
-		*rows = ntohs(msg.vec.data[0]);
-		
-	if (cols != NULL)
-		*cols = ntohs(msg.vec.data[1]);
-		
+	appId = ntohs(msg.vec.data[0]);
+	
 	/*************************************************************************\
 	|* Clear the message allocations
 	\*************************************************************************/
 	_gemMsgDestroy(&msg);
+		
+	/*************************************************************************\
+	|* Return the app-id
+	\*************************************************************************/
+	return appId;
 	}

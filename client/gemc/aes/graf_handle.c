@@ -1,8 +1,8 @@
 //
-//  vq_chcells.c
+//  graf_handle.c
 //  gemc
 //
-//  Created by ThrudTheBarbarian on 9/10/23.
+//  Created by ThrudTheBarbarian on 10/10/23.
 //
 
 #include <stdio.h>
@@ -12,40 +12,46 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*   5.1 : Get the number of character cells on the alpha screen
+|*  6902 : graf_handle()
+|*		 : Retrieves the AES physical workstation id and char stats
 \*****************************************************************************/
-void vq_chcells(int16_t handle, int16_t* rows, int16_t* cols)
+int16_t graf_handle(int16_t *wchr, int16_t *hchr, int16_t *wbox, int16_t *hbox)
 	{
 	/*************************************************************************\
 	|* Check to see if we're connected
 	\*************************************************************************/
 	if (!_gemIoIsConnected())
 		if (!_gemIoConnect())
-			return;
+			return -1;
 	
 	/*************************************************************************\
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_VQ_CHCELLS);
+	_gemMsgInit(&msg, MSG_AES_GRAF_HANDLE);
 	_gemIoWrite(&msg);
-	
+
 	/*************************************************************************\
 	|* Wait for a response
 	\*************************************************************************/
-	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_VQ_CHCELLS));
+	_gemIoWaitForMessageOfType(&msg, MSG_REPLY(MSG_AES_GRAF_HANDLE));
 
 	/*************************************************************************\
-	|* Copy data over if space is allocated
+	|* Get back the physical workstation handle and character types
 	\*************************************************************************/
-	if (rows != NULL)
-		*rows = ntohs(msg.vec.data[0]);
-		
-	if (cols != NULL)
-		*cols = ntohs(msg.vec.data[1]);
-		
+	int16_t physHandle  = ntohs(msg.vec.data[0]);
+	if (wchr) *wchr		= ntohs(msg.vec.data[1]);
+	if (hchr) *hchr		= ntohs(msg.vec.data[2]);
+	if (wbox) *wbox		= ntohs(msg.vec.data[3]);
+	if (hbox) *hbox		= ntohs(msg.vec.data[4]);
+	
 	/*************************************************************************\
 	|* Clear the message allocations
 	\*************************************************************************/
 	_gemMsgDestroy(&msg);
+		
+	/*************************************************************************\
+	|* Return the app-id
+	\*************************************************************************/
+	return physHandle;
 	}

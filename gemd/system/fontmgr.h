@@ -6,7 +6,6 @@
 #include <QObject>
 #include <QStringList>
 
-#include "macros.h"
 #include "properties.h"
 
 /*****************************************************************************\
@@ -17,6 +16,12 @@ class FontMgr : public QObject
 	Q_OBJECT
 
 	public:
+
+		/*********************************************************************\
+		|* Typedefs, consts and enums
+		\*********************************************************************/
+		static const int  SYSTEM_FONT_ID	= -1;	// System font id
+
 		/*********************************************************************\
 		|* Properties
 		\*********************************************************************/
@@ -66,6 +71,13 @@ class FontMgr : public QObject
 		|* Load a font by name and return the index
 		\*********************************************************************/
 		int load(const QString& name);
+
+		/*********************************************************************\
+		|* Get the GEM char/box metrics for a font
+		\*********************************************************************/
+		bool boxMetrics(int fontId, int effects, int height,
+						int16_t& charW, int16_t& charH,
+						int16_t &boxW, int16_t& boxH);
 
 		/*********************************************************************\
 		|* Get a font by id or name
