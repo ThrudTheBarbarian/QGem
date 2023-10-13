@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "gemobject.h"
+#include "gemTypes.h"
 
 /*****************************************************************************\
 |* Define the header of the RSC file format.
@@ -47,20 +47,6 @@ typedef struct
 	uint16_t	rsh_rssize;			/* Size of file (old) or offset to the	*/
 									/*  extension arry (new)				*/
 	} RscFileHeader;
-
-/*****************************************************************************\
-|* Define the internal representation of an RSC file
-\*****************************************************************************/
-
-typedef struct
-	{
-	uint16_t	version;			/* Version, old = 0 or 1, new = 4		*/
-	uint32_t	size;				/* File size							*/
-	int 		nObjects;			/* Number of OBJECT structures 			*/
-	OBJECT *	objects;			/* Pointer to each OBJECT structure 	*/
-	int			nCicons;			/* Number of CICON structures			*/
-	CICONBLK*	cIcons;				/* The actual CICON data				*/
-	} RscFile;
 
 
 /*****************************************************************************\

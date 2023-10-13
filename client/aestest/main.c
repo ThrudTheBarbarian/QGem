@@ -5,6 +5,7 @@
 //  Created by ThrudTheBarbarian on 10/10/23.
 //
 
+#include <limits.h>
 #include <stdio.h>
 #include <unistd.h>
   
@@ -12,6 +13,7 @@
 #include "macros.h"
 #include "vdi.h"
 
+#define RSCNAME "src/QT/QGem/client/aestest/test.rsc"
 
 /*****************************************************************************\
 |* For debugging
@@ -54,6 +56,19 @@ int main(int argc, const char * argv[])
 	workIn[10]		= 2;
 	
 	v_opnvwk(workIn,&handle,workOut);
+
 	
+	/*************************************************************************\
+	|* Load up the resource file
+	\*************************************************************************/
+	char path[PATH_MAX];
+	snprintf(path, PATH_MAX, "%s/%s", getenv("HOME"), RSCNAME);
+	if(!rsrc_load(path))
+		{
+		//form_alert(1,"[1][The resource file is|missing!][Cancel]");
+		WARN("The resource file is missing!");
+		v_clsvwk(handle);
+		exit(1);
+		}
 	return 0;
 	}

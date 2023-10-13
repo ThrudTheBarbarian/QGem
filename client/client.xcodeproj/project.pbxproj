@@ -94,12 +94,8 @@
 		F46A86502ABAAAA600FA3ABC /* vro_cpyfm.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A864F2ABAAAA600FA3ABC /* vro_cpyfm.c */; };
 		F46A86582ABB89B100FA3ABC /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86572ABB89B100FA3ABC /* main.c */; };
 		F46A865E2ABB89CC00FA3ABC /* libgemc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E340AA2AAAD3E1002390BA /* libgemc.a */; };
-		F46A866A2ABE9C8E00FA3ABC /* rscfile.h in Headers */ = {isa = PBXBuildFile; fileRef = F46A86682ABE9C8E00FA3ABC /* rscfile.h */; };
-		F46A866B2ABE9C8E00FA3ABC /* rscfile.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86692ABE9C8E00FA3ABC /* rscfile.c */; };
-		F46A866D2ABEA44300FA3ABC /* gemobject.h in Headers */ = {isa = PBXBuildFile; fileRef = F46A866C2ABEA44300FA3ABC /* gemobject.h */; };
 		F46A86762ABEA73A00FA3ABC /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86752ABEA73A00FA3ABC /* main.c */; };
 		F46A867E2ABEA75000FA3ABC /* libgemc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E340AA2AAAD3E1002390BA /* libgemc.a */; };
-		F46A867F2ABEA75000FA3ABC /* librsrc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F46A86632ABE9C1800FA3ABC /* librsrc.a */; };
 		F46A86822ABEA97200FA3ABC /* args.h in Headers */ = {isa = PBXBuildFile; fileRef = F46A86802ABEA97200FA3ABC /* args.h */; };
 		F46A86832ABEA97200FA3ABC /* args.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86812ABEA97200FA3ABC /* args.c */; };
 		F46A86872ABFDBDF00FA3ABC /* match.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86862ABFDBDF00FA3ABC /* match.c */; };
@@ -107,7 +103,6 @@
 		F46A86902AC0997B00FA3ABC /* export.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A868F2AC0997B00FA3ABC /* export.c */; };
 		F46A86932AC0AAF900FA3ABC /* pam.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86922AC0AAF900FA3ABC /* pam.c */; };
 		F46A86952AC373C100FA3ABC /* vq_colours.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86942AC373C100FA3ABC /* vq_colours.c */; };
-		F49059302ACA3C0A00F4F288 /* librsrc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F46A86632ABE9C1800FA3ABC /* librsrc.a */; };
 		F49059342ACB6CC200F4F288 /* vsf_udpat.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059332ACB6CC200F4F288 /* vsf_udpat.c */; };
 		F49059362ACCDC1500F4F288 /* vqt_width.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059352ACCDC1500F4F288 /* vqt_width.c */; };
 		F49059382ACD180F00F4F288 /* vex_timv.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059372ACD180F00F4F288 /* vex_timv.c */; };
@@ -122,8 +117,10 @@
 		F4BAB29C2AD61DBE00DBAD9F /* appl_init.c in Sources */ = {isa = PBXBuildFile; fileRef = F4BAB29B2AD61DBE00DBAD9F /* appl_init.c */; };
 		F4BAB2A42AD6446600DBAD9F /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4BAB2A32AD6446600DBAD9F /* main.c */; };
 		F4BAB2AD2AD645DD00DBAD9F /* libgemc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E340AA2AAAD3E1002390BA /* libgemc.a */; };
-		F4BAB2AE2AD645DD00DBAD9F /* librsrc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F46A86632ABE9C1800FA3ABC /* librsrc.a */; };
 		F4BAB2B12AD64B8B00DBAD9F /* graf_handle.c in Sources */ = {isa = PBXBuildFile; fileRef = F4BAB2B02AD64B8B00DBAD9F /* graf_handle.c */; };
+		F4BAB2B52AD76EC100DBAD9F /* rscfile.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86692ABE9C8E00FA3ABC /* rscfile.c */; };
+		F4CBFCEE2AD771C20078C561 /* rsrc_load.c in Sources */ = {isa = PBXBuildFile; fileRef = F4CBFCED2AD771C20078C561 /* rsrc_load.c */; };
+		F4CBFCF02AD773A30078C561 /* rsrc_free.c in Sources */ = {isa = PBXBuildFile; fileRef = F4CBFCEF2AD773A30078C561 /* rsrc_free.c */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -150,33 +147,12 @@
 			remoteGlobalIDString = F4E340A92AAAD3E1002390BA;
 			remoteInfo = gemc;
 		};
-		F46A867C2ABEA74800FA3ABC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F4E340942AAAD389002390BA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F46A86622ABE9C1800FA3ABC;
-			remoteInfo = rsrc;
-		};
-		F49059312ACA3C0E00F4F288 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F4E340942AAAD389002390BA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F46A86622ABE9C1800FA3ABC;
-			remoteInfo = rsrc;
-		};
 		F4BAB2A92AD645D500DBAD9F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F4E340942AAAD389002390BA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = F4E340A92AAAD3E1002390BA;
 			remoteInfo = gemc;
-		};
-		F4BAB2AB2AD645D500DBAD9F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F4E340942AAAD389002390BA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F46A86622ABE9C1800FA3ABC;
-			remoteInfo = rsrc;
 		};
 		F4E340C12AAADF56002390BA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -314,10 +290,8 @@
 		F46A864F2ABAAAA600FA3ABC /* vro_cpyfm.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vro_cpyfm.c; sourceTree = "<group>"; };
 		F46A86552ABB89B100FA3ABC /* vr_trnfm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vr_trnfm; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46A86572ABB89B100FA3ABC /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		F46A86632ABE9C1800FA3ABC /* librsrc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = librsrc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46A86682ABE9C8E00FA3ABC /* rscfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rscfile.h; sourceTree = "<group>"; };
 		F46A86692ABE9C8E00FA3ABC /* rscfile.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rscfile.c; sourceTree = "<group>"; };
-		F46A866C2ABEA44300FA3ABC /* gemobject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gemobject.h; sourceTree = "<group>"; };
 		F46A86732ABEA73A00FA3ABC /* rscdump */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rscdump; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46A86752ABEA73A00FA3ABC /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F46A86802ABEA97200FA3ABC /* args.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = args.h; sourceTree = "<group>"; };
@@ -348,7 +322,9 @@
 		F4BAB2A32AD6446600DBAD9F /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4BAB2A82AD6451400DBAD9F /* aes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
 		F4BAB2B02AD64B8B00DBAD9F /* graf_handle.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = graf_handle.c; sourceTree = "<group>"; };
-		F4E3409C2AAAD389002390BA /* client */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = client; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4CBFCED2AD771C20078C561 /* rsrc_load.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rsrc_load.c; sourceTree = "<group>"; };
+		F4CBFCEF2AD773A30078C561 /* rsrc_free.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rsrc_free.c; sourceTree = "<group>"; };
+		F4E3409C2AAAD389002390BA /* vditest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vditest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E3409F2AAAD389002390BA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E340AA2AAAD3E1002390BA /* libgemc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgemc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E340B22AAAD6C3002390BA /* v_opnvwk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = v_opnvwk.c; sourceTree = "<group>"; };
@@ -370,19 +346,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F46A86612ABE9C1800FA3ABC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F46A86702ABEA73A00FA3ABC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F46A867E2ABEA75000FA3ABC /* libgemc.a in Frameworks */,
-				F46A867F2ABEA75000FA3ABC /* librsrc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,7 +359,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4BAB2AD2AD645DD00DBAD9F /* libgemc.a in Frameworks */,
-				F4BAB2AE2AD645DD00DBAD9F /* librsrc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,7 +366,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F49059302ACA3C0A00F4F288 /* librsrc.a in Frameworks */,
 				F4E340C02AAADF4F002390BA /* libgemc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -425,9 +391,6 @@
 		F46A86672ABE9C5100FA3ABC /* rsrc */ = {
 			isa = PBXGroup;
 			children = (
-				F46A86682ABE9C8E00FA3ABC /* rscfile.h */,
-				F46A86692ABE9C8E00FA3ABC /* rscfile.c */,
-				F46A866C2ABEA44300FA3ABC /* gemobject.h */,
 			);
 			path = rsrc;
 			sourceTree = "<group>";
@@ -453,8 +416,9 @@
 			isa = PBXGroup;
 			children = (
 				F4BAB2A82AD6451400DBAD9F /* aes.h */,
-				F4BAB29B2AD61DBE00DBAD9F /* appl_init.c */,
-				F4BAB2B02AD64B8B00DBAD9F /* graf_handle.c */,
+				F4BAB2B22AD76D7500DBAD9F /* appl */,
+				F4BAB2B32AD76D9400DBAD9F /* graf */,
+				F4BAB2B42AD76DA500DBAD9F /* rsrc */,
 			);
 			path = aes;
 			sourceTree = "<group>";
@@ -465,6 +429,33 @@
 				F4BAB2A32AD6446600DBAD9F /* main.c */,
 			);
 			path = aestest;
+			sourceTree = "<group>";
+		};
+		F4BAB2B22AD76D7500DBAD9F /* appl */ = {
+			isa = PBXGroup;
+			children = (
+				F4BAB29B2AD61DBE00DBAD9F /* appl_init.c */,
+			);
+			path = appl;
+			sourceTree = "<group>";
+		};
+		F4BAB2B32AD76D9400DBAD9F /* graf */ = {
+			isa = PBXGroup;
+			children = (
+				F4BAB2B02AD64B8B00DBAD9F /* graf_handle.c */,
+			);
+			path = graf;
+			sourceTree = "<group>";
+		};
+		F4BAB2B42AD76DA500DBAD9F /* rsrc */ = {
+			isa = PBXGroup;
+			children = (
+				F46A86682ABE9C8E00FA3ABC /* rscfile.h */,
+				F46A86692ABE9C8E00FA3ABC /* rscfile.c */,
+				F4CBFCEF2AD773A30078C561 /* rsrc_free.c */,
+				F4CBFCED2AD771C20078C561 /* rsrc_load.c */,
+			);
+			path = rsrc;
 			sourceTree = "<group>";
 		};
 		F4E340932AAAD389002390BA = {
@@ -484,10 +475,9 @@
 		F4E3409D2AAAD389002390BA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F4E3409C2AAAD389002390BA /* client */,
+				F4E3409C2AAAD389002390BA /* vditest */,
 				F4E340AA2AAAD3E1002390BA /* libgemc.a */,
 				F46A86552ABB89B100FA3ABC /* vr_trnfm */,
-				F46A86632ABE9C1800FA3ABC /* librsrc.a */,
 				F46A86732ABEA73A00FA3ABC /* rscdump */,
 				F4BAB2A12AD6446600DBAD9F /* aestest */,
 			);
@@ -651,15 +641,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		F46A865F2ABE9C1800FA3ABC /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F46A866A2ABE9C8E00FA3ABC /* rscfile.h in Headers */,
-				F46A866D2ABEA44300FA3ABC /* gemobject.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F4E340A62AAAD3E1002390BA /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -692,23 +673,6 @@
 			productReference = F46A86552ABB89B100FA3ABC /* vr_trnfm */;
 			productType = "com.apple.product-type.tool";
 		};
-		F46A86622ABE9C1800FA3ABC /* rsrc */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F46A86642ABE9C1800FA3ABC /* Build configuration list for PBXNativeTarget "rsrc" */;
-			buildPhases = (
-				F46A865F2ABE9C1800FA3ABC /* Headers */,
-				F46A86602ABE9C1800FA3ABC /* Sources */,
-				F46A86612ABE9C1800FA3ABC /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = rsrc;
-			productName = rsrc;
-			productReference = F46A86632ABE9C1800FA3ABC /* librsrc.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		F46A86722ABEA73A00FA3ABC /* rscdump */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F46A86772ABEA73A00FA3ABC /* Build configuration list for PBXNativeTarget "rscdump" */;
@@ -722,7 +686,6 @@
 			);
 			dependencies = (
 				F46A867B2ABEA74800FA3ABC /* PBXTargetDependency */,
-				F46A867D2ABEA74800FA3ABC /* PBXTargetDependency */,
 			);
 			name = rscdump;
 			productName = rscdump;
@@ -742,16 +705,15 @@
 			);
 			dependencies = (
 				F4BAB2AA2AD645D500DBAD9F /* PBXTargetDependency */,
-				F4BAB2AC2AD645D500DBAD9F /* PBXTargetDependency */,
 			);
 			name = aestest;
 			productName = aestest;
 			productReference = F4BAB2A12AD6446600DBAD9F /* aestest */;
 			productType = "com.apple.product-type.tool";
 		};
-		F4E3409B2AAAD389002390BA /* client */ = {
+		F4E3409B2AAAD389002390BA /* vditest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F4E340A32AAAD389002390BA /* Build configuration list for PBXNativeTarget "client" */;
+			buildConfigurationList = F4E340A32AAAD389002390BA /* Build configuration list for PBXNativeTarget "vditest" */;
 			buildPhases = (
 				F4E340982AAAD389002390BA /* Sources */,
 				F4E340992AAAD389002390BA /* Frameworks */,
@@ -760,12 +722,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				F49059322ACA3C0E00F4F288 /* PBXTargetDependency */,
 				F4E340C22AAADF56002390BA /* PBXTargetDependency */,
 			);
-			name = client;
+			name = vditest;
 			productName = client;
-			productReference = F4E3409C2AAAD389002390BA /* client */;
+			productReference = F4E3409C2AAAD389002390BA /* vditest */;
 			productType = "com.apple.product-type.tool";
 		};
 		F4E340A92AAAD3E1002390BA /* gemc */ = {
@@ -797,9 +758,6 @@
 					F46A86542ABB89B100FA3ABC = {
 						CreatedOnToolsVersion = 14.0.1;
 					};
-					F46A86622ABE9C1800FA3ABC = {
-						CreatedOnToolsVersion = 14.0.1;
-					};
 					F46A86722ABEA73A00FA3ABC = {
 						CreatedOnToolsVersion = 14.0.1;
 					};
@@ -827,10 +785,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F4E3409B2AAAD389002390BA /* client */,
+				F4E3409B2AAAD389002390BA /* vditest */,
 				F4E340A92AAAD3E1002390BA /* gemc */,
 				F46A86542ABB89B100FA3ABC /* vr_trnfm */,
-				F46A86622ABE9C1800FA3ABC /* rsrc */,
 				F46A86722ABEA73A00FA3ABC /* rscdump */,
 				F4BAB2A02AD6446600DBAD9F /* aestest */,
 			);
@@ -885,14 +842,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F46A86602ABE9C1800FA3ABC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F46A866B2ABE9C8E00FA3ABC /* rscfile.c in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F46A866F2ABEA73A00FA3ABC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -942,6 +891,7 @@
 				F4680BE72ACC9BED0020BB5B /* v_recfl.c in Sources */,
 				F4680BE52ACC91D60020BB5B /* vsf_udsty.c in Sources */,
 				F46A86482AB9102000FA3ABC /* v_contourfill.c in Sources */,
+				F4CBFCEE2AD771C20078C561 /* rsrc_load.c in Sources */,
 				F46A86102AB40D8900FA3ABC /* vsf_interior.c in Sources */,
 				F46A85CE2AAEC0B600FA3ABC /* v_eeol.c in Sources */,
 				F46A85BE2AAEB6FE00FA3ABC /* v_enter_cur.c in Sources */,
@@ -958,6 +908,7 @@
 				F46A862E2AB667B400FA3ABC /* v_justified.c in Sources */,
 				F46A85D62AAED14600FA3ABC /* v_rvoff.c in Sources */,
 				F46A86362AB785C900FA3ABC /* vrq_locator.c in Sources */,
+				F4CBFCF02AD773A30078C561 /* rsrc_free.c in Sources */,
 				F46A861A2AB56C2000FA3ABC /* vswr_mode.c in Sources */,
 				F46A86182AB5491700FA3ABC /* v_fillarea.c in Sources */,
 				F46A86952AC373C100FA3ABC /* vq_colours.c in Sources */,
@@ -997,6 +948,7 @@
 				F49059442ACFB26200F4F288 /* vex_motv.c in Sources */,
 				F490593A2ACD262C00F4F288 /* vst_unload_fonts.c in Sources */,
 				F4680BE32ACB268D0020BB5B /* vsc_form.c in Sources */,
+				F4BAB2B52AD76EC100DBAD9F /* rscfile.c in Sources */,
 				F46A85BA2AAEA5A100FA3ABC /* vq_chcells.c in Sources */,
 				F4BAB2B12AD64B8B00DBAD9F /* graf_handle.c in Sources */,
 				F46A85EC2AAF684D00FA3ABC /* v_clear_disp_list.c in Sources */,
@@ -1045,25 +997,10 @@
 			target = F4E340A92AAAD3E1002390BA /* gemc */;
 			targetProxy = F46A867A2ABEA74800FA3ABC /* PBXContainerItemProxy */;
 		};
-		F46A867D2ABEA74800FA3ABC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F46A86622ABE9C1800FA3ABC /* rsrc */;
-			targetProxy = F46A867C2ABEA74800FA3ABC /* PBXContainerItemProxy */;
-		};
-		F49059322ACA3C0E00F4F288 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F46A86622ABE9C1800FA3ABC /* rsrc */;
-			targetProxy = F49059312ACA3C0E00F4F288 /* PBXContainerItemProxy */;
-		};
 		F4BAB2AA2AD645D500DBAD9F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F4E340A92AAAD3E1002390BA /* gemc */;
 			targetProxy = F4BAB2A92AD645D500DBAD9F /* PBXContainerItemProxy */;
-		};
-		F4BAB2AC2AD645D500DBAD9F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F46A86622ABE9C1800FA3ABC /* rsrc */;
-			targetProxy = F4BAB2AB2AD645D500DBAD9F /* PBXContainerItemProxy */;
 		};
 		F4E340C22AAADF56002390BA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1094,30 +1031,6 @@
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-			};
-			name = Release;
-		};
-		F46A86652ABE9C1800FA3ABC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S9DMW7WK55;
-				EXECUTABLE_PREFIX = lib;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		F46A86662ABE9C1800FA3ABC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S9DMW7WK55;
-				EXECUTABLE_PREFIX = lib;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -1341,15 +1254,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F46A86642ABE9C1800FA3ABC /* Build configuration list for PBXNativeTarget "rsrc" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F46A86652ABE9C1800FA3ABC /* Debug */,
-				F46A86662ABE9C1800FA3ABC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		F46A86772ABEA73A00FA3ABC /* Build configuration list for PBXNativeTarget "rscdump" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1377,7 +1281,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F4E340A32AAAD389002390BA /* Build configuration list for PBXNativeTarget "client" */ = {
+		F4E340A32AAAD389002390BA /* Build configuration list for PBXNativeTarget "vditest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F4E340A42AAAD389002390BA /* Debug */,

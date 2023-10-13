@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F4E3409B2AAAD389002390BA"
-               BuildableName = "client"
-               BlueprintName = "client"
+               BuildableName = "vditest"
+               BlueprintName = "vditest"
                ReferencedContainer = "container:client.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F4E3409B2AAAD389002390BA"
-            BuildableName = "client"
-            BlueprintName = "client"
+            BuildableName = "vditest"
+            BlueprintName = "vditest"
             ReferencedContainer = "container:client.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -63,8 +63,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F4E3409B2AAAD389002390BA"
-            BuildableName = "client"
-            BlueprintName = "client"
+            BuildableName = "vditest"
+            BlueprintName = "vditest"
             ReferencedContainer = "container:client.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
