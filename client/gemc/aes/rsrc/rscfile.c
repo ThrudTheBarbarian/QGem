@@ -11,6 +11,7 @@
 
 #include "debug.h"
 #include "rscfile.h"
+#include "map.h"
 #include "vec.h"
 
 #ifndef SYSTEM_DIR
@@ -24,14 +25,17 @@
 /*****************************************************************************\
 |* Forward declarations
 \*****************************************************************************/
-static int _parseObjects(FILE *fp, RscFileHeader *hdr, RscFile *rsc);
+static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int n);
 static int _parseCIcons(FILE *fp, RscFileHeader *hdr, RscFile *rsc);
 static int _parseTedInfo(FILE *fp, RscFileHeader *hdr, RscFile *rsc);
 static int _parseIconBlks(FILE *fp, RscFileHeader *hdr, RscFile *rsc);
 static int _parseBitBlks(FILE *fp, RscFileHeader *hdr, RscFile *rsc);
 static int _parseFreeStrings(FILE *fp, RscFileHeader *hdr, RscFile *rsc);
 static int _parseFreeImages(FILE *fp, RscFileHeader *hdr, RscFile *rsc);
-static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int n);
+static int _parseObjects(FILE *fp, RscFileHeader *hdr, RscFile *rsc,
+						 map_int_t *map);
+static int _parseTrees(FILE *fp, RscFileHeader *hdr, RscFile *rsc,
+					   map_int_t *map);
 
 
 /*****************************************************************************\
@@ -82,13 +86,19 @@ int resourceLoad(const char * filename, RscFile *rsc)
 				}
 			rsc->version 	= hdr.rsh_vrsn;
 			
+			map_int_t treemap;
+			map_init(&treemap);
+			
 			ok = _parseCIcons(fp, &hdr, rsc);
-			ok = ok && _parseObjects(fp, &hdr, rsc);
+			ok = ok && _parseTrees(fp, &hdr, rsc, &treemap);
+			ok = ok && _parseObjects(fp, &hdr, rsc, &treemap);
 			ok = ok && _parseTedInfo(fp, &hdr, rsc);
 			ok = ok && _parseIconBlks(fp, &hdr, rsc);
 			ok = ok && _parseBitBlks(fp, &hdr, rsc);
 			ok = ok && _parseFreeStrings(fp, &hdr, rsc);
 			ok = ok && _parseFreeImages(fp, &hdr, rsc);
+			
+			map_deinit(&treemap);
 			}
 		else
 			perror("Reading RSC file header");
@@ -362,7 +372,7 @@ static int _parseIconBlks(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 		}
 				
 	/*************************************************************************\
-	|* Read in the objects
+	|* Read in the ICONBLKs
 	\*************************************************************************/
 	int ok = (rsc->nIconBlks == 0) ? 1 : 0;
 	for (int i=0; i<rsc->nIconBlks; i++)
@@ -381,6 +391,46 @@ static int _parseIconBlks(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 			break;
 		}
 	return ok;
+	}
+
+
+/*****************************************************************************\
+|* Parse the ICONBLK's out of the file
+\*****************************************************************************/
+static int _parseTrees(FILE *fp, RscFileHeader *hdr, RscFile *rsc,
+					   map_int_t *map)
+	{
+	rsc->nTrees	= hdr->rsh_ntree;
+
+	/*************************************************************************\
+	|* Seek to the correct offset
+	\*************************************************************************/
+	fseek(fp, hdr->rsh_trindex, SEEK_SET);
+				
+	/*************************************************************************\
+	|* Read in the offsets
+	\*************************************************************************/
+	uint8_t data[rsc->nTrees * 4];
+	if (fread(data, 4, rsc->nTrees, fp) != rsc->nTrees)
+		{
+		WARN("Couldn't read in the object tree data");
+		return 0;
+		}
+
+	/*************************************************************************\
+	|* Parse to offsets in the map
+	\*************************************************************************/
+	int cursor	= 0;
+	for (int i=0; i<rsc->nTrees; i++)
+		{
+		char buf[32];
+		uint32_t offset;
+		cursor = _fetch32(data, cursor, &offset);
+		sprintf(buf, "%d", offset);
+		map_set(map, buf, i);
+		}
+		
+	return 1;
 	}
 
 /*****************************************************************************\
@@ -600,7 +650,8 @@ static int _parseFreeImages(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 /*****************************************************************************\
 |* Parse the objects out of the file
 \*****************************************************************************/
-static int _parseObjects(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
+static int _parseObjects(FILE *fp, RscFileHeader *hdr, RscFile *rsc,
+						 map_int_t *map)
 	{
 	rsc->nObjects	= hdr->rsh_nobs;
 
@@ -618,12 +669,32 @@ static int _parseObjects(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 		WARN("Cannot allocate space for OBJECT structures");
 		return 0;
 		}
-	
+
+	/*************************************************************************\
+	|* Reserve space for all the OBJECT tree structures
+	\*************************************************************************/
+	rsc->trees = (OBJECT **) malloc(sizeof(OBJECT*) * rsc->nTrees);
+	if (rsc->trees == NULL)
+		{
+		WARN("Cannot allocate space for %d OBJECT trees", rsc->nTrees);
+		return 0;
+		}
+
 	/*************************************************************************\
 	|* Read in the objects
 	\*************************************************************************/
 	for (int i=0; i<rsc->nObjects; i++)
 		{
+		/*********************************************************************\
+		|* Get the current position, and if it matches anything in the map
+		|* remember to set the object-tree pointer
+		\*********************************************************************/
+		
+		long at = ftell(fp);
+		char buf[32];
+		sprintf(buf, "%d", (int)at);
+		int *idx = map_get(map, buf);
+
 		/*********************************************************************\
 		|* Read the disk format of the structure
 		\*********************************************************************/
@@ -641,6 +712,9 @@ static int _parseObjects(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 		OBJECT *obj	= &(rsc->objects[i]);
 		uint32_t ob_spec;
 		
+		/*********************************************************************\
+		|* Populate the OBJECT
+		\*********************************************************************/
 		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_next)));
 		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_head)));
 		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_tail)));
@@ -655,7 +729,22 @@ static int _parseObjects(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_y)));
 		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_width)));
 		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_height)));
+
+		/*********************************************************************\
+		|* If we have a tree index, then update that too
+		\*********************************************************************/
+		if (idx != NULL)
+			{
+			if (*idx < rsc->nTrees)
+				rsc->trees[*idx] = obj;
+			else
+				{
+				WARN("Found out-of-bounds tree index %d/%d", *idx, rsc->nTrees);
+				return 0;
+				}
+			}
 		}
+		
 	return 1;
 	}
 

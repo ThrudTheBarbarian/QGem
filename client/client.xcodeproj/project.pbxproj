@@ -121,6 +121,8 @@
 		F4BAB2B52AD76EC100DBAD9F /* rscfile.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86692ABE9C8E00FA3ABC /* rscfile.c */; };
 		F4CBFCEE2AD771C20078C561 /* rsrc_load.c in Sources */ = {isa = PBXBuildFile; fileRef = F4CBFCED2AD771C20078C561 /* rsrc_load.c */; };
 		F4CBFCF02AD773A30078C561 /* rsrc_free.c in Sources */ = {isa = PBXBuildFile; fileRef = F4CBFCEF2AD773A30078C561 /* rsrc_free.c */; };
+		F4CBFCF32ADB9AF70078C561 /* map.h in Headers */ = {isa = PBXBuildFile; fileRef = F4CBFCF12ADB9AF70078C561 /* map.h */; };
+		F4CBFCF42ADB9AF70078C561 /* map.c in Sources */ = {isa = PBXBuildFile; fileRef = F4CBFCF22ADB9AF70078C561 /* map.c */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -324,6 +326,8 @@
 		F4BAB2B02AD64B8B00DBAD9F /* graf_handle.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = graf_handle.c; sourceTree = "<group>"; };
 		F4CBFCED2AD771C20078C561 /* rsrc_load.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rsrc_load.c; sourceTree = "<group>"; };
 		F4CBFCEF2AD773A30078C561 /* rsrc_free.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rsrc_free.c; sourceTree = "<group>"; };
+		F4CBFCF12ADB9AF70078C561 /* map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = map.h; sourceTree = "<group>"; };
+		F4CBFCF22ADB9AF70078C561 /* map.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = map.c; sourceTree = "<group>"; };
 		F4E3409C2AAAD389002390BA /* vditest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vditest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E3409F2AAAD389002390BA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E340AA2AAAD3E1002390BA /* libgemc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgemc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -627,6 +631,8 @@
 				F46A86802ABEA97200FA3ABC /* args.h */,
 				F4E340BA2AAADE13002390BA /* vec.h */,
 				F4E340BB2AAADE13002390BA /* vec.c */,
+				F4CBFCF12ADB9AF70078C561 /* map.h */,
+				F4CBFCF22ADB9AF70078C561 /* map.c */,
 			);
 			path = util;
 			sourceTree = SOURCE_ROOT;
@@ -647,6 +653,7 @@
 			files = (
 				F4E340C52AAAE05A002390BA /* gemmsg.h in Headers */,
 				F46A86822ABEA97200FA3ABC /* args.h in Headers */,
+				F4CBFCF32ADB9AF70078C561 /* map.h in Headers */,
 				F4E340B72AAAD6DE002390BA /* gemio.h in Headers */,
 				F4E340BC2AAADE13002390BA /* vec.h in Headers */,
 			);
@@ -946,6 +953,7 @@
 				F46A86202AB62EA500FA3ABC /* v_circle.c in Sources */,
 				F46A864A2ABA66DA00FA3ABC /* v_get_pixel.c in Sources */,
 				F49059442ACFB26200F4F288 /* vex_motv.c in Sources */,
+				F4CBFCF42ADB9AF70078C561 /* map.c in Sources */,
 				F490593A2ACD262C00F4F288 /* vst_unload_fonts.c in Sources */,
 				F4680BE32ACB268D0020BB5B /* vsc_form.c in Sources */,
 				F4BAB2B52AD76EC100DBAD9F /* rscfile.c in Sources */,

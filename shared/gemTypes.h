@@ -173,6 +173,8 @@ typedef struct
 	char **		strings;			/* The actual string data				*/
 	int			nImages;			/* Number of free images				*/
 	BITBLK *	images;				/* The actual image data				*/
+	int			nTrees;				/* Number of object trees				*/
+	OBJECT **	trees;				/* The actual tree data					*/
 	} RscFile;
 
 
