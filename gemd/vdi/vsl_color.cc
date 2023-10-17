@@ -17,7 +17,7 @@ void VDI::vsl_color(qintptr handle, int16_t idx)
 	ConnectionMgr *cm = _screen->connectionManager();
 	Workstation *ws   = cm->findWorkstationForHandle(handle);
 
-	if ((idx > 0) && (idx < 256))
+	if ((idx >= 0) && (idx < 256))
 		if (ws != nullptr)
 			ws->setLineColour(idx);
 	}

@@ -98,7 +98,7 @@ void VDI::v_pline(Workstation *ws, ClientMsg *cm)
 	int16_t num			= ntohs(p[0]);
 	int16_t *pxy		= (int16_t *)(&(p[1]));
 
-	for (int i=0; i<num; i++)
+	for (int i=0; i<num*2; i++)
 		pxy[i] = ntohs(pxy[i]);
 
 	v_pline(ws->handle(), num, pxy);

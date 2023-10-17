@@ -342,7 +342,7 @@ void Workstation::setupPenForText(QPen& pen)
 	{
 	pen.setStyle(_styles[SOLID]);
 
-	QColor c = _palette[_textColour];
+	QColor c = _palette[_devtovdi8[_textColour]];
 	if (_textEffect & TXT_LIGHT)
 		c = c.lighter();
 

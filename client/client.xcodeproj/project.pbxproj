@@ -18,6 +18,8 @@
 		F4680BE92ACC9F550020BB5B /* vqin_mode.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BE82ACC9F550020BB5B /* vqin_mode.c */; };
 		F4680BEB2ACCB8FC0020BB5B /* vqt_extent.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BEA2ACCB8FB0020BB5B /* vqt_extent.c */; };
 		F4680BED2ACE05D50020BB5B /* vrt_cpyfm.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BEC2ACE05D50020BB5B /* vrt_cpyfm.c */; };
+		F4680BF62ADEEEB80020BB5B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BF52ADEEEB80020BB5B /* main.c */; };
+		F4680BFD2ADEF3030020BB5B /* libgemc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E340AA2AAAD3E1002390BA /* libgemc.a */; };
 		F46A85B42AAEA2AE00FA3ABC /* v_clrwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */; };
 		F46A85B62AAEA56200FA3ABC /* v_updwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B52AAEA56200FA3ABC /* v_updwk.c */; };
 		F46A85BA2AAEA5A100FA3ABC /* vq_chcells.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */; };
@@ -135,6 +137,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F4680BFB2ADEF2F90020BB5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E340942AAAD389002390BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4E340A92AAAD3E1002390BA;
+			remoteInfo = gemc;
+		};
 		F46A865C2ABB89C700FA3ABC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F4E340942AAAD389002390BA /* Project object */;
@@ -166,6 +175,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		F4680BF12ADEEEB80020BB5B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		F46A86532ABB89B100FA3ABC /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -216,6 +234,8 @@
 		F4680BE82ACC9F550020BB5B /* vqin_mode.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vqin_mode.c; sourceTree = "<group>"; };
 		F4680BEA2ACCB8FB0020BB5B /* vqt_extent.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vqt_extent.c; sourceTree = "<group>"; };
 		F4680BEC2ACE05D50020BB5B /* vrt_cpyfm.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vrt_cpyfm.c; sourceTree = "<group>"; };
+		F4680BF32ADEEEB80020BB5B /* aspiral */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = aspiral; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4680BF52ADEEEB80020BB5B /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_clrwk.c; sourceTree = "<group>"; };
 		F46A85B52AAEA56200FA3ABC /* v_updwk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_updwk.c; sourceTree = "<group>"; };
 		F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_chcells.c; sourceTree = "<group>"; };
@@ -342,6 +362,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F4680BF02ADEEEB80020BB5B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4680BFD2ADEF3030020BB5B /* libgemc.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F46A86522ABB89B100FA3ABC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -384,19 +412,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F4680BEE2ADEEE7F0020BB5B /* demo */ = {
+			isa = PBXGroup;
+			children = (
+				F4680BF42ADEEEB80020BB5B /* aspiral */,
+			);
+			path = demo;
+			sourceTree = "<group>";
+		};
+		F4680BF42ADEEEB80020BB5B /* aspiral */ = {
+			isa = PBXGroup;
+			children = (
+				F4680BF52ADEEEB80020BB5B /* main.c */,
+			);
+			path = aspiral;
+			sourceTree = "<group>";
+		};
+		F4680BFA2ADEEEC70020BB5B /* test */ = {
+			isa = PBXGroup;
+			children = (
+				F46A86742ABEA73A00FA3ABC /* rscdump */,
+				F46A86562ABB89B100FA3ABC /* vr_trnfm */,
+				F4BAB2A22AD6446600DBAD9F /* aestest */,
+				F4E3409E2AAAD389002390BA /* vditest */,
+			);
+			path = test;
+			sourceTree = "<group>";
+		};
 		F46A86562ABB89B100FA3ABC /* vr_trnfm */ = {
 			isa = PBXGroup;
 			children = (
 				F46A86572ABB89B100FA3ABC /* main.c */,
 			);
 			path = vr_trnfm;
-			sourceTree = "<group>";
-		};
-		F46A86672ABE9C5100FA3ABC /* rsrc */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = rsrc;
 			sourceTree = "<group>";
 		};
 		F46A86742ABEA73A00FA3ABC /* rscdump */ = {
@@ -465,12 +513,9 @@
 		F4E340932AAAD389002390BA = {
 			isa = PBXGroup;
 			children = (
-				F46A86672ABE9C5100FA3ABC /* rsrc */,
+				F4680BFA2ADEEEC70020BB5B /* test */,
+				F4680BEE2ADEEE7F0020BB5B /* demo */,
 				F4E340AE2AAAD43B002390BA /* gemc */,
-				F4E3409E2AAAD389002390BA /* vditest */,
-				F46A86562ABB89B100FA3ABC /* vr_trnfm */,
-				F46A86742ABEA73A00FA3ABC /* rscdump */,
-				F4BAB2A22AD6446600DBAD9F /* aestest */,
 				F4E3409D2AAAD389002390BA /* Products */,
 				F4E340BF2AAADF4F002390BA /* Frameworks */,
 			);
@@ -484,6 +529,7 @@
 				F46A86552ABB89B100FA3ABC /* vr_trnfm */,
 				F46A86732ABEA73A00FA3ABC /* rscdump */,
 				F4BAB2A12AD6446600DBAD9F /* aestest */,
+				F4680BF32ADEEEB80020BB5B /* aspiral */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -662,6 +708,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		F4680BF22ADEEEB80020BB5B /* aspiral */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4680BF72ADEEEB80020BB5B /* Build configuration list for PBXNativeTarget "aspiral" */;
+			buildPhases = (
+				F4680BEF2ADEEEB80020BB5B /* Sources */,
+				F4680BF02ADEEEB80020BB5B /* Frameworks */,
+				F4680BF12ADEEEB80020BB5B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F4680BFC2ADEF2F90020BB5B /* PBXTargetDependency */,
+			);
+			name = aspiral;
+			productName = aspiral;
+			productReference = F4680BF32ADEEEB80020BB5B /* aspiral */;
+			productType = "com.apple.product-type.tool";
+		};
 		F46A86542ABB89B100FA3ABC /* vr_trnfm */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F46A865B2ABB89B100FA3ABC /* Build configuration list for PBXNativeTarget "vr_trnfm" */;
@@ -762,6 +826,9 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
+					F4680BF22ADEEEB80020BB5B = {
+						CreatedOnToolsVersion = 14.2;
+					};
 					F46A86542ABB89B100FA3ABC = {
 						CreatedOnToolsVersion = 14.0.1;
 					};
@@ -797,6 +864,7 @@
 				F46A86542ABB89B100FA3ABC /* vr_trnfm */,
 				F46A86722ABEA73A00FA3ABC /* rscdump */,
 				F4BAB2A02AD6446600DBAD9F /* aestest */,
+				F4680BF22ADEEEB80020BB5B /* aspiral */,
 			);
 		};
 /* End PBXProject section */
@@ -841,6 +909,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F4680BEF2ADEEEB80020BB5B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4680BF62ADEEEB80020BB5B /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F46A86512ABB89B100FA3ABC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -995,6 +1071,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		F4680BFC2ADEF2F90020BB5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4E340A92AAAD3E1002390BA /* gemc */;
+			targetProxy = F4680BFB2ADEF2F90020BB5B /* PBXContainerItemProxy */;
+		};
 		F46A865D2ABB89C700FA3ABC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F4E340A92AAAD3E1002390BA /* gemc */;
@@ -1018,6 +1099,26 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		F4680BF82ADEEEB80020BB5B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
+				MACOSX_DEPLOYMENT_TARGET = 12.5;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F4680BF92ADEEEB80020BB5B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
+				MACOSX_DEPLOYMENT_TARGET = 12.5;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		F46A86592ABB89B100FA3ABC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1253,6 +1354,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F4680BF72ADEEEB80020BB5B /* Build configuration list for PBXNativeTarget "aspiral" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4680BF82ADEEEB80020BB5B /* Debug */,
+				F4680BF92ADEEEB80020BB5B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F46A865B2ABB89B100FA3ABC /* Build configuration list for PBXNativeTarget "vr_trnfm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

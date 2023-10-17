@@ -134,7 +134,7 @@ void ConnectionMgr::_incomingData(void)
 	ClientMsg cm;
 	while (cm.read(socket))
 		{
-		fprintf(stderr, "Despatch message of type: %d\n", cm.type());
+		//fprintf(stderr, "Despatch message of type: %d\n", cm.type());
 		switch (cm.type())
 			{
 			case ClientMsg::V_CLRWK:				// 3
