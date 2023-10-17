@@ -29,7 +29,7 @@ int16_t rsrc_load(const char *filename)
 	\*************************************************************************/
 	if (_rsc != NULL)
 		{
-		rsrc_free(_rsc);
+		rsrc_free();
 		_rsc = NULL;
 		}
 		
@@ -48,3 +48,11 @@ int16_t rsrc_load(const char *filename)
 	return ok;
 	}
 
+
+/*****************************************************************************\
+|*  Return the RscFile structure for this application
+\*****************************************************************************/
+RscFile * _rsrcGet(void)
+	{
+	return _rsc;
+	}

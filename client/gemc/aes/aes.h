@@ -30,7 +30,7 @@ int16_t graf_handle(int16_t *wchr, int16_t *hchr, int16_t *wbox, int16_t *hbox);
 |*  7800 : rsrc_free()
 |*		 : Free up the resources used by a resource file
 \*****************************************************************************/
-int16_t rsrc_free(RscFile *rsc);
+int16_t rsrc_free(void);
 
 /*****************************************************************************\
 |*  7802 : rsrc_load()

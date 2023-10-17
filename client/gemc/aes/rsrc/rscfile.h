@@ -54,4 +54,9 @@ typedef struct
 \*****************************************************************************/
 int resourceLoad(const char * filename, RscFile *result);
 
+/*****************************************************************************\
+|*  Return the RscFile structure for this application
+\*****************************************************************************/
+RscFile * _rsrcGet(void);
+
 #endif /* rscfile_h */
