@@ -2,7 +2,7 @@
 //  main.c
 //  aspiral
 //
-//  Created by Simon Gornall on 10/17/23.
+//  Created by ThrudTheBarbarian on 10/17/23.
 //
 
 #include <math.h>
