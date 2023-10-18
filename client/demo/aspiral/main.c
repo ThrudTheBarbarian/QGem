@@ -1,9 +1,9 @@
-//
-//  main.c
-//  aspiral
-//
-//  Created by ThrudTheBarbarian on 10/17/23.
-//
+/*****************************************************************************\
+|*  main.c
+|*  aspiral
+|*
+|*  Created by ThrudTheBarbarian on 10/17/23.
+\*****************************************************************************/
 
 #include <math.h>
 #include <stdlib.h>
@@ -12,10 +12,13 @@
 #include <sys/time.h>
  
 #include "gem.h"
+
+#ifdef QGEM
 #include "gemio.h"
 #include "gemmsg.h"
 #include "rscfile.h"
 #include "vdi.h"
+#endif
 
 /*****************************************************************************\
 |* Forward declarations
@@ -27,11 +30,12 @@ void plotArchimedesSpiral(int handle, int offX, int offY, int transparent);
 \*****************************************************************************/
 int main(int argc, const char * argv[])
 	{
+	int i;				/* The overworked minority of integer loop variables */
 	int16_t workIn[16];
 	int16_t workOut[128];
 	int16_t handle;
 	
-	for (int i=0; i<16; i++)
+	for (i=0; i<16; i++)
 		workIn[i] = -1;
 	workIn[0] = 1;
 	workIn[2] = 2;
@@ -52,42 +56,61 @@ int main(int argc, const char * argv[])
 \*****************************************************************************/
 void plotArchimedesSpiral(int handle, int offX, int offY, int transparent)
 	{
-	struct timeval stt, end, dt;
 	
-	gettimeofday(&stt, NULL);
 	/*************************************************************************\
 	|* Set up the parameters
 	\*************************************************************************/
-	const  int kSize 	= 144;
+	const  int kSize 	= 144;				/* Scaling horizontally 	*/
 	int xp				= kSize;
 	float xr			= 4.71238905f;
 	float xf			= xr / xp;
-	
-	int16_t black[3] = {0,0,0};
-	vsl_color(handle, 0);
+	int16_t black[3];						/* Holds the RGB for black	*/
+	int xi, zi;								/* loop variables		 	*/
+	float zt, zs, xl, xt, yy, x1, y1;		/* intermediate co-ords 	*/
+	int16_t pxy[4];							/* co-ords to plot/draw		*/
+	char buf[128];							/* temporary string buffer	*/
+	struct timeval stt, end, dt;			/* used for timing			*/
+
+	/*************************************************************************\
+	|* Get the starting time
+	\*************************************************************************/
+	gettimeofday(&stt, NULL);
+
+	/*************************************************************************\
+	|* Set up the black colour
+	\*************************************************************************/
+	black[0] = black[1] = black[2];
 	
 	/*************************************************************************\
-	|* Draw the plot
+	|* Draw the plot. Uses a painters algorithm, so we can overdraw in white if
+	|* 'transparent' is set to zero
 	\*************************************************************************/
-	for (int zi = -64; zi < 64; zi++)
+	for (zi = -64; zi < 64; zi++)
 		{
-		float zt = zi * 2.25f;
-		float zs = zt * zt;
-		float xl = (int)(sqrtf(kSize * kSize - zs) + 0.5f);
+		zt = zi * 2.25f;
+		zs = zt * zt;
+		xl = (int)(sqrtf(kSize * kSize - zs) + 0.5f);
 		
-		for (int xi = -xl; xi<xl; xi++)
+		for (xi = -xl; xi<xl; xi++)
 			{
-			float xt = sqrt(xi*xi + zs) * xf;
-			float yy = (sin(xt) + sin(xt*3) * 0.4) * 56;
-			float x1 = offX + xi + zi + 160;
-			float y1 = offY + 90 - yy + zi;
+			xt = sqrt(xi*xi + zs) * xf;
+			yy = (sin(xt) + sin(xt*3) * 0.4) * 56;
+			x1 = offX + xi + zi + 160;
+			y1 = offY + 90 - yy + zi;
 			
-			vs_pixrgb(handle, x1, y1, black);
+			vsl_color(handle, 1);
+			pxy[0] = pxy[2]	= (int16_t) x1;
+			pxy[1] = pxy[3]	= (int16_t) y1;
+			v_pline(handle, 2, pxy);
 			
 			if (transparent == 0)
 				{
-				int16_t pxy[4] = {(int16_t)x1, (int16_t)(y1+1),
-								  (int16_t)x1, 191};
+				pxy[0] = (int16_t)x1;
+				pxy[1] = (int16_t)(y1+1);
+				pxy[2] = (int16_t)x1;
+				pxy[3] = 191;
+
+				vsl_color(handle, 0);
 				v_pline(handle, 2, pxy);
 				}
 			}
@@ -98,10 +121,9 @@ void plotArchimedesSpiral(int handle, int offX, int offY, int transparent)
 	\*************************************************************************/
 	gettimeofday(&end, NULL);
 	timersub(&end, &stt, &dt);
-	char buf[128];
 	sprintf(buf, "Time taken: %d.%06d secs", (int)dt.tv_sec, (int)dt.tv_usec);
 	
 	vst_alignment(handle, ALGN_CENTER, ALGN_BASELINE, NULL, NULL);
-	v_justified(handle, offX, offY + 220, 320, 0,0, buf);
+	v_justified(handle, offX, offY + 220, buf, 320, 0,0);
 	}
 	

@@ -62,7 +62,10 @@ void VDI::v_pline(qintptr handle, int16_t num, int16_t*pxy)
 			}
 
 		painter.setPen(pen);
-		painter.drawPolyline(pts.constData(), num);
+		if ((num == 2) && (pts[0] == pts[1]))
+			painter.drawPoint(pts[0]);
+		else
+			painter.drawPolyline(pts.constData(), num);
 
 		if (num > 1)
 			{

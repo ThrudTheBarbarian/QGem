@@ -205,9 +205,9 @@ void v_rfbox(int16_t handle, int16_t*pts);
 |* 11.10: Draw justified text. Note that in this implementation, the hints for
 |*        spacing are silently ignored
 \*****************************************************************************/
-void v_justified(int16_t handle, int16_t x, int16_t y, int16_t length,
-				 int16_t wordSpacing, int16_t charSpacing,
-				 const char *str);
+void v_justified(int16_t handle, int16_t x, int16_t y,
+				 const char *str, int16_t length,
+				 int16_t wordSpacing, int16_t charSpacing);
 
 /*****************************************************************************\
 |*   12  : Set the font-height in pixels

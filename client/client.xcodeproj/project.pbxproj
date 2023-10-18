@@ -1107,6 +1107,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = ansi;
+				GCC_WARN_PEDANTIC = YES;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
 				MACOSX_DEPLOYMENT_TARGET = 12.5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1117,6 +1119,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = ansi;
+				GCC_WARN_PEDANTIC = YES;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
 				MACOSX_DEPLOYMENT_TARGET = 12.5;
 				PRODUCT_NAME = "$(TARGET_NAME)";

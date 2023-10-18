@@ -213,16 +213,16 @@ int main(int argc, const char * argv[])
 	//int16_t rgb[3] = {1000, 100, 500};
 	//vs_color(handle, 1, rgb);
 	vst_alignment(handle, ALGN_LEFT, ALGN_BASELINE, NULL, NULL);
-	v_justified(handle, 1000, 500, 400, 0,0, "The quick brown fox jumped over the lazy dog");
+	v_justified(handle, 1000, 500, "The quick brown fox jumped over the lazy dog", 400, 0,0);
 
 	vst_alignment(handle, ALGN_CENTER, ALGN_BASELINE, NULL, NULL);
-	v_justified(handle, 1000, 520, 400, 0,0, "The quick brown fox jumped over the lazy dog");
+	v_justified(handle, 1000, 520, "The quick brown fox jumped over the lazy dog", 400, 0,0);
 
 	vst_alignment(handle, ALGN_RIGHT, ALGN_BASELINE, NULL, NULL);
-	v_justified(handle, 1000, 540, 400, 0,0, "The quick brown fox jumped over the lazy dog");
+	v_justified(handle, 1000, 540, "The quick brown fox jumped over the lazy dog", 400, 0,0);
 
 	vst_alignment(handle, ALGN_FULL, ALGN_BASELINE, NULL, NULL);
-	v_justified(handle, 1000, 560, 400, 0,0, "The quick brown fox jumped over the lazy dog");
+	v_justified(handle, 1000, 560, "The quick brown fox jumped over the lazy dog", 400, 0,0);
 
 	int16_t attrs[10];
 	vql_attributes(handle, attrs);
