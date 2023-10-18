@@ -1022,12 +1022,7 @@ static void _convToChunky4(MFDB *src, MFDB *dst)
 				j++;
 				}
 			if (written == 0)
-				{
-				written = 1;
-				//fprintf(stderr, "+ writing %02x to %p\n", val, pix);
 				*pix++ = val;
-				val = 0;
-				}
 			}
 		}
 		
@@ -1260,12 +1255,10 @@ static void _convToChunky16(MFDB *src, MFDB *dst)
 			|* Compose pixels from the plane data and store them
 			\*****************************************************************/
 			int mask	= 0x8000;
-			int written	= 0;
 			int loops	= MIN(W-j, 16);
 			
 			for (int k=0; k<loops; k++)
 				{
-				written = 0;
 				static int map[16] = {32768, 16384, 8192, 4096,
 									  2048, 1024, 512, 256,
 									  128, 64, 32, 16,
@@ -1388,12 +1381,10 @@ static void _convToChunky24(MFDB *src, MFDB *dst)
 			|* Compose pixels from the plane data and store them
 			\*****************************************************************/
 			int mask	= 0x8000;
-			int written	= 0;
 			int loops	= MIN(W-j, 24);
 			
 			for (int k=0; k<loops; k++)
 				{
-				written = 0;
 				static int map[24] = {0x800000, 0x400000, 0x200000, 0x100000,
 									  0x080000, 0x040000, 0x020000, 0x010000,
 									  0x008000, 0x004000, 0x002000, 0x001000,

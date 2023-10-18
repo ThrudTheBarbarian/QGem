@@ -109,7 +109,7 @@ typedef struct
 \*****************************************************************************/
 typedef struct
 	{
-	int16_t  *bi_pdata;     		/* Pointer to the graphics data  		*/
+	uint16_t  *bi_pdata;     		/* Pointer to the graphics data  		*/
 	int16_t  bi_wb;         		/* Width of the image in bytes   		*/
 	int16_t  bi_hl;         		/* Height in lines               		*/
 	int16_t  bi_x;          		/* X-position, and               		*/

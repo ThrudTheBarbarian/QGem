@@ -168,7 +168,7 @@ static int _parseTedInfo(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->te_fontsize)));
 		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->te_thickness)));
 		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->te_txtlen)));
-		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->te_tmplen)));
+					  _fetch16(data, cursor, (uint16_t *)(&(obj->te_tmplen)));
 		}
 	
 	/*************************************************************************\
@@ -237,7 +237,7 @@ static int _readIconBlkHeader(FILE *fp, ICONBLK *iblk)
 		int cursor  = 0;
 		cursor		= _fetch32(data, cursor, (uint32_t *)(&(iblk->ib_pmask)));
 		cursor		= _fetch32(data, cursor, (uint32_t *)(&(iblk->ib_pdata)));
-		cursor		= _fetch32(data, cursor, (uint32_t *)(&(iblk->ib_ptext)));
+					  _fetch32(data, cursor, (uint32_t *)(&(iblk->ib_ptext)));
 		ok ++;
 		}
 		
@@ -255,7 +255,7 @@ static int _readIconBlkHeader(FILE *fp, ICONBLK *iblk)
 		cursor		= _fetch16(data, cursor, (uint16_t *)(&(iblk->ib_ytext)));
 		cursor		= _fetch16(data, cursor, &(iblk->ib_wtext));
 		cursor		= _fetch16(data, cursor, &(iblk->ib_htext));
-		cursor		= _fetch16(data, cursor, &(iblk->ib_resvd));
+					  _fetch16(data, cursor, &(iblk->ib_resvd));
 		ok ++;
 		}
 		
@@ -517,13 +517,13 @@ static int _readBitBlk(FILE *fp, BITBLK *blk)
 		cursor	= _fetch16(data, cursor, (uint16_t *)(&(blk->bi_hl)));
 		cursor	= _fetch16(data, cursor, (uint16_t *)(&(blk->bi_x)));
 		cursor	= _fetch16(data, cursor, (uint16_t *)(&(blk->bi_y)));
-		cursor	= _fetch16(data, cursor, (uint16_t *)(&(blk->bi_color)));
+				  _fetch16(data, cursor, (uint16_t *)(&(blk->bi_color)));
 
 		long offset	= (ptrdiff_t) blk->bi_pdata;
 		fseek(fp, offset, SEEK_SET);
 		
 		int bytes		= blk->bi_wb * blk->bi_hl;
-		blk->bi_pdata	= (int16_t *) malloc (bytes);
+		blk->bi_pdata	= (uint16_t *) malloc (bytes);
 		if (blk->bi_pdata == NULL)
 			{
 			WARN("Cannot allocate mono data for bitblk");
@@ -728,7 +728,7 @@ static int _parseObjects(FILE *fp, RscFileHeader *hdr, RscFile *rsc,
 		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_x)));
 		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_y)));
 		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_width)));
-		cursor		= _fetch16(data, cursor, (uint16_t *)(&(obj->ob_height)));
+					  _fetch16(data, cursor, (uint16_t *)(&(obj->ob_height)));
 
 		/*********************************************************************\
 		|* If we have a tree index, then update that too
@@ -783,6 +783,7 @@ static int _parseCIcons(FILE *fp, RscFileHeader *hdr, RscFile *rsc)
 					cIconOffset = token;
 					break;
 				case 2:
+					// FIXME: Need to implement palette reading
 					cPaletteOffset = token;
 					break;
 				}
@@ -847,7 +848,7 @@ static int _readCiconBlock(FILE *fp, RscFileHeader *hdr, RscFile *rsc, int idx)
 	cursor		= _fetch16(data, cursor, (uint16_t *)(&(iblk->ib_ytext)));
 	cursor		= _fetch16(data, cursor, &(iblk->ib_wtext));
 	cursor		= _fetch16(data, cursor, &(iblk->ib_htext));
-	cursor		= _fetch16(data, cursor, &(iblk->ib_resvd));
+				  _fetch16(data, cursor, &(iblk->ib_resvd));
 
 	/*************************************************************************\
 	|* Read in the number of colour icons, one per resolution

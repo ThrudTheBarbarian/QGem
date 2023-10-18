@@ -305,4 +305,30 @@ typedef void (*GemTimerFunction)(void);
 typedef void (*GemMouseButtonFunction)(int btnState);
 typedef void (*GemMouseMoveFunction)(int x, int y);
 
+
+/*****************************************************************************\
+|* Resource types  
+\*****************************************************************************/
+enum
+	{
+	R_TREE				= 0,
+	R_OBJECT,
+	R_TEDINFO,
+	R_ICONBLK,
+	R_BITBLK,
+	R_STRING,
+	R_IMAGEDATA,
+	R_OBSPEC,
+	R_TEPTEXT,
+	R_TEPTMPLT,
+	R_TEPVALID,
+	R_IBPMASK,
+	R_IBPDATA,
+	R_IBPTEXT,
+	R_BIPDATA,
+	R_FRSTR,
+	R_FRIMG,
+	R_MAX
+	};
+	
 #endif /* !__gem_defines_header__ */

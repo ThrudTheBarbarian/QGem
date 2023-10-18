@@ -33,6 +33,12 @@ int16_t graf_handle(int16_t *wchr, int16_t *hchr, int16_t *wbox, int16_t *hbox);
 int16_t rsrc_free(void);
 
 /*****************************************************************************\
+|*  7801 : rsrc_gaddr()
+|*		 : Obtain a pointer to various object structures in the resource
+\*****************************************************************************/
+int16_t rsrc_gaddr(int16_t type, int16_t index, void *address);
+
+/*****************************************************************************\
 |*  7802 : rsrc_load()
 |*		 : Load up the RSC file for this application
 \*****************************************************************************/

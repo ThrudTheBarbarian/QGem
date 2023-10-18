@@ -13,7 +13,7 @@
 #include "macros.h"
 #include "vdi.h"
 
-#define RSCNAME "src/QT/QGem/client/aestest/test.rsc"
+#define RSCNAME "src/QT/QGem/client/test/aestest/test.rsc"
 
 /*****************************************************************************\
 |* For debugging
@@ -56,19 +56,26 @@ int main(int argc, const char * argv[])
 	workIn[10]		= 2;
 	
 	v_opnvwk(workIn,&handle,workOut);
-
 	
 	/*************************************************************************\
-	|* Load up the resource file
+	|* Load up the resource file (twice)
 	\*************************************************************************/
 	char path[PATH_MAX];
 	snprintf(path, PATH_MAX, "%s/%s", getenv("HOME"), RSCNAME);
 	if(!rsrc_load(path))
 		{
 		//form_alert(1,"[1][The resource file is|missing!][Cancel]");
-		WARN("The resource file is missing!");
+		WARN("The resource file is corrupt or missing!");
 		v_clsvwk(handle);
 		exit(1);
 		}
+	if(!rsrc_load(path))
+		{
+		//form_alert(1,"[1][The resource file is|missing!][Cancel]");
+		WARN("The resource file is corrupt or missing!");
+		v_clsvwk(handle);
+		exit(1);
+		}
+
 	return 0;
 	}

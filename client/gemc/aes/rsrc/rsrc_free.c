@@ -2,7 +2,7 @@
 //  rsrc_free.c
 //  gemc
 //
-//  Created by Simon Gornall on 10/11/23.
+//  Created by ThrudTheBarbarian on 10/11/23.
 //
 
 #include <stdio.h>
