@@ -64,7 +64,6 @@ void plotArchimedesSpiral(int handle, int offX, int offY, int transparent)
 	int xp				= kSize;
 	float xr			= 4.71238905f;
 	float xf			= xr / xp;
-	int16_t black[3];						/* Holds the RGB for black	*/
 	int xi, zi;								/* loop variables		 	*/
 	float zt, zs, xl, xt, yy, x1, y1;		/* intermediate co-ords 	*/
 	int16_t pxy[4];							/* co-ords to plot/draw		*/
@@ -76,11 +75,6 @@ void plotArchimedesSpiral(int handle, int offX, int offY, int transparent)
 	\*************************************************************************/
 	gettimeofday(&stt, NULL);
 
-	/*************************************************************************\
-	|* Set up the black colour
-	\*************************************************************************/
-	black[0] = black[1] = black[2];
-	
 	/*************************************************************************\
 	|* Draw the plot. Uses a painters algorithm, so we can overdraw in white if
 	|* 'transparent' is set to zero
