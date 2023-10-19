@@ -10,7 +10,7 @@
 |*  vq_exit_cur(int16_t handle);
 |*
 \*****************************************************************************/
-void VDI::vq_exit_cur(Workstation *ws)
+void VDI::v_exit_cur(Workstation *ws)
 	{
 	_alphaMode = false;
 	v_clrwk(ws);

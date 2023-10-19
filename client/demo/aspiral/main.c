@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/time.h>
+#include <sys/types.h>
  
 #include "gem.h"
 
@@ -44,8 +45,8 @@ int main(int argc, const char * argv[])
 	|* Connect to the display, clear it, and ensure we're in graphics mode
 	\*************************************************************************/
 	v_opnvwk(workIn, &handle, workOut);
-	v_clrwk();
-	vq_exit_cur(handle);
+	v_clrwk(handle);
+	v_exit_cur(handle);
 	
 	plotArchimedesSpiral(handle, 0,0, 1);
 	plotArchimedesSpiral(handle, 320,0, 0);
@@ -117,7 +118,7 @@ void plotArchimedesSpiral(int handle, int offX, int offY, int transparent)
 	timersub(&end, &stt, &dt);
 	sprintf(buf, "Time taken: %d.%06d secs", (int)dt.tv_sec, (int)dt.tv_usec);
 	
-	vst_alignment(handle, ALGN_CENTER, ALGN_BASELINE, NULL, NULL);
+	vst_alignment(handle, TA_CENTER, TA_BASE, NULL, NULL);
 	v_justified(handle, offX, offY + 220, buf, 320, 0,0);
 	}
 	

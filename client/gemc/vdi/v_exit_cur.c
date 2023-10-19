@@ -14,7 +14,7 @@
 /*****************************************************************************\
 |*   5.2 : Exit alpha mode
 \*****************************************************************************/
-void vq_exit_cur(int16_t handle)
+void v_exit_cur(int16_t handle)
 	{
 	(void)handle;
 	
@@ -29,7 +29,7 @@ void vq_exit_cur(int16_t handle)
 	|* Construct and send the message
 	\*************************************************************************/
 	GemMsg msg;
-	_gemMsgInit(&msg, MSG_VQ_EXIT_CUR);
+	_gemMsgInit(&msg, MSG_V_EXIT_CUR);
 	_gemIoWrite(&msg);
 
 	/*************************************************************************\

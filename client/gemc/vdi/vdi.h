@@ -13,7 +13,7 @@
 /*****************************************************************************\
 |*   3   : Clear a physical workstation (and all virtual workstations attached)
 \*****************************************************************************/
-void v_clrwk(void);
+void v_clrwk(int16_t handle);
 
 /*****************************************************************************\
 |*   5.1 : Get the number of character cells on the alpha screen
@@ -23,7 +23,7 @@ void vq_chcells(int16_t handle, int16_t* rows, int16_t* cols);
 /*****************************************************************************\
 |*   5.2 : Exit alpha mode
 \*****************************************************************************/
-void vq_exit_cur(int16_t handle);
+void v_exit_cur(int16_t handle);
 
 /*****************************************************************************\
 |*   5.3 : Enter alpha mode

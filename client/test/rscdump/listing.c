@@ -18,7 +18,7 @@ char *objType[] = {
 
 
 #include "listing.h"
-#include "gemobject.h"
+#include "gem.h"
 
 /*****************************************************************************\
 |* Do the generic stuff

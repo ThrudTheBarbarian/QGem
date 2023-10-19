@@ -9,7 +9,7 @@
 #include <string.h>
 
 #include "match.h"
-#include "gemobject.h"
+#include "gem.h"
 
 /*****************************************************************************\
 |* See if a pair of co-ords was provided

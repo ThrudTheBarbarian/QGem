@@ -26,7 +26,7 @@ class ClientMsg
 		INVALID						= -1,
 		V_CLRWK						= 3,
 		VQ_CHCELLS					= 5001,		// Really 5.1
-		VQ_EXIT_CUR					= 5002,
+		V_EXIT_CUR					= 5002,
 		V_ENTER_CUR					= 5003,
 		V_CURUP						= 5004,
 		V_CURDOWN					= 5005,

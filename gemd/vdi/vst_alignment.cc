@@ -26,36 +26,36 @@ void VDI::vst_alignment(qintptr handle, int16_t  hIn,  int16_t vIn,
 		{
 		switch (hIn)
 			{
-			case ALGN_CENTER:
-			case ALGN_RIGHT:
-			case ALGN_FULL:
+			case TA_CENTER:
+			case TA_RIGHT:
+			case TA_FULL:
 				ws->setTextHAlign(hIn);
 				hOut = hIn;
 				break;
 			default:
-				ws->setTextHAlign(ALGN_LEFT);
-				hOut = ALGN_LEFT;
+				ws->setTextHAlign(TA_LEFT);
+				hOut = TA_LEFT;
 				break;
 			}
 
 		switch (vIn)
 			{
-			case ALGN_HALF:
-			case ALGN_ASCENT:
-			case ALGN_TOP:
-				ws->setTextVAlign(ALGN_TOP);
-				vOut = ALGN_TOP;
+			case TA_HALF:
+			case TA_ASCENT:
+			case TA_TOP:
+				ws->setTextVAlign(TA_TOP);
+				vOut = TA_TOP;
 				break;
 
-			case ALGN_BOTTOM:
-			case ALGN_DESCENT:
-				ws->setTextVAlign(ALGN_BOTTOM);
-				vOut = ALGN_BOTTOM;
+			case TA_BOTTOM:
+			case TA_DESCENT:
+				ws->setTextVAlign(TA_BOTTOM);
+				vOut = TA_BOTTOM;
 				break;
 
 			default:
-				ws->setTextVAlign(ALGN_BASELINE);
-				vOut = ALGN_BASELINE;
+				ws->setTextVAlign(TA_BASE);
+				vOut = TA_BASE;
 				break;
 			}
 		}

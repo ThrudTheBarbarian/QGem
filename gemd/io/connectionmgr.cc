@@ -145,8 +145,8 @@ void ConnectionMgr::_incomingData(void)
 				VDI::sharedInstance().vq_chcells(ws, &cm);
 				break;
 
-			case ClientMsg::VQ_EXIT_CUR:			// 5.3
-				VDI::sharedInstance().vq_exit_cur(ws);
+			case ClientMsg::V_EXIT_CUR:			// 5.3
+				VDI::sharedInstance().v_exit_cur(ws);
 				break;
 
 			case ClientMsg::V_ENTER_CUR:			// 5.3

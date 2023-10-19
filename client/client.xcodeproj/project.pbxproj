@@ -6,6 +6,25 @@
 	objectVersion = 56;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		F4680BFE2AE1DC160020BB5B /* All */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = F4680BFF2AE1DC160020BB5B /* Build configuration list for PBXAggregateTarget "All" */;
+			buildPhases = (
+			);
+			dependencies = (
+				F4680C072AE1DC260020BB5B /* PBXTargetDependency */,
+				F4680C032AE1DC260020BB5B /* PBXTargetDependency */,
+				F4680C052AE1DC260020BB5B /* PBXTargetDependency */,
+				F4680C092AE1DC260020BB5B /* PBXTargetDependency */,
+				F4680C0B2AE1DC260020BB5B /* PBXTargetDependency */,
+				F4680C0D2AE1DC260020BB5B /* PBXTargetDependency */,
+			);
+			name = All;
+			productName = All;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		F4680BD92AB370150020BB5B /* vst_height.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BD82AB370150020BB5B /* vst_height.c */; };
 		F4680BDB2AB370E60020BB5B /* vst_point.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BDA2AB370E60020BB5B /* vst_point.c */; };
@@ -23,7 +42,7 @@
 		F46A85B42AAEA2AE00FA3ABC /* v_clrwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */; };
 		F46A85B62AAEA56200FA3ABC /* v_updwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B52AAEA56200FA3ABC /* v_updwk.c */; };
 		F46A85BA2AAEA5A100FA3ABC /* vq_chcells.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */; };
-		F46A85BC2AAEB56700FA3ABC /* vq_exit_cur.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85BB2AAEB56700FA3ABC /* vq_exit_cur.c */; };
+		F46A85BC2AAEB56700FA3ABC /* v_exit_cur.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85BB2AAEB56700FA3ABC /* v_exit_cur.c */; };
 		F46A85BE2AAEB6FE00FA3ABC /* v_enter_cur.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85BD2AAEB6FE00FA3ABC /* v_enter_cur.c */; };
 		F46A85C22AAEB87500FA3ABC /* v_curup.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85C02AAEB87500FA3ABC /* v_curup.c */; };
 		F46A85C42AAEB99600FA3ABC /* v_curdown.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85C32AAEB99600FA3ABC /* v_curdown.c */; };
@@ -147,6 +166,48 @@
 			remoteGlobalIDString = F4E340A92AAAD3E1002390BA;
 			remoteInfo = gemc;
 		};
+		F4680C022AE1DC260020BB5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E340942AAAD389002390BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4BAB2A02AD6446600DBAD9F;
+			remoteInfo = aestest;
+		};
+		F4680C042AE1DC260020BB5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E340942AAAD389002390BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4680BF22ADEEEB80020BB5B;
+			remoteInfo = aspiral;
+		};
+		F4680C062AE1DC260020BB5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E340942AAAD389002390BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4E340A92AAAD3E1002390BA;
+			remoteInfo = gemc;
+		};
+		F4680C082AE1DC260020BB5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E340942AAAD389002390BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F46A86722ABEA73A00FA3ABC;
+			remoteInfo = rscdump;
+		};
+		F4680C0A2AE1DC260020BB5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E340942AAAD389002390BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4E3409B2AAAD389002390BA;
+			remoteInfo = vditest;
+		};
+		F4680C0C2AE1DC260020BB5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E340942AAAD389002390BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F46A86542ABB89B100FA3ABC;
+			remoteInfo = vr_trnfm;
+		};
 		F46A865C2ABB89C700FA3ABC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F4E340942AAAD389002390BA /* Project object */;
@@ -242,7 +303,7 @@
 		F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_clrwk.c; sourceTree = "<group>"; };
 		F46A85B52AAEA56200FA3ABC /* v_updwk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_updwk.c; sourceTree = "<group>"; };
 		F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_chcells.c; sourceTree = "<group>"; };
-		F46A85BB2AAEB56700FA3ABC /* vq_exit_cur.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_exit_cur.c; sourceTree = "<group>"; };
+		F46A85BB2AAEB56700FA3ABC /* v_exit_cur.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_exit_cur.c; sourceTree = "<group>"; };
 		F46A85BD2AAEB6FE00FA3ABC /* v_enter_cur.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_enter_cur.c; sourceTree = "<group>"; };
 		F46A85C02AAEB87500FA3ABC /* v_curup.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_curup.c; sourceTree = "<group>"; };
 		F46A85C32AAEB99600FA3ABC /* v_curdown.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_curdown.c; sourceTree = "<group>"; };
@@ -616,7 +677,7 @@
 				F46A86312AB67A4F00FA3ABC /* vq_color.c */,
 				F46A86942AC373C100FA3ABC /* vq_colours.c */,
 				F46A85D72AAED79F00FA3ABC /* vq_curaddress.c */,
-				F46A85BB2AAEB56700FA3ABC /* vq_exit_cur.c */,
+				F46A85BB2AAEB56700FA3ABC /* v_exit_cur.c */,
 				F46A86452AB8EE0100FA3ABC /* vq_extnd.c */,
 				F46A85D92AAF636F00FA3ABC /* vq_hardcopy.c */,
 				F490593F2ACFA93100F4F288 /* vq_mouse.c */,
@@ -838,6 +899,9 @@
 					F4680BF22ADEEEB80020BB5B = {
 						CreatedOnToolsVersion = 14.2;
 					};
+					F4680BFE2AE1DC160020BB5B = {
+						CreatedOnToolsVersion = 14.2;
+					};
 					F46A86542ABB89B100FA3ABC = {
 						CreatedOnToolsVersion = 14.0.1;
 					};
@@ -874,6 +938,7 @@
 				F46A86722ABEA73A00FA3ABC /* rscdump */,
 				F4BAB2A02AD6446600DBAD9F /* aestest */,
 				F4680BF22ADEEEB80020BB5B /* aspiral */,
+				F4680BFE2AE1DC160020BB5B /* All */,
 			);
 		};
 /* End PBXProject section */
@@ -1063,7 +1128,7 @@
 				F46A85B62AAEA56200FA3ABC /* v_updwk.c in Sources */,
 				F4680BDF2AB376190020BB5B /* vst_font.c in Sources */,
 				F4E340B82AAAD6DE002390BA /* gemio.c in Sources */,
-				F46A85BC2AAEB56700FA3ABC /* vq_exit_cur.c in Sources */,
+				F46A85BC2AAEB56700FA3ABC /* v_exit_cur.c in Sources */,
 				F49059402ACFA93100F4F288 /* vq_mouse.c in Sources */,
 				F49059422ACFADAC00F4F288 /* vex_butv.c in Sources */,
 				F46A85D42AAED0F400FA3ABC /* v_rvon.c in Sources */,
@@ -1087,6 +1152,36 @@
 			isa = PBXTargetDependency;
 			target = F4E340A92AAAD3E1002390BA /* gemc */;
 			targetProxy = F4680BFB2ADEF2F90020BB5B /* PBXContainerItemProxy */;
+		};
+		F4680C032AE1DC260020BB5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4BAB2A02AD6446600DBAD9F /* aestest */;
+			targetProxy = F4680C022AE1DC260020BB5B /* PBXContainerItemProxy */;
+		};
+		F4680C052AE1DC260020BB5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4680BF22ADEEEB80020BB5B /* aspiral */;
+			targetProxy = F4680C042AE1DC260020BB5B /* PBXContainerItemProxy */;
+		};
+		F4680C072AE1DC260020BB5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4E340A92AAAD3E1002390BA /* gemc */;
+			targetProxy = F4680C062AE1DC260020BB5B /* PBXContainerItemProxy */;
+		};
+		F4680C092AE1DC260020BB5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F46A86722ABEA73A00FA3ABC /* rscdump */;
+			targetProxy = F4680C082AE1DC260020BB5B /* PBXContainerItemProxy */;
+		};
+		F4680C0B2AE1DC260020BB5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4E3409B2AAAD389002390BA /* vditest */;
+			targetProxy = F4680C0A2AE1DC260020BB5B /* PBXContainerItemProxy */;
+		};
+		F4680C0D2AE1DC260020BB5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F46A86542ABB89B100FA3ABC /* vr_trnfm */;
+			targetProxy = F4680C0C2AE1DC260020BB5B /* PBXContainerItemProxy */;
 		};
 		F46A865D2ABB89C700FA3ABC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1115,7 +1210,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				GCC_C_LANGUAGE_STANDARD = ansi;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_PEDANTIC = YES;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
 				MACOSX_DEPLOYMENT_TARGET = 12.5;
@@ -1127,10 +1222,26 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				GCC_C_LANGUAGE_STANDARD = ansi;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_PEDANTIC = YES;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../shared";
 				MACOSX_DEPLOYMENT_TARGET = 12.5;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		F4680C002AE1DC160020BB5B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F4680C012AE1DC160020BB5B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1375,6 +1486,15 @@
 			buildConfigurations = (
 				F4680BF82ADEEEB80020BB5B /* Debug */,
 				F4680BF92ADEEEB80020BB5B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4680BFF2AE1DC160020BB5B /* Build configuration list for PBXAggregateTarget "All" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4680C002AE1DC160020BB5B /* Debug */,
+				F4680C012AE1DC160020BB5B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -53,10 +53,10 @@ void VDI::v_gtext(qintptr handle, int16_t x, int16_t y, int16_t w, char *txt)
 		// alignment, we have to calculate that ourselves
 		switch (ws->textVAlign())
 			{
-			case ALGN_TOP:
+			case TA_TOP:
 				y -= metrics->ascent();
 				break;
-			case ALGN_BOTTOM:
+			case TA_BOTTOM:
 				y += metrics->descent();
 				break;
 			}
@@ -85,13 +85,13 @@ void VDI::v_gtext(qintptr handle, int16_t x, int16_t y, int16_t w, char *txt)
 			int flags = 0;
 			switch (ws->textHAlign())
 				{
-				case ALGN_FULL:
+				case TA_FULL:
 					flags	= Qt::TextJustificationForced | Qt::AlignJustify;
 					break;
-				case ALGN_CENTER:
+				case TA_CENTER:
 					flags = Qt::AlignCenter;
 					break;
-				case ALGN_RIGHT:
+				case TA_RIGHT:
 					flags = Qt::AlignRight;
 					break;
 				default:

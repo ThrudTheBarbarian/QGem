@@ -107,8 +107,8 @@ int main(int argc, const char * argv[])
 	workIn[2] = 2;
 	
 	v_opnvwk(workIn, &handle, workOut);
-	v_clrwk();
-	vq_exit_cur(handle);
+	v_clrwk(handle);
+	v_exit_cur(handle);
 
 	/*
 	int16_t pxy[] = {50, 50, 150, 150};
@@ -212,16 +212,16 @@ int main(int argc, const char * argv[])
 	
 	//int16_t rgb[3] = {1000, 100, 500};
 	//vs_color(handle, 1, rgb);
-	vst_alignment(handle, ALGN_LEFT, ALGN_BASELINE, NULL, NULL);
+	vst_alignment(handle, TA_LEFT, TA_BASE, NULL, NULL);
 	v_justified(handle, 1000, 500, "The quick brown fox jumped over the lazy dog", 400, 0,0);
 
-	vst_alignment(handle, ALGN_CENTER, ALGN_BASELINE, NULL, NULL);
+	vst_alignment(handle, TA_CENTER, TA_BASE, NULL, NULL);
 	v_justified(handle, 1000, 520, "The quick brown fox jumped over the lazy dog", 400, 0,0);
 
-	vst_alignment(handle, ALGN_RIGHT, ALGN_BASELINE, NULL, NULL);
+	vst_alignment(handle, TA_RIGHT, TA_BASE, NULL, NULL);
 	v_justified(handle, 1000, 540, "The quick brown fox jumped over the lazy dog", 400, 0,0);
 
-	vst_alignment(handle, ALGN_FULL, ALGN_BASELINE, NULL, NULL);
+	vst_alignment(handle, TA_FULL, TA_BASE, NULL, NULL);
 	v_justified(handle, 1000, 560, "The quick brown fox jumped over the lazy dog", 400, 0,0);
 
 	int16_t attrs[10];

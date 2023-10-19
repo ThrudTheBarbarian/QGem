@@ -21,7 +21,7 @@ enum
 	MSG_NONE					= -1,
 	MSG_V_CLRWK					= 3,
 	MSG_VQ_CHCELLS				= 5001,	/* Really 5.1 etc. */
-	MSG_VQ_EXIT_CUR				= 5002,
+	MSG_V_EXIT_CUR				= 5002,
 	MSG_V_ENTER_CUR				= 5003,
 	MSG_V_CURUP					= 5004,
 	MSG_V_CURDOWN				= 5005,

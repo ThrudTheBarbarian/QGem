@@ -11,7 +11,7 @@
 
 #include "export.h"
 #include "gem.h"
-#include "gemobject.h"
+#include "gem.h"
 #include "pam.h"
 #include "vdi.h"
 

@@ -176,19 +176,26 @@
 #define TXT_MASK		(TXT_BOLD|TXT_LIGHT|TXT_ITALIC|TXT_UNDERLINE|TXT_OUTLINE)
 
 /*****************************************************************************\
-|* Text alignment 
+|* Text alignment, horizontal (TA_FULL is an extension) then vertical
 \*****************************************************************************/
-#define ALGN_LEFT		0
-#define ALGN_CENTER		1
-#define ALGN_RIGHT		2
-#define ALGN_FULL		3
+enum
+	{
+	TA_LEFT				= 0,
+	TA_CENTER, 
+	TA_RIGHT,
+	TA_FULL
+	};
 
-#define ALGN_BASELINE	0
-#define ALGN_HALF		1
-#define ALGN_ASCENT		2
-#define ALGN_BOTTOM		3
-#define ALGN_DESCENT	4
-#define ALGN_TOP		5
+enum 
+	{  
+	TA_BASE				= 0,
+	TA_HALF,   
+	TA_ASCENT, 
+	TA_BOTTOM, 
+	TA_DESCENT,
+	TA_TOP    
+	};
+	
 
 
 /*****************************************************************************\

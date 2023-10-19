@@ -41,6 +41,7 @@ SOURCES += \
     vdi/v_ellipse.cc \
     vdi/v_ellpie.cc \
     vdi/v_enter_cur.cc \
+	vdi/v_exit_cur.cc \
     vdi/v_fillarea.cc \
     vdi/v_form_adv.cc \
     vdi/v_get_pixel.cc \
@@ -65,7 +66,6 @@ SOURCES += \
     vdi/vq_color.cc \
     vdi/vq_colours.cc \
     vdi/vq_curaddress.cc \
-    vdi/vq_exit_cur.cc \
     vdi/vq_extnd.cc \
     vdi/vq_hardcopy.cc \
     vdi/vq_pixrgb.cc \
