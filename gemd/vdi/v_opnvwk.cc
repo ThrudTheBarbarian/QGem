@@ -1,4 +1,5 @@
 #include "clientmsg.h"
+#include "fontmgr.h"
 #include "gem.h"
 #include "screen.h"
 #include "vdi.h"
@@ -75,11 +76,27 @@ void VDI::v_opnvwk(Workstation *ws, ClientMsg *cm)
 	// p[15]:  not used
 
 	/*************************************************************************\
-	|* Create a message to send back
+	|* Get the font sizes
+	\*************************************************************************/
+	FontMgr& fm = FontMgr::sharedInstance();
+	int16_t charW, charH, boxW, boxH;
+	if (fm.boxMetrics(-1, 0, 14, charW, charH, boxW, boxH) == 0)
+		{
+		charW	= 6;
+		charH	= 14;
+		boxW	= 7;
+		boxH	= 16;
+		}
+
+	/*************************************************************************\
+	|* Get the screen
 	\*************************************************************************/
 	VDI& vdi = VDI::sharedInstance();
 	Screen *s = vdi.screen();
 
+	/*************************************************************************\
+	|* Create a message to send back
+	\*************************************************************************/
 	cm->clear();
 	cm->append(s->width()-1);		// 0 : Xmax
 	cm->append(s->height()-1);		// 1 : Ymax
@@ -139,6 +156,11 @@ void VDI::v_opnvwk(Workstation *ws, ClientMsg *cm)
 	cm->append(120);				// 55: maximum marker width in pixels
 	cm->append(88);					// 56: maximum marker height in pixels
 	cm->append(ws->client()->socketDescriptor());
+	cm->append(charW);				// extra: char Width of systme
+	cm->append(charH);				// extra: char Height of system
+	cm->append(boxW);				// extra: box Width of system
+	cm->append(boxH);				// extra: box Height of system
+
 	cm->setType(MSG_REPLY(ClientMsg::V_OPNVWK));
 
 

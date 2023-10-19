@@ -365,6 +365,11 @@ void vq_pixrgb(int16_t handle, int16_t x,   int16_t y, int16_t *rgb);
 void v_opnvwk(int16_t *workIn, int16_t *handle, int16_t *workOut);
 
 /*****************************************************************************\
+|* Return the parameters from v_opnvwk, used by the AES
+\*****************************************************************************/
+int16_t * v_opnvwkParams(void);
+
+/*****************************************************************************\
 |*  101  : Close a virtual workstation
 \*****************************************************************************/
 void v_clsvwk(int handle);

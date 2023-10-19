@@ -44,4 +44,10 @@ int16_t rsrc_gaddr(int16_t type, int16_t index, void *address);
 \*****************************************************************************/
 int16_t rsrc_load(const char *filename);
 
+/*****************************************************************************\
+|*  7803 : rsrc_obfix()
+|*		 : Convert an object from character-based to pixel-based
+\*****************************************************************************/
+int16_t rsrc_obfix(OBJECT *tree, int16_t object);
+
 #endif /* aes_h */
