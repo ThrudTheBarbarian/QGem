@@ -118,6 +118,7 @@
 		F49059482ACFB97600F4F288 /* vq_key_s.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059472ACFB97600F4F288 /* vq_key_s.c */; };
 		F49512BD2ADF8DDE00AF9877 /* rsrc_gaddr.c in Sources */ = {isa = PBXBuildFile; fileRef = F49512BC2ADF8DDE00AF9877 /* rsrc_gaddr.c */; };
 		F49512BF2AE0C9CC00AF9877 /* rsrc_obfix.c in Sources */ = {isa = PBXBuildFile; fileRef = F49512BE2AE0C9CC00AF9877 /* rsrc_obfix.c */; };
+		F49512C12AE0E29D00AF9877 /* rsrc_saddr.c in Sources */ = {isa = PBXBuildFile; fileRef = F49512C02AE0E29D00AF9877 /* rsrc_saddr.c */; };
 		F4BAB29C2AD61DBE00DBAD9F /* appl_init.c in Sources */ = {isa = PBXBuildFile; fileRef = F4BAB29B2AD61DBE00DBAD9F /* appl_init.c */; };
 		F4BAB2A42AD6446600DBAD9F /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4BAB2A32AD6446600DBAD9F /* main.c */; };
 		F4BAB2AD2AD645DD00DBAD9F /* libgemc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E340AA2AAAD3E1002390BA /* libgemc.a */; };
@@ -343,6 +344,7 @@
 		F49059472ACFB97600F4F288 /* vq_key_s.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_key_s.c; sourceTree = "<group>"; };
 		F49512BC2ADF8DDE00AF9877 /* rsrc_gaddr.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rsrc_gaddr.c; sourceTree = "<group>"; };
 		F49512BE2AE0C9CC00AF9877 /* rsrc_obfix.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rsrc_obfix.c; sourceTree = "<group>"; };
+		F49512C02AE0E29D00AF9877 /* rsrc_saddr.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rsrc_saddr.c; sourceTree = "<group>"; };
 		F4BAB29B2AD61DBE00DBAD9F /* appl_init.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = appl_init.c; sourceTree = "<group>"; };
 		F4BAB2A12AD6446600DBAD9F /* aestest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = aestest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4BAB2A32AD6446600DBAD9F /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 				F49512BC2ADF8DDE00AF9877 /* rsrc_gaddr.c */,
 				F4CBFCED2AD771C20078C561 /* rsrc_load.c */,
 				F49512BE2AE0C9CC00AF9877 /* rsrc_obfix.c */,
+				F49512C02AE0E29D00AF9877 /* rsrc_saddr.c */,
 			);
 			path = rsrc;
 			sourceTree = "<group>";
@@ -978,6 +981,7 @@
 				F46A863E2AB7ECEB00FA3ABC /* vqm_attributes.c in Sources */,
 				F46A86242AB632C800FA3ABC /* v_ellpie.c in Sources */,
 				F46A86122AB40F5F00FA3ABC /* vsf_style.c in Sources */,
+				F49512C12AE0E29D00AF9877 /* rsrc_saddr.c in Sources */,
 				F4680BE72ACC9BED0020BB5B /* v_recfl.c in Sources */,
 				F4680BE52ACC91D60020BB5B /* vsf_udsty.c in Sources */,
 				F46A86482AB9102000FA3ABC /* v_contourfill.c in Sources */,

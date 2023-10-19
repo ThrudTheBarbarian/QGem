@@ -50,4 +50,11 @@ int16_t rsrc_load(const char *filename);
 \*****************************************************************************/
 int16_t rsrc_obfix(OBJECT *tree, int16_t object);
 
+/*****************************************************************************\
+|*  7805 : rsrc_saddr()
+|*		 : Set the pointer for an object structure into the RSC file. This
+|* 		 : will make the RSC file take ownership of the memory
+\*****************************************************************************/
+int16_t rsrc_saddr(int16_t type, int16_t index, void *address);
+
 #endif /* aes_h */
