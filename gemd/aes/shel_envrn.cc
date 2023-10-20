@@ -13,8 +13,8 @@ void AES::shel_envrn(Workstation *ws, ClientMsg *cm)
 	QByteArray bytes;
 	cm->fetchData(0, bytes);
 
-	std::string value;
-	std::string name = bytes.toStdString();
+	QString value;
+	QString name(bytes.data());
 	bool found = ws->findEnvironmentVar(name, value);
 
 	/**************************************************************************\
@@ -23,7 +23,11 @@ void AES::shel_envrn(Workstation *ws, ClientMsg *cm)
 	cm->clear();
 	cm->append(found);
 	if (found)
-		cm->append((uint8_t *)value.c_str(), value.length()+1);
+		{
+		QByteArray ba		= value.toLatin1();
+		const char *string	= ba.data();
+		cm->append((uint8_t *)string, ba.length()+1);
+		}
 
 	cm->setType(MSG_REPLY(ClientMsg::AES_SHEL_ENVRN));
 

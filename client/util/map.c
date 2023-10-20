@@ -2,7 +2,6 @@
 //  map.c
 //  gemc
 //
-//  Created by Simon Gornall on 10/14/23.
 //
 
 #include "map.h"

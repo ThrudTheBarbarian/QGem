@@ -151,7 +151,7 @@ class Workstation : public QObject
 		/*********************************************************************\
 		|* Search for an environment variable
 		\*********************************************************************/
-		bool findEnvironmentVar(const std::string& name, std::string&value);
+		bool findEnvironmentVar(const QString& name, QString& value);
 
 		/*********************************************************************\
 		|* Return the socket

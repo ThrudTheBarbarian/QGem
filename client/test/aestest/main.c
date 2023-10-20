@@ -60,6 +60,7 @@ int main(int argc, const char * argv[])
 	/*************************************************************************\
 	|* Load up the resource file (twice)
 	\*************************************************************************/
+#if 0
 	char path[PATH_MAX];
 	snprintf(path, PATH_MAX, "%s/%s", getenv("HOME"), RSCNAME);
 	if(!rsrc_load(path))
@@ -76,11 +77,15 @@ int main(int argc, const char * argv[])
 		v_clsvwk(handle);
 		exit(1);
 		}
-	
+#endif
+
 	/*************************************************************************\
 	|* See if we can find the PATH shell variable
 	\*************************************************************************/
-	shel_envrn(&path, "PATH");
-	fprintf(stderr, "PATH: '%s'\n", path);
+	char *pathVar = NULL;
+	shel_envrn(&pathVar, "PATH=");
+	fprintf(stderr, "PATH: '%s'\n", pathVar);
+	shel_envrn(&pathVar, "PATH");
+	fprintf(stderr, "PATH: '%s'\n", pathVar);
 	return 0;
 	}

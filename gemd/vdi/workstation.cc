@@ -401,9 +401,9 @@ int16_t Workstation::inputMode(int device)
 	return mode;
 	}
 
-/*********************************************************************\
+/*****************************************************************************\
 |* Set up the writing mode
-\*********************************************************************/
+\*****************************************************************************/
 void Workstation::setWritingMode(QPainter& painter)
 	{
 	switch (_wrMode)
@@ -423,18 +423,17 @@ void Workstation::setWritingMode(QPainter& painter)
 		}
 	}
 
-/*********************************************************************\
+/*****************************************************************************\
 |* Find an environment variable
-\*********************************************************************/
-bool Workstation::findEnvironmentVar(const std::string& name, std::string&value)
+\*****************************************************************************/
+bool Workstation::findEnvironmentVar(const QString& name, QString& value)
 	{
 	bool found = false;
-	QString toFind = QString::fromStdString(name);
 
-	if (_environment->contains(toFind))
+	if (_environment->contains(name))
 		{
 		found = true;
-		value = _environment->value(toFind).toStdString();
+		value = _environment->value(name);
 		}
 
 	return found;
