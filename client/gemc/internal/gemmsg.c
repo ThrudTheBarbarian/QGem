@@ -81,6 +81,46 @@ void _gemMsgAppendData(GemMsg *msg, uint8_t *data, uint32_t numBytes)
 		}
 	}
 
+
+/*****************************************************************************\
+|* Get the length of a data blob at a given index.
+\*****************************************************************************/
+uint32_t _gemMsgDataLength(GemMsg *msg, int idx)
+	{
+	uint32_t bytes		= ntohs(msg->vec.data[idx]);
+	bytes				= bytes << 16;
+	bytes			   += ntohs(msg->vec.data[idx+1]);
+	return bytes;
+	}
+
+/*****************************************************************************\
+|* Extract data into the supplied buffer, which should have been reserved using
+|* a call to _gemMsgDataLength() to size it correctly. We return the index of
+|* the next word after the data blob
+\*****************************************************************************/
+int _gemMsgFetchData(GemMsg *msg, int idx, uint8_t *data, uint32_t numBytes)
+	{
+	const char *src		= (const char *)(&(msg->vec.data[idx]));
+	int words			= numBytes/2;
+	
+	/*************************************************************************\
+	|* Copy the bulk of the data to the supplied buffer
+	\*************************************************************************/
+	memcpy(data, src, words * 2);
+	
+	/*************************************************************************\
+	|* If we have an odd number of bytes, deal with that
+	\*************************************************************************/
+	if (numBytes & 1)
+		{
+		int16_t val		= ntohs(msg->vec.data[idx + words]);
+		data[words*2] 	= val & 0xFF;
+		words ++;
+		}
+	
+	return words;
+	}
+
 /*****************************************************************************\
 |* Append an MFDB to a message
 \*****************************************************************************/

@@ -57,4 +57,10 @@ int16_t rsrc_obfix(OBJECT *tree, int16_t object);
 \*****************************************************************************/
 int16_t rsrc_saddr(int16_t type, int16_t index, void *address);
 
+/*****************************************************************************\
+|*  7900 : shel_envrn()
+|*		 : obtains the value of an environment variable
+\*****************************************************************************/
+int16_t shel_envrn(int8_t **value, int8_t *variable);
+
 #endif /* aes_h */

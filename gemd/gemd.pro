@@ -12,6 +12,7 @@ SOURCES += \
 	aes/aes.cc \
     aes/appl_init.cc \
 	aes/graf_handle.cc \
+	aes/shel_envrn.cc \
 	io/clientmsg.cc \
     io/connectionmgr.cc \
     system/fillfactory.cc \

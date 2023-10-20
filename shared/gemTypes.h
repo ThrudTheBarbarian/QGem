@@ -192,12 +192,14 @@ typedef struct
 	#include <vector>
 	#include <QList>
 	#include <QColor>		// For QRgb
+	#include <QString>
 	
-	typedef std::vector<int16_t>	Payload;
-	typedef std::vector<uint8_t>	ByteStream;
-	typedef QList<qreal> 			LineStyle;
-	typedef QList<qintptr>			HandleList;
-	typedef QList<QRgb>				Palette;
+	typedef std::vector<int16_t>				Payload;
+	typedef std::vector<uint8_t>				ByteStream;
+	typedef QList<qreal> 						LineStyle;
+	typedef QList<qintptr>						HandleList;
+	typedef QList<QRgb>							Palette;
+	typedef QMap<QString, QString>				StringMap;
 #endif
 
 #endif /* ! __gem_types_header__ */

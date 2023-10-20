@@ -53,6 +53,7 @@ class Workstation : public QObject
 	GETSET(int, endCap, EndCap);						// Cap-style of end
 	GETSET(int, inputModes, InputModes);				// Request (bit=1)
 	GETSET(int, activeEvents, ActiveEvents);			// Which events to send
+	GETSETP(StringMap*, environment, Environment);		// App environment
 
 	private:
 		/*********************************************************************\
@@ -146,6 +147,11 @@ class Workstation : public QObject
 				return _client->socketDescriptor();
 			return 0;
 			}
+
+		/*********************************************************************\
+		|* Search for an environment variable
+		\*********************************************************************/
+		bool findEnvironmentVar(const std::string& name, std::string&value);
 
 		/*********************************************************************\
 		|* Return the socket

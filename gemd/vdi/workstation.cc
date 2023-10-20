@@ -1,5 +1,7 @@
-#include <QFile>
 #include <QColor>
+#include <QDebug>
+#include <QFile>
+#include <QProcessEnvironment>
 
 #include <cstring>
 
@@ -119,6 +121,7 @@ Workstation::Workstation(QObject *parent)
 	,_endCap(CAP_SQUARE)
 	,_inputModes(0)
 	,_activeEvents(0)
+	,_environment(nullptr)
 	,_client(nullptr)
 	,_fm(nullptr)
 	{
@@ -131,6 +134,7 @@ Workstation::Workstation(QObject *parent)
 \*****************************************************************************/
 Workstation::~Workstation(void)
 	{
+	DELETE(_environment);
 	}
 
 
@@ -139,6 +143,9 @@ Workstation::~Workstation(void)
 \*****************************************************************************/
 void Workstation::_initialise(void)
 	{
+	/*************************************************************************\
+	|* Read the palette file
+	\*************************************************************************/
 	std::string pPath = VDI::sharedInstance().rootDir() + PALETTE_OFFSET
 					  + SYSTEM_PALETTE_NAME;
 
@@ -170,8 +177,23 @@ void Workstation::_initialise(void)
 	else
 		WARN("Cannot open palette file %s", pPath.c_str());
 
+	/*************************************************************************\
+	|* Set the font to be the system font, whatever that may be
+	\*************************************************************************/
 	setFont(-1);
+
+	/*************************************************************************\
+	|* Define a default user line style
+	\*************************************************************************/
 	_userLineType << 3 << 1;
+
+	/*************************************************************************\
+	|* Copy over the current environment
+	\*************************************************************************/
+	_environment = new StringMap();
+	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+	for (QString& key : env.keys())
+		_environment->insert(key, env.value(key));
 	}
 
 /*****************************************************************************\
@@ -399,4 +421,21 @@ void Workstation::setWritingMode(QPainter& painter)
 			painter.setCompositionMode(QPainter::RasterOp_NotSourceAndDestination);
 			break;
 		}
+	}
+
+/*********************************************************************\
+|* Find an environment variable
+\*********************************************************************/
+bool Workstation::findEnvironmentVar(const std::string& name, std::string&value)
+	{
+	bool found = false;
+	QString toFind = QString::fromStdString(name);
+
+	if (_environment->contains(toFind))
+		{
+		found = true;
+		value = _environment->value(toFind).toStdString();
+		}
+
+	return found;
 	}

@@ -110,6 +110,8 @@ class ClientMsg
 		AES_APPL_INIT				= 6007,
 		AES_GRAF_HANDLE				= 6902,
 
+		AES_SHEL_ENVRN				= 7900,
+
 		EVT_MOUSE_MOVE				= 17000,
 		EVT_MOUSE_DOWN				= 17001,
 		EVT_MOUSE_UP				= 17002,

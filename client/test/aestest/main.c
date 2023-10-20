@@ -76,6 +76,11 @@ int main(int argc, const char * argv[])
 		v_clsvwk(handle);
 		exit(1);
 		}
-
+	
+	/*************************************************************************\
+	|* See if we can find the PATH shell variable
+	\*************************************************************************/
+	shel_envrn(&path, "PATH");
+	fprintf(stderr, "PATH: '%s'\n", path);
 	return 0;
 	}

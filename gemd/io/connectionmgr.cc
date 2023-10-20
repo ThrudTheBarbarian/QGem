@@ -461,6 +461,10 @@ void ConnectionMgr::_incomingData(void)
 				AES::sharedInstance().graf_handle(ws, &cm);
 
 
+			case ClientMsg::AES_SHEL_ENVRN:			// 7900
+				AES::sharedInstance().shel_envrn(ws, &cm);
+
+
 			case ClientMsg::EVT_FILTER_SET:			// 17100
 				VDI::sharedInstance().setEventFilter(ws, &cm);
 				break;

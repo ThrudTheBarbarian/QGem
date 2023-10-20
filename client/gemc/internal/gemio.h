@@ -106,7 +106,9 @@ enum
 	// AES takes up 6000->7999
 	MSG_AES_APPL_INIT			= 6007,
 	MSG_AES_GRAF_HANDLE			= 6902,
-			
+		
+	MSG_AES_SHEL_ENVRN			= 7900,
+	
 	MSG_REPLY_OFFSET			= 32768,
 		
 		

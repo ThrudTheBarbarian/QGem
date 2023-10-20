@@ -93,6 +93,12 @@ class AES : public QObject
 		int16_t graf_handle(qintptr handle, int16_t *info);
 		void	graf_handle(Workstation *ws, ClientMsg *cm);
 
+		/*********************************************************************\
+		|* 7900: Find an environment variable
+		\*********************************************************************/
+		int16_t shel_envrn(qintptr handle, const char *name, char **value);
+		void	shel_envrn(Workstation *ws, ClientMsg *cm);
+
 	};
 
 #endif // AES_H

@@ -37,6 +37,18 @@ void _gemMsgAppend(GemMsg *msg, int16_t *data, int numWords);
 void _gemMsgAppendData(GemMsg *msg, uint8_t *data, uint32_t numBytes);
 
 /*****************************************************************************\
+|* Get the length of a data blob at a given index.
+\*****************************************************************************/
+uint32_t _gemMsgDataLength(GemMsg *msg, int idx);
+
+/*****************************************************************************\
+|* Extract data into the supplied buffer, which should have been reserved using
+|* a call to _gemMsgDataLength() to size it correctly. We return the index of
+|* the next word after the data blob
+\*****************************************************************************/
+int _gemMsgFetchData(GemMsg *msg, int idx, uint8_t *data, uint32_t numBytes);
+
+/*****************************************************************************\
 |* Append an MFDB to a message
 \*****************************************************************************/
 void _gemMsgAppendMfdb(GemMsg *msg, MFDB *mfdb);
