@@ -4,6 +4,7 @@
 #include <QLocalSocket>
 #include <QObject>
 #include <QPainter>
+#include <QStringList>
 
 #include "properties.h"
 #include "macros.h"
@@ -54,6 +55,8 @@ class Workstation : public QObject
 	GETSET(int, inputModes, InputModes);				// Request (bit=1)
 	GETSET(int, activeEvents, ActiveEvents);			// Which events to send
 	GETSETP(StringMap*, environment, Environment);		// App environment
+	GET(QStringList, workingDirs);						// List of workdirs
+	GETSET(QString, appDir, AppDir);					// App location
 
 	private:
 		/*********************************************************************\

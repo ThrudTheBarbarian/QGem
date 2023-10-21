@@ -96,8 +96,12 @@ class AES : public QObject
 		/*********************************************************************\
 		|* 7900: Find an environment variable
 		\*********************************************************************/
-		int16_t shel_envrn(qintptr handle, const char *name, char **value);
 		void	shel_envrn(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|* 7901: Find a file by searching various directories
+		\*********************************************************************/
+		void	shel_find(Workstation *ws, ClientMsg *cm);
 
 	};
 

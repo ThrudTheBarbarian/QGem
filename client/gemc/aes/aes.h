@@ -63,4 +63,14 @@ int16_t rsrc_saddr(int16_t type, int16_t index, void *address);
 \*****************************************************************************/
 int16_t shel_envrn(char **value, char *varname);
 
+/*****************************************************************************\
+|*  7901 : shel_find()
+|*		 : Search for a file in a variety of system dirs. Note that 'name'
+|* 		 : on this system should be PATH_MAX bytes long, the original Atari
+|*       : suggestion was 128, which is not sufficient
+|*
+|* 		 : Returns 0 if the file cannot be found
+\*****************************************************************************/
+int16_t shel_find(char *name);
+
 #endif /* aes_h */

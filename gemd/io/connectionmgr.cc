@@ -134,7 +134,7 @@ void ConnectionMgr::_incomingData(void)
 	ClientMsg cm;
 	while (cm.read(socket))
 		{
-		fprintf(stderr, "Despatch message of type: %d\n", cm.type());
+		//fprintf(stderr, "Despatch message of type: %d\n", cm.type());
 		switch (cm.type())
 			{
 			case ClientMsg::V_CLRWK:				// 3
@@ -464,6 +464,10 @@ void ConnectionMgr::_incomingData(void)
 
 			case ClientMsg::AES_SHEL_ENVRN:			// 7900
 				AES::sharedInstance().shel_envrn(ws, &cm);
+				break;
+
+			case ClientMsg::AES_SHEL_FIND:			// 7901
+				AES::sharedInstance().shel_find(ws, &cm);
 				break;
 
 			case ClientMsg::EVT_FILTER_SET:			// 17100

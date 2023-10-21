@@ -87,5 +87,16 @@ int main(int argc, const char * argv[])
 	fprintf(stderr, "PATH: '%s'\n", pathVar);
 	shel_envrn(&pathVar, "PATH");
 	fprintf(stderr, "PATH: '%s'\n", pathVar);
+
+
+	/*************************************************************************\
+	|* Locate a file
+	\*************************************************************************/
+	char locate[PATH_MAX];
+	strcpy(locate, "ls");
+	if (shel_find(locate))
+		fprintf(stderr, "Found '%s'\n", locate);
+		
+	
 	return 0;
 	}

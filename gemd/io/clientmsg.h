@@ -111,6 +111,7 @@ class ClientMsg
 		AES_GRAF_HANDLE				= 6902,
 
 		AES_SHEL_ENVRN				= 7900,
+		AES_SHEL_FIND				= 7901,
 
 		EVT_MOUSE_MOVE				= 17000,
 		EVT_MOUSE_DOWN				= 17001,
