@@ -113,6 +113,7 @@ class ClientMsg
 		AES_SHEL_ENVRN				= 7900,
 		AES_SHEL_FIND				= 7901,
 		AES_SHEL_GET				= 7902,
+		AES_SHEL_PUT				= 7903,
 
 		EVT_MOUSE_MOVE				= 17000,
 		EVT_MOUSE_DOWN				= 17001,

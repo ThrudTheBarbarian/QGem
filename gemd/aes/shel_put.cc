@@ -8,25 +8,19 @@
 /******************************************************************************\
 |* 7902: Return the desktop environment
 \******************************************************************************/
-void AES::shel_get(Workstation *ws, ClientMsg *cm)
+void AES::shel_put(Workstation *, ClientMsg *cm)
 	{
 	/**************************************************************************\
-	|* Send the data down the wire
+	|* Fetch the data from the wire
 	\**************************************************************************/
-	cm->clear();
-
-	QFile file(_deskEnvPath);
-	file.open(QIODevice::ReadOnly | QIODevice::Text);
-	QByteArray ba	= file.readAll();
-	file.close();
-
-	const char *string	= ba.data();
-	cm->append((uint8_t *)string, ba.length()+1);
-
-	cm->setType(MSG_REPLY(ClientMsg::AES_SHEL_GET));
+	QByteArray ba;
+	cm->fetchData(0, ba);
 
 	/**************************************************************************\
-	|* Send the message down the wire
+	|* Write the data to the file
 	\**************************************************************************/
-	ws->send(cm);
+	QFile file(_deskEnvPath);
+	file.open(QIODevice::ReadWrite | QIODeviceBase::Truncate | QIODevice::Text);
+	file.write(ba);
+	file.close();
 	}

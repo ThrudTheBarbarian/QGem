@@ -49,7 +49,7 @@ class AES : public QObject
 		\*********************************************************************/
 		GETSETP(VDI*, vdi, Vdi);	// Accessor to most of the internals
 		GET(HandleMap, apps);
-		GET(QString, deskEnv);		// Desk environment config data
+		GET(QString, deskEnvPath);	// Desk environment config data
 
 	private:
 		/*********************************************************************\
@@ -113,6 +113,11 @@ class AES : public QObject
 		|* 7902: Return the desktop environment
 		\*********************************************************************/
 		void	shel_get(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|* 7902: Return the desktop environment
+		\*********************************************************************/
+		void	shel_put(Workstation *ws, ClientMsg *cm);
 
 	};
 

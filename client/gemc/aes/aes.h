@@ -79,4 +79,10 @@ int16_t shel_find(char *name);
 \*****************************************************************************/
 int16_t shel_get(char *info, uint16_t maxBytes);
 
+/*****************************************************************************\
+|*  7903 : shel_put()
+|*		 : stores the GEM desktop environment information
+\*****************************************************************************/
+int16_t shel_put(char *info, uint16_t maxBytes);
+
 #endif /* aes_h */

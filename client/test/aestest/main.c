@@ -104,6 +104,8 @@ int main(int argc, const char * argv[])
 	if (shel_get(dcfg, 8192))
 		fprintf(stderr, "CFG\n'%s'\n", dcfg);
 		
+	strcat(dcfg, "\nBoom!\n");
+	shel_put(dcfg, strlen(dcfg));
 	
 	return 0;
 	}
