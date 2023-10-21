@@ -470,6 +470,10 @@ void ConnectionMgr::_incomingData(void)
 				AES::sharedInstance().shel_find(ws, &cm);
 				break;
 
+			case ClientMsg::AES_SHEL_GET:			// 7902
+				AES::sharedInstance().shel_get(ws, &cm);
+				break;
+
 			case ClientMsg::EVT_FILTER_SET:			// 17100
 				VDI::sharedInstance().setEventFilter(ws, &cm);
 				break;

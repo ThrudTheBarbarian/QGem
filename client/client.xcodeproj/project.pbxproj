@@ -27,6 +27,7 @@
 
 /* Begin PBXBuildFile section */
 		F45B8B122AE3426000A306B9 /* shel_find.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B112AE3426000A306B9 /* shel_find.c */; };
+		F45B8B142AE393E000A306B9 /* shel_get.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B132AE393E000A306B9 /* shel_get.c */; };
 		F4680BD92AB370150020BB5B /* vst_height.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BD82AB370150020BB5B /* vst_height.c */; };
 		F4680BDB2AB370E60020BB5B /* vst_point.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BDA2AB370E60020BB5B /* vst_point.c */; };
 		F4680BDD2AB3724B0020BB5B /* vst_rotation.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BDC2AB3724B0020BB5B /* vst_rotation.c */; };
@@ -290,6 +291,7 @@
 
 /* Begin PBXFileReference section */
 		F45B8B112AE3426000A306B9 /* shel_find.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shel_find.c; sourceTree = "<group>"; };
+		F45B8B132AE393E000A306B9 /* shel_get.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shel_get.c; sourceTree = "<group>"; };
 		F4680BD82AB370150020BB5B /* vst_height.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_height.c; sourceTree = "<group>"; };
 		F4680BDA2AB370E60020BB5B /* vst_point.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_point.c; sourceTree = "<group>"; };
 		F4680BDC2AB3724B0020BB5B /* vst_rotation.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_rotation.c; sourceTree = "<group>"; };
@@ -540,6 +542,7 @@
 			children = (
 				F49512C32AE22A7A00AF9877 /* shel_envrn.c */,
 				F45B8B112AE3426000A306B9 /* shel_find.c */,
+				F45B8B132AE393E000A306B9 /* shel_get.c */,
 			);
 			path = shell;
 			sourceTree = "<group>";
@@ -1077,6 +1080,7 @@
 				F46A860E2AB3C38B00FA3ABC /* v_gtext.c in Sources */,
 				F46A86422AB7F16800FA3ABC /* vqt_attributes.c in Sources */,
 				F46A85D02AAEC47900FA3ABC /* vs_curaddress.c in Sources */,
+				F45B8B142AE393E000A306B9 /* shel_get.c in Sources */,
 				F4680BED2ACE05D50020BB5B /* vrt_cpyfm.c in Sources */,
 				F46A860A2AB3A91F00FA3ABC /* vst_load_fonts.c in Sources */,
 				F46A862E2AB667B400FA3ABC /* v_justified.c in Sources */,

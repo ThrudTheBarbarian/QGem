@@ -73,4 +73,10 @@ int16_t shel_envrn(char **value, char *varname);
 \*****************************************************************************/
 int16_t shel_find(char *name);
 
+/*****************************************************************************\
+|*  7902 : shel_get()
+|*		 : obtains the GEM desktop environment information
+\*****************************************************************************/
+int16_t shel_get(char *info, uint16_t maxBytes);
+
 #endif /* aes_h */

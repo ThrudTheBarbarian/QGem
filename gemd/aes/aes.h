@@ -49,6 +49,7 @@ class AES : public QObject
 		\*********************************************************************/
 		GETSETP(VDI*, vdi, Vdi);	// Accessor to most of the internals
 		GET(HandleMap, apps);
+		GET(QString, deskEnv);		// Desk environment config data
 
 	private:
 		/*********************************************************************\
@@ -79,6 +80,11 @@ class AES : public QObject
 		AES(AES const&)                 = delete;
 		void operator=(AES const&)      = delete;
 
+		/*********************************************************************\
+		|* Initialise the AES
+		\*********************************************************************/
+		void initialise(void);
+
 		#pragma mark - AES operations
 
 		/*********************************************************************\
@@ -102,6 +108,11 @@ class AES : public QObject
 		|* 7901: Find a file by searching various directories
 		\*********************************************************************/
 		void	shel_find(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|* 7902: Return the desktop environment
+		\*********************************************************************/
+		void	shel_get(Workstation *ws, ClientMsg *cm);
 
 	};
 

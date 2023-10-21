@@ -96,6 +96,13 @@ int main(int argc, const char * argv[])
 	strcpy(locate, "ls");
 	if (shel_find(locate))
 		fprintf(stderr, "Found '%s'\n", locate);
+
+	/*************************************************************************\
+	|* Get the desktop config
+	\*************************************************************************/
+	char dcfg[8192];
+	if (shel_get(dcfg, 8192))
+		fprintf(stderr, "CFG\n'%s'\n", dcfg);
 		
 	
 	return 0;

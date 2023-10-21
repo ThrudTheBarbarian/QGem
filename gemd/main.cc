@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
 	vdi.setScreen(w);
 	fm.initialise();
 	aes.setVdi(&vdi);
+	aes.initialise();
 
 	/*************************************************************************\
 	|* Open the physical workstation
