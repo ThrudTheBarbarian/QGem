@@ -2,6 +2,8 @@ QT += gui widgets network openglwidgets
 
 CONFIG+=sdk_no_version_check
 
+DEFINES += "DEBUG=1"
+
 INCLUDEPATH +=  $$PWD/../shared \
 				$$PWD/io \
 				$$PWD/system  \

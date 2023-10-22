@@ -3,6 +3,7 @@
 
 #include <QMap>
 #include <QObject>
+#include <QSettings>
 
 #include "gemTypes.h"
 #include "properties.h"
@@ -47,9 +48,10 @@ class AES : public QObject
 		/*********************************************************************\
 		|* Properties
 		\*********************************************************************/
-		GETSETP(VDI*, vdi, Vdi);	// Accessor to most of the internals
-		GET(HandleMap, apps);
-		GET(QString, deskEnvPath);	// Desk environment config data
+		GETSETP(VDI*, vdi, Vdi);			// Accessor to the VDI
+		GET(HandleMap, apps);				// Application map
+		GET(QString, deskEnvPath);			// Desk environment config data
+		GETSETP(QSettings*, prefs, Prefs);	// Global preferences
 
 	private:
 		/*********************************************************************\
@@ -84,6 +86,16 @@ class AES : public QObject
 		|* Initialise the AES
 		\*********************************************************************/
 		void initialise(void);
+
+		/*********************************************************************\
+		|* Bootstrap the application
+		\*********************************************************************/
+		void bootstrap(void);
+
+		/*********************************************************************\
+		|* Return the full path to a resource in an app dir
+		\*********************************************************************/
+		QString pathForResourceInApp(QString app, QString resource);
 
 		#pragma mark - AES operations
 

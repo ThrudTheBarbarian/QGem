@@ -41,28 +41,38 @@
 
 #ifdef __cplusplus
 
-# define LOG(...) 													\
-	{																\
-    fprintf(stderr, "[ " __FILENAME__ " " __FUNCTION__ ": "			\
-			__LINE__ "]" __VA_ARGS__);								\
-    fprintf(stderr, "\n");											\
-    }
+#define LOG(...) 													\
+do 																\
+		{ 															\
+			fprintf(stderr, "%s:%d ", __FILENAME__, __LINE__);			\
+			fprintf(stderr,  __VA_ARGS__);								\
+			fprintf(stderr, "\n");										\
+		} while (0)
 
 #if defined(DEBUG)
 
 extern int debugLevel(void);
 
-# define WARN(...)                                                  \
-    {                                                               \
-    if (debugLevel() > 0)                                           \
-        LOG(__VA_ARGS__)                                            \
-    }
+#define WARN(...) 													\
+do 																\
+		{ 															\
+			if (debugLevel() > 0) 										\
+			{														\
+				fprintf(stderr, "%s:%d ", __FILENAME__, __LINE__);		\
+				fprintf(stderr,  __VA_ARGS__); 							\
+				fprintf(stderr, "\n");									\
+			} 														\
+		} while (0)
 
-# define INFO(...)                                                  \
-    {                                                               \
-    if (debugLevel() > 1)                                           \
-        LOG(__VA_ARGS__)                                            \
-    }
+#define INFO(...) 													\
+		do 																\
+		{ 															\
+			if (debugLevel() > 1) 										\
+			{														\
+				fprintf(stderr, "%s:%d ", __FILENAME__, __LINE__);		\
+				fprintf(stderr, __VA_ARGS__); 							\
+				fprintf(stderr, "\n");									\
+			} while (0)
 #else
 # define WARN(...)
 # define INFO(...)
