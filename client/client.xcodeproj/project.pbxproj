@@ -1052,7 +1052,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n";
+			shellScript = "# Script to create an 'application' structure in the target dir\n#\n\nROOTDIR=/usr/local/atari\nAPPDIR=$ROOTDIR/Disk/Applications\nAPP=desktop\n\nmkdir -p $APPDIR/$APP.app\ncp $TARGET_BUILD_DIR/$APP $APPDIR/$APP.app/$APP.prg\n\n";
 		};
 		F46A86842ABEAB8C00FA3ABC /* Copy executable to "bin" */ = {
 			isa = PBXShellScriptBuildPhase;

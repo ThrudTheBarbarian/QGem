@@ -2,7 +2,7 @@
 #include <QFontMetrics>
 
 #include "fontmgr.h"
-#include "gem.h"
+#include "gemTypes.h"
 
 #define FONT_DIR_OFFSET "/System/Fonts/"
 

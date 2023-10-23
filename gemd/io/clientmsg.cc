@@ -2,7 +2,7 @@
 #include <QIODevice>
 
 #include "clientmsg.h"
-#include "gem.h"
+#include "gemTypes.h"
 #include "keymapper.h"
 
 /*****************************************************************************\

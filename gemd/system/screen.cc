@@ -2,7 +2,7 @@
 
 #include "clientmsg.h"
 #include "connectionmgr.h"
-#include "gem.h"
+#include "gemTypes.h"
 #include "screen.h"
 #include "ui_screen.h"
 #include "vdi.h"

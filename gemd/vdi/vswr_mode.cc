@@ -2,7 +2,7 @@
 
 #include "clientmsg.h"
 #include "debug.h"
-#include "gem.h"
+#include "gemTypes.h"
 #include "vdi.h"
 #include "workstation.h"
 

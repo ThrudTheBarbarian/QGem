@@ -6,7 +6,7 @@
 #include "vdi.h"
 
 #define APP_DIR			"Disk" +sep + "Applications"
-#define DESKTOP			"Desktop"
+#define DESKTOP			"desktop"
 
 #define APP_KEY			"sys/appsDir"
 #define DESK_KEY		"sys/bootTo"
@@ -74,18 +74,8 @@ void AES::initialise(void)
 \*****************************************************************************/
 void AES::bootstrap(void)
 	{
-	QString app		= _prefs->value(DESK_KEY, DESKTOP).toString();
-	QString path	= pathForResourceInApp(app, app + PRG_EXT);
+	QString defApp	= QString(DESKTOP) + APP_EXT;
+	QString app		= _prefs->value(DESK_KEY, defApp).toString();
 
-	QFile file(path);
-	if (file.exists())
-		{
-		QByteArray ba = path.toLatin1();
-		WARN("Launching %s", ba.data());
-		}
-	else
-		{
-		QByteArray ba = path.toLatin1();
-		WARN("Tried to launch %s but cannot find it", ba.data());
-		}
+	shel_write(0, 0, 0, 0, app, "-init");
 	}

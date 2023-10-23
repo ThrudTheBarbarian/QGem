@@ -8,7 +8,7 @@
 #include "clientmsg.h"
 #include "fillfactory.h"
 #include "fontmgr.h"
-#include "gem.h"
+#include "gemTypes.h"
 #include "macros.h"
 #include "vdi.h"
 #include "workstation.h"

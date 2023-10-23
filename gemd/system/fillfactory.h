@@ -5,7 +5,7 @@
 #include <QMap>
 #include <QPixmap>
 
-#include "gem.h"
+#include "gemTypes.h"
 
 /*****************************************************************************\
 |* Forward declarations
