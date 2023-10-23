@@ -85,4 +85,14 @@ int16_t shel_get(char *info, uint16_t maxBytes);
 \*****************************************************************************/
 int16_t shel_put(char *info, uint16_t maxBytes);
 
+/*****************************************************************************\
+|*  7908 : shel_write()
+|*		 : Interface to executing an app, or sending messages to other apps
+\*****************************************************************************/
+int16_t shel_write(int16_t doex,
+				   int16_t isgr,
+				   int16_t iscr,
+				   char *  cmd,
+				   char *  args);
+
 #endif /* aes_h */

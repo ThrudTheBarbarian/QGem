@@ -194,7 +194,7 @@ void VDI::vro_cpyfm(Workstation *ws, ClientMsg *cm)
 			if (src.fd_wdwidth * 2 * src.fd_h != ba.size())
 				WARN("Mismatch in size within MFDB (%d != %d)",
 					 src.fd_wdwidth * 2 * src.fd_h,
-					 ba.size());
+					(int)ba.size());
 
 		memcpy(src.fd_addr, ba.constData(), ba.size());
 		}
@@ -230,7 +230,7 @@ void VDI::vro_cpyfm(Workstation *ws, ClientMsg *cm)
 		if (dst.fd_wdwidth * 2 * src.fd_h != ba.size())
 				WARN("Mismatch in size within dst MFDB (%d != %d)",
 					 dst.fd_wdwidth * 2 * dst.fd_h,
-					 ba.size());
+					 (int)ba.size());
 		memcpy(dst.fd_addr, ba.constData(), ba.size());
 		}
 

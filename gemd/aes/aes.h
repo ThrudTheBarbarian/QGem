@@ -39,11 +39,15 @@ class AES : public QObject
 		\*********************************************************************/
 		typedef struct
 			{
-			int16_t appId;			// Application id
+			int16_t			appId;			// Application id
+			QString			uuid;			// UUID to link app to AES
+			QString			cmd;			// Command to run
+			QString			args;			// Arguments passed
 			} AppContext;
 
 
 		typedef QMap<qintptr, AppContext>	HandleMap;
+		typedef QList<AppContext>			PendingList;
 
 		/*********************************************************************\
 		|* Properties
@@ -52,12 +56,14 @@ class AES : public QObject
 		GET(HandleMap, apps);				// Application map
 		GET(QString, deskEnvPath);			// Desk environment config data
 		GETSETP(QSettings*, prefs, Prefs);	// Global preferences
+		GET(QStringList, appExtensions);	// List of extensions that are apps
+		GETP(PendingList*, pendingApps);	// Potential apps via shel_write
 
 	private:
 		/*********************************************************************\
 		|* Private state
 		\*********************************************************************/
-		int16_t _nextApp;		// Counter for application-id
+		int16_t _nextApp;					// Counter for application-id
 
 		/*********************************************************************\
 		|* Private constructor
@@ -127,9 +133,21 @@ class AES : public QObject
 		void	shel_get(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
-		|* 7902: Return the desktop environment
+		|* 7903: Return the desktop environment
 		\*********************************************************************/
 		void	shel_put(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|* 7908: Write to the desktop environment. Typically used to start
+		|*     : an application
+		\*********************************************************************/
+		int16_t shel_write(qintptr handle,
+						   int16_t doex,		// action to perform
+						   int16_t isgr,		// launch mode
+						   int16_t iscr,		// not used
+						   QString cmd,			// command to execute, if any
+						   QString args);		// arguments to pass, if any
+		void	shel_write(Workstation *ws, ClientMsg *cm);
 
 	};
 

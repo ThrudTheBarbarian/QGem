@@ -337,5 +337,5 @@ enum
 	R_FRIMG,
 	R_MAX
 	};
-	
+
 #endif /* !__gem_defines_header__ */

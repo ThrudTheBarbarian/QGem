@@ -7,11 +7,12 @@
 
 #define APP_DIR			"Disk" +sep + "Applications"
 #define DESKTOP			"Desktop"
-#define APP_EXT			".app"
-#define PRG_EXT			".prg"
 
 #define APP_KEY			"sys/appsDir"
 #define DESK_KEY		"sys/bootTo"
+
+#define APP_EXT			".app"
+#define PRG_EXT			".prg"
 
 /*****************************************************************************\
 |* Constructor
@@ -19,6 +20,7 @@
 AES::AES(QObject *parent)
 	: QObject{parent}
 	,_vdi(nullptr)
+	,_pendingApps(nullptr)
 	,_nextApp(1)
 	{}
 
@@ -30,7 +32,9 @@ QString AES::pathForResourceInApp(QString app, QString resource)
 	QString root	= QString(_vdi->rootDir().c_str());
 	QString sep		= QDir::separator();
 	QString appsDir = _prefs->value(APP_KEY, APP_DIR).toString();
-	QString appPath = root +sep + appsDir + sep + app + APP_EXT;
+	QString appPath = root +sep + appsDir + sep + app;
+	if (!app.endsWith(APP_EXT,Qt::CaseInsensitive))
+		appPath += APP_EXT;
 
 	if (resource.length())
 		return appPath + sep + resource;
@@ -52,6 +56,16 @@ void AES::initialise(void)
 	\**************************************************************************/
 	QString app = _prefs->value(DESK_KEY, DESKTOP).toString();
 	_deskEnvPath = pathForResourceInApp(app, "newdesk.inf");
+
+	/**************************************************************************\
+	|* Set the extensions that we consider to be applications
+	\**************************************************************************/
+	_appExtensions << ".acc" << ".app" << ".prg";
+
+	/**************************************************************************\
+	|* Create the pending-apps context list
+	\**************************************************************************/
+	_pendingApps = new PendingList();
 	}
 
 

@@ -104,8 +104,9 @@ int main(int argc, const char * argv[])
 	if (shel_get(dcfg, 8192))
 		fprintf(stderr, "CFG\n'%s'\n", dcfg);
 		
-	strcat(dcfg, "\nBoom!\n");
-	shel_put(dcfg, strlen(dcfg));
-	
+	/*************************************************************************\
+	|* Execute an app
+	\*************************************************************************/
+	shel_write(0, 0, 0, "desktop.app", "-x 4");
 	return 0;
 	}

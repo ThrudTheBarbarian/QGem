@@ -478,6 +478,10 @@ void ConnectionMgr::_incomingData(void)
 				AES::sharedInstance().shel_put(ws, &cm);
 				break;
 
+			case ClientMsg::AES_SHEL_WRITE:			// 7908
+				AES::sharedInstance().shel_write(ws, &cm);
+				break;
+
 			case ClientMsg::EVT_FILTER_SET:			// 17100
 				VDI::sharedInstance().setEventFilter(ws, &cm);
 				break;

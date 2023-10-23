@@ -18,6 +18,7 @@ SOURCES += \
 	aes/shel_find.cc \
 	aes/shel_get.cc \
 	aes/shel_put.cc \
+	aes/shel_write.cc \
 	io/clientmsg.cc \
     io/connectionmgr.cc \
     system/fillfactory.cc \
