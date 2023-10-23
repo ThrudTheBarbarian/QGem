@@ -31,6 +31,15 @@ int16_t appl_init(void)
 	\*************************************************************************/
 	GemMsg msg;
 	_gemMsgInit(&msg, MSG_AES_APPL_INIT);
+
+	/*************************************************************************\
+	|* If we've been launched with shel_write, then we ought to have an
+	|* environment variable set to our UUID on the server, if so, pass it
+	|* through
+	\*************************************************************************/
+	char * appUUID = getenv("GEM_APP_ID");
+	if (appUUID != NULL)
+		_gemMsgAppendData(&msg, (uint8_t*)appUUID, (int)strlen(appUUID));
 	_gemIoWrite(&msg);
 
 	/*************************************************************************\

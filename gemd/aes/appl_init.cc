@@ -9,14 +9,26 @@
 |*
 |* returns -1 or the application id
 \*****************************************************************************/
-int16_t AES::appl_init(qintptr handle)
+int16_t AES::appl_init(qintptr handle, QString uuid)
 	{
-	AppContext ctx		=
-		{
-		.appId			= _nextApp ++
-		};
+	AppContext ctx = {0, "","",""};
 
-	_apps[handle]		= ctx;
+	/**************************************************************************\
+	|* If we have a uuid, use that app-context
+	\**************************************************************************/
+	int idx = 0;
+	for (auto i = _pendingApps->begin(); i != _pendingApps->end(); i++)
+		{
+		if (i->uuid == uuid)
+			{
+			ctx = _pendingApps->takeAt(idx);
+			break;
+			}
+		idx ++;
+		}
+
+	ctx.appId		= _nextApp ++;
+	_apps[handle]	= ctx;
 	return ctx.appId;
 	}
 
@@ -25,7 +37,18 @@ int16_t AES::appl_init(qintptr handle)
 \*****************************************************************************/
 void AES::appl_init(Workstation *ws, ClientMsg *cm)
 	{
-	int16_t appId = appl_init(ws->handle());
+	/**************************************************************************\
+	|* Parse out the UUID for the application, if one was sent
+	\**************************************************************************/
+	QString appUuid = "";
+	if (cm->payload().size() > 0)
+		{
+		QByteArray ba;
+		cm->fetchData(0, ba);
+		appUuid = QString::fromLatin1(ba.data());
+		}
+
+	int16_t appId = appl_init(ws->handle(), appUuid);
 
 	/**************************************************************************\
 	|* Construct the message

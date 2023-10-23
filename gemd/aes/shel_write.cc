@@ -15,8 +15,8 @@
 /*****************************************************************************\
 |* Forward declarations
 \*****************************************************************************/
-static void _launchGemApp(QString cmd, QString args, QProcessEnvironment& env);
-static void _launchTosApp(QString cmd, QString args, QProcessEnvironment& env);
+static void _launchGemApp(QString cmd, QString args);
+static void _launchTosApp(QString cmd, QString args);
 
 /*****************************************************************************\
 |* Different ways we can launch a program
@@ -27,6 +27,10 @@ typedef enum
 	AS_GEM,
 	AS_TOS,
 	} LaunchStyle;
+
+#define GEM_APP_ID		"GEM_APP_ID"
+#define GEM_APP_CMD		"GEM_APP_CMD"
+#define GEM_APP_ARGS	"GEM_APP_ARGS"
 
 /*****************************************************************************\
 |* 7908: Write to the desktop environment. Typically used to start
@@ -83,21 +87,34 @@ int16_t AES::shel_write(qintptr handle,
 			}
 
 		/*********************************************************************\
+		|* Clear the environment from any past invocation
+		\*********************************************************************/
+		qunsetenv(GEM_APP_CMD);
+		qunsetenv(GEM_APP_ARGS);
+		qunsetenv(GEM_APP_ID);
+
+		/*********************************************************************\
 		|* Now decide what to do based on the above
 		\*********************************************************************/
-		QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 		switch (style)
 			{
 			case NONE:
 				break;
 			case AS_GEM:
-				_launchGemApp(cmd, args, env);
+				_launchGemApp(cmd, args);
 				break;
 			case AS_TOS:
-				_launchTosApp(cmd, args, env);
+				_launchTosApp(cmd, args);
 				break;
 			}
 		}
+
+	/*********************************************************************\
+	|* Clear the environment for this invocation
+	\*********************************************************************/
+	qunsetenv(GEM_APP_CMD);
+	qunsetenv(GEM_APP_ARGS);
+	qunsetenv(GEM_APP_ID);
 
 	return ok;
 	}
@@ -130,7 +147,7 @@ void AES::shel_write(Workstation *ws, ClientMsg *cm)
 /*****************************************************************************\
 |* Helper function, launch a GEM app
 \*****************************************************************************/
-void _launchGemApp(QString cmd, QString args, QProcessEnvironment& env)
+void _launchGemApp(QString cmd, QString args)
 	{
 	bool ok = false;
 
@@ -194,12 +211,17 @@ void _launchGemApp(QString cmd, QString args, QProcessEnvironment& env)
 	AES::sharedInstance().pendingApps()->push_back(ctx);
 
 	/**************************************************************************\
-	|* Start the process, using the appid to link this process to its record
+	|* Start the process, using the appid to link this process to its record.
+	|*
+	|* Note that due to a long-standing bug in QT, you can't pass an environment
+	|* to the sub-process, you have to manipulate your own, which will be
+	|* inherited
 	\**************************************************************************/
 	QProcess process;
+	QByteArray ba = QByteArray::fromStdString(uuid.toStdString());
+	qputenv(GEM_APP_ID, ba);
 
-	env.insert("GEM_APPID", uuid);
-	process.setProcessEnvironment(env);
+	process.setProgram(cmd);
 	process.setArguments(args.split(" "));
 	process.startDetached(cmd);
 	}
@@ -207,9 +229,13 @@ void _launchGemApp(QString cmd, QString args, QProcessEnvironment& env)
 /*****************************************************************************\
 |* Helper function, launch a TOS app
 \*****************************************************************************/
-void _launchTosApp(QString cmd, QString args, QProcessEnvironment& env)
+void _launchTosApp(QString cmd, QString args)
 	{
-	env.insert("GEM_APPCMD", cmd);
-	env.insert("GEM_APPARGS", args);
-	_launchGemApp("shellwin.app", "", env);
+	QByteArray ba = QByteArray::fromStdString(cmd.toStdString());
+	qputenv(GEM_APP_CMD, ba);
+
+	ba = QByteArray::fromStdString(args.toStdString());
+	qputenv(GEM_APP_ARGS, ba);
+
+	_launchGemApp("cmdtool", "");
 	}

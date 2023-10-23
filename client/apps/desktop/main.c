@@ -8,9 +8,9 @@
 |* Implements a desktop-like interface for QGem
 \*****************************************************************************/
 
-#include "gem.h"
+#include "aes.h"
 
-int main(int argc, const char * argv[])
+int main(int argc, const char * argv[], const char *env[])
 	{
 	int i;				/* The overworked minority of integer loop variables */
 	int16_t workIn[16];
@@ -22,6 +22,25 @@ int main(int argc, const char * argv[])
 	workIn[0] = 1;
 	workIn[2] = 2;
 
+#if 0
+	/*************************************************************************\
+	|* print out the environment
+	\*************************************************************************/
+	FILE *fp = fopen("/tmp/log", "w");
+	int idx = 0;
+	while (env[idx])
+		{
+		fprintf(fp, "%s\n", env[idx]);
+		idx ++;
+		}
+	fclose(fp);
+#endif
+
+	/*************************************************************************\
+	|* Initialise the application and set up the connection to the server
+	\*************************************************************************/
+	int appHandle = appl_init();
+	
 	/*************************************************************************\
 	|* Connect to the display, clear it, and ensure we're in graphics mode
 	\*************************************************************************/

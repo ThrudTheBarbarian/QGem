@@ -108,7 +108,7 @@ class AES : public QObject
 		/*********************************************************************\
 		|* 6007: Register the application with the AES and get an app-id
 		\*********************************************************************/
-		int16_t appl_init(qintptr handle);
+		int16_t appl_init(qintptr handle, QString uuid = "");
 		void	appl_init(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
