@@ -2,7 +2,7 @@
 //  aes.h
 //  client
 //
-//  Created by Simon Gornall on 10/10/23.
+//  Created by ThrudTheBarbarian on 10/10/23.
 //
 
 #ifndef aes_h

@@ -6,20 +6,11 @@
 \*****************************************************************************/
 
 #include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include <sys/time.h>
 #include <sys/types.h>
  
 #include "gem.h"
 
-#ifdef QGEM
-#include "gemio.h"
-#include "gemmsg.h"
-#include "rscfile.h"
-#include "vdi.h"
-#endif
 
 /*****************************************************************************\
 |* Forward declarations
