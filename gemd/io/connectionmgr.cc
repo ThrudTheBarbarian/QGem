@@ -478,6 +478,10 @@ void ConnectionMgr::_incomingData(void)
 				AES::sharedInstance().shel_put(ws, &cm);
 				break;
 
+			case ClientMsg::AES_SHEL_READ:			// 7906
+				AES::sharedInstance().shel_read(ws, &cm);
+				break;
+
 			case ClientMsg::AES_SHEL_WRITE:			// 7908
 				AES::sharedInstance().shel_write(ws, &cm);
 				break;

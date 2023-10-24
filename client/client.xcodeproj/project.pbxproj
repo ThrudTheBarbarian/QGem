@@ -32,6 +32,7 @@
 		F45B8B182AE6304800A306B9 /* shel_write.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B172AE6304800A306B9 /* shel_write.c */; };
 		F45B8B212AE6C2CF00A306B9 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B202AE6C2CF00A306B9 /* main.c */; };
 		F45B8B272AE6C41D00A306B9 /* libgemc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E340AA2AAAD3E1002390BA /* libgemc.a */; };
+		F45B8B2A2AE770D400A306B9 /* shel_read.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B292AE770D400A306B9 /* shel_read.c */; };
 		F4680BD92AB370150020BB5B /* vst_height.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BD82AB370150020BB5B /* vst_height.c */; };
 		F4680BDB2AB370E60020BB5B /* vst_point.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BDA2AB370E60020BB5B /* vst_point.c */; };
 		F4680BDD2AB3724B0020BB5B /* vst_rotation.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BDC2AB3724B0020BB5B /* vst_rotation.c */; };
@@ -316,6 +317,7 @@
 		F45B8B172AE6304800A306B9 /* shel_write.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shel_write.c; sourceTree = "<group>"; };
 		F45B8B1E2AE6C2CF00A306B9 /* desktop */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = desktop; sourceTree = BUILT_PRODUCTS_DIR; };
 		F45B8B202AE6C2CF00A306B9 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		F45B8B292AE770D400A306B9 /* shel_read.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shel_read.c; sourceTree = "<group>"; };
 		F4680BD82AB370150020BB5B /* vst_height.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_height.c; sourceTree = "<group>"; };
 		F4680BDA2AB370E60020BB5B /* vst_point.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_point.c; sourceTree = "<group>"; };
 		F4680BDC2AB3724B0020BB5B /* vst_rotation.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_rotation.c; sourceTree = "<group>"; };
@@ -593,6 +595,7 @@
 				F45B8B132AE393E000A306B9 /* shel_get.c */,
 				F45B8B152AE4403000A306B9 /* shel_put.c */,
 				F45B8B172AE6304800A306B9 /* shel_write.c */,
+				F45B8B292AE770D400A306B9 /* shel_read.c */,
 			);
 			path = shell;
 			sourceTree = "<group>";
@@ -1228,6 +1231,7 @@
 				F46A86202AB62EA500FA3ABC /* v_circle.c in Sources */,
 				F46A864A2ABA66DA00FA3ABC /* v_get_pixel.c in Sources */,
 				F49059442ACFB26200F4F288 /* vex_motv.c in Sources */,
+				F45B8B2A2AE770D400A306B9 /* shel_read.c in Sources */,
 				F4CBFCF42ADB9AF70078C561 /* map.c in Sources */,
 				F490593A2ACD262C00F4F288 /* vst_unload_fonts.c in Sources */,
 				F4680BE32ACB268D0020BB5B /* vsc_form.c in Sources */,

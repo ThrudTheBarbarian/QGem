@@ -118,7 +118,7 @@ int _gemMsgFetchData(GemMsg *msg, int idx, uint8_t *data, uint32_t numBytes)
 		words ++;
 		}
 	
-	return words;
+	return words + idx;
 	}
 
 /*****************************************************************************\

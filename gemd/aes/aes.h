@@ -139,6 +139,12 @@ class AES : public QObject
 		void	shel_put(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
+		|* 7906: Read the commandline/args for an application
+		\*********************************************************************/
+		int16_t shel_read(qintptr handle, QString& cmd,	QString& args);
+		void	shel_read(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
 		|* 7908: Write to the desktop environment. Typically used to start
 		|*     : an application
 		\*********************************************************************/

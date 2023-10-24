@@ -8,6 +8,8 @@
 |* Implements a desktop-like interface for QGem
 \*****************************************************************************/
 
+#include <limits.h>
+
 #include "aes.h"
 
 int main(int argc, const char * argv[], const char *env[])
@@ -22,6 +24,16 @@ int main(int argc, const char * argv[], const char *env[])
 	workIn[0] = 1;
 	workIn[2] = 2;
 
+	/*************************************************************************\
+	|* Initialise the application and set up the connection to the server
+	\*************************************************************************/
+	int appHandle = appl_init();
+
+	char cmd[PATH_MAX];
+	char args[PATH_MAX];
+	shel_read(cmd, args);
+	printf("\n\n\n[%s] [%s]\n", cmd, args);
+
 #if 0
 	/*************************************************************************\
 	|* print out the environment
@@ -33,13 +45,10 @@ int main(int argc, const char * argv[], const char *env[])
 		fprintf(fp, "%s\n", env[idx]);
 		idx ++;
 		}
+		
+	
 	fclose(fp);
 #endif
-
-	/*************************************************************************\
-	|* Initialise the application and set up the connection to the server
-	\*************************************************************************/
-	int appHandle = appl_init();
 	
 	/*************************************************************************\
 	|* Connect to the display, clear it, and ensure we're in graphics mode
@@ -48,3 +57,10 @@ int main(int argc, const char * argv[], const char *env[])
 	v_clrwk(handle);
 	v_exit_cur(handle);
 	}
+
+/*****************************************************************************\
+|* For debugging
+\*****************************************************************************/
+int debugLevel(void)
+	{ return 10; }
+	

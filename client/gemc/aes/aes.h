@@ -86,6 +86,15 @@ int16_t shel_get(char *info, uint16_t maxBytes);
 int16_t shel_put(char *info, uint16_t maxBytes);
 
 /*****************************************************************************\
+|*  7906 : shel_read()
+|*		 : Get the commandline parameters for an application launched with
+|*       : shel_write()
+|*
+|* Note that both cmd and args ought to be of length at least PATH_MAX
+\*****************************************************************************/
+int16_t shel_read(char *cmd, char *args);
+
+/*****************************************************************************\
 |*  7908 : shel_write()
 |*		 : Interface to executing an app, or sending messages to other apps
 \*****************************************************************************/
