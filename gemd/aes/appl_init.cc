@@ -11,7 +11,7 @@
 \*****************************************************************************/
 int16_t AES::appl_init(qintptr handle, QString uuid)
 	{
-	AppContext ctx = {0, "","",""};
+	AppContext ctx = {0, "","","", false};
 
 	/**************************************************************************\
 	|* If we have a uuid, use that app-context

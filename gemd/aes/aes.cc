@@ -2,7 +2,6 @@
 #include <QFile>
 
 #include "aes.h"
-#include "debug.h"
 #include "vdi.h"
 
 #define APP_DIR			"Disk" +sep + "Applications"
@@ -74,8 +73,15 @@ void AES::initialise(void)
 \*****************************************************************************/
 void AES::bootstrap(void)
 	{
+	/**************************************************************************\
+	|* Locate the program
+	\**************************************************************************/
 	QString defApp	= QString(DESKTOP) + APP_EXT;
 	QString app		= _prefs->value(DESK_KEY, defApp).toString();
 
+	/**************************************************************************\
+	|* Sending the command with a '0' handle indicates that this is the desktop
+	|* call, which will set the appropriate flag in the app context
+	\**************************************************************************/
 	shel_write(0, 0, 0, 0, app, "-init");
 	}

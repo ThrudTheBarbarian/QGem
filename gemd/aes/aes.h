@@ -43,6 +43,7 @@ class AES : public QObject
 			QString			uuid;			// UUID to link app to AES
 			QString			cmd;			// Command to run
 			QString			args;			// Arguments passed
+			bool			isDesktop;		// Is this the desktop app
 			} AppContext;
 
 
