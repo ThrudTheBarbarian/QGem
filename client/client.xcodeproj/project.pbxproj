@@ -13,6 +13,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				F45B8B2C2AE7803A00A306B9 /* PBXTargetDependency */,
 				F4680C072AE1DC260020BB5B /* PBXTargetDependency */,
 				F4680C032AE1DC260020BB5B /* PBXTargetDependency */,
 				F4680C052AE1DC260020BB5B /* PBXTargetDependency */,
@@ -173,6 +174,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = F4E340A92AAAD3E1002390BA;
 			remoteInfo = gemc;
+		};
+		F45B8B2B2AE7803A00A306B9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E340942AAAD389002390BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F45B8B1D2AE6C2CF00A306B9;
+			remoteInfo = desktop;
 		};
 		F4680BFB2ADEF2F90020BB5B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1032,8 +1040,8 @@
 				F46A86722ABEA73A00FA3ABC /* rscdump */,
 				F4BAB2A02AD6446600DBAD9F /* aestest */,
 				F4680BF22ADEEEB80020BB5B /* aspiral */,
-				F4680BFE2AE1DC160020BB5B /* All */,
 				F45B8B1D2AE6C2CF00A306B9 /* desktop */,
+				F4680BFE2AE1DC160020BB5B /* All */,
 			);
 		};
 /* End PBXProject section */
@@ -1279,6 +1287,11 @@
 			isa = PBXTargetDependency;
 			target = F4E340A92AAAD3E1002390BA /* gemc */;
 			targetProxy = F45B8B252AE6C41800A306B9 /* PBXContainerItemProxy */;
+		};
+		F45B8B2C2AE7803A00A306B9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F45B8B1D2AE6C2CF00A306B9 /* desktop */;
+			targetProxy = F45B8B2B2AE7803A00A306B9 /* PBXContainerItemProxy */;
 		};
 		F4680BFC2ADEF2F90020BB5B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

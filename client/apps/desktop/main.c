@@ -32,22 +32,15 @@ int main(int argc, const char * argv[], const char *env[])
 	char cmd[PATH_MAX];
 	char args[PATH_MAX];
 	shel_read(cmd, args);
-	printf("\n\n\n[%s] [%s]\n", cmd, args);
+	printf("shel_read: [%s] [%s]\n", cmd, args);
 
 #if 0
 	/*************************************************************************\
 	|* print out the environment
 	\*************************************************************************/
-	FILE *fp = fopen("/tmp/log", "w");
 	int idx = 0;
 	while (env[idx])
-		{
-		fprintf(fp, "%s\n", env[idx]);
-		idx ++;
-		}
-		
-	
-	fclose(fp);
+		printf("%s\n", env[idx++]);
 #endif
 	
 	/*************************************************************************\

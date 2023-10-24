@@ -5,7 +5,6 @@
 #include <QObject>
 #include <QSettings>
 
-#include "gemTypes.h"
 #include "properties.h"
 
 /*****************************************************************************\

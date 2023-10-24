@@ -1,1 +1,35 @@
 
+Progress:
+
+* Get the VDI up and running
+- Get the AES up and running too
+	* Shell library implemented
+	- Window library next
+	
+
+"What comes next"
+
+- Have to figure out how I'm going to do redraws. Do I want the service to
+  hold onto the pixmap for the last draw, and only send WM_REDRAW messages 
+  when the draw is outside of what we already know ?
+  
+  This is actually feasible, the Pi5 comes in 4 or 8GB variants, and a 
+  1920x1080x32-bit image is ~8MB. There's a lot of 8MB's in 4GB.
+  
+  But then, is it 8MB per window ? Presumably so. Still probably fine, but 
+  starting to get noticeably wasteful
+  
+  Alternative is to just issue redraw requests as needed, and draw them to the
+  screen backing pixmap as they come in. Slower, certainly, given that all the
+  data is serialised over a socket connection, but probably fast enough.
+  
+- Need a concept of a window list, in drawing order. This lets us:
+
+	- Filter events to the correct application. A mouse-click needs to WM_TOP
+	  a window if that window isn't from the application owning the top window
+	  and it needs to be delivered to the application if the converse is true
+
+	- Create rectangle lists. Basic idea for generation of all rectangle lists
+	  for a window is to take it's on-screen bounds as a rect, and for all the
+	  windows "above" this one, do an intersection/division to create the list
+	  of rectangles left to draw in this window.
