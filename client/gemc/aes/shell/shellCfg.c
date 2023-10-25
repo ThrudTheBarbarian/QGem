@@ -4,11 +4,16 @@
 //
 //  Created by ThrudTheBarbarian on 10/24/23.
 //
+#include <ctype.h>
 #include <string.h>
 
 #include "debug.h"
 #include "gem.h"
 #include "shellCfg.h"
+#include "stringUtils.h"
+
+#define WIN_DX	(8)
+#define WIN_DY	(16)
 
 typedef enum
 	{
@@ -22,10 +27,17 @@ typedef enum
 static int _parseSerial(ND_INFO *info, const char *data);
 static int _parsePrinter(ND_INFO *info, const char *data);
 static int _parseMisc(ND_INFO *info, const char *data);
-static int _parseIcon(vec_icon_t *vec, const char *data, IconVariant variant);
-static int _parseDrive(vec_drive_t *vec, const char *data);
+static int _parseIconVec(vec_icon_t *vec, const char *data, IconVariant variant);
+static int _parseIcon(ND_ICONSPEC *spec, const char *data, IconVariant variant);
+static int _parseDriveVec(vec_drive_t *info, const char *data);
+static int _parseDrive(ND_DRIVE *drive, const char *data);
 static int _parseDisplayInfo(ND_INFO *info, const char *data);
-static int _parseExecIcon(vec_gicon_t *vec, const char *data);
+static int _parseExecIcon(vec_gicon_t *vec, char *data);
+static int _parseShortcuts(ND_INFO *info, char *data);
+static int _parseWindowStyle(ND_INFO *info, char *data);
+static int _parseCharset(ND_INFO *info, char *data);
+static int _parseLinks(vec_link_t *vec, char *data);
+static int _parseWindows(vec_win_t *vec, char *data);
 
 #define CLEAN(vector, type) 												\
 	if (vector.data != NULL) 												\
@@ -106,7 +118,7 @@ void _gemInfInit(ND_INFO *info)
 	/*************************************************************************\
 	|* Folder links on the desktop
 	\*************************************************************************/
-	CLEAN(info->fldrLinks, ND_LINK_FLDR);
+	CLEAN(info->fldrLinks, ND_LINK);
 	
 	/*************************************************************************\
 	|* Windows
@@ -116,7 +128,7 @@ void _gemInfInit(ND_INFO *info)
 	/*************************************************************************\
 	|* File links on the desktop
 	\*************************************************************************/
-	CLEAN(info->fileLinks, ND_LINK_FLDR);
+	CLEAN(info->fileLinks, ND_LINK);
 	
 	/*************************************************************************\
 	|* Apps that take params
@@ -140,16 +152,27 @@ int _gemInfReadData(const char *inf, ND_INFO* info)
 		|* Clear out the info structure so it's ready to use.
 		\*********************************************************************/
 		_gemInfInit(info);
-			
+
 		/*********************************************************************\
-		|* Run over all the tokens, parsing in-order
+		|* Tokenise the strings into a reverse-order list
 		\*********************************************************************/
+		vec_str_t items;
+		vec_init(&items);
+
 		char *copy 	= strdup(inf);
 		char *entry = NULL;
 		
 		for (entry = strtok(copy, "#"); entry; entry = strtok(NULL, "#"))
+			vec_push(&items, entry);
+		vec_reverse(&items);
+		
+		/*********************************************************************\
+		|* Run over all the tokens, parsing in-order
+		\*********************************************************************/
+		int i;
+		vec_foreach(&items, entry, i)
 			{
-			printf("%s", entry);
+			printf("* %s", entry);
 			switch (entry[0])
 				{
 				case 'a':
@@ -164,50 +187,61 @@ int _gemInfReadData(const char *inf, ND_INFO* info)
 				case 'd':
 					break;
 				case 'A':
-					errors += _parseIcon(&(info->accs), entry+1, FIRST_DIGIT);
+					errors += _parseIconVec(&(info->accs), entry+1, FIRST_DIGIT);
 					break;
 				case 'C':
-					errors += _parseDrive(&(info->carts), entry+1);
+					errors += _parseDriveVec(&(info->carts), entry+1);
 					break;
 				case 'D':
-					errors += _parseIcon(&(info->folders), entry+1, SECOND_DIGIT);
+					errors += _parseIconVec(&(info->folders), entry+1, SECOND_DIGIT);
 					break;
 				case 'E':
 					errors += _parseDisplayInfo(info, entry+1);
 					break;
 				case 'F':
-					errors += _parseIcon(&(info->cmds), entry+1, FIRST_DIGIT);
+					errors += _parseIconVec(&(info->cmds), entry+1, FIRST_DIGIT);
 					break;
 				case 'G':
 					errors += _parseExecIcon(&(info->apps), entry+1);
 					break;
 				case 'I':
-					errors += _parseIcon(&(info->files), entry+1, SECOND_DIGIT);
+					errors += _parseIconVec(&(info->files), entry+1, SECOND_DIGIT);
 					break;
 				case 'K':
+					errors += _parseShortcuts(info, entry+1);
 					break;
 				case 'M':
-					errors += _parseDrive(&(info->drives), entry+1);
+					errors += _parseDriveVec(&(info->drives), entry+1);
 					break;
 				case 'N':
+					errors += _parseIcon(&(info->catchAll), entry+1, SECOND_DIGIT);
 					break;
 				case 'O':
+					errors += _parseDrive(&(info->printer), entry+1);
 					break;
 				case 'P':
+					errors += _parseExecIcon(&(info->cmdParams), entry+1);
 					break;
 				case 'Q':
+					errors += _parseWindowStyle(info, entry+1);
 					break;
 				case 'S':
+					errors += _parseCharset(info, entry+1);
 					break;
 				case 'T':
+					errors += _parseDrive(&(info->trash), entry+1);
 					break;
 				case 'V':
+					errors += _parseLinks(&(info->fldrLinks), entry+1);
 					break;
 				case 'W':
+					errors += _parseWindows(&(info->windows), entry+1);
 					break;
 				case 'X':
+					errors += _parseLinks(&(info->fileLinks), entry+1);
 					break;
 				case 'Y':
+					errors += _parseExecIcon(&(info->appParams), entry+1);
 					break;
 				}
 			}
@@ -307,7 +341,22 @@ static int _parseMisc(ND_INFO *info, const char *data)
 /*****************************************************************************\
 |* Parse out window icon data
 \*****************************************************************************/
-static int _parseIcon(vec_icon_t *info, const char *data, IconVariant variant)
+static int _parseIconVec(vec_icon_t *info,
+						 const char *data,
+						 IconVariant variant)
+	{
+	ND_ICONSPEC *spec = (ND_ICONSPEC *) malloc(sizeof(ND_ICONSPEC));
+	int error 		  = _parseIcon(spec, data, variant);
+	if (!error)
+		{
+		if (vec_push(info, spec))
+			WARN("Cannot add icon entry for %s", data);
+		}
+	
+	return error;
+	}
+
+static int _parseIcon(ND_ICONSPEC *spec, const char *data, IconVariant variant)
 	{
 	int error = 1;
 	
@@ -315,16 +364,12 @@ static int _parseIcon(vec_icon_t *info, const char *data, IconVariant variant)
 					? "%02x %*s %*s %s"
 					: "%*s %02x %*s %*s %s";
 					
-	ND_ICONSPEC *spec = (ND_ICONSPEC *) malloc(sizeof(ND_ICONSPEC));
 	if (sscanf(data, fmt, &(spec->iconId), spec->spec) == 2)
 		{
 		error = 0;
 		int len = (int) strlen(spec->spec);
 		if (spec->spec[len-1] == '@')
 			spec->spec[len-1] = '\0';
-		
-		if (vec_push(info, spec))
-			WARN("Cannot add icon entry for %s", data);
 		}
 	
 	return error;
@@ -333,26 +378,38 @@ static int _parseIcon(vec_icon_t *info, const char *data, IconVariant variant)
 /*****************************************************************************\
 |* Parse out drive data
 \*****************************************************************************/
-static int _parseDrive(vec_drive_t *info, const char *data)
+static int _parseDriveVec(vec_drive_t *info, const char *data)
+	{
+	ND_DRIVE *drive = (ND_DRIVE *) malloc(sizeof(ND_DRIVE));
+	int error		= _parseDrive(drive, data);
+	if (!error)
+		{
+		if (vec_push(info, drive))
+			WARN("Cannot add drive entry for %s", data);
+		}
+	
+	return error;
+	}
+	
+/*****************************************************************************\
+|* Parse out drive data
+\*****************************************************************************/
+static int _parseDrive(ND_DRIVE *drive, const char *data)
 	{
 	int error = 1;
-	
-	const char *fmt = "%x %x %x %*s %c %s";
-					
-	ND_DRIVE *drive = (ND_DRIVE *) malloc(sizeof(ND_DRIVE));
-	if (sscanf(data, fmt, &(drive->x),
-						  &(drive->y),
-						  &(drive->iconId),
-						  &(drive->driveId),
-						  drive->text) == 5)
+	int iconId;
+	if (sscanf(data, "%x %x %x %*s %c %s",
+				&(drive->x),
+			 	&(drive->y),
+			 	&(iconId),
+			 	&(drive->driveId),
+			 	drive->text) == 5)
 		{
 		error = 0;
+		drive->iconId = iconId;
 		int len = (int) strlen(drive->text);
 		if (drive->text[len-1] == '@')
 			drive->text[len-1] = '\0';
-		
-		if (vec_push(info, drive))
-			WARN("Cannot add drive entry for %s", data);
 		}
 	
 	return error;
@@ -393,25 +450,186 @@ static int _parseDisplayInfo(ND_INFO *info, const char *data)
 /*****************************************************************************\
 |* Parse out window icon data
 \*****************************************************************************/
-static int _parseExecIcon(vec_gicon_t *info, const char *data)
+static int _parseExecIcon(vec_gicon_t *info, char *data)
 	{
 	int error = 1;
 	
-	int flags;
-	
-	const char *fmt = "%x %*s %03x";
-					
-	ND_ICONSPEC *spec = (ND_ICONSPEC *) malloc(sizeof(ND_ICONSPEC));
-	if (sscanf(data, fmt, &(spec->iconId), spec->spec) == 2)
+	char *phrase = strtok(data, "@");
+	if (phrase != NULL)
 		{
-		error = 0;
-		int len = (int) strlen(spec->spec);
-		if (spec->spec[len-1] == '@')
-			spec->spec[len-1] = '\0';
+		int flags;
+		int iconId;
 		
-		if (vec_push(info, spec))
-			WARN("Cannot add icon entry for %s", data);
+		ND_GEM_ICONSPEC *icon = (ND_GEM_ICONSPEC *) malloc(sizeof(ND_GEM_ICONSPEC));
+		if (sscanf(data, "%x %*s %03x %s",
+					&iconId,
+					&flags,
+					icon->path) == 3)
+			{
+			icon->iconId	= iconId & 0xFF;
+			icon->flags 	= flags >> 8;
+			icon->fnKey		= flags & 0xFF;
+			icon->spec[0]	= '\0';
+			icon->params[0]	= '\0';
+			
+			phrase = strtok(NULL, "@");
+			if (phrase)
+				strncpy(icon->spec, strTrim(phrase), 32);
+
+			phrase = strtok(NULL, "@");
+			if (phrase)
+				{
+				sscanf(phrase, "%x", &(icon->maxMem));
+				error = 0;
+				}
+			}
+		if (vec_push(info, icon))
+			WARN("Cannot add exec-icon entry for %s", data);
 		}
 	
+	return error;
+	}
+
+/*****************************************************************************\
+|* Parse out shortcut data
+\*****************************************************************************/
+static int _parseShortcuts(ND_INFO *info, char *data)
+	{
+	int error	= 1;
+
+	char *hex  	= strtok(data, " ");
+	if (hex)
+		{
+		error = 0;
+		while (hex)
+			{
+			if (hex[0] == '@')
+				break;
+			
+			int key;
+			sscanf(hex, "%x", &key);
+			vec_push(&(info->shortcuts), (uint8_t)(key & 0xFF));
+			
+			hex = strtok(NULL, " ");
+			}
+		}
+	return error;
+	}
+
+/*****************************************************************************\
+|* Parse out window/desktop patterns and colours
+\*****************************************************************************/
+static int _parseWindowStyle(ND_INFO *info, char *data)
+	{
+	int error	= 1;
+	
+	int winCol, winPat, dskCol, dskPat;
+	
+	int tokens = sscanf(data, "%x %x %x %x", &dskPat, &dskCol, &winPat, &winCol);
+	if (tokens == 4)
+		{
+		error 							= 0;
+		info->winStyle.winColour 		= winCol;
+		info->winStyle.desktopColour	= dskCol;
+		info->winStyle.windowPattern	= winPat;
+		info->winStyle.desktopPattern	= dskPat;
+		}
+		
+	return error;
+	}
+
+/*****************************************************************************\
+|* Parse out system font and size
+\*****************************************************************************/
+static int _parseCharset(ND_INFO *info, char *data)
+	{
+	int error	= 1;
+	
+	int pts, font;
+	
+	int tokens = sscanf(data, "%x %x", &font, &pts);
+	if (tokens == 2)
+		{
+		error 					= 0;
+		info->charset.points	= pts;
+		info->charset.font		= font;
+		}
+		
+	return error;
+	}
+	
+/*****************************************************************************\
+|* Parse out folder/file links on the desktop
+\*****************************************************************************/
+static int _parseLinks(vec_link_t *info, char *data)
+	{
+	int error = 1;
+
+	ND_LINK *link = (ND_LINK *) malloc(sizeof(ND_LINK));
+
+	int iconId;
+	if (sscanf(data, "%x %x %x %*s %s %s",
+				&(link->x),
+			 	&(link->y),
+			 	&(iconId),
+			 	link->pathSpec,
+			 	link->iconText) == 5)
+		{
+		error = 0;
+		link->iconId = iconId & 0xFF;
+		
+		int len = (int) strlen(link->pathSpec);
+		if (link->pathSpec[len-1] == '@')
+			link->pathSpec[len-1] = '\0';
+		len = (int) strlen(link->iconText);
+		if (link->iconText[len-1] == '@')
+			link->iconText[len-1] = '\0';
+		}
+	
+	if (!error)
+		{
+		if (vec_push(info, link))
+			WARN("Cannot add link entry for %s", data);
+		}
+	return error;
+	}
+
+/*****************************************************************************\
+|* Parse out window size/positions
+\*****************************************************************************/
+static int _parseWindows(vec_win_t *vec, char *data)
+	{
+	int error = 1;
+
+	ND_WINDOW *win = (ND_WINDOW *) malloc(sizeof(ND_WINDOW));
+	if (sscanf(data, "%x %x %x %x %x %x %x %s",
+				&(win->hs),
+				&(win->vs),
+				&(win->x),
+			 	&(win->y),
+			 	&(win->w),
+			 	&(win->h),
+			 	&(win->status),
+			 	win->pathSpec) == 8)
+		{
+		error 		= 0;
+		win->hs		= win->hs * WIN_DX;
+		win->x		= win->x * WIN_DX;
+		win->w		= win->w * WIN_DX;
+		win->vs		= win->vs * WIN_DY;
+		win->y		= win->y * WIN_DY;
+		win->h		= win->h * WIN_DY;
+
+		int len = (int) strlen(win->pathSpec);
+		if (win->pathSpec[len-1] == '@')
+			win->pathSpec[len-1] = '\0';
+		}
+		
+	if (!error)
+		{
+		if (vec_push(vec, win))
+			WARN("Cannot add window entry for %s", data);
+		}
+		
 	return error;
 	}

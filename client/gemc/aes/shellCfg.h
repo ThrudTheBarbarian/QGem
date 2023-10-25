@@ -609,9 +609,9 @@ typedef struct
 	uint8_t		iconId;					// Hex value of the icon in the RSC
 	int			x;						// X position on the desktop
 	int 		y;						// Y position on the desktop
-	} ND_LINK_FLDR;
+	} ND_LINK;
 
-typedef vec_t(ND_LINK_FLDR*)	vec_link_t;	// Vector of ND_LINK_FLDR
+typedef vec_t(ND_LINK*)	vec_link_t;		// Vector of ND_LINK
 
 /*****************************************************************************\
 |* #W_00_00_0A_01_1F_17_00_C:\AUTO\*.PRG@_

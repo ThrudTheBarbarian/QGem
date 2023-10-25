@@ -34,6 +34,8 @@
 		F45B8B212AE6C2CF00A306B9 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B202AE6C2CF00A306B9 /* main.c */; };
 		F45B8B272AE6C41D00A306B9 /* libgemc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E340AA2AAAD3E1002390BA /* libgemc.a */; };
 		F45B8B2A2AE770D400A306B9 /* shel_read.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B292AE770D400A306B9 /* shel_read.c */; };
+		F45B8B2F2AE9B3A100A306B9 /* stringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = F45B8B2D2AE9B3A100A306B9 /* stringUtils.h */; };
+		F45B8B302AE9B3A100A306B9 /* stringUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B2E2AE9B3A100A306B9 /* stringUtils.c */; };
 		F4680BD92AB370150020BB5B /* vst_height.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BD82AB370150020BB5B /* vst_height.c */; };
 		F4680BDB2AB370E60020BB5B /* vst_point.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BDA2AB370E60020BB5B /* vst_point.c */; };
 		F4680BDD2AB3724B0020BB5B /* vst_rotation.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BDC2AB3724B0020BB5B /* vst_rotation.c */; };
@@ -328,6 +330,8 @@
 		F45B8B1E2AE6C2CF00A306B9 /* desktop */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = desktop; sourceTree = BUILT_PRODUCTS_DIR; };
 		F45B8B202AE6C2CF00A306B9 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F45B8B292AE770D400A306B9 /* shel_read.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shel_read.c; sourceTree = "<group>"; };
+		F45B8B2D2AE9B3A100A306B9 /* stringUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stringUtils.h; sourceTree = "<group>"; };
+		F45B8B2E2AE9B3A100A306B9 /* stringUtils.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = stringUtils.c; sourceTree = "<group>"; };
 		F4680BD82AB370150020BB5B /* vst_height.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_height.c; sourceTree = "<group>"; };
 		F4680BDA2AB370E60020BB5B /* vst_point.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_point.c; sourceTree = "<group>"; };
 		F4680BDC2AB3724B0020BB5B /* vst_rotation.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vst_rotation.c; sourceTree = "<group>"; };
@@ -835,6 +839,8 @@
 				F4E340BB2AAADE13002390BA /* vec.c */,
 				F4CBFCF12ADB9AF70078C561 /* map.h */,
 				F4CBFCF22ADB9AF70078C561 /* map.c */,
+				F45B8B2D2AE9B3A100A306B9 /* stringUtils.h */,
+				F45B8B2E2AE9B3A100A306B9 /* stringUtils.c */,
 			);
 			path = util;
 			sourceTree = SOURCE_ROOT;
@@ -858,6 +864,7 @@
 				F46A86822ABEA97200FA3ABC /* args.h in Headers */,
 				F4CBFCF32ADB9AF70078C561 /* map.h in Headers */,
 				F4E340B72AAAD6DE002390BA /* gemio.h in Headers */,
+				F45B8B2F2AE9B3A100A306B9 /* stringUtils.h in Headers */,
 				F4E340BC2AAADE13002390BA /* vec.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1192,6 +1199,7 @@
 				F46A86102AB40D8900FA3ABC /* vsf_interior.c in Sources */,
 				F46A85CE2AAEC0B600FA3ABC /* v_eeol.c in Sources */,
 				F46A85BE2AAEB6FE00FA3ABC /* v_enter_cur.c in Sources */,
+				F45B8B302AE9B3A100A306B9 /* stringUtils.c in Sources */,
 				F46A86342AB77E0B00FA3ABC /* vsin_mode.c in Sources */,
 				F46A85D82AAED79F00FA3ABC /* vq_curaddress.c in Sources */,
 				F46A85E62AAF676900FA3ABC /* v_form_adv.c in Sources */,
