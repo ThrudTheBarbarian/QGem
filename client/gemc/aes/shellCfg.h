@@ -15,8 +15,8 @@
 /*****************************************************************************\
 |*	 #a000000
 |*	   ||||||
-|*	   |||||+--- Bit 8:		 	0: on
-|*	   ||||| 					1: off
+|*	   |||||+--- Bit 8:		 	0: stop bit
+|*	   ||||| 					1: no stop bit
 |*	   |||||
 |*	   ||||+---- Protocol: 		0: none
 |*	   |||| 					1: Xon/Xoff
@@ -44,9 +44,9 @@
 
 typedef enum
 	{
-	ND_RS232_ENABLE 		= 0,
-	ND_RS232_DISABLE
-	} ND_RS232_ENABLED;
+	ND_RS232_STOP_BIT 		= 0,
+	ND_RS232_NO_STOP_BIT
+	} ND_RS232_STOPBIT;
 
 typedef enum
 	{
@@ -99,7 +99,7 @@ typedef enum
 	
 typedef struct
 	{
-	ND_RS232_ENABLED 	enable;			// Port is enabled
+	ND_RS232_STOPBIT 	stopbit;		// Use a stop-bit or not
 	ND_RS232_PROTOCOL 	protocol;		// Handshake protocol
 	ND_RS232_WORD_LEN 	bits;			// Bits in a word
 	ND_RS232_PARITY 	parity;			// None, odd or even
@@ -239,11 +239,11 @@ typedef struct
 
 typedef struct
 	{
-	char 		spec[32];				// spec for matching to type + \0
+	char 		spec[PATH_MAX];			// spec for match + \0. Maybe overkill
 	uint8_t		iconId;					// Hex value of the icon in the RSC
 	} ND_ICONSPEC;
 
-typedef vec_t(ND_ICONSPEC)	iconSpec_t;	// Vector of ND_ICONSPEC
+typedef vec_t(ND_ICONSPEC*)	vec_icon_t;	// Vector of ND_ICONSPEC
 
 /*****************************************************************************\
 |* #C_00_02_07_FF_c_CARTRIDGE@_@_
@@ -269,11 +269,9 @@ typedef struct
 	uint8_t		iconId;					// Hex value of the icon in the RSC
 	int			x;						// X position on the desktop
 	int 		y;						// Y position on the desktop
-	} ND_CART;
+	} ND_DRIVE;
 
-typedef vec_t(ND_CART)	vec_cart_t;		// Vector of ND_CARTs. I don't think
-										// you can have more than one, but the
-										// cost to maintain the vector is low
+typedef vec_t(ND_DRIVE)	vec_drive_t;	// Vector of ND_DRIVE.
 
 /*****************************************************************************\
 |*
@@ -551,22 +549,157 @@ typedef struct
 	uint8_t			iconId;				// Hex value of the icon in the RSC
 	} ND_GEM_ICONSPEC;
 
-typedef vec_t(ND_GEM_ICONSPEC)	gemIconSpec_t;	// Vector of ND_GEM_ICONSPEC
+typedef vec_t(ND_GEM_ICONSPEC)	vec_gicon_t;	// Vector of ND_GEM_ICONSPEC
+
+/*****************************************************************************\
+|* #Q_41_00_43_40
+|*    || || || ||
+|*    || || || ++--------- Window colour
+|*    || || ++------------ Window pattern
+|*    || ++--------------- Desktop color
+|*    ++------------------ Desktop pattern
+|*
+|* Note this isn't quite the same as the "standard" one, because we only have
+|* the one resolution, and it's very high colour, compared to the originals
+\*****************************************************************************/
+
+typedef struct
+	{
+	uint8_t 		winColour;			// index into the colour palette
+	uint8_t			desktopColour;		// index into the colour palette
+	uint8_t			windowPattern;		// 0x00 -> 0x07
+	uint8_t			desktopPattern;		// 0x00 -> 0x07
+	} ND_WINSTYLE;
+	
+/*****************************************************************************\
+|* #S_00_0A
+|*    || ||
+|*    || ++--- Height of the character set in points
+|*    ||
+|*    ++------ ID of the character set (font index, must be monospaced)
+\*****************************************************************************/
+typedef struct
+	{
+	int points;							// Height of the character set in pts
+	int font;							// Font id to use for system font
+	} ND_CHARSET;
+
+/*****************************************************************************\
+|* #V_07_05_01_FF___E:\BIN\*.*@_E:\BIN@_
+|*    || || || || |          | |       |
+|*    || || || || |          | +-------+- Folder icon text
+|*    || || || || |          |
+|*    || || || || +----------+----------- Access path and file mask
+|*    || || || ||
+|*    || || || ++------------------------ always FF
+|*    || || ||
+|*    || || ++--------------------------- Object number (HEX) of the icon
+|*    || ||                               the deskicon.rsc (or deskcicn.rsc)
+|*    || ||
+|*    || ++------------------------------ y position of the icon
+|*    ||
+|*    ++--------------------------------- x-position of the icon
+\*****************************************************************************/
+
+typedef struct
+	{
+	char 		iconText[32];			// Folder icon text
+	char 		pathSpec[PATH_MAX];		// Path to location + wildcards
+	uint8_t		iconId;					// Hex value of the icon in the RSC
+	int			x;						// X position on the desktop
+	int 		y;						// Y position on the desktop
+	} ND_LINK_FLDR;
+
+typedef vec_t(ND_LINK_FLDR)	vec_link_t;	// Vector of ND_LINK_FLDR
+
+/*****************************************************************************\
+|* #W_00_00_0A_01_1F_17_00_C:\AUTO\*.PRG@_
+|*    || || || || || || || |           |||
+|*    || || || || || || || |           |++--- Line end identifier
+|*    || || || || || || || |           |
+|*    || || || || || || || +-----------+----- Path and file mask of one auto-
+|*    || || || || || || ||                    opened directory window or empty
+|*    || || || || || || ||
+|*    || || || || || || ++------------------- Window status ?
+|*    || || || || || ||
+|*    || || || || || ||
+|*    || || || || || ++---------------------- Window height
+|*    || || || || ||
+|*    || || || || ++------------------------- Window width
+|*    || || || ||
+|*    || || || ++---------------------------- y position of the window
+|*    || || ||
+|*    || || ++------------------------------- x position of the window
+|*    || ||
+|*    || ++---------------------------------- Position of the vertical slider
+|*    ||
+|*    ++------------------------------------- Position of the horizontal slider
+\*****************************************************************************/
+
+typedef struct
+	{
+	char 		pathSpec[PATH_MAX];		// Path to location + wildcards
+	int			status;					// I have no idea what this does
+	int			h;						// window height in 16-pix units
+	int 		w;						// window width in 8-pix units
+	int			y;						// window top left in 16-pix units
+	int 		x;						// window top left in 8-pix units
+	int			vs;						// line number of first row
+	int			hs;						// line number of first col
+	} ND_WINDOW;
+
+typedef vec_t(ND_WINDOW)	vec_win_t;	// Vector of ND_WINDOW
 
 /*****************************************************************************\
 |* Structure to hold all the above information
 \*****************************************************************************/
 typedef struct
 	{
-	ND_RS232			serial;			// All the serial i/o port config
-	ND_PRINTER			printer;		// All the printer config
-	ND_UI_MISC			misc;			// Colours, key repeat, mouse clicks
-	iconSpec_t			accs;			// List of accessory configs
-	vec_cart_t			carts;			// List of cartridge configs
-	iconSpec_t			folders;		// List of folder configs
-	ND_DISPLAY_INFO		dpyInfo;		// Display configuration
-	iconSpec_t			commands;		// List of command (tos, ttp) configs
-	gemIconSpec_t		apps;			// List of application configs
+	ND_RS232			serial;			// #a: All the serial i/o port config
+	ND_PRINTER			printcfg;		// #b: All the printer config
+	ND_UI_MISC			misc;			// #c: Colours, key repeat, mouse clicks
+	vec_icon_t			accs;			// #A: List of accessory configs
+	vec_drive_t			carts;			// #C: List of cartridge configs
+	vec_icon_t			folders;		// #D: Window icons in window
+	ND_DISPLAY_INFO		dpyInfo;		// #E: Display configuration
+	vec_icon_t			cmds;			// #F: Window icons for TOS apps
+	vec_gicon_t			apps;			// #G: Window icons for PRG apps
+	vec_icon_t			files;			// #I: Window icons for specific files
+	vec_data_t			shortcuts;		// #K: shortcuts, 1 per menu-entry
+	vec_drive_t			drives;			// #M: Desktop icons, storage devices
+	ND_ICONSPEC			catchAll;		// #N: Window icon for specific non-exec
+	ND_DRIVE			printer;		// #O: Desktop icon for printer
+	vec_gicon_t			cmdParams;		// #P: Window icons for TTP apps
+	ND_WINSTYLE			winStyle;		// #Q: desk/win patterns and colours
+	ND_CHARSET			charset;		// #S: Font-id and size in points
+	ND_DRIVE			trash;			// #T: Desktop icon for trash
+	vec_link_t			fldrLinks;		// #V: Folder-links on the desktop
+	vec_win_t			windows;		// #W: List of windows on screen
+	vec_link_t			fileLinks;		// #X: File-links on the desktop
+	vec_gicon_t			appParams;		// #Y: Window icons for GTP apps
 	} ND_INFO;
 
+
+
+/*****************************************************************************\
+|* Zero out an info structure
+\*****************************************************************************/
+void _gemInfZero(ND_INFO *info);
+
+/*****************************************************************************\
+|* Initialise an info structure so it's ready to use
+\*****************************************************************************/
+void _gemInfZero(ND_INFO *info);
+
+/*****************************************************************************\
+|* Destroy an Inf structure once we've used it up
+\*****************************************************************************/
+void _gemInfDeInit(ND_INFO *info);
+
+/*****************************************************************************\
+|* Parse a text representation into a structure representation
+\*****************************************************************************/
+int _gemInfReadData(const char *inf, ND_INFO* info);
+
 #endif /* shellCfg_h */
+

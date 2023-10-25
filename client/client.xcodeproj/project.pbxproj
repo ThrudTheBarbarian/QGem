@@ -602,7 +602,6 @@
 		F49512C22AE229D200AF9877 /* shell */ = {
 			isa = PBXGroup;
 			children = (
-				F4680C0E2AE8344E0020BB5B /* shellCfg.h */,
 				F4680C0F2AE8344E0020BB5B /* shellCfg.c */,
 				F49512C32AE22A7A00AF9877 /* shel_envrn.c */,
 				F45B8B112AE3426000A306B9 /* shel_find.c */,
@@ -618,6 +617,7 @@
 			isa = PBXGroup;
 			children = (
 				F4BAB2A82AD6451400DBAD9F /* aes.h */,
+				F4680C0E2AE8344E0020BB5B /* shellCfg.h */,
 				F4BAB2B22AD76D7500DBAD9F /* appl */,
 				F4BAB2B32AD76D9400DBAD9F /* graf */,
 				F49512C22AE229D200AF9877 /* shell */,

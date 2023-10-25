@@ -11,6 +11,7 @@
   
 #include "aes.h"
 #include "macros.h"
+#include "shellCfg.h"
 #include "vdi.h"
 
 #define RSCNAME "src/QT/QGem/client/test/aestest/test.rsc"
@@ -102,11 +103,12 @@ int main(int argc, const char * argv[])
 	\*************************************************************************/
 	char dcfg[8192];
 	if (shel_get(dcfg, 8192))
-		fprintf(stderr, "CFG\n'%s'\n", dcfg);
+		{
+		ND_INFO inf;
+		_gemInfZero(&inf);
 		
-	/*************************************************************************\
-	|* Execute an app
-	\*************************************************************************/
-	shel_write(0, 0, 0, "desktop.app", "-x 4");
-	return 0;
+		fprintf(stderr, "CFG\n'%s'\n", dcfg);
+		_gemInfReadData(dcfg, &inf);
+		_gemInfDeInit(&inf);
+		}
 	}
