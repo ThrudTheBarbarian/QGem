@@ -2,7 +2,7 @@
 //  shellCfg.h
 //  gemc
 //
-//  Created by Simon Gornall on 10/24/23.
+//  Created by ThrudTheBarbarian on 10/24/23.
 //
 
 #ifndef shellCfg_h
