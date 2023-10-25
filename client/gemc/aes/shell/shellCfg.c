@@ -6,6 +6,7 @@
 //
 #include <string.h>
 
+#include "debug.h"
 #include "gem.h"
 #include "shellCfg.h"
 
@@ -22,6 +23,24 @@ static int _parseSerial(ND_INFO *info, const char *data);
 static int _parsePrinter(ND_INFO *info, const char *data);
 static int _parseMisc(ND_INFO *info, const char *data);
 static int _parseIcon(vec_icon_t *vec, const char *data, IconVariant variant);
+static int _parseDrive(vec_drive_t *vec, const char *data);
+static int _parseDisplayInfo(ND_INFO *info, const char *data);
+static int _parseExecIcon(vec_gicon_t *vec, const char *data);
+
+#define CLEAN(vector, type) 												\
+	if (vector.data != NULL) 												\
+		{ 																	\
+		int i; 																\
+		type *entry; 														\
+		vec_foreach(&(vector), entry, i) 									\
+			free(entry); 													\
+		vec_deinit(&(vector));												\
+		vector.data = NULL;													\
+		vector.length = vector.capacity = 0;								\
+		} 																	\
+	else 																	\
+		vec_init(&(vector))
+		
 
 /*****************************************************************************\
 |* Zero out an info structure
@@ -31,8 +50,6 @@ void _gemInfZero(ND_INFO *info)
 	memset(info, 0, sizeof(ND_INFO));
 	}
 
-//FIXME: Need to handle memory properly for each type
-
 /*****************************************************************************\
 |* Initialise an info structure so it's ready to use
 \*****************************************************************************/
@@ -41,78 +58,32 @@ void _gemInfInit(ND_INFO *info)
 	/*************************************************************************\
 	|* Accessories
 	\*************************************************************************/
-	if (info->accs.data != NULL)
-		{
-		int i;
-		ND_ICONSPEC *entry;
-		vec_foreach(&(info->accs), entry, i)
-			free(entry);
-			
-		vec_deinit(&(info->accs));
-		}
-	else
-		vec_init(&(info->accs));
+	CLEAN(info->accs, ND_ICONSPEC);
 	
 	/*************************************************************************\
 	|* Cartridges
 	\*************************************************************************/
-	if (info->carts.data != NULL)
-		vec_deinit(&(info->carts));
-	else
-		vec_init(&(info->carts));
+	CLEAN(info->carts, ND_DRIVE);
 	
 	/*************************************************************************\
 	|* Folders
 	\*************************************************************************/
-	if (info->folders.data != NULL)
-		{
-		int i;
-		ND_ICONSPEC *entry;
-		vec_foreach(&(info->folders), entry, i)
-			free(entry);
-			
-		vec_deinit(&(info->folders));
-		}
-	else
-		vec_init(&(info->folders));
+	CLEAN(info->folders, ND_ICONSPEC);
 	
 	/*************************************************************************\
 	|* Commands
 	\*************************************************************************/
-	if (info->cmds.data != NULL)
-		{
-		int i;
-		ND_ICONSPEC *entry;
-		vec_foreach(&(info->cmds), entry, i)
-			free(entry);
-			
-		vec_deinit(&(info->cmds));
-		}
-	else
-		vec_init(&(info->cmds));
+	CLEAN(info->cmds, ND_ICONSPEC);
 	
 	/*************************************************************************\
 	|* Apps
 	\*************************************************************************/
-	if (info->apps.data != NULL)
-		vec_deinit(&(info->apps));
-	else
-		vec_init(&(info->apps));
+	CLEAN(info->apps, ND_GEM_ICONSPEC);
 	
 	/*************************************************************************\
 	|* Files
 	\*************************************************************************/
-	if (info->files.data != NULL)
-		{
-		int i;
-		ND_ICONSPEC *entry;
-		vec_foreach(&(info->files), entry, i)
-			free(entry);
-			
-		vec_deinit(&(info->files));
-		}
-	else
-		vec_init(&(info->files));
+	CLEAN(info->files, ND_ICONSPEC);
 	
 	/*************************************************************************\
 	|* Shortcuts
@@ -125,83 +96,32 @@ void _gemInfInit(ND_INFO *info)
 	/*************************************************************************\
 	|* Drives
 	\*************************************************************************/
-	if (info->drives.data != NULL)
-		vec_deinit(&(info->drives));
-	else
-		vec_init(&(info->drives));
+	CLEAN(info->drives, ND_DRIVE);
 	
 	/*************************************************************************\
 	|* Commands that take parameters
 	\*************************************************************************/
-	if (info->cmdParams.data != NULL)
-		vec_deinit(&(info->cmdParams));
-	else
-		vec_init(&(info->cmdParams));
+	CLEAN(info->cmdParams, ND_GEM_ICONSPEC);
 	
 	/*************************************************************************\
 	|* Folder links on the desktop
 	\*************************************************************************/
-	if (info->fldrLinks.data != NULL)
-		vec_deinit(&(info->fldrLinks));
-	else
-		vec_init(&(info->fldrLinks));
+	CLEAN(info->fldrLinks, ND_LINK_FLDR);
 	
 	/*************************************************************************\
 	|* Windows
 	\*************************************************************************/
-	if (info->windows.data != NULL)
-		vec_deinit(&(info->windows));
-	else
-		vec_init(&(info->windows));
+	CLEAN(info->windows, ND_WINDOW);
 	
 	/*************************************************************************\
 	|* File links on the desktop
 	\*************************************************************************/
-	if (info->fileLinks.data != NULL)
-		vec_deinit(&(info->fileLinks));
-	else
-		vec_init(&(info->fileLinks));
+	CLEAN(info->fileLinks, ND_LINK_FLDR);
 	
 	/*************************************************************************\
 	|* Apps that take params
 	\*************************************************************************/
-	if (info->appParams.data != NULL)
-		vec_deinit(&(info->appParams));
-	else
-		vec_init(&(info->appParams));
-	}
-
-
-/*****************************************************************************\
-|* Destroy an Inf structure once we've used it up
-\*****************************************************************************/
-void _gemInfDeInit(ND_INFO *info)
-	{
-	int i;
-	ND_ICONSPEC *iconspec;
-	
-	vec_foreach(&(info->accs), iconspec, i)
-		free(iconspec);
-	vec_deinit(&(info->accs));
-	vec_deinit(&(info->carts));
-	vec_foreach(&(info->folders), iconspec, i)
-		free(iconspec);
-	vec_deinit(&(info->folders));
-	vec_foreach(&(info->cmds), iconspec, i)
-		free(iconspec);
-	vec_deinit(&(info->cmds));
-	vec_deinit(&(info->apps));
-	vec_foreach(&(info->files), iconspec, i)
-		free(iconspec);
-	vec_deinit(&(info->files));
-	vec_deinit(&(info->shortcuts));
-	vec_deinit(&(info->drives));
-	vec_deinit(&(info->cmdParams));
-	vec_deinit(&(info->fldrLinks));
-	vec_deinit(&(info->windows));
-	vec_deinit(&(info->fileLinks));
-	vec_deinit(&(info->appParams));
-	_gemInfZero(info);
+	CLEAN(info->appParams, ND_GEM_ICONSPEC);
 	}
 
 /*****************************************************************************\
@@ -247,16 +167,19 @@ int _gemInfReadData(const char *inf, ND_INFO* info)
 					errors += _parseIcon(&(info->accs), entry+1, FIRST_DIGIT);
 					break;
 				case 'C':
+					errors += _parseDrive(&(info->carts), entry+1);
 					break;
 				case 'D':
 					errors += _parseIcon(&(info->folders), entry+1, SECOND_DIGIT);
 					break;
 				case 'E':
+					errors += _parseDisplayInfo(info, entry+1);
 					break;
 				case 'F':
 					errors += _parseIcon(&(info->cmds), entry+1, FIRST_DIGIT);
 					break;
 				case 'G':
+					errors += _parseExecIcon(&(info->apps), entry+1);
 					break;
 				case 'I':
 					errors += _parseIcon(&(info->files), entry+1, SECOND_DIGIT);
@@ -264,6 +187,7 @@ int _gemInfReadData(const char *inf, ND_INFO* info)
 				case 'K':
 					break;
 				case 'M':
+					errors += _parseDrive(&(info->drives), entry+1);
 					break;
 				case 'N':
 					break;
@@ -399,8 +323,94 @@ static int _parseIcon(vec_icon_t *info, const char *data, IconVariant variant)
 		if (spec->spec[len-1] == '@')
 			spec->spec[len-1] = '\0';
 		
-		int ok = vec_push(info, spec);
-		printf("ok=%d\n", ok);
+		if (vec_push(info, spec))
+			WARN("Cannot add icon entry for %s", data);
+		}
+	
+	return error;
+	}
+
+/*****************************************************************************\
+|* Parse out drive data
+\*****************************************************************************/
+static int _parseDrive(vec_drive_t *info, const char *data)
+	{
+	int error = 1;
+	
+	const char *fmt = "%x %x %x %*s %c %s";
+					
+	ND_DRIVE *drive = (ND_DRIVE *) malloc(sizeof(ND_DRIVE));
+	if (sscanf(data, fmt, &(drive->x),
+						  &(drive->y),
+						  &(drive->iconId),
+						  &(drive->driveId),
+						  drive->text) == 5)
+		{
+		error = 0;
+		int len = (int) strlen(drive->text);
+		if (drive->text[len-1] == '@')
+			drive->text[len-1] = '\0';
+		
+		if (vec_push(info, drive))
+			WARN("Cannot add drive entry for %s", data);
+		}
+	
+	return error;
+	}
+	
+/*****************************************************************************\
+|* Parse out the display info data
+\*****************************************************************************/
+static int _parseDisplayInfo(ND_INFO *info, const char *data)
+	{
+	int error	= 1;
+	int preset, blitter, flags, dbl, colours;
+	
+	int tokens = sscanf(data, "%x %x %*x %x %x %x",
+						&preset, &blitter, &flags, &dbl, &colours);
+	if ((tokens == 3) || (tokens == 5))
+		{
+		error 							= 0;;
+		info->dpyInfo.presets 			= preset;
+		info->dpyInfo.blitter			= ((blitter  >> 4)) > 0 ? 1 : 0;
+		info->dpyInfo.resolution		= blitter & 0xF;
+		info->dpyInfo.flags				= flags;
+		if (tokens > 3)
+			{
+			info->dpyInfo.lineDouble	= dbl;
+			info->dpyInfo.colours		= colours;
+			}
+		else
+			{
+			info->dpyInfo.lineDouble	= 0;
+			info->dpyInfo.colours		= 0;
+			}
+		}
+	return error;
+	}
+
+
+/*****************************************************************************\
+|* Parse out window icon data
+\*****************************************************************************/
+static int _parseExecIcon(vec_gicon_t *info, const char *data)
+	{
+	int error = 1;
+	
+	int flags;
+	
+	const char *fmt = "%x %*s %03x";
+					
+	ND_ICONSPEC *spec = (ND_ICONSPEC *) malloc(sizeof(ND_ICONSPEC));
+	if (sscanf(data, fmt, &(spec->iconId), spec->spec) == 2)
+		{
+		error = 0;
+		int len = (int) strlen(spec->spec);
+		if (spec->spec[len-1] == '@')
+			spec->spec[len-1] = '\0';
+		
+		if (vec_push(info, spec))
+			WARN("Cannot add icon entry for %s", data);
 		}
 	
 	return error;

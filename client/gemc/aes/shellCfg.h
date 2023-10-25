@@ -271,7 +271,7 @@ typedef struct
 	int 		y;						// Y position on the desktop
 	} ND_DRIVE;
 
-typedef vec_t(ND_DRIVE)	vec_drive_t;	// Vector of ND_DRIVE.
+typedef vec_t(ND_DRIVE*)	vec_drive_t;	// Vector of ND_DRIVE.
 
 /*****************************************************************************\
 |*
@@ -427,7 +427,7 @@ typedef enum
 	ND_DPY_FULL_PATH	= (1<<4)
 	} ND_DPY_FLAGS;
 
-enum
+typedef enum
 	{
 	NS_RES_CURRENT		= 0,
 	ND_RES_ST_LOW,
@@ -435,8 +435,9 @@ enum
 	ND_RES_ST_HIGH,
 	ND_RES_TT_LOW,
 	ND_RES_TT_MED,
-	ND_RES_TT_HIGH
-	};
+	ND_RES_TT_HIGH,
+	ND_RES_EXT_CARD
+	} ND_RESOLUTION;
 
 typedef enum
 	{
@@ -461,7 +462,7 @@ typedef struct
 	ND_COLOURS		colours;			// How many colours are available
 	ND_LINE_DOUBLE	lineDouble;			// Whether we're line-doubling
 	ND_DPY_FLAGS	flags;				// How to display/call things
-	int				resolution;			// Current display res
+	ND_RESOLUTION	resolution;			// Current display res
 	ND_BLITTER		blitter;			// Whether blitter is enabled (ST only)
 	ND_PRESET		presets;			// Presets for user preferences
 	} ND_DISPLAY_INFO;
@@ -549,7 +550,7 @@ typedef struct
 	uint8_t			iconId;				// Hex value of the icon in the RSC
 	} ND_GEM_ICONSPEC;
 
-typedef vec_t(ND_GEM_ICONSPEC)	vec_gicon_t;	// Vector of ND_GEM_ICONSPEC
+typedef vec_t(ND_GEM_ICONSPEC*)	vec_gicon_t;	// Vector of ND_GEM_ICONSPEC
 
 /*****************************************************************************\
 |* #Q_41_00_43_40
@@ -610,7 +611,7 @@ typedef struct
 	int 		y;						// Y position on the desktop
 	} ND_LINK_FLDR;
 
-typedef vec_t(ND_LINK_FLDR)	vec_link_t;	// Vector of ND_LINK_FLDR
+typedef vec_t(ND_LINK_FLDR*)	vec_link_t;	// Vector of ND_LINK_FLDR
 
 /*****************************************************************************\
 |* #W_00_00_0A_01_1F_17_00_C:\AUTO\*.PRG@_
@@ -648,7 +649,7 @@ typedef struct
 	int			hs;						// line number of first col
 	} ND_WINDOW;
 
-typedef vec_t(ND_WINDOW)	vec_win_t;	// Vector of ND_WINDOW
+typedef vec_t(ND_WINDOW*)	vec_win_t;	// Vector of ND_WINDOW
 
 /*****************************************************************************\
 |* Structure to hold all the above information
@@ -689,12 +690,12 @@ void _gemInfZero(ND_INFO *info);
 /*****************************************************************************\
 |* Initialise an info structure so it's ready to use
 \*****************************************************************************/
-void _gemInfZero(ND_INFO *info);
+void _gemInfInit(ND_INFO *info);
 
 /*****************************************************************************\
 |* Destroy an Inf structure once we've used it up
 \*****************************************************************************/
-void _gemInfDeInit(ND_INFO *info);
+#define _gemInfDeInit _gemInfInit
 
 /*****************************************************************************\
 |* Parse a text representation into a structure representation
