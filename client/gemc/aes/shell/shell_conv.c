@@ -1,5 +1,5 @@
 //
-//  shellCfg.c
+//  shell_parse.c
 //  gemc
 //
 //  Created by ThrudTheBarbarian on 10/24/23.
@@ -9,7 +9,7 @@
 
 #include "debug.h"
 #include "gem.h"
-#include "shellCfg.h"
+#include "shell_conv.h"
 #include "stringUtils.h"
 
 #define WIN_DX	(8)
@@ -38,6 +38,10 @@ static int _parseWindowStyle(ND_INFO *info, char *data);
 static int _parseCharset(ND_INFO *info, char *data);
 static int _parseLinks(vec_link_t *vec, char *data);
 static int _parseWindows(vec_win_t *vec, char *data);
+
+static void _writeIconSpec(vec_icon_t icons, char type, vec_char_t *result);
+static void _writeGemIconSpec(vec_gicon_t icons, char type, vec_char_t *result);
+
 
 #define CLEAN(vector, type) 												\
 	if (vector.data != NULL) 												\
@@ -172,7 +176,6 @@ int _gemInfReadData(const char *inf, ND_INFO* info)
 		int i;
 		vec_foreach(&items, entry, i)
 			{
-			printf("* %s", entry);
 			switch (entry[0])
 				{
 				case 'a':
@@ -251,6 +254,321 @@ int _gemInfReadData(const char *inf, ND_INFO* info)
 	return errors;
 	}
 
+
+/*****************************************************************************\
+|* Parse a structure representation into a text representation. Returns an
+|* allocated string that must be free'd
+\*****************************************************************************/
+int _gemInfWriteData(ND_INFO* info, char **inf)
+	{
+	vec_char_t result;		// Expandable string for results
+	char line[4096];		// Ought to be plenty for a single line
+	
+	// Initialise the stores
+	vec_init(&result);
+	line[0] = 0;
+	
+	/*************************************************************************\
+	|* Handle the serial token
+	\*************************************************************************/
+	sprintf(line, "#a%c%c%c%c%c%c\n", info->serial.duplex + '0',
+									  info->serial.baud + '0',
+									  info->serial.parity + '0',
+									  info->serial.bits + '0',
+									  info->serial.protocol + '0',
+									  info->serial.stopbit + '0');
+	vec_pusharr(&result, line, 9);
+	
+	/*************************************************************************\
+	|* Handle the printer token
+	\*************************************************************************/
+	sprintf(line, "#b%c%c%c%c%c%c\n", info->printcfg.type + '0',
+									  info->printcfg.colour + '0',
+									  info->printcfg.ppl + '0',
+									  info->printcfg.quality + '0',
+									  info->printcfg.port + '0',
+									  info->printcfg.paper + '0');
+	vec_pusharr(&result, line, 9);
+	
+	
+	/*************************************************************************\
+	|* Handle the colours token
+	\*************************************************************************/
+	vec_pusharr(&result, "#c", 2);
+	for (int i=0; i<16; i++)
+		{
+		sprintf(line, "%1d%1d%1d", info->misc.rgb[i].r,
+								   info->misc.rgb[i].g,
+								   info->misc.rgb[i].b);
+		vec_pusharr(&result, line, 3);
+		}
+	sprintf(line, "%1d%1d%1d%02x%02x\n", info->misc.doubleClick,
+									     info->misc.keyclick,
+									     info->misc.bell,
+									     info->misc.repeatDelay,
+									     info->misc.keyRepeat);
+	vec_pusharr(&result, line, 8);
+
+	/*************************************************************************\
+	|* Handle the 'waste a bunch of space' token
+	\*************************************************************************/
+	vec_pusharr(&result, "#d", 2);
+	for (int i=result.length; i<127; i++)
+		vec_push(&result, ' ');
+	vec_push(&result, '\n');
+	
+	/*************************************************************************\
+	|* Do the "K" token, keyboard shortcuts
+	\*************************************************************************/
+	vec_pusharr(&result, "#K", 2);
+	for (int i=0; i<info->shortcuts.length; i++)
+		{
+		sprintf(line, " %02x", info->shortcuts.data[i]);
+		vec_pusharr(&result, line, 3);
+		}
+	vec_pusharr(&result, " @\n", 3);
+	
+	/*************************************************************************\
+	|* Do the "E" token, display configuration
+	\*************************************************************************/
+	sprintf(line, "#E %02x %01x%01x 00 %02x %02x %02x 00 00 00 00\n",
+			info->dpyInfo.presets,
+			info->dpyInfo.blitter,
+			info->dpyInfo.resolution,
+			info->dpyInfo.flags,
+			info->dpyInfo.lineDouble,
+			info->dpyInfo.colours);
+	vec_pusharr(&result, line, 33);
+
+	/*************************************************************************\
+	|* Do the "Q" token, desktop/window fill-pattern, colour
+	\*************************************************************************/
+	sprintf(line, "#Q %02x %02x %02x %02x\n",
+			info->winStyle.desktopPattern,
+			info->winStyle.desktopColour,
+			info->winStyle.windowPattern,
+			info->winStyle.winColour);
+	vec_pusharr(&result, line, 15);
+
+	/*************************************************************************\
+	|* Do the "W" token, window locations etc.
+	\*************************************************************************/
+	for (int i=0; i<info->windows.length; i++)
+		{
+		ND_WINDOW *win = info->windows.data[i];
+		
+		sprintf(line, "#W %02x %02x %02x %02x %02x %02x %02x %s@\n",
+				win->hs/WIN_DX,
+				win->vs/WIN_DY,
+				win->x/WIN_DX,
+				win->y/WIN_DY,
+				win->w/WIN_DX,
+				win->h/WIN_DY,
+				win->status,
+				win->pathSpec);
+		vec_pusharr(&result, line, (int)strlen(line));
+		}
+
+	/*************************************************************************\
+	|* Do the "N" token, default file icon
+	\*************************************************************************/
+	sprintf(line, "#N FF %02x 000 @ *.*@ @ \n", info->catchAll.iconId);
+	vec_pusharr(&result, line, 23);
+
+	/*************************************************************************\
+	|* Do the "D" token, folder-icon specs
+	\*************************************************************************/
+	_writeIconSpec(info->folders, 'D', &result);
+
+	/*************************************************************************\
+	|* Do the "G" token, gem-applications, wildcard and registered-apps
+	\*************************************************************************/
+	_writeGemIconSpec(info->apps, 'G', &result);
+
+	/*************************************************************************\
+	|* Do the "Y" token, gem-takes-params, wildcard and registered-apps
+	\*************************************************************************/
+	_writeGemIconSpec(info->appParams, 'Y', &result);
+
+	/*************************************************************************\
+	|* Do the "P" token, tos-takes-params, wildcard and registered-apps
+	\*************************************************************************/
+	_writeGemIconSpec(info->cmdParams, 'P', &result);
+	
+	/*************************************************************************\
+	|* Do the "F" token, tos-applications, wildcard and registered-apps
+	\*************************************************************************/
+	_writeIconSpec(info->folders, 'F', &result);
+
+	/*************************************************************************\
+	|* Do the "A" token, accessories, wildcard and registered-apps
+	\*************************************************************************/
+	_writeIconSpec(info->accs, 'A', &result);
+
+	/*************************************************************************\
+	|* Do the "I" token, data-files, wildcard and registered-apps
+	\*************************************************************************/
+	_writeIconSpec(info->files, 'I', &result);
+
+
+	/*************************************************************************\
+	|* Convert the vector to a char ptr and return it
+	\*************************************************************************/
+	char * text = (char *) malloc(result.length+1);
+	memcpy(text, result.data, result.length+1);
+	if (inf)
+		*inf = text;
+		
+	vec_deinit(&result);
+	return 1;
+	}
+
+/*****************************************************************************\
+|* Helpers for sorting
+\*****************************************************************************/
+typedef struct
+	{
+	int idx;
+	int priority;
+	} IconOrder;
+
+static int sortOrder(const void *o1, const void *o2)
+	{
+	IconOrder *one = (IconOrder *)o1;
+	IconOrder *two = (IconOrder *)o2;
+	
+	return (two->priority > one->priority) ? 1
+		 : (two->priority < one->priority) ? -1
+		 : 0;
+	}
+
+	
+/*****************************************************************************\
+|* Write out a vector of ND_ICONSPEC, ordering by the number of * chars in the
+|* filespec
+\*****************************************************************************/
+static void _writeIconSpec(vec_icon_t icons, char type, vec_char_t *result)
+	{
+	/*************************************************************************\
+	|* Set up an indirection array to easily sort based on the number of '*'
+	|* characters in the spec
+	\*************************************************************************/
+	IconOrder order[icons.length];
+	for (int i=0; i<icons.length; i++)
+		{
+		int stars	= 0;
+		char *spec	= icons.data[i]->spec;
+		while (*spec)
+			{
+			if (*spec == '*')
+				stars ++;
+			spec++;
+			}
+		order[i].idx 		= i;
+		order[i].priority	= stars;
+		}
+	
+	/*************************************************************************\
+	|* sort...
+	\*************************************************************************/
+	qsort(order, icons.length, sizeof(IconOrder), sortOrder);
+	
+	/*************************************************************************\
+	|* and output
+	\*************************************************************************/
+	char line[4096];
+	
+	for (int i=0; i<icons.length; i++)
+		{
+		ND_ICONSPEC *icon 	= icons.data[order[i].idx];
+		int len				= (int) strlen(icon->spec);
+		int isCatchall		= (strncmp(icon->spec, "*.*", 3) == 0);
+		
+		if ((type == 'A') || (type == 'F'))
+			{
+			const char *spec = (type == 'A') ? ("*.ACC") : ("*.TOS");
+			sprintf(line, "#%c %02x 04 000 @ %s@ @ @ \n",
+						type,
+						icon->iconId,
+						spec);
+			}
+		else if ((len == 3) && isCatchall)
+			sprintf(line, "#%c FF %02x 000 @ *.*@ @ \n", type, icon->iconId);
+		else
+			sprintf(line, "#%c %02x %02x 000 @ %s@ @ \n",
+					type,
+					icon->iconId,
+					icon->iconId,
+					icon->spec);
+					
+		vec_pusharr(result, line, (int)strlen(line));
+		}
+	}
+	
+/*****************************************************************************\
+|* Write out a vector of ND_GEM_ICONSPEC, ordering by how specific the
+|* filespec is
+\*****************************************************************************/
+static void _writeGemIconSpec(vec_gicon_t icons, char type, vec_char_t *result)
+	{
+	/*************************************************************************\
+	|* Set up an indirection array to easily sort based on the specificity of
+	|* the spec
+	\*************************************************************************/
+	IconOrder order[icons.length];
+	for (int i=0; i<icons.length; i++)
+		{
+		ND_GEM_ICONSPEC *current 	= icons.data[i];
+		order[i].idx 				= i;
+
+		if (strlen(current->path) == 0)
+			order[i].priority	= 10000;
+		else
+			{
+			int stars	= 0;
+			char *spec	= current->spec;
+			while (*spec)
+				{
+				if (*spec == '*')
+					stars ++;
+				spec++;
+				}
+			order[i].priority	= stars;
+			}
+		}
+	
+	/*************************************************************************\
+	|* sort...
+	\*************************************************************************/
+	qsort(order, icons.length, sizeof(IconOrder), sortOrder);
+	
+	/*************************************************************************\
+	|* and output
+	\*************************************************************************/
+	char line[4096];
+	
+	for (int i=0; i<icons.length; i++)
+		{
+		ND_GEM_ICONSPEC *icon 	= icons.data[order[i].idx];
+		
+		if (strlen(icon->path) == 0)
+			sprintf(line, "#%c %02x FF 000 @ %s@ @ @ \n",
+					type,
+					icon->iconId,
+					icon->spec);
+		else
+			sprintf(line, "#%c %02x 04 %01x%02x %s@ %s@ @ \n",
+					type,
+					icon->iconId,
+					icon->flags,
+					icon->fnKey,
+					icon->path,
+					icon->spec);
+					
+		vec_pusharr(result, line, (int)strlen(line));
+		}
+	}
+	
 /*****************************************************************************\
 |* Parse out the serial comms data
 \*****************************************************************************/
@@ -328,8 +646,8 @@ static int _parseMisc(ND_INFO *info, const char *data)
 		if (tokens == 5)
 			{
 			error 					= 0;;
-			info->misc.keyRepeat 	= (keyRpt - '0');
-			info->misc.repeatDelay	= (rptDly - '0');
+			info->misc.keyRepeat 	= keyRpt;
+			info->misc.repeatDelay	= rptDly;
 			info->misc.bell			= (bell - '0');
 			info->misc.keyclick		= (keyClk - '0');
 			info->misc.doubleClick	= (dblClk - '0');
@@ -474,8 +792,17 @@ static int _parseExecIcon(vec_gicon_t *info, char *data)
 			
 			phrase = strtok(NULL, "@");
 			if (phrase)
+				{
 				strncpy(icon->spec, strTrim(phrase), 32);
-
+				if (strlen(icon->spec) == 0)
+					{
+					char buf[4096];
+					strcpy(buf, icon->spec);
+					strcpy(icon->spec, icon->path);
+					strcpy(icon->path, buf);
+					}
+				}
+				
 			phrase = strtok(NULL, "@");
 			if (phrase)
 				{

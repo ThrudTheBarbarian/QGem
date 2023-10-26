@@ -49,8 +49,8 @@
 		F4680BED2ACE05D50020BB5B /* vrt_cpyfm.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BEC2ACE05D50020BB5B /* vrt_cpyfm.c */; };
 		F4680BF62ADEEEB80020BB5B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680BF52ADEEEB80020BB5B /* main.c */; };
 		F4680BFD2ADEF3030020BB5B /* libgemc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E340AA2AAAD3E1002390BA /* libgemc.a */; };
-		F4680C102AE8344E0020BB5B /* shellCfg.h in Headers */ = {isa = PBXBuildFile; fileRef = F4680C0E2AE8344E0020BB5B /* shellCfg.h */; };
-		F4680C112AE8344E0020BB5B /* shellCfg.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680C0F2AE8344E0020BB5B /* shellCfg.c */; };
+		F4680C102AE8344E0020BB5B /* shell_conv.h in Headers */ = {isa = PBXBuildFile; fileRef = F4680C0E2AE8344E0020BB5B /* shell_conv.h */; };
+		F4680C112AE8344E0020BB5B /* shell_conv.c in Sources */ = {isa = PBXBuildFile; fileRef = F4680C0F2AE8344E0020BB5B /* shell_conv.c */; };
 		F46A85B42AAEA2AE00FA3ABC /* v_clrwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */; };
 		F46A85B62AAEA56200FA3ABC /* v_updwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B52AAEA56200FA3ABC /* v_updwk.c */; };
 		F46A85BA2AAEA5A100FA3ABC /* vq_chcells.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */; };
@@ -345,8 +345,8 @@
 		F4680BEC2ACE05D50020BB5B /* vrt_cpyfm.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vrt_cpyfm.c; sourceTree = "<group>"; };
 		F4680BF32ADEEEB80020BB5B /* aspiral */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = aspiral; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4680BF52ADEEEB80020BB5B /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		F4680C0E2AE8344E0020BB5B /* shellCfg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shellCfg.h; sourceTree = "<group>"; };
-		F4680C0F2AE8344E0020BB5B /* shellCfg.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shellCfg.c; sourceTree = "<group>"; };
+		F4680C0E2AE8344E0020BB5B /* shell_conv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shell_conv.h; sourceTree = "<group>"; };
+		F4680C0F2AE8344E0020BB5B /* shell_conv.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shell_conv.c; sourceTree = "<group>"; };
 		F46A85B32AAEA2AE00FA3ABC /* v_clrwk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_clrwk.c; sourceTree = "<group>"; };
 		F46A85B52AAEA56200FA3ABC /* v_updwk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = v_updwk.c; sourceTree = "<group>"; };
 		F46A85B82AAEA5A100FA3ABC /* vq_chcells.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_chcells.c; sourceTree = "<group>"; };
@@ -606,7 +606,7 @@
 		F49512C22AE229D200AF9877 /* shell */ = {
 			isa = PBXGroup;
 			children = (
-				F4680C0F2AE8344E0020BB5B /* shellCfg.c */,
+				F4680C0F2AE8344E0020BB5B /* shell_conv.c */,
 				F49512C32AE22A7A00AF9877 /* shel_envrn.c */,
 				F45B8B112AE3426000A306B9 /* shel_find.c */,
 				F45B8B132AE393E000A306B9 /* shel_get.c */,
@@ -621,7 +621,7 @@
 			isa = PBXGroup;
 			children = (
 				F4BAB2A82AD6451400DBAD9F /* aes.h */,
-				F4680C0E2AE8344E0020BB5B /* shellCfg.h */,
+				F4680C0E2AE8344E0020BB5B /* shell_conv.h */,
 				F4BAB2B22AD76D7500DBAD9F /* appl */,
 				F4BAB2B32AD76D9400DBAD9F /* graf */,
 				F49512C22AE229D200AF9877 /* shell */,
@@ -859,7 +859,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4680C102AE8344E0020BB5B /* shellCfg.h in Headers */,
+				F4680C102AE8344E0020BB5B /* shell_conv.h in Headers */,
 				F4E340C52AAAE05A002390BA /* gemmsg.h in Headers */,
 				F46A86822ABEA97200FA3ABC /* args.h in Headers */,
 				F4CBFCF32ADB9AF70078C561 /* map.h in Headers */,
@@ -1175,7 +1175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F46A861E2AB62A4E00FA3ABC /* v_pie.c in Sources */,
-				F4680C112AE8344E0020BB5B /* shellCfg.c in Sources */,
+				F4680C112AE8344E0020BB5B /* shell_conv.c in Sources */,
 				F46A86062AB2964200FA3ABC /* vst_alignment.c in Sources */,
 				F49059362ACCDC1500F4F288 /* vqt_width.c in Sources */,
 				F4680BE92ACC9F550020BB5B /* vqin_mode.c in Sources */,
@@ -1527,7 +1527,7 @@
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -1585,7 +1585,7 @@
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
