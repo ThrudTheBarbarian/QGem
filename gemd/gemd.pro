@@ -20,6 +20,7 @@ SOURCES += \
 	aes/shel_put.cc \
 	aes/shel_read.cc \
 	aes/shel_write.cc \
+	aes/wind_create.cc \
 	io/clientmsg.cc \
     io/connectionmgr.cc \
     system/fillfactory.cc \

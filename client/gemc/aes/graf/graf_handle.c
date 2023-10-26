@@ -12,7 +12,7 @@
 #include "macros.h"
 
 /*****************************************************************************\
-|*  6902 : graf_handle()
+|*  7002 : graf_handle()
 |*		 : Retrieves the AES physical workstation id and char stats
 \*****************************************************************************/
 int16_t graf_handle(int16_t *wchr, int16_t *hchr, int16_t *wbox, int16_t *hbox)

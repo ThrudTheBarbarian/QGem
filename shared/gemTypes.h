@@ -536,4 +536,28 @@ enum
 	R_MAX
 	};
 
+/*****************************************************************************\
+|* Window attributes  
+\*****************************************************************************/
+
+#define NAME			0x0001	/**< Window has a title bar */
+#define CLOSER 			0x0002	/**< Window has a close box */
+#define FULLER 			0x0004	/**< Window has a fuller box */
+#define MOVER			0x0008	/**< Window may be moved by the user */
+#define INFO			0x0010	/**< Window has an information line */
+#define SIZER			0x0020	/**< Window has a sizer box */
+#define UPARROW			0x0040	/**< Window has an up arrow */
+#define DNARROW			0x0080	/**< Window has a down arrow */
+#define VSLIDE 			0x0100	/**< Window has a vertical slider */
+#define LFARROW			0x0200	/**< Window has a left arrow */
+#define RTARROW			0x0400	/**< Window has a right arrow */
+#define HSLIDE 			0x0800	/**< Window has a horizontal slider */
+#define HOTCLOSEBOX		0x1000  /**< Window has "hot close box" box (GEM 2.x) */
+#define MENUBAR			0x1000	/**< Window has a menu bar (XaAES) */
+#define BACKDROP		0x2000	/**< Window has a backdrop box */
+#define SMALLER			0x4000	/**< Window has an iconifier */
+#define BORDER			0x8000	/**< Window has border-resizable capability (XaAES newer than Nov 8 2004) */
+#define ICONIFIER		SMALLER	/**< Window has an iconifier */
+
+
 #endif /* ! __gem_types_header__ */

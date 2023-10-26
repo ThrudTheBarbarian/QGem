@@ -18,8 +18,16 @@
 int16_t appl_init(void);
 
 
+
 /*****************************************************************************\
-|*  6902 : graf_handle()
+|*  6604 : wind_create()
+|*		 : Reserve a window structure on the server
+\*****************************************************************************/
+int16_t wind_create(int16_t kind, int16_t x, int16_t y, int16_t w, int16_t h);
+
+
+/*****************************************************************************\
+|*  7002 : graf_handle()
 |*		 : Retrieve the AES physical workstation id and char stats
 \*****************************************************************************/
 int16_t graf_handle(int16_t *wchr, int16_t *hchr, int16_t *wbox, int16_t *hbox);

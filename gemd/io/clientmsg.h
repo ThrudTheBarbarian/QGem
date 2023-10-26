@@ -108,7 +108,10 @@ class ClientMsg
 		VQ_COLOURS					= 2026,
 
 		AES_APPL_INIT				= 6007,
-		AES_GRAF_HANDLE				= 6902,
+
+		AES_WIND_CREATE				= 6604,
+
+		AES_GRAF_HANDLE				= 7002,
 
 		AES_SHEL_ENVRN				= 7900,
 		AES_SHEL_FIND				= 7901,

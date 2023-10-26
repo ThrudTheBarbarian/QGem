@@ -117,4 +117,10 @@ int main(int argc, const char * argv[])
 		free(output);		
 		_gemInfDeInit(&inf);
 		}
+
+	/*************************************************************************\
+	|* Create a window
+	\*************************************************************************/
+	int16_t wh = wind_create(-1, 50, 50, 600, 300);
+	printf("window handle: %d\n", wh);
 	}

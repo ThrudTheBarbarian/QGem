@@ -64,15 +64,6 @@ do 																\
 			} 														\
 		} while (0)
 
-#define INFO(...) 													\
-		do 																\
-		{ 															\
-			if (debugLevel() > 1) 										\
-			{														\
-				fprintf(stderr, "%s:%d ", __FILENAME__, __LINE__);		\
-				fprintf(stderr, __VA_ARGS__); 							\
-				fprintf(stderr, "\n");									\
-			} while (0)
 #else
 # define WARN(...)
 # define INFO(...)
@@ -100,21 +91,11 @@ do 																\
 			fprintf(stderr, "\n");									\
 			} 														\
 		} while (0)
-
-#define INFO(...) 													\
-	do 																\
-		{ 															\
-		if (debugLevel() > 1) 										\
-			{														\
-			fprintf(stderr, "%s:%d ", __FILENAME__, __LINE__);		\
-			fprintf(stderr, __VA_ARGS__); 							\
-			fprintf(stderr, "\n");									\
-		} while (0)
-
 #else
+
 # define LOG(...)
 # define WARN(...)
-# define INFO(...)
+
 #endif // DEBUG defined
 
 #endif

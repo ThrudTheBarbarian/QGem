@@ -2,20 +2,20 @@
 #include "aes.h"
 #include "clientmsg.h"
 #include "connectionmgr.h"
-#include "fontmgr.h"
 #include "screen.h"
 #include "vdi.h"
 #include "workstation.h"
 
-
 /*****************************************************************************\
-|* 7002: Retrieve the AES physical workstation id and char stats.
+|* 6604: Create and register a window
 |*
-|* returns -1 or the workstation id
+|* returns -1 or the window handle
 \*****************************************************************************/
-int16_t AES::graf_handle(qintptr handle, int16_t *info)
+int16_t AES::wind_create(qintptr handle, int16_t kind,
+						 int16_t x, int16_t y,
+						 int16_t w, int16_t h)
 	{
-	int16_t physId = -1;
+	int16_t winId = -1;
 
 	ConnectionMgr *cm = _vdi->screen()->connectionManager();
 	Workstation *ws   = cm->findWorkstationForHandle(handle);
@@ -23,34 +23,45 @@ int16_t AES::graf_handle(qintptr handle, int16_t *info)
 	if (ws != nullptr)
 		{
 		/*********************************************************************\
-		|* Fetch the metrics
+		|* Add to the window list
 		\*********************************************************************/
-		FontMgr::sharedInstance().boxMetrics(FontMgr::SYSTEM_FONT_ID,
-											 ws->textEffect(),
-											 ws->textHeight(),
-											 info[0], info[1],
-											 info[2], info[3]);
-		physId = 0;	// Physical id is always 0
+		GWindow win =
+			{
+			.kind	= kind,
+			.x		= x,
+			.y		= y,
+			.w		= w,
+			.h		= h,
+			.shown	= false
+			};
+		_windowList.push_back(win);
+		winId = (int) _windowList.size();
 		}
 
-	return physId;
+	return winId;
 	}
 
 /*****************************************************************************\
 |* And from the socket interface...
 \*****************************************************************************/
-void AES::graf_handle(Workstation *ws, ClientMsg *cm)
+void AES::wind_create(Workstation *ws, ClientMsg *cm)
 	{
-	int16_t info[4];
-	int16_t physId = graf_handle(ws->handle(), info);
+	const Payload &p	= cm->payload();
+	int16_t kind		= ntohs(p[0]);
+	int16_t x			= ntohs(p[1]);
+	int16_t y			= ntohs(p[2]);
+	int16_t w			= ntohs(p[3]);
+	int16_t h			= ntohs(p[4]);
+
+	int16_t physId = wind_create(ws->handle(), kind, x, y, w, h);
 
 	/**************************************************************************\
 	|* Construct the message
 	\**************************************************************************/
 	cm->clear();
 	cm->append(physId);
-	cm->append(info, 4);
-	cm->setType(MSG_REPLY(ClientMsg::AES_GRAF_HANDLE));
+	cm->append(physId);
+	cm->setType(MSG_REPLY(ClientMsg::AES_WIND_CREATE));
 
 	/**************************************************************************\
 	|* Send the message down the wire

@@ -45,9 +45,20 @@ class AES : public QObject
 			bool			isDesktop;		// Is this the desktop app
 			} AppContext;
 
-
 		typedef QMap<qintptr, AppContext>	HandleMap;
 		typedef QList<AppContext>			PendingList;
+
+		typedef struct
+			{
+			int				kind;			// Components of the window
+			int				x;				// X co-ord in pixels
+			int				y;				// Y co-ord in pixels
+			int				w;				// Width in pixels
+			int				h;				// Height in pixels
+			bool			shown;			// Is the window visible
+			} GWindow;
+
+		typedef QList<GWindow>				WindowList;
 
 		/*********************************************************************\
 		|* Properties
@@ -58,6 +69,7 @@ class AES : public QObject
 		GETSETP(QSettings*, prefs, Prefs);	// Global preferences
 		GET(QStringList, appExtensions);	// List of extensions that are apps
 		GETP(PendingList*, pendingApps);	// Potential apps via shel_write
+		GET(WindowList, windowList);		// List of windows in precedence
 
 	private:
 		/*********************************************************************\
@@ -110,6 +122,14 @@ class AES : public QObject
 		\*********************************************************************/
 		int16_t appl_init(qintptr handle, QString uuid = "");
 		void	appl_init(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|* 6604: Register a new window in the AES, note: doesn't open it (!)
+		\*********************************************************************/
+		int16_t	wind_create(qintptr handle, int16_t kind,
+							int16_t x, int16_t y,
+							int16_t w, int16_t h);
+		void	wind_create(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|* 6902: Retrieve the AES physical workstation id and char stats

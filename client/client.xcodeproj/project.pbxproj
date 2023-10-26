@@ -27,6 +27,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		F4203F1C2AEAE40900BA0F24 /* wind_create.c in Sources */ = {isa = PBXBuildFile; fileRef = F4203F1B2AEAE40900BA0F24 /* wind_create.c */; };
 		F45B8B122AE3426000A306B9 /* shel_find.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B112AE3426000A306B9 /* shel_find.c */; };
 		F45B8B142AE393E000A306B9 /* shel_get.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B132AE393E000A306B9 /* shel_get.c */; };
 		F45B8B162AE4403000A306B9 /* shel_put.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B152AE4403000A306B9 /* shel_put.c */; };
@@ -323,6 +324,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F4203F1B2AEAE40900BA0F24 /* wind_create.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = wind_create.c; sourceTree = "<group>"; };
 		F45B8B112AE3426000A306B9 /* shel_find.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shel_find.c; sourceTree = "<group>"; };
 		F45B8B132AE393E000A306B9 /* shel_get.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shel_get.c; sourceTree = "<group>"; };
 		F45B8B152AE4403000A306B9 /* shel_put.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shel_put.c; sourceTree = "<group>"; };
@@ -535,6 +537,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F4203F1A2AEAE3B500BA0F24 /* wind */ = {
+			isa = PBXGroup;
+			children = (
+				F4203F1B2AEAE40900BA0F24 /* wind_create.c */,
+			);
+			path = wind;
+			sourceTree = "<group>";
+		};
 		F45B8B192AE6C29E00A306B9 /* apps */ = {
 			isa = PBXGroup;
 			children = (
@@ -620,6 +630,7 @@
 		F4BAB29A2AD61D8900DBAD9F /* aes */ = {
 			isa = PBXGroup;
 			children = (
+				F4203F1A2AEAE3B500BA0F24 /* wind */,
 				F4BAB2A82AD6451400DBAD9F /* aes.h */,
 				F4680C0E2AE8344E0020BB5B /* shell_conv.h */,
 				F4BAB2B22AD76D7500DBAD9F /* appl */,
@@ -1257,6 +1268,7 @@
 				F49059442ACFB26200F4F288 /* vex_motv.c in Sources */,
 				F45B8B2A2AE770D400A306B9 /* shel_read.c in Sources */,
 				F4CBFCF42ADB9AF70078C561 /* map.c in Sources */,
+				F4203F1C2AEAE40900BA0F24 /* wind_create.c in Sources */,
 				F490593A2ACD262C00F4F288 /* vst_unload_fonts.c in Sources */,
 				F4680BE32ACB268D0020BB5B /* vsc_form.c in Sources */,
 				F4BAB2B52AD76EC100DBAD9F /* rscfile.c in Sources */,

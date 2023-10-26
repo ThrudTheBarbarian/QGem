@@ -458,7 +458,12 @@ void ConnectionMgr::_incomingData(void)
 				AES::sharedInstance().appl_init(ws, &cm);
 				break;
 
-			case ClientMsg::AES_GRAF_HANDLE:		// 6902
+
+			case ClientMsg::AES_WIND_CREATE:		// 6604
+				AES::sharedInstance().wind_create(ws, &cm);
+				break;
+
+			case ClientMsg::AES_GRAF_HANDLE:		// 7002
 				AES::sharedInstance().graf_handle(ws, &cm);
 				break;
 
