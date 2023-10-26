@@ -582,7 +582,7 @@ typedef struct
 typedef struct
 	{
 	int points;							// Height of the character set in pts
-	int font;							// Font id to use for system font
+	char font[256];						// Font name to use for system font
 	} ND_CHARSET;
 
 /*****************************************************************************\
@@ -672,11 +672,11 @@ typedef struct
 	ND_DRIVE			printer;		//  #O: Desktop icon for printer
 	vec_gicon_t			cmdParams;		//  #P: Window icons for TTP apps
 	ND_WINSTYLE			winStyle;		//  #Q: desk/win patterns and colours
-	ND_CHARSET			charset;		// #S: Font-id and size in points
+	ND_CHARSET			charset;		//  #S: Font-id and size in points
 	ND_DRIVE			trash;			//  #T: Desktop icon for trash
-	vec_link_t			fldrLinks;		// #V: Folder-links on the desktop
+	vec_link_t			fldrLinks;		//  #V: Folder-links on the desktop
 	vec_win_t			windows;		//  #W: List of windows on screen
-	vec_link_t			fileLinks;		// #X: File-links on the desktop
+	vec_link_t			fileLinks;		//  #X: File-links on the desktop
 	vec_gicon_t			appParams;		//  #Y: Window icons for GTP apps
 	} ND_INFO;
 

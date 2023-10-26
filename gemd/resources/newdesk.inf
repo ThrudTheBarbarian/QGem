@@ -21,6 +21,7 @@
 #Y 03 FF 000 *.GTP@ @ @ 
 #P 03 FF 000 *.TTP@ @ @ 
 #F 03 04 000 *.TOS@ @ @ 
+#s 0C system@ 
 #G 03 04 000 C:\NEODESK4\NEOLOAD.PRG@ *.@ @ 
 #G 03 04 200 F:\STZIP26\STZIP.PRG@ *.ZIP@ @ 
 #M 00 01 0B FF C Applications@ @ 

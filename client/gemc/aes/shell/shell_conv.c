@@ -39,8 +39,9 @@ static int _parseCharset(ND_INFO *info, char *data);
 static int _parseLinks(vec_link_t *vec, char *data);
 static int _parseWindows(vec_win_t *vec, char *data);
 
-static void _writeIconSpec(vec_icon_t icons, char type, vec_char_t *result);
-static void _writeGemIconSpec(vec_gicon_t icons, char type, vec_char_t *result);
+static void _writeIconSpec(vec_icon_t *icons, char type, vec_char_t *result);
+static void _writeGemIconSpec(vec_gicon_t *icons, char type, vec_char_t *result);
+static void _writeLinks(vec_link_t *icons, char type, vec_char_t *result);
 
 
 #define CLEAN(vector, type) 												\
@@ -228,7 +229,7 @@ int _gemInfReadData(const char *inf, ND_INFO* info)
 				case 'Q':
 					errors += _parseWindowStyle(info, entry+1);
 					break;
-				case 'S':
+				case 's':
 					errors += _parseCharset(info, entry+1);
 					break;
 				case 'T':
@@ -245,6 +246,11 @@ int _gemInfReadData(const char *inf, ND_INFO* info)
 					break;
 				case 'Y':
 					errors += _parseExecIcon(&(info->appParams), entry+1);
+					break;
+				case 'Z':
+					break;
+				default:
+					WARN("Ignoring tag %c in newdesk.inf", entry[0]);
 					break;
 				}
 			}
@@ -425,6 +431,15 @@ int _gemInfWriteData(ND_INFO* info, char **inf)
 		}
 
 	/*************************************************************************\
+	|* Do the "s" token, charset (modified 'S' where we name the font)
+	\*************************************************************************/
+	if (strlen(info->charset.font) > 0)
+		{
+		sprintf(line, "#s %02x %s@\n", info->charset.points, info->charset.font);
+		vec_pusharr(&result, line, (int)strlen(line));
+		}
+		
+	/*************************************************************************\
 	|* Do the "N" token, default file icon
 	\*************************************************************************/
 	sprintf(line, "#N FF %02x 000 @ *.*@ @ \n", info->catchAll.iconId);
@@ -433,37 +448,47 @@ int _gemInfWriteData(ND_INFO* info, char **inf)
 	/*************************************************************************\
 	|* Do the "D" token, folder-icon specs
 	\*************************************************************************/
-	_writeIconSpec(info->folders, 'D', &result);
+	_writeIconSpec(&(info->folders), 'D', &result);
 
 	/*************************************************************************\
 	|* Do the "G" token, gem-applications, wildcard and registered-apps
 	\*************************************************************************/
-	_writeGemIconSpec(info->apps, 'G', &result);
+	_writeGemIconSpec(&(info->apps), 'G', &result);
 
 	/*************************************************************************\
 	|* Do the "Y" token, gem-takes-params, wildcard and registered-apps
 	\*************************************************************************/
-	_writeGemIconSpec(info->appParams, 'Y', &result);
+	_writeGemIconSpec(&(info->appParams), 'Y', &result);
 
 	/*************************************************************************\
 	|* Do the "P" token, tos-takes-params, wildcard and registered-apps
 	\*************************************************************************/
-	_writeGemIconSpec(info->cmdParams, 'P', &result);
+	_writeGemIconSpec(&(info->cmdParams), 'P', &result);
 	
 	/*************************************************************************\
 	|* Do the "F" token, tos-applications, wildcard and registered-apps
 	\*************************************************************************/
-	_writeIconSpec(info->folders, 'F', &result);
+	_writeIconSpec(&(info->folders), 'F', &result);
 
 	/*************************************************************************\
 	|* Do the "A" token, accessories, wildcard and registered-apps
 	\*************************************************************************/
-	_writeIconSpec(info->accs, 'A', &result);
+	_writeIconSpec(&(info->accs), 'A', &result);
 
 	/*************************************************************************\
 	|* Do the "I" token, data-files, wildcard and registered-apps
 	\*************************************************************************/
-	_writeIconSpec(info->files, 'I', &result);
+	_writeIconSpec(&(info->files), 'I', &result);
+
+	/*************************************************************************\
+	|* Do the "V" token, links to folders on the desktop
+	\*************************************************************************/
+	_writeLinks(&(info->fldrLinks), 'V', &result);
+
+	/*************************************************************************\
+	|* Do the "X" token, links to files on the desktop
+	\*************************************************************************/
+	_writeLinks(&(info->fileLinks), 'X', &result);
 
 
 	/*************************************************************************\
@@ -497,22 +522,21 @@ static int sortOrder(const void *o1, const void *o2)
 		 : 0;
 	}
 
-	
 /*****************************************************************************\
-|* Write out a vector of ND_ICONSPEC, ordering by the number of * chars in the
+|* Write out a vector of ND_LINK, ordering by the number of * chars in the
 |* filespec
 \*****************************************************************************/
-static void _writeIconSpec(vec_icon_t icons, char type, vec_char_t *result)
+static void _writeLinks(vec_link_t *icons, char type, vec_char_t *result)
 	{
 	/*************************************************************************\
 	|* Set up an indirection array to easily sort based on the number of '*'
 	|* characters in the spec
 	\*************************************************************************/
-	IconOrder order[icons.length];
-	for (int i=0; i<icons.length; i++)
+	IconOrder order[icons->length];
+	for (int i=0; i<icons->length; i++)
 		{
 		int stars	= 0;
-		char *spec	= icons.data[i]->spec;
+		char *spec	= icons->data[i]->pathSpec;
 		while (*spec)
 			{
 			if (*spec == '*')
@@ -526,16 +550,67 @@ static void _writeIconSpec(vec_icon_t icons, char type, vec_char_t *result)
 	/*************************************************************************\
 	|* sort...
 	\*************************************************************************/
-	qsort(order, icons.length, sizeof(IconOrder), sortOrder);
+	qsort(order, icons->length, sizeof(IconOrder), sortOrder);
 	
 	/*************************************************************************\
 	|* and output
 	\*************************************************************************/
 	char line[4096];
 	
-	for (int i=0; i<icons.length; i++)
+	for (int i=0; i<icons->length; i++)
 		{
-		ND_ICONSPEC *icon 	= icons.data[order[i].idx];
+		ND_LINK *icon = icons->data[order[i].idx];
+		
+		sprintf(line, "#%c %02x %02x %02x FF %s@ %s@ \n",
+				type,
+				icon->x,
+				icon->y,
+				icon->iconId,
+				icon->pathSpec,
+				icon->iconText);
+					
+		vec_pusharr(result, line, (int)strlen(line));
+		}
+	}
+
+/*****************************************************************************\
+|* Write out a vector of ND_ICONSPEC, ordering by the number of * chars in the
+|* filespec
+\*****************************************************************************/
+static void _writeIconSpec(vec_icon_t *icons, char type, vec_char_t *result)
+	{
+	/*************************************************************************\
+	|* Set up an indirection array to easily sort based on the number of '*'
+	|* characters in the spec
+	\*************************************************************************/
+	IconOrder order[icons->length];
+	for (int i=0; i<icons->length; i++)
+		{
+		int stars	= 0;
+		char *spec	= icons->data[i]->spec;
+		while (*spec)
+			{
+			if (*spec == '*')
+				stars ++;
+			spec++;
+			}
+		order[i].idx 		= i;
+		order[i].priority	= stars;
+		}
+	
+	/*************************************************************************\
+	|* sort...
+	\*************************************************************************/
+	qsort(order, icons->length, sizeof(IconOrder), sortOrder);
+	
+	/*************************************************************************\
+	|* and output
+	\*************************************************************************/
+	char line[4096];
+	
+	for (int i=0; i<icons->length; i++)
+		{
+		ND_ICONSPEC *icon 	= icons->data[order[i].idx];
 		int len				= (int) strlen(icon->spec);
 		int isCatchall		= (strncmp(icon->spec, "*.*", 3) == 0);
 		
@@ -564,16 +639,16 @@ static void _writeIconSpec(vec_icon_t icons, char type, vec_char_t *result)
 |* Write out a vector of ND_GEM_ICONSPEC, ordering by how specific the
 |* filespec is
 \*****************************************************************************/
-static void _writeGemIconSpec(vec_gicon_t icons, char type, vec_char_t *result)
+static void _writeGemIconSpec(vec_gicon_t *icons, char type, vec_char_t *result)
 	{
 	/*************************************************************************\
 	|* Set up an indirection array to easily sort based on the specificity of
 	|* the spec
 	\*************************************************************************/
-	IconOrder order[icons.length];
-	for (int i=0; i<icons.length; i++)
+	IconOrder order[icons->length];
+	for (int i=0; i<icons->length; i++)
 		{
-		ND_GEM_ICONSPEC *current 	= icons.data[i];
+		ND_GEM_ICONSPEC *current 	= icons->data[i];
 		order[i].idx 				= i;
 
 		if (strlen(current->path) == 0)
@@ -595,16 +670,16 @@ static void _writeGemIconSpec(vec_gicon_t icons, char type, vec_char_t *result)
 	/*************************************************************************\
 	|* sort...
 	\*************************************************************************/
-	qsort(order, icons.length, sizeof(IconOrder), sortOrder);
+	qsort(order, icons->length, sizeof(IconOrder), sortOrder);
 	
 	/*************************************************************************\
 	|* and output
 	\*************************************************************************/
 	char line[4096];
 	
-	for (int i=0; i<icons.length; i++)
+	for (int i=0; i<icons->length; i++)
 		{
-		ND_GEM_ICONSPEC *icon 	= icons.data[order[i].idx];
+		ND_GEM_ICONSPEC *icon 	= icons->data[order[i].idx];
 		
 		if (strlen(icon->path) == 0)
 			sprintf(line, "#%c %02x FF 000 @ %s@ @ @ \n",
@@ -937,14 +1012,19 @@ static int _parseCharset(ND_INFO *info, char *data)
 	{
 	int error	= 1;
 	
-	int pts, font;
+	int pts;
+	char font[256];
 	
-	int tokens = sscanf(data, "%x %x", &font, &pts);
+	int tokens = sscanf(data, "%x %s", &pts, font);
 	if (tokens == 2)
 		{
 		error 					= 0;
 		info->charset.points	= pts;
-		info->charset.font		= font;
+		
+		int len = (int) strlen(font);
+		if (font[len-1] == '@')
+			font[len-1] = '\0';
+		strcpy(info->charset.font, font);
 		}
 		
 	return error;
