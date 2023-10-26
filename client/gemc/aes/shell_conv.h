@@ -660,20 +660,20 @@ typedef struct
 	ND_PRINTER			printcfg;		//  #b: All the printer config
 	ND_UI_MISC			misc;			//  #c: Colours, key repeat, mouse clicks
 	vec_icon_t			accs;			//  #A: List of accessory configs
-	vec_drive_t			carts;			// #C: List of cartridge configs
+	vec_drive_t			carts;			//  #C: List of cartridge configs
 	vec_icon_t			folders;		//  #D: Window icons in window
 	ND_DISPLAY_INFO		dpyInfo;		//  #E: Display configuration
 	vec_icon_t			cmds;			//  #F: Window icons for TOS apps
 	vec_gicon_t			apps;			//  #G: Window icons for PRG apps
 	vec_icon_t			files;			//  #I: Window icons for specific files
 	vec_data_t			shortcuts;		//  #K: shortcuts, 1 per menu-entry
-	vec_drive_t			drives;			// #M: Desktop icons, storage devices
+	vec_drive_t			drives;			//  #M: Desktop icons, storage devices
 	ND_ICONSPEC			catchAll;		//  #N: Window icon for specific non-exec
-	ND_DRIVE			printer;		// #O: Desktop icon for printer
+	ND_DRIVE			printer;		//  #O: Desktop icon for printer
 	vec_gicon_t			cmdParams;		//  #P: Window icons for TTP apps
 	ND_WINSTYLE			winStyle;		//  #Q: desk/win patterns and colours
 	ND_CHARSET			charset;		// #S: Font-id and size in points
-	ND_DRIVE			trash;			// #T: Desktop icon for trash
+	ND_DRIVE			trash;			//  #T: Desktop icon for trash
 	vec_link_t			fldrLinks;		// #V: Folder-links on the desktop
 	vec_win_t			windows;		//  #W: List of windows on screen
 	vec_link_t			fileLinks;		// #X: File-links on the desktop

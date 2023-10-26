@@ -30,7 +30,7 @@ static int _parseMisc(ND_INFO *info, const char *data);
 static int _parseIconVec(vec_icon_t *vec, const char *data, IconVariant variant);
 static int _parseIcon(ND_ICONSPEC *spec, const char *data, IconVariant variant);
 static int _parseDriveVec(vec_drive_t *info, const char *data);
-static int _parseDrive(ND_DRIVE *drive, const char *data);
+static int _parseDrive(ND_DRIVE *drive, const char *data, int driveId);
 static int _parseDisplayInfo(ND_INFO *info, const char *data);
 static int _parseExecIcon(vec_gicon_t *vec, char *data);
 static int _parseShortcuts(ND_INFO *info, char *data);
@@ -220,7 +220,7 @@ int _gemInfReadData(const char *inf, ND_INFO* info)
 					errors += _parseIcon(&(info->catchAll), entry+1, SECOND_DIGIT);
 					break;
 				case 'O':
-					errors += _parseDrive(&(info->printer), entry+1);
+					errors += _parseDrive(&(info->printer), entry+1, 0);
 					break;
 				case 'P':
 					errors += _parseExecIcon(&(info->cmdParams), entry+1);
@@ -232,7 +232,7 @@ int _gemInfReadData(const char *inf, ND_INFO* info)
 					errors += _parseCharset(info, entry+1);
 					break;
 				case 'T':
-					errors += _parseDrive(&(info->trash), entry+1);
+					errors += _parseDrive(&(info->trash), entry+1, 0);
 					break;
 				case 'V':
 					errors += _parseLinks(&(info->fldrLinks), entry+1);
@@ -349,6 +349,61 @@ int _gemInfWriteData(ND_INFO* info, char **inf)
 			info->winStyle.windowPattern,
 			info->winStyle.winColour);
 	vec_pusharr(&result, line, 15);
+
+	/*************************************************************************\
+	|* Do the "C" token, cartridge.
+	\*************************************************************************/
+	for (int i=0; i<info->carts.length; i++)
+		{
+		ND_DRIVE *cart = info->carts.data[i];
+		
+		sprintf(line, "#C %02x %02x %02x FF %c %s@ @ \n",
+				cart->x,
+				cart->y,
+				cart->iconId,
+				cart->driveId,
+				cart->text);
+		vec_pusharr(&result, line, (int)strlen(line));
+		}
+
+	/*************************************************************************\
+	|* Do the "M" token, "drives"
+	\*************************************************************************/
+	for (int i=0; i<info->drives.length; i++)
+		{
+		ND_DRIVE *drive = info->drives.data[i];
+		
+		sprintf(line, "#M %02x %02x %02x FF %c %s@ @ \n",
+				drive->x,
+				drive->y,
+				drive->iconId,
+				drive->driveId,
+				drive->text);
+		vec_pusharr(&result, line, (int)strlen(line));
+		}
+
+	/*************************************************************************\
+	|* Do the "T" token, trash icon
+	\*************************************************************************/
+	sprintf(line, "#T %02x %02x %02x FF   %s@ @ \n",
+			info->trash.x,
+			info->trash.y,
+			info->trash.iconId,
+			info->trash.text);
+	vec_pusharr(&result, line, (int)strlen(line));
+
+	/*************************************************************************\
+	|* Do the "O" token, printer icon
+	\*************************************************************************/
+	if (strlen(info->printer.text) > 0)
+		{
+		sprintf(line, "#O %02x %02x %02x FF   %s@ @ \n",
+				info->printer.x,
+				info->printer.y,
+				info->printer.iconId,
+				info->printer.text);
+		vec_pusharr(&result, line, (int)strlen(line));
+		}
 
 	/*************************************************************************\
 	|* Do the "W" token, window locations etc.
@@ -699,7 +754,7 @@ static int _parseIcon(ND_ICONSPEC *spec, const char *data, IconVariant variant)
 static int _parseDriveVec(vec_drive_t *info, const char *data)
 	{
 	ND_DRIVE *drive = (ND_DRIVE *) malloc(sizeof(ND_DRIVE));
-	int error		= _parseDrive(drive, data);
+	int error		= _parseDrive(drive, data, 1);
 	if (!error)
 		{
 		if (vec_push(info, drive))
@@ -712,16 +767,26 @@ static int _parseDriveVec(vec_drive_t *info, const char *data)
 /*****************************************************************************\
 |* Parse out drive data
 \*****************************************************************************/
-static int _parseDrive(ND_DRIVE *drive, const char *data)
+static int _parseDrive(ND_DRIVE *drive, const char *data, int driveId)
 	{
 	int error = 1;
 	int iconId;
-	if (sscanf(data, "%x %x %x %*s %c %s",
-				&(drive->x),
-			 	&(drive->y),
-			 	&(iconId),
-			 	&(drive->driveId),
-			 	drive->text) == 5)
+	int parsed = 0;
+	if (driveId)
+		parsed = (sscanf(data, "%x %x %x %*s %c %s",
+							&(drive->x),
+							&(drive->y),
+							&(iconId),
+							&(drive->driveId),
+							drive->text) == 5);
+	else
+		parsed = (sscanf(data, "%x %x %x %*s %s",
+							&(drive->x),
+							&(drive->y),
+							&(iconId),
+							drive->text) == 4);
+		
+	if (parsed)
 		{
 		error = 0;
 		drive->iconId = iconId;
