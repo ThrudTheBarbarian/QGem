@@ -11,7 +11,15 @@
 \*****************************************************************************/
 int16_t AES::appl_init(qintptr handle, QString uuid)
 	{
-	AppContext ctx = {0, "","","", false};
+	AppContext ctx =
+		{
+		.appId		= 0,
+		.uuid		= "",
+		.cmd		= "",
+		.args		= "",
+		.isDesktop	= false,
+		.handle		= 0
+		};
 
 	/**************************************************************************\
 	|* If we have a uuid, use that app-context

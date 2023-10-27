@@ -3,6 +3,7 @@
 
 #include "aes.h"
 #include "vdi.h"
+#include "workstation.h"
 
 #define APP_DIR			"Disk" +sep + "Applications"
 #define DESKTOP			"desktop"
@@ -84,4 +85,42 @@ void AES::bootstrap(void)
 	|* call, which will set the appropriate flag in the app context
 	\**************************************************************************/
 	shel_write(0, 0, 0, 0, app, "-init");
+	}
+
+/*****************************************************************************\
+|* Recover any resources used by a workstation that's disconnected
+\*****************************************************************************/
+void AES::closeWorkstation(Workstation *ws)
+	{
+	qintptr handle = ws->handle();
+	QList<QRect> redraws;
+
+	/*********************************************************************\
+	|* Run through the window list, and kill off any open windows
+	\*********************************************************************/
+	for (int i=_windowList.size()-1; i>=0; i--)
+		{
+		const GWindow& win = _windowList.at(i);
+		if (win.handle == handle)
+			{
+			redraws.push_back(QRect(win.x, win.y, win.w, win.h));
+			_windowList.removeAt(i);
+			}
+		}
+
+	/*********************************************************************\
+	|* Remove the app context from the handle map
+	\*********************************************************************/
+	if (_apps.contains(handle))
+		_apps.take(handle);
+
+	/*********************************************************************\
+	|* Clear any reference from the pending list too
+	\*********************************************************************/
+	for (int i=_pendingApps->size()-1; i>=0; i--)
+		{
+		const AppContext& ctx = _pendingApps->at(i);
+		if (ctx.handle == handle)
+			_pendingApps->removeAt(i);
+		}
 	}

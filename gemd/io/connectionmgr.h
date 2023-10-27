@@ -23,6 +23,11 @@ class ConnectionMgr : public QObject
 	Q_OBJECT
 
 	/*************************************************************************\
+	|* Typedefs, consts etc
+	\*************************************************************************/
+	const char *SOCKET_IDENTIFIER = "socket_identifier";
+
+	/*************************************************************************\
 	|* Properties
 	\*************************************************************************/
 	GET(HandleList, timerList);					// List of handles that have

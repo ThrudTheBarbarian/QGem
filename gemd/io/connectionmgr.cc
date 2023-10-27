@@ -54,6 +54,14 @@ void ConnectionMgr::stop(void)
 void ConnectionMgr::_connection(void)
 	{
 	QLocalSocket *client = _server.nextPendingConnection();
+
+	/*************************************************************************\
+	|* When the socket closes, we can no longer call socketDescriptor() - it
+	|* just returns -1. Get the socketDescriptor and stash it into a property
+	|* so we have access to it later
+	\*************************************************************************/
+	client->setProperty(SOCKET_IDENTIFIER, client->socketDescriptor());
+
 	while (client != nullptr)
 		{
 		Workstation *ws = new Workstation(client, this);
@@ -68,7 +76,7 @@ void ConnectionMgr::_connection(void)
 		client = _server.nextPendingConnection();
 		emit connection(ws);
 		}
-	fprintf(stderr, "Connection! %d clients\n", (int) _conns.size());
+	fprintf(stderr, "Connection! %d client(s)\n", (int) _conns.size()-1);
 	}
 
 /*****************************************************************************\
@@ -77,17 +85,36 @@ void ConnectionMgr::_connection(void)
 void ConnectionMgr::_disconnection(void)
 	{
 	QLocalSocket *socket	= (QLocalSocket *) QObject::sender();
-	qintptr handle			= socket->socketDescriptor();
-	_conns.remove(handle);
 
+	/*************************************************************************\
+	|* The socket has closed, and the handle is therefore lost, but we stashed
+	|* the original handle into a property named SOCKET_IDENTIFIER. Retrieve
+	|* the orignal handle via the property instead of socketDesctiptor()
+	\*************************************************************************/
+	qintptr handle		= socket->property(SOCKET_IDENTIFIER).toLongLong();
+
+	/*************************************************************************\
+	|* Prevent timer events being sent
+	\*************************************************************************/
 	if (_timerList.contains(handle))
 		_timerList.removeOne(handle);
+
+	/*************************************************************************\
+	|* Close down any resources in the AES for this application
+	\*************************************************************************/
+	AES::sharedInstance().closeWorkstation(findWorkstationForHandle(handle));
 
 	// FIXME: Needs to cycle back through list, only be nullptr when no
 	// applications left
 	VDI::sharedInstance().setTop(nullptr);
 
-	fprintf(stderr, "Disconnection! %d left\n", (int) _conns.size());
+	/*************************************************************************\
+	|* Remove the workstation from the connections list, which will
+	|* delete it since it has 'this' as a QObject parent
+	\*************************************************************************/
+	_conns.remove(handle);
+
+	fprintf(stderr, "Disconnection! %d left\n", (int) _conns.size()-1);
 	}
 
 /*****************************************************************************\

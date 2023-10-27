@@ -7,7 +7,7 @@
 #include "workstation.h"
 
 /*****************************************************************************\
-|* 6604: Create and register a window
+|* 6604: Create and register a window, parameters are max-size
 |*
 |* returns -1 or the window handle
 \*****************************************************************************/
@@ -32,8 +32,24 @@ int16_t AES::wind_create(qintptr handle, int16_t kind,
 			.y		= y,
 			.w		= w,
 			.h		= h,
-			.shown	= false
+			.shown	= false,
+			.handle	= handle
 			};
+
+		/*********************************************************************\
+		|* If this is the "desktop", ignore the x,y,w,h and set them to the
+		|* screen size, with kind = 0 if this is the first window
+		\*********************************************************************/
+		const AppContext& ctx = _apps.value(ws->handle());
+		if (ctx.isDesktop && (_windowList.size() == 0))
+			{
+			win.kind	= 0;
+			win.x		= 0;
+			win.y		= 0;
+			win.w		= _vdi->screen()->width()-1;
+			win.h		= _vdi->screen()->height()-1;
+			}
+
 		_windowList.push_back(win);
 		winId = (int) _windowList.size();
 		}

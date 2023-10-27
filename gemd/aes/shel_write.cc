@@ -15,8 +15,8 @@
 /*****************************************************************************\
 |* Forward declarations
 \*****************************************************************************/
-static void _launchGemApp(bool isDesktop, QString cmd, QString args);
-static void _launchTosApp(bool isDesktop, QString cmd, QString args);
+static void _launchGemApp(qintptr handle, QString cmd, QString args);
+static void _launchTosApp(qintptr handle, QString cmd, QString args);
 
 /*****************************************************************************\
 |* Different ways we can launch a program
@@ -101,10 +101,10 @@ int16_t AES::shel_write(qintptr handle,
 			case NONE:
 				break;
 			case AS_GEM:
-				_launchGemApp(handle==0, cmd, args);
+				_launchGemApp(handle, cmd, args);
 				break;
 			case AS_TOS:
-				_launchTosApp(handle==0, cmd, args);
+				_launchTosApp(handle, cmd, args);
 				break;
 			}
 		}
@@ -147,7 +147,7 @@ void AES::shel_write(Workstation *ws, ClientMsg *cm)
 /*****************************************************************************\
 |* Helper function, launch a GEM app
 \*****************************************************************************/
-void _launchGemApp(bool isDesktop, QString cmd, QString args)
+void _launchGemApp(qintptr handle, QString cmd, QString args)
 	{
 	bool ok = false;
 
@@ -207,7 +207,8 @@ void _launchGemApp(bool isDesktop, QString cmd, QString args)
 		.uuid = uuid,
 		.cmd = cmd,
 		.args = args,
-		.isDesktop = isDesktop
+		.isDesktop = (handle == 0),
+		.handle = handle
 		};
 
 	AES::sharedInstance().pendingApps()->push_back(ctx);
@@ -231,7 +232,7 @@ void _launchGemApp(bool isDesktop, QString cmd, QString args)
 /*****************************************************************************\
 |* Helper function, launch a TOS app
 \*****************************************************************************/
-void _launchTosApp(bool isDesktop, QString cmd, QString args)
+void _launchTosApp(qintptr handle, QString cmd, QString args)
 	{
 	QByteArray ba = QByteArray::fromStdString(cmd.toStdString());
 	qputenv(GEM_APP_CMD, ba);
@@ -239,5 +240,5 @@ void _launchTosApp(bool isDesktop, QString cmd, QString args)
 	ba = QByteArray::fromStdString(args.toStdString());
 	qputenv(GEM_APP_ARGS, ba);
 
-	_launchGemApp(isDesktop, "cmdtool", "");
+	_launchGemApp(handle, "cmdtool", "");
 	}

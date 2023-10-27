@@ -43,6 +43,7 @@ class AES : public QObject
 			QString			cmd;			// Command to run
 			QString			args;			// Arguments passed
 			bool			isDesktop;		// Is this the desktop app
+			qintptr			handle;			// Workstation owner of app
 			} AppContext;
 
 		typedef QMap<qintptr, AppContext>	HandleMap;
@@ -56,6 +57,7 @@ class AES : public QObject
 			int				w;				// Width in pixels
 			int				h;				// Height in pixels
 			bool			shown;			// Is the window visible
+			qintptr			handle;			// Workstation owner of window
 			} GWindow;
 
 		typedef QList<GWindow>				WindowList;
@@ -104,6 +106,11 @@ class AES : public QObject
 		|* Initialise the AES
 		\*********************************************************************/
 		void initialise(void);
+
+		/*********************************************************************\
+		|* Recover any resources used by a workstation that's disconnected
+		\*********************************************************************/
+		void closeWorkstation(Workstation *ws);
 
 		/*********************************************************************\
 		|* Bootstrap the application
