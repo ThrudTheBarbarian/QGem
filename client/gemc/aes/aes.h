@@ -21,9 +21,16 @@ int16_t appl_init(void);
 
 /*****************************************************************************\
 |*  6604 : wind_create()
-|*		 : Reserve a window structure on the server
+|*		 : Reserve a window structure on the server. The xywh are max sizes.
+|*       : Returns the handle of the window created, or -1
 \*****************************************************************************/
 int16_t wind_create(int16_t kind, int16_t x, int16_t y, int16_t w, int16_t h);
+
+/*****************************************************************************\
+|*  6610 : wind_open()
+|*		 : Open a window to the specified size
+\*****************************************************************************/
+int16_t wind_open(int16_t handle, int16_t x, int16_t y, int16_t w, int16_t h);
 
 
 /*****************************************************************************\

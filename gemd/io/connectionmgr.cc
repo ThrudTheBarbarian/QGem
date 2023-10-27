@@ -490,6 +490,11 @@ void ConnectionMgr::_incomingData(void)
 				AES::sharedInstance().wind_create(ws, &cm);
 				break;
 
+			case ClientMsg::AES_WIND_OPEN:			// 6610
+				AES::sharedInstance().wind_open(ws, &cm);
+				break;
+
+
 			case ClientMsg::AES_GRAF_HANDLE:		// 7002
 				AES::sharedInstance().graf_handle(ws, &cm);
 				break;

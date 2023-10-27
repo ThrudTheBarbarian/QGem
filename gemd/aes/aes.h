@@ -3,6 +3,7 @@
 
 #include <QMap>
 #include <QObject>
+#include <QRect>
 #include <QSettings>
 
 #include "properties.h"
@@ -52,11 +53,10 @@ class AES : public QObject
 		typedef struct
 			{
 			int				kind;			// Components of the window
-			int				x;				// X co-ord in pixels
-			int				y;				// Y co-ord in pixels
-			int				w;				// Width in pixels
-			int				h;				// Height in pixels
-			bool			shown;			// Is the window visible
+			QRect			current;		// Current x,y,w,h
+			QRect			max;			// Maximum x,y,w,h
+			bool			shown;			// Is the window visible ?
+			bool			root;			// Is this the root window ?
 			qintptr			handle;			// Workstation owner of window
 			} GWindow;
 
@@ -137,6 +137,14 @@ class AES : public QObject
 							int16_t x, int16_t y,
 							int16_t w, int16_t h);
 		void	wind_create(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|* 6610: Open a previously-created window
+		\*********************************************************************/
+		int16_t	wind_open(qintptr handle, int16_t windowId,
+							int16_t x, int16_t y,
+							int16_t w, int16_t h);
+		void	wind_open(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|* 6902: Retrieve the AES physical workstation id and char stats

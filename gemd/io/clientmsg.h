@@ -110,6 +110,7 @@ class ClientMsg
 		AES_APPL_INIT				= 6007,
 
 		AES_WIND_CREATE				= 6604,
+		AES_WIND_OPEN				= 6610,
 
 		AES_GRAF_HANDLE				= 7002,
 

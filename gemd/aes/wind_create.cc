@@ -27,13 +27,12 @@ int16_t AES::wind_create(qintptr handle, int16_t kind,
 		\*********************************************************************/
 		GWindow win =
 			{
-			.kind	= kind,
-			.x		= x,
-			.y		= y,
-			.w		= w,
-			.h		= h,
-			.shown	= false,
-			.handle	= handle
+			.kind		= kind,
+			.current	= QRect(x,y,w,h),
+			.max		= QRect(x,y,w,h),
+			.shown		= false,
+			.root		= false,
+			.handle		= handle
 			};
 
 		/*********************************************************************\
@@ -43,15 +42,17 @@ int16_t AES::wind_create(qintptr handle, int16_t kind,
 		const AppContext& ctx = _apps.value(ws->handle());
 		if (ctx.isDesktop && (_windowList.size() == 0))
 			{
+			int W		= _vdi->screen()->width()-1;
+			int H		= _vdi->screen()->height()-1;
+
 			win.kind	= 0;
-			win.x		= 0;
-			win.y		= 0;
-			win.w		= _vdi->screen()->width()-1;
-			win.h		= _vdi->screen()->height()-1;
+			win.current = QRect(0,0,W,H);
+			win.max		= win.current;
+			win.root	= true;
 			}
 
 		_windowList.push_back(win);
-		winId = (int) _windowList.size();
+		winId = (int) _windowList.size()-1;
 		}
 
 	return winId;
@@ -75,7 +76,6 @@ void AES::wind_create(Workstation *ws, ClientMsg *cm)
 	|* Construct the message
 	\**************************************************************************/
 	cm->clear();
-	cm->append(physId);
 	cm->append(physId);
 	cm->setType(MSG_REPLY(ClientMsg::AES_WIND_CREATE));
 

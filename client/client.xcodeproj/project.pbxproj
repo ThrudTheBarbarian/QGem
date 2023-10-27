@@ -28,6 +28,7 @@
 
 /* Begin PBXBuildFile section */
 		F4203F1C2AEAE40900BA0F24 /* wind_create.c in Sources */ = {isa = PBXBuildFile; fileRef = F4203F1B2AEAE40900BA0F24 /* wind_create.c */; };
+		F4203F1E2AEB73CA00BA0F24 /* wind_open.c in Sources */ = {isa = PBXBuildFile; fileRef = F4203F1D2AEB73CA00BA0F24 /* wind_open.c */; };
 		F45B8B122AE3426000A306B9 /* shel_find.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B112AE3426000A306B9 /* shel_find.c */; };
 		F45B8B142AE393E000A306B9 /* shel_get.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B132AE393E000A306B9 /* shel_get.c */; };
 		F45B8B162AE4403000A306B9 /* shel_put.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B152AE4403000A306B9 /* shel_put.c */; };
@@ -325,6 +326,7 @@
 
 /* Begin PBXFileReference section */
 		F4203F1B2AEAE40900BA0F24 /* wind_create.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = wind_create.c; sourceTree = "<group>"; };
+		F4203F1D2AEB73CA00BA0F24 /* wind_open.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = wind_open.c; sourceTree = "<group>"; };
 		F45B8B112AE3426000A306B9 /* shel_find.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shel_find.c; sourceTree = "<group>"; };
 		F45B8B132AE393E000A306B9 /* shel_get.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shel_get.c; sourceTree = "<group>"; };
 		F45B8B152AE4403000A306B9 /* shel_put.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shel_put.c; sourceTree = "<group>"; };
@@ -541,6 +543,7 @@
 			isa = PBXGroup;
 			children = (
 				F4203F1B2AEAE40900BA0F24 /* wind_create.c */,
+				F4203F1D2AEB73CA00BA0F24 /* wind_open.c */,
 			);
 			path = wind;
 			sourceTree = "<group>";
@@ -630,13 +633,13 @@
 		F4BAB29A2AD61D8900DBAD9F /* aes */ = {
 			isa = PBXGroup;
 			children = (
-				F4203F1A2AEAE3B500BA0F24 /* wind */,
 				F4BAB2A82AD6451400DBAD9F /* aes.h */,
 				F4680C0E2AE8344E0020BB5B /* shell_conv.h */,
 				F4BAB2B22AD76D7500DBAD9F /* appl */,
 				F4BAB2B32AD76D9400DBAD9F /* graf */,
 				F49512C22AE229D200AF9877 /* shell */,
 				F4BAB2B42AD76DA500DBAD9F /* rsrc */,
+				F4203F1A2AEAE3B500BA0F24 /* wind */,
 			);
 			path = aes;
 			sourceTree = "<group>";
@@ -1259,6 +1262,7 @@
 				F46A86002AB24C1300FA3ABC /* vsm_height.c in Sources */,
 				F46A85F62AAFD3C400FA3ABC /* vsl_width.c in Sources */,
 				F46A86402AB7EEF300FA3ABC /* vqf_attributes.c in Sources */,
+				F4203F1E2AEB73CA00BA0F24 /* wind_open.c in Sources */,
 				F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */,
 				F46A85B42AAEA2AE00FA3ABC /* v_clrwk.c in Sources */,
 				F46A85F02AAFB8F600FA3ABC /* vs_clip.c in Sources */,

@@ -103,7 +103,7 @@ void AES::closeWorkstation(Workstation *ws)
 		const GWindow& win = _windowList.at(i);
 		if (win.handle == handle)
 			{
-			redraws.push_back(QRect(win.x, win.y, win.w, win.h));
+			redraws.push_back(win.current);
 			_windowList.removeAt(i);
 			}
 		}
