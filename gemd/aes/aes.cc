@@ -124,3 +124,221 @@ void AES::closeWorkstation(Workstation *ws)
 			_pendingApps->removeAt(i);
 		}
 	}
+
+
+/*****************************************************************************\
+|* Get the position in the list of the window for a given windowId, or -1 if
+|* not found
+\*****************************************************************************/
+int AES::windowForId(int windowId)
+	{
+	int idx = 0;
+	for (GWindow& win : _windowList)
+		{
+		if (win.windowId == windowId)
+			return idx;
+		idx ++;
+		}
+
+	return -1;
+	}
+
+/*****************************************************************************\
+|* Calculate the list of rectangles for all the windows on display
+\*****************************************************************************/
+void AES::calculateRectangleList(void)
+	{
+	if (_windowList.size() == 0)
+		return;
+
+	/*************************************************************************\
+	|* Set up the top-level window list
+	\*************************************************************************/
+	GWindow& win = _windowList[0];
+	win.rectList.clear();
+	win.rectList.append(win.current);
+
+	/*************************************************************************\
+	|* Now do the rest
+	\*************************************************************************/
+	int max = (int) _windowList.size()-1;
+	for (int i=max; i>0; i--)
+		{
+		win = _windowList.at(i);
+		win.rectList.clear();
+		win.rectList.append(win.current);
+
+		for (int j=i-1; j>=0; j--)
+			{
+			GWindow& other = _windowList[j];
+			QList<QRect> newList;
+
+			for (int k=0; k<win.rectList.size(); k++)
+				{
+				QRect& current = win.rectList[k];
+				if (current.intersects(other.current))
+					{
+					/*********************************************************\
+					|* Split 'current'
+					\*********************************************************/
+					_splitRectangles(current, other.current, newList);
+					}
+				else
+					newList.append(current);
+				}
+			}
+		}
+	}
+
+#pragma mark - private methods
+
+/*****************************************************************************\
+|* Split a rectangle into a set of other rectangles, based on the
+|* intersection of another rectangle. Returns true if processing has indicated
+|* that there are no rectangles visible
+|*
+|* Possibilities for partial occlusion are:
+|*
+|*                                   ┌──────────┐
+|*                                   │██████████│
+|*                                   │██████████│
+|*                                   │██████████│
+|*                                   └─┬──────┬─┘
+|*                                     │  1   │
+|*                                     └──────┘
+|*
+|*                   ┌──────┐            ┌──┐           ┌──────┐
+|*                   │██████│            │██│           │██████│
+|*                   │██████├───┐      ┌─┤██├─┐      ┌──┤██████│
+|*                   │██████│   │      │ │██│ │      │  │██████│
+|*                   └───┬──┘   │      │ └──┘ │      │  └───┬──┘
+|*                       │    2 │      │  3   │      │ 4    │
+|*                       └──────┘      └──────┘      └──────┘
+|*    ┌─────┐                                                          ┌─────┐
+|*    │█████│                                                          │█████│
+|*    │█████├───┐        ┌──────┐      ┌──────┐      ┌──────┐      ┌───┤█████│
+|*    │█████│   │    ┌───┴─┐    │      │ ┌──┐ │      │   ┌──┴──┐   │   │█████│
+|*    │█████│ 5 │    │█████│ 6  │      │ │██│ │7     │ 8 │█████│   │ 9 │█████│
+|*    │█████│   │    └───┬─┘    │      │ └──┘ │      │   └──┬──┘   │   │█████│
+|*    │█████├───┘        └──────┘      └──────┘      └──────┘      └───┤█████│
+|*    │█████│                                                          │█████│
+|*    └─────┘                                                          └─────┘
+|*                       ┌──────┐      ┌──────┐      ┌──────┐
+|*                       │   10 │      │  11  │      │ 12   │
+|*                   ┌───┴──┐   │      │ ┌──┐ │      │  ┌───┴──┐
+|*                   │██████│   │      │ │██│ │      │  │██████│
+|*                   │██████├───┘      └─┤██├─┘      └──┤██████│
+|*                   │██████│            │██│           │██████│
+|*                   └──────┘            └──┘           └──────┘
+|*
+|*                                     ┌──────┐
+|*                                     │  13  │
+|*                                   ┌─┴──────┴─┐
+|*                                   │██████████│
+|*                                   │██████████│
+|*                                   │██████████│
+|*                                   └──────────┘
+|*
+\*****************************************************************************/
+bool AES::_splitRectangles(const QRect& src,
+						   const QRect& other,
+						   QList<QRect>& list)
+	{
+	bool occluded = false;
+
+	if (src.top() < other.top())
+		{
+		// #6, #7, #8, #10, #11, #12, #13
+
+		if (src.left() < other.left())
+			{
+			// #7, #8, #11, #12
+
+			if (src.right() < other.right())
+				{
+				// #8, #12
+				if (src.bottom() < other.bottom())
+					{
+					// #12
+					}
+				else
+					{
+					// #8
+					}
+				}
+			else
+				{
+				// #7, #11
+				if (src.bottom() < other.bottom())
+					{
+					// #7
+					}
+				else
+					{
+					// #11
+					}
+				}
+			}
+		else
+			{
+			// #6, #10, #13
+
+			if (src.right() < other.right())
+				{
+				// #13
+				}
+			else if (src.bottom() < other.bottom())
+				{
+				// #10
+				}
+			else
+				{
+				// #6
+				}
+			}
+		}
+	else if (src.bottom() > other.bottom())
+		{
+		// #1, #2, #3, #4
+		if (src.left() < other.left())
+			{
+			// #3, #4
+			if (src.right() < other.right())
+				{
+				// #4
+				}
+			else
+				{
+				// #3
+				}
+			}
+		else
+			{
+			// #1, #2
+			if (src.right() < other.right())
+				{
+				// #1
+				}
+			else
+				{
+				// #2
+				}
+			}
+
+		}
+	else if (src.left() < other.left())
+		{
+		// #9
+		}
+	else if (src.right() > other.right())
+		{
+		// #5
+		}
+	else
+		{
+		// completely occluded
+		occluded = true;
+		}
+
+	return occluded;
+	}

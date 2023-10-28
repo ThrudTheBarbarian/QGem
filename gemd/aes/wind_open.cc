@@ -15,12 +15,13 @@ int16_t	AES::wind_open(qintptr handle, int16_t windowId,
 	{
 	int16_t ok = 0;
 
-	ConnectionMgr *cm = _vdi->screen()->connectionManager();
-	Workstation *ws   = cm->findWorkstationForHandle(handle);
+	ConnectionMgr *cm	= _vdi->screen()->connectionManager();
+	Workstation *ws		= cm->findWorkstationForHandle(handle);
+	int position		= windowForId(windowId);
 
-	if ((ws != nullptr) && (windowId < _windowList.size()))
+	if ((ws != nullptr) && (position >= 0))
 		{
-		GWindow & win = _windowList[windowId];
+		GWindow& win		= _windowList[position];
 		if (win.handle == handle)
 			{
 			/*****************************************************************\
@@ -31,6 +32,19 @@ int16_t	AES::wind_open(qintptr handle, int16_t windowId,
 			if (!(ctx.isDesktop) || (win.root != true))
 				win.current = QRect(x,y,w,h).intersected(win.max);
 
+			/*****************************************************************\
+			|* Make the window shown
+			\*****************************************************************/
+			win.shown = true;
+
+			/*****************************************************************\
+			|* Move it to the top of the stack
+			\*****************************************************************/
+			_windowList.move(position, 0);
+
+			/*****************************************************************\
+			|* Open the window by sending a redraw message to the client
+			\*****************************************************************/
 			ok = 1;
 			}
 		}

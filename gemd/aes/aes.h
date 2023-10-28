@@ -52,12 +52,14 @@ class AES : public QObject
 
 		typedef struct
 			{
+			int				windowId;		// Id of this window
 			int				kind;			// Components of the window
 			QRect			current;		// Current x,y,w,h
 			QRect			max;			// Maximum x,y,w,h
 			bool			shown;			// Is the window visible ?
 			bool			root;			// Is this the root window ?
 			qintptr			handle;			// Workstation owner of window
+			QList<QRect>	rectList;		// List of rectangles visible
 			} GWindow;
 
 		typedef QList<GWindow>				WindowList;
@@ -121,6 +123,33 @@ class AES : public QObject
 		|* Return the full path to a resource in an app dir
 		\*********************************************************************/
 		QString pathForResourceInApp(QString app, QString resource);
+
+		/*********************************************************************\
+		|* Calculate the rectangle lists for each window
+		\*********************************************************************/
+		void calculateRectangleList(void);
+
+		/*********************************************************************\
+		|* Get the position in the list of the window for a given windowId,
+		|* or -1 if not found
+		\*********************************************************************/
+		int windowForId(int windowId);
+
+		/*********************************************************************\
+		|* Handle screen updates
+		\*********************************************************************/
+		//void postRedraws(QList<QRect> dirty);
+
+
+		#pragma mark - Private methods
+		/*********************************************************************\
+		|* Split a rectangle into a set of other rectangles, based on the
+		|* intersection of another rectangle
+		\*********************************************************************/
+		bool _splitRectangles(const QRect& src,
+							  const QRect& other,
+							  QList<QRect>& list);
+
 
 		#pragma mark - AES operations
 

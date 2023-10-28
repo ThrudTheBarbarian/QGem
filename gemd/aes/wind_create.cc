@@ -6,6 +6,8 @@
 #include "vdi.h"
 #include "workstation.h"
 
+static int _currentWindowId = 1000;
+
 /*****************************************************************************\
 |* 6604: Create and register a window, parameters are max-size
 |*
@@ -52,7 +54,8 @@ int16_t AES::wind_create(qintptr handle, int16_t kind,
 			}
 
 		_windowList.push_back(win);
-		winId = (int) _windowList.size()-1;
+		winId		 = _currentWindowId;
+		win.windowId = _currentWindowId ++;
 		}
 
 	return winId;
