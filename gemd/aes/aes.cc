@@ -260,18 +260,18 @@ bool AES::_splitRectangles(const QRect& A, const QRect& B, QList<QRect>& list)
 	{
 	bool occluded = false;
 
-	if (A.top() < B.top())
+	if (A.top() <= B.top())
 		{
 		// #6, #7, #8, #10, #11, #12, #13
 
-		if (A.left() < B.left())
+		if (A.left() <= B.left())
 			{
 			// #7, #8, #11, #12
 
-			if (A.right() < B.right())
+			if (A.right() <= B.right())
 				{
 				// #8, #12
-				if (A.bottom() < B.bottom())
+				if (A.bottom() <= B.bottom())
 					{
 					// #12
 					list << QRect(A.left(), A.top(), A.right(), B.top()-1)
@@ -288,7 +288,7 @@ bool AES::_splitRectangles(const QRect& A, const QRect& B, QList<QRect>& list)
 			else
 				{
 				// #7, #11
-				if (A.bottom() < B.bottom())
+				if (A.bottom() <= B.bottom())
 					{
 					// #7
 					list << QRect(A.left(), A.top(), A.right(), B.top()-1)
@@ -309,12 +309,12 @@ bool AES::_splitRectangles(const QRect& A, const QRect& B, QList<QRect>& list)
 			{
 			// #6, #10, #13
 
-			if (A.right() < B.right())
+			if (A.right() <= B.right())
 				{
 				// #13
 				list << QRect(A.left(), A.top(), A.right(), B.top()-1);
 				}
-			else if (A.bottom() < B.bottom())
+			else if (A.bottom() <= B.bottom())
 				{
 				// #10
 				list << QRect(A.left(), A.top(), A.right(), B.top()-1)
@@ -332,10 +332,10 @@ bool AES::_splitRectangles(const QRect& A, const QRect& B, QList<QRect>& list)
 	else if (A.bottom() > B.bottom())
 		{
 		// #1, #2, #3, #4
-		if (A.left() < B.left())
+		if (A.left() <= B.left())
 			{
 			// #3, #4
-			if (A.right() < B.right())
+			if (A.right() <= B.right())
 				{
 				// #4
 				list << QRect(A.left(), A.top(), B.left()-1, B.bottom())
@@ -352,7 +352,7 @@ bool AES::_splitRectangles(const QRect& A, const QRect& B, QList<QRect>& list)
 		else
 			{
 			// #1, #2
-			if (A.right() < B.right())
+			if (A.right() <= B.right())
 				{
 				// #1
 				list << QRect(A.left(), B.bottom()+1, A.right(), A.bottom());
@@ -366,7 +366,7 @@ bool AES::_splitRectangles(const QRect& A, const QRect& B, QList<QRect>& list)
 			}
 
 		}
-	else if (A.left() < B.left())
+	else if (A.left() <= B.left())
 		{
 		// #9
 		list << QRect(A.left(), A.top(), B.left()-1, A.bottom());
