@@ -168,24 +168,40 @@ void AES::calculateRectangleList(void)
 		win.rectList.clear();
 		win.rectList.append(win.current);
 
+		/*********************************************************************\
+		|* For each of the windows "above" this one in the pecking order
+		\*********************************************************************/
 		for (int j=i-1; j>=0; j--)
 			{
 			GWindow& other = _windowList[j];
 			QList<QRect> newList;
 
+			/*****************************************************************\
+			|* For each rectangle in our current rectangle list
+			\*****************************************************************/
 			for (int k=0; k<win.rectList.size(); k++)
 				{
 				QRect& current = win.rectList[k];
 				if (current.intersects(other.current))
 					{
 					/*********************************************************\
-					|* Split 'current'
+					|* Split our 'current' rectangle if it intersects
 					\*********************************************************/
-					_splitRectangles(current, other.current, newList);
+					QList<QRect> splits;
+					_splitRectangles(current, other.current, splits);
+					newList.append(splits);
 					}
 				else
+					/*********************************************************\
+					|* Or if it doesn't intersect, just preserve it
+					\*********************************************************/
 					newList.append(current);
 				}
+
+			/*****************************************************************\
+			|* Replace the old list with the new
+			\*****************************************************************/
+			win.rectList = newList;
 			}
 		}
 	}
@@ -240,42 +256,52 @@ void AES::calculateRectangleList(void)
 |*                                   └──────────┘
 |*
 \*****************************************************************************/
-bool AES::_splitRectangles(const QRect& src,
-						   const QRect& other,
-						   QList<QRect>& list)
+bool AES::_splitRectangles(const QRect& A, const QRect& B, QList<QRect>& list)
 	{
 	bool occluded = false;
 
-	if (src.top() < other.top())
+	if (A.top() < B.top())
 		{
 		// #6, #7, #8, #10, #11, #12, #13
 
-		if (src.left() < other.left())
+		if (A.left() < B.left())
 			{
 			// #7, #8, #11, #12
 
-			if (src.right() < other.right())
+			if (A.right() < B.right())
 				{
 				// #8, #12
-				if (src.bottom() < other.bottom())
+				if (A.bottom() < B.bottom())
 					{
 					// #12
+					list << QRect(A.left(), A.top(), A.right(), B.top()-1)
+						 << QRect(A.left(), B.top(), B.left()-1, A.bottom());
 					}
 				else
 					{
 					// #8
+					list << QRect(A.left(), A.top(), A.right(), B.top()-1)
+						 << QRect(A.left(), B.top(), B.left()-1, B.bottom())
+						 << QRect(A.left(), B.bottom()+1, A.right(), A.bottom());
 					}
 				}
 			else
 				{
 				// #7, #11
-				if (src.bottom() < other.bottom())
+				if (A.bottom() < B.bottom())
 					{
 					// #7
+					list << QRect(A.left(), A.top(), A.right(), B.top()-1)
+						 << QRect(A.left(), B.top(), B.left()-1, B.bottom())
+						 << QRect(B.right()+1, B.top(), A.left(), B.bottom())
+						 << QRect(A.left(), B.bottom()+1, A.right(), A.bottom());
 					}
 				else
 					{
 					// #11
+					list << QRect(A.left(), A.top(), A.right(), B.top()-1)
+						 << QRect(A.left(), B.top(), B.left()-1, A.bottom())
+						 << QRect(B.right()+1, B.top(), A.right(), A.bottom());
 					}
 				}
 			}
@@ -283,56 +309,72 @@ bool AES::_splitRectangles(const QRect& src,
 			{
 			// #6, #10, #13
 
-			if (src.right() < other.right())
+			if (A.right() < B.right())
 				{
 				// #13
+				list << QRect(A.left(), A.top(), A.right(), B.top()-1);
 				}
-			else if (src.bottom() < other.bottom())
+			else if (A.bottom() < B.bottom())
 				{
 				// #10
+				list << QRect(A.left(), A.top(), A.right(), B.top()-1)
+					 << QRect(B.right(), B.top(), A.right(), A.bottom());
 				}
 			else
 				{
 				// #6
+				list << QRect(A.left(), A.top(), A.right(), B.top()-1)
+					 << QRect(B.right()+1, B.top(), A.right(), B.bottom())
+					 << QRect(A.left(), B.bottom()+1, A.right(), A.bottom());
 				}
 			}
 		}
-	else if (src.bottom() > other.bottom())
+	else if (A.bottom() > B.bottom())
 		{
 		// #1, #2, #3, #4
-		if (src.left() < other.left())
+		if (A.left() < B.left())
 			{
 			// #3, #4
-			if (src.right() < other.right())
+			if (A.right() < B.right())
 				{
 				// #4
+				list << QRect(A.left(), A.top(), B.left()-1, B.bottom())
+					 << QRect(A.left(), B.bottom()+1, A.right(), A.bottom());
 				}
 			else
 				{
 				// #3
+				list << QRect(A.left(), A.top(), B.left()-1, B.bottom())
+					 << QRect(B.right()+1, A.top(), A.right(), B.bottom())
+					 << QRect(A.left(), B.bottom()+1, A.right(), A.bottom());
 				}
 			}
 		else
 			{
 			// #1, #2
-			if (src.right() < other.right())
+			if (A.right() < B.right())
 				{
 				// #1
+				list << QRect(A.left(), B.bottom()+1, A.right(), A.bottom());
 				}
 			else
 				{
 				// #2
+				list << QRect(B.right()+1, A.top(), A.right(), B.bottom())
+					 << QRect(A.left(), B.bottom()+1, A.right(), A.bottom());
 				}
 			}
 
 		}
-	else if (src.left() < other.left())
+	else if (A.left() < B.left())
 		{
 		// #9
+		list << QRect(A.left(), A.top(), B.left()-1, A.bottom());
 		}
-	else if (src.right() > other.right())
+	else if (A.right() > B.right())
 		{
 		// #5
+		list << QRect(B.right()+1, A.top(), A.right(), A.bottom());
 		}
 	else
 		{
