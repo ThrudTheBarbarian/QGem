@@ -138,7 +138,7 @@ class AES : public QObject
 		/*********************************************************************\
 		|* Handle screen updates
 		\*********************************************************************/
-		//void postRedraws(QList<QRect> dirty);
+		void postRedraws(QList<QRect> dirty);
 
 
 		#pragma mark - Private methods

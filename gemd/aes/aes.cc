@@ -2,6 +2,9 @@
 #include <QFile>
 
 #include "aes.h"
+#include "clientmsg.h"
+#include "connectionmgr.h"
+#include "screen.h"
 #include "vdi.h"
 #include "workstation.h"
 
@@ -141,6 +144,33 @@ int AES::windowForId(int windowId)
 		}
 
 	return -1;
+	}
+
+/*****************************************************************************\
+|* Send redraw requests, based on a given rectangle, to all the clients that
+|* intersect that rectangle
+\*****************************************************************************/
+void AES::postRedraws(QList<QRect> dirty)
+	{
+	ConnectionMgr *cm	= _vdi->screen()->connectionManager();
+
+	for (QRect& box : dirty)
+		{
+		for (GWindow& win : _windowList)
+			{
+			Workstation *ws = cm->findWorkstationForHandle(win.handle);
+			for (QRect& rect : win.rectList)
+				{
+				if (rect.intersects(box))
+					{
+					ClientMsg cm;
+					cm.setType(ClientMsg::EVT_WM_REDRAW);
+					cm.append(rect.intersected(box));
+					ws->send(&cm);
+					}
+				}
+			}
+		}
 	}
 
 /*****************************************************************************\

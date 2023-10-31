@@ -43,8 +43,15 @@ int16_t	AES::wind_open(qintptr handle, int16_t windowId,
 			_windowList.move(position, 0);
 
 			/*****************************************************************\
-			|* Open the window by sending a redraw message to the client
+			|* Recalculate the window rectangle-lists
 			\*****************************************************************/
+			calculateRectangleList();
+
+			/*****************************************************************\
+			|* Open the window by sending redraw messages to any client that
+			|* intersects the new window
+			\*****************************************************************/
+
 			ok = 1;
 			}
 		}

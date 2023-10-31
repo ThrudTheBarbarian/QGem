@@ -222,6 +222,21 @@ void ClientMsg::append(uint8_t *data, uint32_t numBytes)
 	}
 
 /*****************************************************************************\
+|* Append a rectangle to the message
+\*****************************************************************************/
+bool ClientMsg::append(QRect r)
+	{
+	bool ok = true;
+
+	_payload.push_back(htons((int16_t)r.x()));
+	_payload.push_back(htons((int16_t)r.y()));
+	_payload.push_back(htons((int16_t)r.width()));
+	_payload.push_back(htons((int16_t)r.height()));
+
+	return ok;
+	}
+
+/*****************************************************************************\
 |* Get a QByteArray from the payload. This will read the length (byte-swapped)
 |* and then the data (not byte-swapped), appending the last byte if necessary
 \*****************************************************************************/

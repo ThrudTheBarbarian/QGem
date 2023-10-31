@@ -128,6 +128,8 @@ class ClientMsg
 		EVT_TIMER					= 17020,
 
 		EVT_FILTER_SET				= 17100,
+
+		EVT_WM_REDRAW				= 17200
 		};
 
 	/*************************************************************************\
@@ -156,6 +158,7 @@ class ClientMsg
 		bool append(int16_t value);
 		void append(uint8_t *data, uint32_t num);
 		bool append(int16_t *value, int num);
+		bool append(QRect r);
 		inline bool append(Payload list)
 			{
 			return append(list.data(), (int)list.size());
