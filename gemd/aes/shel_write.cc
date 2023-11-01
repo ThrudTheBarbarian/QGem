@@ -7,7 +7,6 @@
 #include "aes.h"
 #include "clientmsg.h"
 #include "connectionmgr.h"
-//#include "gem.h"
 #include "screen.h"
 #include "vdi.h"
 #include "workstation.h"
@@ -31,6 +30,8 @@ typedef enum
 #define GEM_APP_ID		"GEM_APP_ID"
 #define GEM_APP_CMD		"GEM_APP_CMD"
 #define GEM_APP_ARGS	"GEM_APP_ARGS"
+#define GEM_ROOT_FS		"GEM_ROOT_FS"
+#define GEM_SYSDIR		"GEM_SYSDIR"
 
 /*****************************************************************************\
 |* 7908: Write to the desktop environment. Typically used to start
@@ -201,12 +202,15 @@ void _launchGemApp(qintptr handle, QString cmd, QString args)
 	/**************************************************************************\
 	|* Create an app-id for this executable
 	\**************************************************************************/
-	QString uuid = QUuid::createUuid().toString();
+	QString uuid	= QUuid::createUuid().toString();
+	QFileInfo dInfo(cmd);
+
 	AES::AppContext ctx =
 		{
 		.uuid = uuid,
 		.cmd = cmd,
 		.args = args,
+		.dir  = dInfo.dir().absolutePath(),
 		.isDesktop = (handle == 0),
 		.handle = handle
 		};
@@ -223,6 +227,13 @@ void _launchGemApp(qintptr handle, QString cmd, QString args)
 	QProcess process;
 	QByteArray ba = QByteArray::fromStdString(uuid.toStdString());
 	qputenv(GEM_APP_ID, ba);
+
+	QString rootDir(AES::rootDir());
+	QString fsRoot = rootDir + "/Disk";
+	qputenv(GEM_ROOT_FS, fsRoot.toLatin1().data());
+
+	QString gemsys  = rootDir + "/System";
+	qputenv(GEM_SYSDIR, gemsys.toLatin1().data());
 
 	process.setProgram(cmd);
 	process.setArguments(args.split(" "));

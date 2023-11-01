@@ -5,7 +5,6 @@
 
 #include <QApplication>
 
-#define ROOTDIR		"/usr/local/atari"
 
 /*****************************************************************************\
 |* Application entry point
@@ -27,8 +26,8 @@ int main(int argc, char *argv[])
 	/*************************************************************************\
 	|* Set the system root dir into the classes that want it
 	\*************************************************************************/
-	vdi.setRootDir(ROOTDIR);
-	fm.setRootDir(ROOTDIR);
+	vdi.setRootDir(AES::rootDir());
+	fm.setRootDir(AES::rootDir());
 
 	/*************************************************************************\
 	|* Initialise components

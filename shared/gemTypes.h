@@ -494,7 +494,8 @@ enum
 	S_OR_NOTD,
 	NOTS_OR_D,
 	NOT_SANDD,
-	ALL_BLACK	
+	ALL_BLACK,
+	SRC_ALPHA
 	};
 
 enum 

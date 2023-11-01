@@ -24,7 +24,7 @@
 #s 0C system@ 
 #G 03 04 000 C:\NEODESK4\NEOLOAD.PRG@ *.@ @ 
 #G 03 04 200 F:\STZIP26\STZIP.PRG@ *.ZIP@ @ 
-#M 00 01 0B FF C Applications@ @ 
-#M 00 00 09 FF D Home@ @ 
+#M 00 00 05 FF D Home@ @ 
+#M 00 01 05 FF C Applications@ @ 
 #T 00 07 02 FF   TRASH@ @ 
 #X 01 08 03 FF   F:\STZIP26\STZIP.PRG@ STZIP.PRG@ 

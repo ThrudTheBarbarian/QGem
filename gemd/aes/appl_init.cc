@@ -1,6 +1,9 @@
 
 #include "aes.h"
 #include "clientmsg.h"
+#include "connectionmgr.h"
+#include "screen.h"
+#include "vdi.h"
 #include "workstation.h"
 
 
@@ -11,12 +14,16 @@
 \*****************************************************************************/
 int16_t AES::appl_init(qintptr handle, QString uuid)
 	{
+	ConnectionMgr *cm = _vdi->screen()->connectionManager();
+	Workstation *ws   = cm->findWorkstationForHandle(handle);
+
 	AppContext ctx =
 		{
 		.appId		= 0,
 		.uuid		= "",
 		.cmd		= "",
 		.args		= "",
+		.dir		= "",
 		.isDesktop	= false,
 		.handle		= 0
 		};
@@ -34,6 +41,9 @@ int16_t AES::appl_init(qintptr handle, QString uuid)
 			}
 		idx ++;
 		}
+
+	if (ws != nullptr)
+		ws->setAppDir(ctx.dir);
 
 	ctx.appId		= _nextApp ++;
 	_apps[handle]	= ctx;

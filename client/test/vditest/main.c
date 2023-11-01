@@ -329,7 +329,7 @@ int main(int argc, const char * argv[])
 		//vro_cpyfm(handle, mode, pxy, &dst, &screen);
 		
 		int16_t cols[2] = {1,6};
-		int16_t mode = ((int16_t)0x8000) | WR_REV_TRANS;
+		int16_t mode = ((int16_t)0x8000) | WR_TRANSPARENT;
 		vrt_cpyfm(handle, mode, pxy, &dst, &screen, cols);
 		
 		

@@ -122,6 +122,9 @@ void VDI::vro_cpyfm(qintptr handle, int16_t mode, int16_t *pxy,
 			case ALL_BLACK:
 				op = QPainter::RasterOp_ClearDestination;
 				break;
+			case SRC_ALPHA:
+				op = QPainter::CompositionMode_SourceOver;
+				break;
 			default:
 				op = QPainter::CompositionMode_Source;
 				WARN("Unknown raster operation %0x", mode & 0x7FFF);

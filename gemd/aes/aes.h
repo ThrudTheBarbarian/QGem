@@ -8,6 +8,8 @@
 
 #include "properties.h"
 
+#define GEM_ROOT_DIR "/usr/local/atari";
+
 /*****************************************************************************\
 |* Forward declarations
 \*****************************************************************************/
@@ -43,6 +45,7 @@ class AES : public QObject
 			QString			uuid;			// UUID to link app to AES
 			QString			cmd;			// Command to run
 			QString			args;			// Arguments passed
+			QString			dir;			// "Home" directory
 			bool			isDesktop;		// Is this the desktop app
 			qintptr			handle;			// Workstation owner of app
 			} AppContext;
@@ -63,6 +66,10 @@ class AES : public QObject
 			} GWindow;
 
 		typedef QList<GWindow>				WindowList;
+
+		/*********************************************************************\
+		|* Constants
+		\*********************************************************************/
 
 		/*********************************************************************\
 		|* Properties
@@ -97,6 +104,7 @@ class AES : public QObject
 			return _instance;
 			}
 
+		static const char * rootDir(void) { return GEM_ROOT_DIR; }
 
 		/*********************************************************************\
 		|* Delete methods that might create an instance involuntarily
