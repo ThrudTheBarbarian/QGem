@@ -22,7 +22,7 @@ void VDI::vs_color(qintptr handle, int16_t idx, int16_t *rgb)
 			{
 			for (int i=0; i<3; i++)
 				rgb[i] = (rgb[i] < 0) ? 0
-					   : (rgb[1] > 255) ? 255
+					   : (rgb[1] > 1000) ? 1000
 					   : rgb[i];
 
 			uint8_t R = (uint8_t)(((255 * rgb[0]) / 1000));
