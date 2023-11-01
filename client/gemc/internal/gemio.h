@@ -167,6 +167,12 @@ int _gemIoWaitForMessageOfTypeWithTimeout(GemMsg *msg, int16_t type, int msecs);
 int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types);
 
 /*****************************************************************************\
+|* Function to request a blocking read of a message, filtering on a range of
+|* message types. This always tries to read from the socket
+\*****************************************************************************/
+int _gemIoWaitForMessageRangeWithTimeout(GemMsg *msg, int lo, int hi, int msecs);
+
+/*****************************************************************************\
 |* Function to request a blocking read of a message with a timeout
 \*****************************************************************************/
 int _gemIoWaitForMessagesWithTimeout(GemMsg *msg, vec_word_t *types, int msecs);

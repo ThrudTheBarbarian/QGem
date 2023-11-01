@@ -156,6 +156,49 @@ int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types)
 	{
 	return _gemIoWaitForMessagesWithTimeout(msg, types, -1);
 	}
+
+/*****************************************************************************\
+|* Function to handle the different types of 'automatic' messages
+\*****************************************************************************/
+static void _handleIncomingAsync(GemMsg incoming)
+	{
+	if (incoming.type == EVT_TIMER)
+		{
+		_gemProcessTimerEvent();
+		}
+	else if (incoming.type == EVT_MOUSE_MOVE)
+		{
+		_mx 	= ntohs(incoming.vec.data[0]);
+		_my 	= ntohs(incoming.vec.data[1]);
+		_mb 	= ntohs(incoming.vec.data[2]);
+		_mods 	= ntohs(incoming.vec.data[3]);
+		_gemProcessMoveEvent(_mx, _my);
+		_gemProcessCursorEvent(_mx, _my);
+		}
+	else if (incoming.type == EVT_MOUSE_DOWN)
+		{
+		_mx 	= ntohs(incoming.vec.data[0]);
+		_my 	= ntohs(incoming.vec.data[1]);
+		_mb 	= ntohs(incoming.vec.data[2]);
+		_mods 	= ntohs(incoming.vec.data[3]);
+		_gemProcessButtonEvent(_mb);
+		}
+	else if (incoming.type == EVT_MOUSE_UP)
+		{
+		_mx 	= ntohs(incoming.vec.data[0]);
+		_my 	= ntohs(incoming.vec.data[1]);
+		_mb 	= ntohs(incoming.vec.data[2]);
+		_mods 	= ntohs(incoming.vec.data[3]);
+		}
+	else if (incoming.type == EVT_KEY_PRESS)
+		{
+		fprintf(stderr, "Key press %04x\n", ntohs(incoming.vec.data[0]));
+		}
+	else
+		{
+		vec_push(&_msgs, incoming);		// Transfers ownership of memory
+		}
+	}
 	
 /*****************************************************************************\
 |* Function to request a blocking read of a message, filtering on a list of
@@ -169,6 +212,9 @@ int _gemIoWaitForMessagesWithTimeout(GemMsg *msg, vec_word_t *types, int msecs)
 	while (ok == 1)
 		{
 		int idx = -1;
+		/*************************************************************************\
+		|* If it's one of the ones we're looking for, return it.
+		\*************************************************************************/
 		vec_find(types, incoming.type, idx);
 		if (idx >= 0)
 			{
@@ -177,48 +223,57 @@ int _gemIoWaitForMessagesWithTimeout(GemMsg *msg, vec_word_t *types, int msecs)
 			}
 
 		/*************************************************************************\
-		|* FIXME: For now, if it's a mouse-move event, just print it
+		|* Else handle any async messages
 		\*************************************************************************/
-		else if (incoming.type == EVT_TIMER)
-			{
-			_gemProcessTimerEvent();
-			}
-		else if (incoming.type == EVT_MOUSE_MOVE)
-			{
-			_mx 	= ntohs(incoming.vec.data[0]);
-			_my 	= ntohs(incoming.vec.data[1]);
-			_mb 	= ntohs(incoming.vec.data[2]);
-			_mods 	= ntohs(incoming.vec.data[3]);
-			_gemProcessMoveEvent(_mx, _my);
-			_gemProcessCursorEvent(_mx, _my);
-			}
-		else if (incoming.type == EVT_MOUSE_DOWN)
-			{
-			_mx 	= ntohs(incoming.vec.data[0]);
-			_my 	= ntohs(incoming.vec.data[1]);
-			_mb 	= ntohs(incoming.vec.data[2]);
-			_mods 	= ntohs(incoming.vec.data[3]);
-			_gemProcessButtonEvent(_mb);
-			}
-		else if (incoming.type == EVT_MOUSE_UP)
-			{
-			_mx 	= ntohs(incoming.vec.data[0]);
-			_my 	= ntohs(incoming.vec.data[1]);
-			_mb 	= ntohs(incoming.vec.data[2]);
-			_mods 	= ntohs(incoming.vec.data[3]);
-			}
-		else if (incoming.type == EVT_KEY_PRESS)
-			{
-			fprintf(stderr, "Key press %04x\n", ntohs(incoming.vec.data[0]));
-			}
 		else
-			{
-			vec_push(&_msgs, incoming);		// Transfers ownership of memory
-			}
+			_handleIncomingAsync(incoming);
+			
 		ok = _gemMsgRead(&incoming, _gemfd, msecs);
 		}
 		
 	return ok;
+	}
+	
+/*****************************************************************************\
+|* Function to request a blocking read of a message, filtering on a range of
+|* message types. This always tries to read from the socket
+\*****************************************************************************/
+int _gemIoWaitForMessageRangeWithTimeout(GemMsg *msg, int lo, int hi, int msecs)
+	{
+	GemMsg incoming;
+	
+	int ok = _gemMsgRead(&incoming, _gemfd, msecs);
+	while (ok == 1)
+		{
+		/*************************************************************************\
+		|* If it's one of the ones we're looking for, return it.
+		\*************************************************************************/
+		if ((incoming.type >= lo) && (incoming.type <= hi))
+			{
+			*msg = incoming;				// Transfers ownership of memory
+			break;
+			}
+
+		/*************************************************************************\
+		|* Else handle any async messages
+		\*************************************************************************/
+		else
+			_handleIncomingAsync(incoming);
+			
+		ok = _gemMsgRead(&incoming, _gemfd, msecs);
+		}
+		
+	return ok;
+	}
+
+
+/*****************************************************************************\
+|* Function to request a blocking read of a message, filtering on a range of
+|* message types. This always tries to read from the socket
+\*****************************************************************************/
+int _gemIoWaitForMessageRange(GemMsg *msg, int lo, int hi)
+	{
+	return _gemIoWaitForMessageRangeWithTimeout(msg, lo, hi, -1);
 	}
 
 /*****************************************************************************\
