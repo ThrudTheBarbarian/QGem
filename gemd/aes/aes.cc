@@ -150,6 +150,17 @@ int AES::windowForId(int windowId)
 |* Send redraw requests, based on a given rectangle, to all the clients that
 |* intersect that rectangle
 \*****************************************************************************/
+void AES::postRedraws(QRect r)
+	{
+	QList<QRect> oneshot;
+	oneshot << r;
+	postRedraws(oneshot);
+	}
+
+/*****************************************************************************\
+|* Send redraw requests, based on a given rectangle, to all the clients that
+|* intersect that rectangle
+\*****************************************************************************/
 void AES::postRedraws(QList<QRect> dirty)
 	{
 	ConnectionMgr *cm	= _vdi->screen()->connectionManager();
@@ -165,6 +176,9 @@ void AES::postRedraws(QList<QRect> dirty)
 					{
 					ClientMsg cm;
 					cm.setType(ClientMsg::EVT_WM_REDRAW);
+					cm.append(0);						// AES handle of sender
+					cm.append(win.windowId);
+					cm.append(0);						// filler. Not used
 					cm.append(rect.intersected(box));
 					ws->send(&cm);
 					}

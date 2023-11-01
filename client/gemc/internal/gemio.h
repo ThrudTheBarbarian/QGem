@@ -128,6 +128,9 @@ enum
 	EVT_TIMER					= 17020,
 			
 	EVT_FILTER_SET				= 17100,
+	
+	EVT_WM_BASE					= 18000,
+	EVT_WM_REDRAW				= 18020,
 	};
 	
 /*****************************************************************************\
@@ -153,29 +156,21 @@ int _gemIoRead(GemMsg *msg, int msecs);
 /*****************************************************************************\
 |* Read from the socket, looking for a specific response
 \*****************************************************************************/
-int _gemIoWaitForMessageOfType(GemMsg *msg, int16_t type);
-	
-/*****************************************************************************\
-|* Read from the socket, looking for a specific response
-\*****************************************************************************/
 int _gemIoWaitForMessageOfTypeWithTimeout(GemMsg *msg, int16_t type, int msecs);
-	
-/*****************************************************************************\
-|* Function to request a blocking read of a message, filtering on a list of
-|* message types. This always tries to read from the socket
-\*****************************************************************************/
-int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types);
+int _gemIoWaitForMessageOfType(GemMsg *msg, int16_t type);
 
 /*****************************************************************************\
 |* Function to request a blocking read of a message, filtering on a range of
 |* message types. This always tries to read from the socket
 \*****************************************************************************/
 int _gemIoWaitForMessageRangeWithTimeout(GemMsg *msg, int lo, int hi, int msecs);
+int _gemIoWaitForMessageRange(GemMsg *msg, int lo, int hi);
 
 /*****************************************************************************\
 |* Function to request a blocking read of a message with a timeout
 \*****************************************************************************/
 int _gemIoWaitForMessagesWithTimeout(GemMsg *msg, vec_word_t *types, int msecs);
+int _gemIoWaitForMessages(GemMsg *msg, vec_word_t *types);
 
 /*****************************************************************************\
 |* Return the current GEM message event-filter

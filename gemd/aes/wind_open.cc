@@ -47,11 +47,6 @@ int16_t	AES::wind_open(qintptr handle, int16_t windowId,
 			\*****************************************************************/
 			calculateRectangleList();
 
-			/*****************************************************************\
-			|* Open the window by sending redraw messages to any client that
-			|* intersects the new window
-			\*****************************************************************/
-
 			ok = 1;
 			}
 		}
@@ -84,4 +79,11 @@ void AES::wind_open(Workstation *ws, ClientMsg *cm)
 	|* Send the message down the wire
 	\**************************************************************************/
 	ws->send(cm);
+
+	/**************************************************************************\
+	|* Open the window by sending redraw messages to any client that
+	|* intersects the new window
+	\**************************************************************************/
+	QRect dirty(x,y,w,h);
+	postRedraws(dirty);
 	}

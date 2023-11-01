@@ -128,5 +128,11 @@ int main(int argc, const char * argv[])
 	|* Open the window
 	\*************************************************************************/
 	int16_t result = wind_open(wh, 50, 50, 600, 300);
-	printf("result: %d\n", wh);
+	printf("result: %d\n", result);
+	
+	int16_t msgbuf[8];
+	evnt_mesag(msgbuf);
+	for (int i=0; i<8; i++)
+		printf("%d  ", msgbuf[i]);
+	printf("\n");
 	}

@@ -138,6 +138,7 @@
 		F46A86902AC0997B00FA3ABC /* export.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A868F2AC0997B00FA3ABC /* export.c */; };
 		F46A86932AC0AAF900FA3ABC /* pam.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86922AC0AAF900FA3ABC /* pam.c */; };
 		F46A86952AC373C100FA3ABC /* vq_colours.c in Sources */ = {isa = PBXBuildFile; fileRef = F46A86942AC373C100FA3ABC /* vq_colours.c */; };
+		F479B3D32AF2CC8A0071F856 /* evnt_mesag.c in Sources */ = {isa = PBXBuildFile; fileRef = F479B3D22AF2CC8A0071F856 /* evnt_mesag.c */; };
 		F49059342ACB6CC200F4F288 /* vsf_udpat.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059332ACB6CC200F4F288 /* vsf_udpat.c */; };
 		F49059362ACCDC1500F4F288 /* vqt_width.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059352ACCDC1500F4F288 /* vqt_width.c */; };
 		F49059382ACD180F00F4F288 /* vex_timv.c in Sources */ = {isa = PBXBuildFile; fileRef = F49059372ACD180F00F4F288 /* vex_timv.c */; };
@@ -443,6 +444,7 @@
 		F46A86922AC0AAF900FA3ABC /* pam.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pam.c; sourceTree = "<group>"; };
 		F46A86942AC373C100FA3ABC /* vq_colours.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vq_colours.c; sourceTree = "<group>"; };
 		F46A86962AC3A04900FA3ABC /* palette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = palette.h; sourceTree = "<group>"; };
+		F479B3D22AF2CC8A0071F856 /* evnt_mesag.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = evnt_mesag.c; sourceTree = "<group>"; };
 		F49059332ACB6CC200F4F288 /* vsf_udpat.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsf_udpat.c; sourceTree = "<group>"; };
 		F49059352ACCDC1500F4F288 /* vqt_width.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vqt_width.c; sourceTree = "<group>"; };
 		F49059372ACD180F00F4F288 /* vex_timv.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vex_timv.c; sourceTree = "<group>"; };
@@ -616,6 +618,14 @@
 			path = rscdump;
 			sourceTree = "<group>";
 		};
+		F479B3D12AF2CC380071F856 /* evnt */ = {
+			isa = PBXGroup;
+			children = (
+				F479B3D22AF2CC8A0071F856 /* evnt_mesag.c */,
+			);
+			path = evnt;
+			sourceTree = "<group>";
+		};
 		F49512C22AE229D200AF9877 /* shell */ = {
 			isa = PBXGroup;
 			children = (
@@ -636,9 +646,10 @@
 				F4BAB2A82AD6451400DBAD9F /* aes.h */,
 				F4680C0E2AE8344E0020BB5B /* shell_conv.h */,
 				F4BAB2B22AD76D7500DBAD9F /* appl */,
+				F479B3D12AF2CC380071F856 /* evnt */,
 				F4BAB2B32AD76D9400DBAD9F /* graf */,
-				F49512C22AE229D200AF9877 /* shell */,
 				F4BAB2B42AD76DA500DBAD9F /* rsrc */,
+				F49512C22AE229D200AF9877 /* shell */,
 				F4203F1A2AEAE3B500BA0F24 /* wind */,
 			);
 			path = aes;
@@ -1242,6 +1253,7 @@
 				F4BAB29C2AD61DBE00DBAD9F /* appl_init.c in Sources */,
 				F46A86322AB67A4F00FA3ABC /* vq_color.c in Sources */,
 				F49512C42AE22A7A00AF9877 /* shel_envrn.c in Sources */,
+				F479B3D32AF2CC8A0071F856 /* evnt_mesag.c in Sources */,
 				F4E340C62AAAE05A002390BA /* gemmsg.c in Sources */,
 				F46A86082AB3A7BA00FA3ABC /* vst_effects.c in Sources */,
 				F46A863A2AB7BAE000FA3ABC /* vrq_string.c in Sources */,

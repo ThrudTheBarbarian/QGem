@@ -52,7 +52,7 @@ class AES : public QObject
 
 		typedef struct
 			{
-			int				windowId;		// Id of this window
+			int16_t			windowId;		// Id of this window
 			int				kind;			// Components of the window
 			QRect			current;		// Current x,y,w,h
 			QRect			max;			// Maximum x,y,w,h
@@ -138,6 +138,7 @@ class AES : public QObject
 		/*********************************************************************\
 		|* Handle screen updates
 		\*********************************************************************/
+		void postRedraws(QRect dirty);
 		void postRedraws(QList<QRect> dirty);
 
 

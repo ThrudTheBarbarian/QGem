@@ -119,4 +119,10 @@ int16_t shel_write(int16_t doex,
 				   char *  cmd,
 				   char *  args);
 
+/*****************************************************************************\
+|* Listen on the event pipe and only return when we get a GEM-message type
+|* event (in the 18xxx range). We still populate the mouse position events etc.
+\*****************************************************************************/
+int16_t evnt_mesag(int16_t* msg);
+
 #endif /* aes_h */

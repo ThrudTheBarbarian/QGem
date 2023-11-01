@@ -53,9 +53,9 @@ int16_t AES::wind_create(qintptr handle, int16_t kind,
 			win.root	= true;
 			}
 
-		_windowList.push_back(win);
 		winId		 = _currentWindowId;
 		win.windowId = _currentWindowId ++;
+		_windowList.push_back(win);
 		}
 
 	return winId;
