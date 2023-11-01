@@ -177,8 +177,8 @@ void AES::postRedraws(QList<QRect> dirty)
 					ClientMsg cm;
 					cm.setType(ClientMsg::EVT_WM_REDRAW);
 					cm.append(0);						// AES handle of sender
-					cm.append(win.windowId);
 					cm.append(0);						// filler. Not used
+					cm.append(win.windowId);
 					cm.append(rect.intersected(box));
 					ws->send(&cm);
 					}

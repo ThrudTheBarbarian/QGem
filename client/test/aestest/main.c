@@ -135,4 +135,7 @@ int main(int argc, const char * argv[])
 	for (int i=0; i<8; i++)
 		printf("%d  ", msgbuf[i]);
 	printf("\n");
+	
+	vs_clip(handle, 1, &(msgbuf[4]));
+	v_bar(handle, &(msgbuf[4]));
 	}
