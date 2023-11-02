@@ -26,5 +26,6 @@
 #G 03 04 200 F:\STZIP26\STZIP.PRG@ *.ZIP@ @ 
 #M 00 00 05 FF D Home@ @ 
 #M 00 01 05 FF C Applications@ @ 
-#T 00 07 02 FF   TRASH@ @ 
+#T 1d 0f 10 FF   Recycle Bin@ @ 
+#O 00 0f 11 FF   Printer@ @ 
 #X 01 08 03 FF   F:\STZIP26\STZIP.PRG@ STZIP.PRG@ 

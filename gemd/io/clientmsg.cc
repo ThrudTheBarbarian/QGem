@@ -106,7 +106,7 @@ bool ClientMsg::read(QIODevice *dev)
 		dev->read((char *)(&length), 2);
 		length = ntohs(length);
 
-		if (dev->bytesAvailable() >= length*2)
+		//if (dev->bytesAvailable() >= length*2)
 			{
 			_payload.clear();
 			dev->read((char *)(&_type), 2);
@@ -119,12 +119,12 @@ bool ClientMsg::read(QIODevice *dev)
 				_payload.push_back(*data ++);
 			ok = 1;
 			}
-		else
-			{
-			WARN("Insufficient data for msg type 0x%04X "
-				 "(%d required, %d available)",
-				 _type, length*2, (int)dev->bytesAvailable());
-			}
+//		else
+//			{
+//			WARN("Insufficient data for msg type 0x%04X "
+//				 "(%d required, %d available)",
+//				 _type, length*2, (int)dev->bytesAvailable());
+//			}
 		}
 
 	return ok;

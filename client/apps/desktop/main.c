@@ -145,6 +145,48 @@ int main(int argc, const char * argv[], const char *env[])
 \*****************************************************************************/
 int debugLevel(void)
 	{ return 10; }
+
+/*****************************************************************************\
+|* Draw an icon
+\*****************************************************************************/
+static void _drawDriveIcon(DesktopContext *ctx, ND_DRIVE *drv)
+	{
+	int x = 16 + drv->x * 63;
+	int y = drv->y * 66;
+	
+	MFDB icon, mask;
+	if (iconToMFDB(drv->iconId, &icon, &mask))
+		{
+		MFDB dst;
+		memset(&dst, 0, sizeof(MFDB));
+		MFDB screen = dst;
+
+		/*********************************************************************\
+		|* Decide where to draw
+		\*********************************************************************/
+		int w = icon.fd_w;
+		int h = icon.fd_h;
+		
+		int16_t pxy[8]	=
+			{
+			0, 0, w-1,   h-1,
+			x, y, x+w-1, y+h-1,
+			};
+		
+		/*********************************************************************\
+		|* Cut out the hole in the screen pixmap
+		\*********************************************************************/
+		int16_t cols[] = {255,0};
+		vr_trnfm(ctx->handle, &mask, &dst);
+		vrt_cpyfm(ctx->handle, WR_TRANSPARENT, pxy, &dst, &screen, cols);
+		
+		dst = screen;
+		vr_trnfm(ctx->handle, &icon, &dst);
+		int16_t mode = ((int16_t)0x8000) | S_OR_D;
+		vro_cpyfm(ctx->handle, mode, pxy, &dst, &screen);
+		v_justified(ctx->handle, x-16, y+h, drv->text, w+32, 0, 0);
+		}
+	}
 	
 /*****************************************************************************\
 |* Draw the screen
@@ -158,45 +200,16 @@ void render(DesktopContext *ctx)
 	v_bar(ctx->handle, ctx->xywh);
 	vst_color(ctx->handle, 255);
 	vst_alignment(ctx->handle, TA_CENTER, TA_BASE, NULL, NULL);
+	
 	for (int i=0; i<ctx->env.drives.length; i++)
 		{
 		ND_DRIVE *drv = ctx->env.drives.data[i];
-		int x = 16 + drv->x * 64;
-		int y = drv->y * 64;
-		
-		MFDB icon, mask;
-		if (iconToMFDB(drv->iconId, &icon, &mask))
-			{
-			MFDB dst;
-			memset(&dst, 0, sizeof(MFDB));
-			MFDB screen = dst;
-
-			/*****************************************************************\
-			|* Decide where to draw
-			\*****************************************************************/
-			int w = icon.fd_w;
-			int h = icon.fd_h;
-			
-			int16_t pxy[8]	=
-				{
-				0, 0, w-1,   h-1,
-				x, y, x+w-1, y+h-1,
-				};
-			
-			/*****************************************************************\
-			|* Cut out the hole in the screen pixmap
-			\*****************************************************************/
-			int16_t cols[] = {255,0};
-			vr_trnfm(ctx->handle, &mask, &dst);
-			vrt_cpyfm(ctx->handle, WR_TRANSPARENT, pxy, &dst, &screen, cols);
-			
-			dst = screen;
-			vr_trnfm(ctx->handle, &icon, &dst);
-			int16_t mode = ((int16_t)0x8000) | S_OR_D;
-			vro_cpyfm(ctx->handle, mode, pxy, &dst, &screen);
-			v_justified(ctx->handle, x-16, y+h, drv->text, w+32, 0, 0);
-			}
+		_drawDriveIcon(ctx, drv);
 		}
+	if (ctx->env.printer.iconId != 0)
+		_drawDriveIcon(ctx, &(ctx->env.printer));
+	if (ctx->env.trash.iconId != 0)
+		_drawDriveIcon(ctx, &(ctx->env.trash));
 	}
 	
 	
