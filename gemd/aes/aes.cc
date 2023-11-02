@@ -170,19 +170,20 @@ void AES::postRedraws(QList<QRect> dirty)
 		for (GWindow& win : _windowList)
 			{
 			Workstation *ws = cm->findWorkstationForHandle(win.handle);
-			for (QRect& rect : win.rectList)
-				{
-				if (rect.intersects(box))
+			if (ws)
+				for (QRect& rect : win.rectList)
 					{
-					ClientMsg cm;
-					cm.setType(ClientMsg::EVT_WM_REDRAW);
-					cm.append(0);						// AES handle of sender
-					cm.append(0);						// filler. Not used
-					cm.append(win.windowId);
-					cm.append(rect.intersected(box));
-					ws->send(&cm);
+					if (rect.intersects(box))
+						{
+						ClientMsg cm;
+						cm.setType(ClientMsg::EVT_WM_REDRAW);
+						cm.append(0);				// AES handle of sender
+						cm.append(0);				// filler. Not used
+						cm.append(win.windowId);
+						cm.append(rect.intersected(box));
+						ws->send(&cm);
+						}
 					}
-				}
 			}
 		}
 	}

@@ -14,13 +14,11 @@
 /*****************************************************************************\
 |* Forward declarations
 \*****************************************************************************/
-static void _convToPlanar16(MFDB *src, MFDB *dst);
-static void _convToPlanar24(MFDB *src, MFDB *dst);
 static void _convToPlanar2(MFDB *src, MFDB *dst);
-static void _convToPlanar16(MFDB *src, MFDB *dst);
-static void _convToPlanar24(MFDB *src, MFDB *dst);
 static void _convToPlanar4(MFDB *src, MFDB *dst);
 static void _convToPlanar8(MFDB *src, MFDB *dst);
+static void _convToPlanar16(MFDB *src, MFDB *dst);
+static void _convToPlanar24(MFDB *src, MFDB *dst);
 
 static void _convToChunky2(MFDB *src, MFDB *dst);
 static void _convToChunky4(MFDB *src, MFDB *dst);

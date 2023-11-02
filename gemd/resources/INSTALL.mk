@@ -15,7 +15,7 @@ MKDIR	= /bin/mkdir -p
 
 install:
 	@ $(CP) $(RSRC)/system.ttf $(SYSDIR)/Fonts/system.ttf
-	@ $(CP) $(RSRC)/{cicons,icons}.rsc $(SYSDIR)/Icons
+	@ $(CP) $(RSRC)/cicons.rsc $(DESKTOP)/icons.rsc
 	@ $(CP) $(RSRC)/{gem,nvdi}.pal $(SYSDIR)/Palettes
 	@ (cd $(SYSDIR)/Palettes && $(RM) system.pal && $(LN) gem.pal system.pal)
 	@ $(MKDIR) $(DESKTOP)

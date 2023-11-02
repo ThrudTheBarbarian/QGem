@@ -639,6 +639,10 @@ QImage * FillFactory::_imageFromMFDB8(MFDB *mfdb, Workstation *ws)
 	if (ws->colourTable(palette))
 		img->setColorTable(palette);
 
+	QImage mask = img->createHeuristicMask();
+	mask.invertPixels();
+	img->setAlphaChannel(mask);
+
 	return img;
 	}
 

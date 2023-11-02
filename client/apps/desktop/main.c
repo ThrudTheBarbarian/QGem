@@ -9,6 +9,7 @@
 \*****************************************************************************/
 
 #undef DBG_ENVIRON
+#define DBG_ICONS
 
 #include <limits.h>
 
@@ -33,7 +34,7 @@ typedef struct
 |* Forward references
 \*****************************************************************************/
 void render(DesktopContext *ctx);
-int iconToMFDB(int idx, MFDB *mfdb);
+int iconToMFDB(int idx, MFDB *mfdb, MFDB *mask);
 
 /*****************************************************************************\
 |* Program entry
@@ -94,14 +95,18 @@ int main(int argc, const char * argv[], const char *env[])
 	|* Load the resource file containing icons
 	\*************************************************************************/
 	char path[PATH_MAX];
-	strcpy(path, "icons.rsc");
-	if (!shel_find(path))
-		WARN("Cannot find resource file for icons!");
-	else
-		{
-		if (rsrc_load(path) == 0)
-			WARN("Failed to load resource file for icons (%s)", path);
-		}
+	#ifdef DBG_ICONS
+		rsrc_load("/usr/local/atari/Disk/Applications/desktop.app/icons.rsc");
+	#else
+		strcpy(path, "icons.rsc");
+		if (!shel_find(path))
+			WARN("Cannot find resource file for icons!");
+		else
+			{
+			if (rsrc_load(path) == 0)
+				WARN("Failed to load resource file for icons (%s)", path);
+			}
+	#endif
 	
 	/*************************************************************************\
 	|* Read the desktop environment from the server
@@ -159,25 +164,36 @@ void render(DesktopContext *ctx)
 		int x = 16 + drv->x * 64;
 		int y = drv->y * 64;
 		
-		MFDB icon;
-		if (iconToMFDB(drv->iconId, &icon))
+		MFDB icon, mask;
+		if (iconToMFDB(drv->iconId, &icon, &mask))
 			{
 			MFDB dst;
 			memset(&dst, 0, sizeof(MFDB));
 			MFDB screen = dst;
-			
-			vr_trnfm(ctx->handle, &icon, &dst);
+
+			/*****************************************************************\
+			|* Decide where to draw
+			\*****************************************************************/
 			int w = icon.fd_w;
 			int h = icon.fd_h;
 			
-			int16_t pxy2[8]	=
+			int16_t pxy[8]	=
 				{
 				0, 0, w-1,   h-1,
 				x, y, x+w-1, y+h-1,
 				};
-
-			int16_t mode = ((int16_t)0x8000) | SRC_ALPHA;
-			vro_cpyfm(ctx->handle, mode, pxy2, &dst, &screen);
+			
+			/*****************************************************************\
+			|* Cut out the hole in the screen pixmap
+			\*****************************************************************/
+			int16_t cols[] = {255,0};
+			vr_trnfm(ctx->handle, &mask, &dst);
+			vrt_cpyfm(ctx->handle, WR_TRANSPARENT, pxy, &dst, &screen, cols);
+			
+			dst = screen;
+			vr_trnfm(ctx->handle, &icon, &dst);
+			int16_t mode = ((int16_t)0x8000) | S_OR_D;
+			vro_cpyfm(ctx->handle, mode, pxy, &dst, &screen);
 			v_justified(ctx->handle, x-16, y+h, drv->text, w+32, 0, 0);
 			}
 		}
@@ -187,23 +203,40 @@ void render(DesktopContext *ctx)
 /*****************************************************************************\
 |* Convert an icon index into an MFDB
 \*****************************************************************************/
-int iconToMFDB(int idx, MFDB *mfdb)
+int iconToMFDB(int idx, MFDB *icon, MFDB *mask)
 	{
 	int ok = 0;
 	RscFile *rsc = _rsrcGet();
 	if (idx >=0 && idx < rsc->nCicons)
 		{
-		mfdb->fd_addr 		= rsc->cIcons[idx].icons[1].colData;
-		mfdb->fd_w			= rsc->cIcons[idx].monoIcon.ib_wicon;
-		mfdb->fd_h			= rsc->cIcons[idx].monoIcon.ib_hicon;
-		mfdb->fd_stand		= MFDB_STANDARD;
-		mfdb->fd_nplanes	= rsc->cIcons[idx].icons[1].numPlanes;
-		mfdb->fd_r1			= 0;
-		mfdb->fd_r2			= 0;
-		mfdb->fd_r3			= 0;
-		mfdb->fd_wdwidth	= ((mfdb->fd_w) / 16) + ((mfdb->fd_w & 15) != 0
-							? 1
-							: 0);
+		if (icon != NULL)
+			{
+			icon->fd_addr 		= rsc->cIcons[idx].icons[1].colData;
+			icon->fd_w			= rsc->cIcons[idx].monoIcon.ib_wicon;
+			icon->fd_h			= rsc->cIcons[idx].monoIcon.ib_hicon;
+			icon->fd_stand		= MFDB_STANDARD;
+			icon->fd_nplanes	= rsc->cIcons[idx].icons[1].numPlanes;
+			icon->fd_r1			= 0;
+			icon->fd_r2			= 0;
+			icon->fd_r3			= 0;
+			icon->fd_wdwidth	= ((icon->fd_w)/16) + ((icon->fd_w & 15) != 0
+								? 1
+								: 0);
+			}
+		if (mask != NULL)
+			{
+			mask->fd_addr 		= rsc->cIcons[idx].monoIcon.ib_pmask;
+			mask->fd_w			= rsc->cIcons[idx].monoIcon.ib_wicon;
+			mask->fd_h			= rsc->cIcons[idx].monoIcon.ib_hicon;
+			mask->fd_stand		= MFDB_STANDARD;
+			mask->fd_nplanes	= 1;
+			mask->fd_r1			= 0;
+			mask->fd_r2			= 0;
+			mask->fd_r3			= 0;
+			mask->fd_wdwidth	= ((mask->fd_w)/16) + ((mask->fd_w & 15) != 0
+								? 1
+								: 0);
+			}
 		ok = 1;
 		}
 	return ok;
