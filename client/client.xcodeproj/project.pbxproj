@@ -163,6 +163,8 @@
 		F4CBFCF02AD773A30078C561 /* rsrc_free.c in Sources */ = {isa = PBXBuildFile; fileRef = F4CBFCEF2AD773A30078C561 /* rsrc_free.c */; };
 		F4CBFCF32ADB9AF70078C561 /* map.h in Headers */ = {isa = PBXBuildFile; fileRef = F4CBFCF12ADB9AF70078C561 /* map.h */; };
 		F4CBFCF42ADB9AF70078C561 /* map.c in Sources */ = {isa = PBXBuildFile; fileRef = F4CBFCF22ADB9AF70078C561 /* map.c */; };
+		F4D90C8E2AF5EF41002AA85E /* draw.c in Sources */ = {isa = PBXBuildFile; fileRef = F4D90C8D2AF5EF41002AA85E /* draw.c */; };
+		F4D90C922AF60183002AA85E /* environment.c in Sources */ = {isa = PBXBuildFile; fileRef = F4D90C912AF60183002AA85E /* environment.c */; };
 		F4E340A02AAAD389002390BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E3409F2AAAD389002390BA /* main.c */; };
 		F4E340B42AAAD6C3002390BA /* v_opnvwk.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E340B22AAAD6C3002390BA /* v_opnvwk.c */; };
 		F4E340B72AAAD6DE002390BA /* gemio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E340B52AAAD6DE002390BA /* gemio.h */; };
@@ -469,6 +471,11 @@
 		F4CBFCEF2AD773A30078C561 /* rsrc_free.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rsrc_free.c; sourceTree = "<group>"; };
 		F4CBFCF12ADB9AF70078C561 /* map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = map.h; sourceTree = "<group>"; };
 		F4CBFCF22ADB9AF70078C561 /* map.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = map.c; sourceTree = "<group>"; };
+		F4D90C8C2AF5EF41002AA85E /* draw.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = draw.h; sourceTree = "<group>"; };
+		F4D90C8D2AF5EF41002AA85E /* draw.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = draw.c; sourceTree = "<group>"; };
+		F4D90C8F2AF5F616002AA85E /* desktop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = desktop.h; sourceTree = "<group>"; };
+		F4D90C902AF60183002AA85E /* environment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = environment.h; sourceTree = "<group>"; };
+		F4D90C912AF60183002AA85E /* environment.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = environment.c; sourceTree = "<group>"; };
 		F4E3409C2AAAD389002390BA /* vditest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vditest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E3409F2AAAD389002390BA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F4E340AA2AAAD3E1002390BA /* libgemc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgemc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -562,6 +569,11 @@
 			isa = PBXGroup;
 			children = (
 				F45B8B202AE6C2CF00A306B9 /* main.c */,
+				F4D90C8F2AF5F616002AA85E /* desktop.h */,
+				F4D90C8C2AF5EF41002AA85E /* draw.h */,
+				F4D90C8D2AF5EF41002AA85E /* draw.c */,
+				F4D90C902AF60183002AA85E /* environment.h */,
+				F4D90C912AF60183002AA85E /* environment.c */,
 			);
 			path = desktop;
 			sourceTree = "<group>";
@@ -1148,6 +1160,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F45B8B212AE6C2CF00A306B9 /* main.c in Sources */,
+				F4D90C8E2AF5EF41002AA85E /* draw.c in Sources */,
+				F4D90C922AF60183002AA85E /* environment.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
