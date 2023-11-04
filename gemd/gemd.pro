@@ -21,6 +21,7 @@ SOURCES += \
 	aes/shel_read.cc \
 	aes/shel_write.cc \
 	aes/wind_create.cc \
+	aes/wind_get.cc \
 	aes/wind_open.cc \
 	io/clientmsg.cc \
     io/connectionmgr.cc \

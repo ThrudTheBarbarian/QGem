@@ -561,4 +561,84 @@ enum
 #define ICONIFIER		SMALLER	/**< Window has an iconifier */
 
 
+/*****************************************************************************\
+|* wind_get flags  
+\*****************************************************************************/
+#define WF_KIND			1	/**< get     the actual window attributes, see mt_wind_get() */
+#define WF_NAME			2 	/**< get/set title name of the window, see mt_wind_get() and mt_wind_set() */
+#define WF_INFO			3 	/**< get/set info line of the window, see mt_wind_get() and mt_wind_set() */
+#define WF_WORKXYWH		4 	/**< get     the work area coordinates of the work area, see mt_wind_get() */
+#define WF_CURRXYWH		5 	/**< get/set current coordinates of the window (external area), see mt_wind_get() and mt_wind_set()  */
+#define WF_PREVXYWH		6 	/**< get     the previous coordinates of the window (external area), see mt_wind_get() */
+#define WF_FULLXYWH		7 	/**< get     the coordinates of the window when "fulled" the screen, see mt_wind_get() */
+#define WF_HSLIDE 		8 	/**< get/set position of the horizontal slider, see mt_wind_get() and mt_wind_set() */
+#define WF_VSLIDE 		9 	/**< get/set position of the vertical slider, see mt_wind_get() and mt_wind_set() */
+#define WF_TOP 			10 	/**< get/set top window, see mt_wind_get() and mt_wind_set() */
+#define WF_FIRSTXYWH 	11 	/**< get     the first rectangle in the list of rectangles for this window, see mt_wind_get() */
+#define WF_NEXTXYWH		12 	/**< get     the next rectangle in the list of rectangles for this window, see mt_wind_get() */
+#define WF_FIRSTAREAXYWH	13 	/**< get     the first rectangle in the list of rectangles for this window, see mt_wind_xget()*/
+#define WF_NEWDESK		14 	/**< get/set OBJECT tree installed as desktop, see mt_wind_get() and mt_wind_set() */
+#define WF_HSLSIZE		15 	/**< get/set size of the horizontal slider, see mt_wind_get() and mt_wind_set() */
+#define WF_VSLSIZE		16 	/**< get/set size of the vertical slider, see mt_wind_get() and mt_wind_set() */
+#define WF_SCREEN 		17 	/**< get     current AES menu/alert buffer and its size, see mt_wind_get() */
+#define WF_COLOR		18 	/**< get/set current color of widget, see mt_wind_get() and mt_wind_set() */
+#define WF_DCOLOR 		19 	/**< get/set default color of widget, see mt_wind_get() and mt_wind_set() */
+#define WF_OWNER		20 	/**< get     the owner of the window, see mt_wind_get() */
+#define WF_BEVENT 		24 	/**< get/set window feature on mouse button event, see mt_wind_get() and mt_wind_set() */
+#define WF_BOTTOM 		25 	/**< get/set bottom window, see mt_wind_get() and mt_wind_set() */
+#define WF_ICONIFY		26 	/**< get/set iconification of the window, see mt_wind_get() and mt_wind_set() */
+#define WF_UNICONIFY 		27 	/**< get/set un-iconification of the window, see mt_wind_get() and mt_wind_set() */
+#define WF_UNICONIFYXYWH	28 	/**<     set window coordinates when uniconified , see mt_wind_set() */
+#define WF_TOOLBAR		30 	/**< get/set tool bar attached to a window, see mt_wind_get() and mt_wind_set() */
+#define WF_FTOOLBAR		31 	/**< get     the first rectangle of the toolbar area, see mt_wind_get() */
+#define WF_NTOOLBAR		32 	/**< get     the next rectangle of the toolbar area, see mt_wind_get() */
+#define WF_MENU			33 	/**<         TODO (XaAES) */
+#define WF_WHEEL		40 	/**<     set window feature on mouse wheel event, see mt_wind_set() */
+#define WF_OPTS			41	/**< get/set window options. See mt_wind_set() and mt_wind_get() for details. */
+#define WF_CALCF2W		42	/**< Convert FULL coordinates to WORK coordinates */
+#define WF_CALCW2F		43	/**< Convert WORK coordinates to FULL coordinates */
+#define WF_CALCF2U		44	/**< Convert FULL coordinates to USER coordinates */
+#define WF_CALCU2F		45	/**< Convert USER coordinates to FULL coordinates */
+#define WF_MAXWORKXYWH	46	/**< Get MAX coordinates for this window - WCOWORK mode only*/
+#define WF_M_BACKDROP	100 /**<		 TODO (KAOS 1.4) */
+#define WF_M_OWNER		101 /**<		 TODO (KAOS 1.4) */
+#define WF_M_WINDLIST	102 /**<		 TODO (KAOS 1.4) */
+#define WF_MINXYWH		103 /**<		 TODO (MagiC 6) */
+#define WF_INFOXYWH		104 /**<		 TODO (MagiC 6.10) */
+#define WF_WIDGETS		200	/**< get/set actual positions of the slider widgets, see mt_wind_get() and mt_wind_set() */
+#define WF_USER_POINTER	230	/**< MyAES - attach a 32 bit value to window see  mt_wind_set() see mt_wind_get() */
+#define WF_WIND_ATTACH	231	/**< MyAES - attach a window to another, see mt_wind_set() */
+#define WF_TOPMOST		232	/**< MyAES    set actual window at TOPMOST level, see mt_wind_set() */
+#define WF_BITMAP		233	/**< MyAES 0.96	get bitmap of the window, see  mt_wind_get() */
+#define WF_OPTIONS		234	/**< MyAES 0.96 at this time use only to request automaticaly close if application lost focus and appear when focus is back, see mt_wind_set() */
+#define WF_FULLSCREEN	235	/**< MyAES 0.96 set window in fullscreen without widget, see mt_wind_set() */
+#define WF_OBFLAG		1001	/**< get/set (doc: TODO) (FreeGEM) */
+#define WF_OBTYPE		1002	/**< get     (doc: TODO) (FreeGEM) */
+#define WF_OBSPEC		1003	/**< get/set (doc: TODO) (FreeGEM) */
+#define X_WF_MENU		0x1100	/**<     set (doc: TODO) (Geneva)  */
+#define X_WF_DIALOG		0x1200	/**<     set (doc: TODO) (Geneva)  */
+#define X_WF_DIALWID	0x1300	/**<     set (doc: TODO) (Geneva)  */
+#define X_WF_DIALHT		0x1400	/**<     set (doc: TODO) (Geneva)  */
+#define X_WF_DFLTDESK	0x1500	/**<     set (doc: TODO) (Geneva)  */
+#define X_WF_MINMAX		0x1600	/**< get/set (doc: TODO) (Geneva)  */
+#define X_WF_HSPLIT		0x1700	/**< get/set (doc: TODO) (Geneva)  */
+#define X_WF_VSPLIT		0x1800	/**< get/set (doc: TODO) (Geneva)  */
+#define X_WF_SPLMIN		0x1900	/**< get/set (doc: TODO) (Geneva)  */
+#define X_WF_HSLIDE2	0x1a00	/**< get/set (doc: TODO) (Geneva)  */
+#define X_WF_VSLIDE2	0x1b00	/**< get/set (doc: TODO) (Geneva)  */
+#define X_WF_HSLSIZE2	0x1c00	/**< get/set (doc: TODO) (Geneva)  */
+#define X_WF_VSLSIZE2	0x1d00	/**< get/set (doc: TODO) (Geneva)  */
+#define X_WF_DIALFLGS	0x1e00	/**< get/set (doc: TODO) (Geneva)  */
+#define X_WF_OBJHAND	0x1f00	/**< get/set (doc: TODO) (Geneva)  */
+#define X_WF_DIALEDIT	0x2000	/**< get/set (doc: TODO) (Geneva)  */
+#define X_WF_DCOLSTAT	0x2100	/**< get/set (doc: TODO) (Geneva)  */
+#define WF_WINX			22360	/**<		 TODO */
+#define WF_WINXCFG		22361	/**<		 TODO */
+#define WF_DDELAY		22362	/**<		 TODO */
+#define WF_SHADE		22365	/**<		 TODO (WINX 2.3) */
+#define WF_STACK		22366	/**<		 TODO (WINX 2.3) */
+#define WF_TOPALL		22367	/**<		 TODO (WINX 2.3) */
+#define WF_BOTTOMALL	22368	/**<		 TODO (WINX 2.3) */
+#define WF_XAAES		0x5841	/**<		 TODO (XaAES) : 'XA' */
+
 #endif /* ! __gem_types_header__ */

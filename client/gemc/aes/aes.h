@@ -27,6 +27,14 @@ int16_t appl_init(void);
 int16_t wind_create(int16_t kind, int16_t x, int16_t y, int16_t w, int16_t h);
 
 /*****************************************************************************\
+|*  6608 : wind_get()
+|*		 : Obtain various pieces of info about a window, and return in the
+|*       : gw* variables
+\*****************************************************************************/
+int16_t wind_get(int16_t windowId, int16_t sub,
+				 int16_t* gw1, int16_t* gw2, int16_t* gw3, int16_t* gw4);
+
+/*****************************************************************************\
 |*  6610 : wind_open()
 |*		 : Open a window to the specified size
 \*****************************************************************************/

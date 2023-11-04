@@ -59,6 +59,7 @@ class AES : public QObject
 			int				kind;			// Components of the window
 			QRect			current;		// Current x,y,w,h
 			QRect			max;			// Maximum x,y,w,h
+			int				xywhId;			// Which subrect is next
 			bool			shown;			// Is the window visible ?
 			bool			root;			// Is this the root window ?
 			qintptr			handle;			// Workstation owner of window
@@ -175,6 +176,15 @@ class AES : public QObject
 							int16_t x, int16_t y,
 							int16_t w, int16_t h);
 		void	wind_create(Workstation *ws, ClientMsg *cm);
+
+		/*********************************************************************\
+		|*  6608 : Obtain various pieces of info about a window, and return in
+		|*       : the x* variables
+		\*********************************************************************/
+		int16_t	wind_get(qintptr handle, int16_t windowId, int16_t sub,
+						 int16_t& x1, int16_t& x2,
+						 int16_t& x3, int16_t& x4);
+		void	wind_get(Workstation *ws, ClientMsg *cm);
 
 		/*********************************************************************\
 		|* 6610: Open a previously-created window

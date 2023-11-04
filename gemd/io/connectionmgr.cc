@@ -490,6 +490,10 @@ void ConnectionMgr::_incomingData(void)
 				AES::sharedInstance().wind_create(ws, &cm);
 				break;
 
+			case ClientMsg::AES_WIND_GET:			// 6608
+				AES::sharedInstance().wind_get(ws, &cm);
+				break;
+
 			case ClientMsg::AES_WIND_OPEN:			// 6610
 				AES::sharedInstance().wind_open(ws, &cm);
 				break;
