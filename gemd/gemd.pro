@@ -119,7 +119,6 @@ SOURCES += \
     vdi/vst_rotation.cc \
     vdi/vswr_mode.cc \
     system/screen.cc \
-    io/socketthread.cc \
     vdi/vdi.cc \
     vdi/workstation.cc
 
@@ -132,7 +131,6 @@ HEADERS += \
     system/glwidget.h \
     system/keymapper.h \
     system/screen.h \
-    io/socketthread.h \
     vdi/vdi.h \
     vdi/workstation.h
 

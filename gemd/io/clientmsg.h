@@ -167,7 +167,7 @@ class ClientMsg
 		/*********************************************************************\
 		|* Populate the message from a socket
 		\*********************************************************************/
-		bool read(QIODevice *dev);
+		bool read(QIODevice *dev, QByteArray& buffer);
 
 		/*********************************************************************\
 		|* Populate the message from a mouse event

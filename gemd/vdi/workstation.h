@@ -63,6 +63,7 @@ class Workstation : public QObject
 		|* Socket to communicate over
 		\*********************************************************************/
 		QLocalSocket *_client;			// Connection to client
+		QByteArray _socketBuffer;		// Data read from wire
 		QColor _palette[256];			// First 256 colours
 		QFontMetrics* _fm;				// Font metrics of current font
 
@@ -160,6 +161,11 @@ class Workstation : public QObject
 		|* Return the socket
 		\*********************************************************************/
 		inline QLocalSocket * client(void) { return _client; }
+
+		/*********************************************************************\
+		|* Used for buffering data from the socket
+		\*********************************************************************/
+		QByteArray& socketBuffer(void)		{ return _socketBuffer; }
 
 		/*********************************************************************\
 		|* Send a message down the socket

@@ -85,51 +85,79 @@ void ClientMsg::clear(void)
 	_type = 0;
 	}
 
+
 /*****************************************************************************\
-|* Read a message from a socket. This will
+|* Read a message. The code will first try to satisfy the response from the
+|* passed-in buffer. If that fails it will call read() on the socket to try
+|* to source more data. If it still can't parse a message, we return false
 |*
+|* When parsing a message, we
 |*  - parse the length from the byte-array
 |*  - decode the type from network format
 |*  - copy the payload as-is
 |*
 \*****************************************************************************/
-bool ClientMsg::read(QIODevice *dev)
+bool ClientMsg::read(QIODevice *dev, QByteArray& buffer)
 	{
-	bool ok = false;
+	bool ok			= false;
 
-	if (dev->bytesAvailable() > 2)
+	/*************************************************************************\
+	|* If we don't even have space for the length parameter, call read()
+	\*************************************************************************/
+	if (buffer.size() < 2)
 		{
-		/*********************************************************************\
-		|* Get the size of the payload, expressed in words
-		\*********************************************************************/
-		int16_t length;
-		dev->read((char *)(&length), 2);
-		length = ntohs(length);
+		QByteArray moreData = dev->readAll();
+		if (moreData.length() > 0)
+			buffer.append(moreData);
+		}
 
-		//if (dev->bytesAvailable() >= length*2)
+	/*************************************************************************\
+	|* Assuming we now have enough data for at least the length...
+	\*************************************************************************/
+	if (buffer.size() >= 2)
+		{
+		int16_t *words	= (int16_t *) buffer.data();
+
+		/*********************************************************************\
+		|* Clear the message
+		\*********************************************************************/
+		_payload.clear();
+
+		/*********************************************************************\
+		|* Read the msg len, if we haven't the size for the rest, call read()
+		\*********************************************************************/
+		int16_t length = ntohs(*words++);
+		if (buffer.size() < 2 + 2*length)
 			{
-			_payload.clear();
-			dev->read((char *)(&_type), 2);
-			_type = ntohs(_type);
+			QByteArray moreData = dev->readAll();
+			if (moreData.length() > 0)
+				buffer.append(moreData);
+			}
+
+		/*********************************************************************\
+		|* Read the data if we can - note this is not byte-swapped, and flag ok
+		\*********************************************************************/
+		if (buffer.size() >= 2*length)
+			{
+			_type		= ntohs(*(words++));
 			length --;
 
-			QByteArray msgData	= dev->read(length*2);
-			int16_t *data = (int16_t *)(msgData.data());
 			for (int i=0; i<length; i++)
-				_payload.push_back(*data ++);
-			ok = 1;
+				_payload.push_back(*words ++);
+
+			buffer.remove(0, 4 + length * 2);
+			ok = true;
 			}
-//		else
-//			{
-//			WARN("Insufficient data for msg type 0x%04X "
-//				 "(%d required, %d available)",
-//				 _type, length*2, (int)dev->bytesAvailable());
-//			}
+		else
+			{
+			WARN("Insufficient data for msg type 0x%04X "
+				 "(%d required, %d available)",
+				 _type, length*2, (int)dev->bytesAvailable());
+			}
 		}
 
 	return ok;
 	}
-
 
 /*****************************************************************************\
 |* Construct a message from a mouse event

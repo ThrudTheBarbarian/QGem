@@ -159,7 +159,7 @@ void ConnectionMgr::_incomingData(void)
 	Workstation *ws			= _conns[socket->socketDescriptor()];
 
 	ClientMsg cm;
-	while (cm.read(socket))
+	while (cm.read(socket, ws->socketBuffer()))
 		{
 		//fprintf(stderr, "Despatch message of type: %d\n", cm.type());
 		switch (cm.type())
