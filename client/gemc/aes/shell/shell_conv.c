@@ -27,7 +27,7 @@ typedef enum
 static int _parseSerial(ND_INFO *info, const char *data);
 static int _parsePrinter(ND_INFO *info, const char *data);
 static int _parseMisc(ND_INFO *info, const char *data);
-static int _parseIconVec(vec_icon_t *vec, const char *data, IconVariant variant);
+static int _parseIconVec(vec_ndicon_t *vec, const char *data, IconVariant variant);
 static int _parseIcon(ND_ICONSPEC *spec, const char *data, IconVariant variant);
 static int _parseDriveVec(vec_drive_t *info, const char *data);
 static int _parseDrive(ND_DRIVE *drive, const char *data, int driveId);
@@ -39,7 +39,7 @@ static int _parseCharset(ND_INFO *info, char *data);
 static int _parseLinks(vec_link_t *vec, char *data);
 static int _parseWindows(vec_win_t *vec, char *data);
 
-static void _writeIconSpec(vec_icon_t *icons, char type, vec_char_t *result);
+static void _writeIconSpec(vec_ndicon_t *icons, char type, vec_char_t *result);
 static void _writeGemIconSpec(vec_gicon_t *icons, char type, vec_char_t *result);
 static void _writeLinks(vec_link_t *icons, char type, vec_char_t *result);
 
@@ -576,7 +576,7 @@ static void _writeLinks(vec_link_t *icons, char type, vec_char_t *result)
 |* Write out a vector of ND_ICONSPEC, ordering by the number of * chars in the
 |* filespec
 \*****************************************************************************/
-static void _writeIconSpec(vec_icon_t *icons, char type, vec_char_t *result)
+static void _writeIconSpec(vec_ndicon_t *icons, char type, vec_char_t *result)
 	{
 	/*************************************************************************\
 	|* Set up an indirection array to easily sort based on the number of '*'
@@ -788,7 +788,7 @@ static int _parseMisc(ND_INFO *info, const char *data)
 /*****************************************************************************\
 |* Parse out window icon data
 \*****************************************************************************/
-static int _parseIconVec(vec_icon_t *info,
+static int _parseIconVec(vec_ndicon_t *info,
 						 const char *data,
 						 IconVariant variant)
 	{

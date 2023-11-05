@@ -12,6 +12,7 @@
 
 #include "aes.h"
 #include "debug.h"
+#include "desktop.h"
 #include "rscfile.h"
 
 #include <stdio.h>
@@ -19,11 +20,6 @@
 /*****************************************************************************\
 |* Render the desktop
 \*****************************************************************************/
-void render(DesktopContext *ctx);
-
-/*****************************************************************************\
-|* Convert an indexed icon into MFDB's (mask and pixels) ready to draw
-\*****************************************************************************/
-int iconToMFDB(int idx, MFDB *mfdb, MFDB *mask);
+void render(DesktopContext *ctx, Rect dirty);
 
 #endif /* draw_h */

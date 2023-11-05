@@ -12,17 +12,17 @@ INCLUDEPATH +=  $$PWD/../shared \
 
 SOURCES += \
 	aes/aes.cc \
-    aes/appl_init.cc \
-	aes/graf_handle.cc \
-	aes/shel_envrn.cc \
-	aes/shel_find.cc \
-	aes/shel_get.cc \
-	aes/shel_put.cc \
-	aes/shel_read.cc \
-	aes/shel_write.cc \
-	aes/wind_create.cc \
-	aes/wind_get.cc \
-	aes/wind_open.cc \
+	aes/appl/appl_init.cc \
+	aes/graf/graf_handle.cc \
+	aes/shel/shel_envrn.cc \
+	aes/shel/shel_find.cc \
+	aes/shel/shel_get.cc \
+	aes/shel/shel_put.cc \
+	aes/shel/shel_read.cc \
+	aes/shel/shel_write.cc \
+	aes/wind/wind_create.cc \
+	aes/wind/wind_get.cc \
+	aes/wind/wind_open.cc \
 	io/clientmsg.cc \
     io/connectionmgr.cc \
     system/fillfactory.cc \

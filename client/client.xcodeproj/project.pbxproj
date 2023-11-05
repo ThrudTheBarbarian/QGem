@@ -29,6 +29,8 @@
 /* Begin PBXBuildFile section */
 		F4203F1C2AEAE40900BA0F24 /* wind_create.c in Sources */ = {isa = PBXBuildFile; fileRef = F4203F1B2AEAE40900BA0F24 /* wind_create.c */; };
 		F4203F1E2AEB73CA00BA0F24 /* wind_open.c in Sources */ = {isa = PBXBuildFile; fileRef = F4203F1D2AEB73CA00BA0F24 /* wind_open.c */; };
+		F44ECBA52AF75C5200744081 /* geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = F44ECBA32AF75C5200744081 /* geometry.h */; };
+		F44ECBA62AF75C5200744081 /* geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = F44ECBA42AF75C5200744081 /* geometry.c */; };
 		F45B8B122AE3426000A306B9 /* shel_find.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B112AE3426000A306B9 /* shel_find.c */; };
 		F45B8B142AE393E000A306B9 /* shel_get.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B132AE393E000A306B9 /* shel_get.c */; };
 		F45B8B162AE4403000A306B9 /* shel_put.c in Sources */ = {isa = PBXBuildFile; fileRef = F45B8B152AE4403000A306B9 /* shel_put.c */; };
@@ -331,6 +333,8 @@
 /* Begin PBXFileReference section */
 		F4203F1B2AEAE40900BA0F24 /* wind_create.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = wind_create.c; sourceTree = "<group>"; };
 		F4203F1D2AEB73CA00BA0F24 /* wind_open.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = wind_open.c; sourceTree = "<group>"; };
+		F44ECBA32AF75C5200744081 /* geometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = geometry.h; sourceTree = "<group>"; };
+		F44ECBA42AF75C5200744081 /* geometry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = geometry.c; sourceTree = "<group>"; };
 		F45B8B112AE3426000A306B9 /* shel_find.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shel_find.c; sourceTree = "<group>"; };
 		F45B8B132AE393E000A306B9 /* shel_get.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shel_get.c; sourceTree = "<group>"; };
 		F45B8B152AE4403000A306B9 /* shel_put.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shel_put.c; sourceTree = "<group>"; };
@@ -881,6 +885,8 @@
 				F4CBFCF22ADB9AF70078C561 /* map.c */,
 				F45B8B2D2AE9B3A100A306B9 /* stringUtils.h */,
 				F45B8B2E2AE9B3A100A306B9 /* stringUtils.c */,
+				F44ECBA32AF75C5200744081 /* geometry.h */,
+				F44ECBA42AF75C5200744081 /* geometry.c */,
 			);
 			path = util;
 			sourceTree = SOURCE_ROOT;
@@ -903,6 +909,7 @@
 				F4E340C52AAAE05A002390BA /* gemmsg.h in Headers */,
 				F46A86822ABEA97200FA3ABC /* args.h in Headers */,
 				F4CBFCF32ADB9AF70078C561 /* map.h in Headers */,
+				F44ECBA52AF75C5200744081 /* geometry.h in Headers */,
 				F4E340B72AAAD6DE002390BA /* gemio.h in Headers */,
 				F45B8B2F2AE9B3A100A306B9 /* stringUtils.h in Headers */,
 				F4E340BC2AAADE13002390BA /* vec.h in Headers */,
@@ -1227,6 +1234,7 @@
 				F46A85F82AB0124200FA3ABC /* vsl_ends.c in Sources */,
 				F46A85CC2AAEBFD600FA3ABC /* v_eeos.c in Sources */,
 				F46A86502ABAAAA600FA3ABC /* vro_cpyfm.c in Sources */,
+				F44ECBA62AF75C5200744081 /* geometry.c in Sources */,
 				F49059382ACD180F00F4F288 /* vex_timv.c in Sources */,
 				F46A85C82AAEBE7900FA3ABC /* v_curleft.c in Sources */,
 				F46A86222AB6312300FA3ABC /* v_ellipse.c in Sources */,

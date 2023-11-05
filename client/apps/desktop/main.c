@@ -39,7 +39,9 @@ int main(int argc, const char * argv[], const char *env[])
 	\*************************************************************************/
 	DesktopContext ctx;
 	vec_init(&(ctx.wins));
-
+	vec_init(&(ctx.icons));
+	
+	
 	/*************************************************************************\
 	|* Add the root window in as 'window 0'
 	\*************************************************************************/
@@ -78,12 +80,12 @@ int main(int argc, const char * argv[], const char *env[])
 	/*************************************************************************\
 	|* Pull some "important" values out of the connection data
 	\*************************************************************************/
-	int xMax 	= workOut[0];
-	int yMax	= workOut[1];
-	ctx.wins.data[0].xywh[0] = 0;
-	ctx.wins.data[0].xywh[1] = 0;
-	ctx.wins.data[0].xywh[2] = xMax + 1;
-	ctx.wins.data[0].xywh[3] = yMax + 1;
+	int xMax = workOut[0];
+	int yMax = workOut[1];
+	ctx.wins.data[0].at.x = 0;
+	ctx.wins.data[0].at.y = 0;
+	ctx.wins.data[0].at.w = xMax+1;
+	ctx.wins.data[0].at.h = yMax+1;
 	
 	/*************************************************************************\
 	|* Load the resource file containing icons
@@ -101,12 +103,13 @@ int main(int argc, const char * argv[], const char *env[])
 	|* Wait for the notification that the window opened
 	\*************************************************************************/
 	evnt_mesag(msgBuf);
-	memcpy(ctx.wins.data[0].xywh, &(msgBuf[4]), 4*sizeof(int16_t));
+	memcpy(&(ctx.wins.data[0].at), &(msgBuf[4]), 4*sizeof(int16_t));
 	
 	/*************************************************************************\
-	|* Draw something
+	|* Draw the entire screen to start off with
 	\*************************************************************************/
-	render(&ctx);
+	Rect all = (Rect) {0, 0, xMax+1, yMax+1};
+	render(&ctx, all);
 	}
 
 /*****************************************************************************\

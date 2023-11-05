@@ -10,6 +10,14 @@
 
 #include "desktop.h"
 
+/*****************************************************************************\
+|* Read the environment from the server, and parse into more useful form
+\*****************************************************************************/
 void envRead(DesktopContext *ctx);
+
+/*****************************************************************************\
+|* Convert an indexed icon into MFDB's (mask and pixels) ready to draw
+\*****************************************************************************/
+int iconToMFDB(int idx, MFDB *mfdb, MFDB *mask);
 
 #endif /* environment_h */

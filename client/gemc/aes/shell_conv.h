@@ -243,7 +243,7 @@ typedef struct
 	uint8_t		iconId;					// Hex value of the icon in the RSC
 	} ND_ICONSPEC;
 
-typedef vec_t(ND_ICONSPEC*)	vec_icon_t;	// Vector of ND_ICONSPEC
+typedef vec_t(ND_ICONSPEC*)	vec_ndicon_t;	// Vector of ND_ICONSPEC
 
 /*****************************************************************************\
 |* #C_00_02_07_FF_c_CARTRIDGE@_@_
@@ -640,7 +640,7 @@ typedef vec_t(ND_LINK*)	vec_link_t;		// Vector of ND_LINK
 typedef struct
 	{
 	char 		pathSpec[PATH_MAX];		// Path to location + wildcards
-	int			status;					// I have no idea what this does
+	int			status;					// if 0, window is closed
 	int			h;						// window height in 16-pix units
 	int 		w;						// window width in 8-pix units
 	int			y;						// window top left in 16-pix units
@@ -659,13 +659,13 @@ typedef struct
 	ND_RS232			serial;			//  #a: All the serial i/o port config
 	ND_PRINTER			printcfg;		//  #b: All the printer config
 	ND_UI_MISC			misc;			//  #c: Colours, key repeat, mouse clicks
-	vec_icon_t			accs;			//  #A: List of accessory configs
+	vec_ndicon_t		accs;			//  #A: List of accessory configs
 	vec_drive_t			carts;			//  #C: List of cartridge configs
-	vec_icon_t			folders;		//  #D: Window icons in window
+	vec_ndicon_t		folders;		//  #D: Window icons in window
 	ND_DISPLAY_INFO		dpyInfo;		//  #E: Display configuration
-	vec_icon_t			cmds;			//  #F: Window icons for TOS apps
+	vec_ndicon_t		cmds;			//  #F: Window icons for TOS apps
 	vec_gicon_t			apps;			//  #G: Window icons for PRG apps
-	vec_icon_t			files;			//  #I: Window icons for specific files
+	vec_ndicon_t		files;			//  #I: Window icons for specific files
 	vec_data_t			shortcuts;		//  #K: shortcuts, 1 per menu-entry
 	vec_drive_t			drives;			//  #M: Desktop icons, storage devices
 	ND_ICONSPEC			catchAll;		//  #N: Window icon for specific non-exec
