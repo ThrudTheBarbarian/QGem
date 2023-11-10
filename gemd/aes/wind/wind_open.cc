@@ -39,6 +39,7 @@ int16_t	AES::wind_open(qintptr handle, int16_t windowId,
 
 			/*****************************************************************\
 			|* Move it to the top of the stack
+			|* FIXME: Is this the order we want ? root window is displaced
 			\*****************************************************************/
 			_windowList.move(position, 0);
 

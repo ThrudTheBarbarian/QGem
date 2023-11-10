@@ -65,12 +65,11 @@ static void _drawIcon(DesktopContext *ctx, int iconId, Rect r)
 
 	
 /*****************************************************************************\
-|* Draw the screen
+|* Draw the background
 \*****************************************************************************/
-void render(DesktopContext *ctx, Rect dirty)
+static void _renderBackground(DesktopContext *ctx, Rect dirty)
 	{
 	int16_t x,y,w,h;
-
 
 	wind_get(ctx->wins.data[0].handle, WF_FIRSTXYWH, &x, &y, &w, &h);
 	while ((w>0) || (h>0))
@@ -82,7 +81,7 @@ void render(DesktopContext *ctx, Rect dirty)
 			/****************************************************************\
 			|* First draw the background
 			\*****************************************************************/
-			printf("x=%d, y=%d, w=%d, h=%d\n", r.x, r.y, r.w, r.h);
+			printf("bg: x=%d, y=%d, w=%d, h=%d\n", r.x, r.y, r.w, r.h);
 			
 			vsf_style(ctx->handle, FIS_SOLID);
 			vs_color(ctx->handle, 3, ctx->wins.data[0].bgColour);
@@ -108,3 +107,50 @@ void render(DesktopContext *ctx, Rect dirty)
 		wind_get(ctx->wins.data[0].handle, WF_NEXTXYWH, &x, &y, &w, &h);
 		}
 	}
+
+/*****************************************************************************\
+|* Draw a window
+\*****************************************************************************/
+static void _renderWindow(DesktopContext *ctx, Rect dirty, Window *win)
+	{
+	int16_t x,y,w,h;
+
+	wind_get(win->handle, WF_FIRSTXYWH, &x, &y, &w, &h);
+	while ((w>0) || (h>0))
+		{
+		Rect r;
+		Rect ours = (Rect){x,y,w,h};
+		if (intersection(dirty, ours, &r))
+			{
+			/****************************************************************\
+			|* First draw the background
+			\*****************************************************************/
+			printf("win %d: x=%d, y=%d, w=%d, h=%d\n", win->handle, r.x, r.y, r.w, r.h);
+			
+			vsf_style(ctx->handle, win->bgPattern);
+			vs_color(ctx->handle, 254, win->bgColour);
+			vsf_color(ctx->handle, 254);
+			vsf_perimeter(ctx->handle, 0);
+			v_bar(ctx->handle, (int16_t *)&r);
+			}
+		wind_get(win->handle, WF_NEXTXYWH, &x, &y, &w, &h);
+		}
+	}
+	
+/*****************************************************************************\
+|* Draw the screen
+\*****************************************************************************/
+void render(DesktopContext *ctx, Rect dirty)
+	{
+	_renderBackground(ctx, dirty);
+	
+	for (int i=1; i<ctx->wins.length; i++)
+		{
+		Window *w = &(ctx->wins.data[i]);
+		if (w->visible)
+			{
+			_renderWindow(ctx, dirty, w);
+			}
+		}
+	}
+

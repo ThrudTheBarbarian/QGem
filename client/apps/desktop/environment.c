@@ -54,32 +54,6 @@ void envRead(DesktopContext *ctx)
 		_gemInfReadData(envBuffer, &(ctx->env));
 		}
 	
-	/*************************************************************************\
-	|* Create any window structures from the saved env
-	\*************************************************************************/
-	for (int i=0; i<ctx->env.windows.length; i++)
-		{
-		ND_WINDOW *eWin = ctx->env.windows.data[i];
-		Window win;
-		
-		win.visible 	= (eWin->status == 0) ? 0 : 1;
-		win.at.x		= eWin->x;
-		win.at.y		= eWin->y;
-		win.at.w		= eWin->w;
-		win.at.h 		= eWin->h;
-		win.vs			= eWin->vs;
-		win.hs			= eWin->hs;
-		win.bgColour[0]	= 255;
-		win.bgColour[1]	= 255;
-		win.bgColour[2] = 255;
-		win.bgPattern	= 0;
-		win.controls	= 0;
-		if (strlen(eWin->pathSpec) > 0)
-			strncpy(win.path, eWin->pathSpec, PATH_MAX);
-		vec_init(&(win.icons));
-		
-		vec_push(&(ctx->wins), win);
-		}
 	
 	/*************************************************************************\
 	|* Create icons for any references we find

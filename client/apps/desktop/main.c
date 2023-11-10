@@ -16,6 +16,11 @@
 #include "environment.h"
 
 /*****************************************************************************\
+|* Local defines
+\*****************************************************************************/
+#define WINDOW_CONTROLS		0xFFFF
+
+/*****************************************************************************\
 |* Forward references
 \*****************************************************************************/
 
@@ -104,12 +109,46 @@ int main(int argc, const char * argv[], const char *env[])
 	\*************************************************************************/
 	evnt_mesag(msgBuf);
 	memcpy(&(ctx.wins.data[0].at), &(msgBuf[4]), 4*sizeof(int16_t));
-	
+
+	/*************************************************************************\
+	|* Fetch any of the windows defined in the desktop environment, open or not
+	\*************************************************************************/
+	Rect all = (Rect) {0, 0, xMax+1, yMax+1};
+	for (int i=0; i<ctx.env.windows.length; i++)
+		{
+		ND_WINDOW *eWin = ctx.env.windows.data[i];
+		Window win;
+		
+		win.visible 	= (eWin->status == 0) ? 0 : 1;
+		win.at.x		= eWin->x;
+		win.at.y		= eWin->y;
+		win.at.w		= eWin->w;
+		win.at.h 		= eWin->h;
+		win.vs			= eWin->vs;
+		win.hs			= eWin->hs;
+		win.bgColour[0]	= 255;
+		win.bgColour[1]	= 255;
+		win.bgColour[2] = 255;
+		win.bgPattern	= 0;
+		win.controls	= 0;
+		if (strlen(eWin->pathSpec) > 0)
+			strncpy(win.path, eWin->pathSpec, PATH_MAX);
+		vec_init(&(win.icons));
+
+		if (win.visible)
+			{
+			win.handle	= wind_create(win.controls, all.x, all.y, all.w, all.h);
+			if (win.handle > 0)
+				wind_open(win.handle, win.at.x, win.at.y, win.at.w, win.at.h);
+			}
+		vec_push(&(ctx.wins), win);
+		}
+
 	/*************************************************************************\
 	|* Draw the entire screen to start off with
 	\*************************************************************************/
-	Rect all = (Rect) {0, 0, xMax+1, yMax+1};
 	render(&ctx, all);
+
 	}
 
 /*****************************************************************************\
