@@ -126,11 +126,11 @@ int main(int argc, const char * argv[], const char *env[])
 		win.at.h 		= eWin->h;
 		win.vs			= eWin->vs;
 		win.hs			= eWin->hs;
-		win.bgColour[0]	= 255;
-		win.bgColour[1]	= 255;
-		win.bgColour[2] = 255;
+		win.bgColour[0]	= 1000;
+		win.bgColour[1]	= 1000;
+		win.bgColour[2] = 1000;
 		win.bgPattern	= 0;
-		win.controls	= 0;
+		win.controls	= -1;
 		if (strlen(eWin->pathSpec) > 0)
 			strncpy(win.path, eWin->pathSpec, PATH_MAX);
 		vec_init(&(win.icons));

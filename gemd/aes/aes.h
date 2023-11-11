@@ -1,6 +1,8 @@
 #ifndef AES_H
 #define AES_H
 
+#include <vector>
+
 #include <QMap>
 #include <QObject>
 #include <QRect>
@@ -52,6 +54,7 @@ class AES : public QObject
 
 		typedef QMap<qintptr, AppContext>	HandleMap;
 		typedef QList<AppContext>			PendingList;
+		typedef std::vector<QRect>			RectList;
 
 		typedef struct
 			{
@@ -63,10 +66,10 @@ class AES : public QObject
 			bool			shown;			// Is the window visible ?
 			bool			root;			// Is this the root window ?
 			qintptr			handle;			// Workstation owner of window
-			QList<QRect>	rectList;		// List of rectangles visible
+			RectList		rectList;		// List of rectangles visible
 			} GWindow;
 
-		typedef QList<GWindow>				WindowList;
+		typedef std::vector<GWindow>		WindowList;
 
 		/*********************************************************************\
 		|* Constants
@@ -158,7 +161,7 @@ class AES : public QObject
 		\*********************************************************************/
 		bool _splitRectangles(const QRect& src,
 							  const QRect& other,
-							  QList<QRect>& list);
+							  RectList& list);
 
 
 		#pragma mark - AES operations

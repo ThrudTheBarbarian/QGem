@@ -82,6 +82,8 @@ static void _renderBackground(DesktopContext *ctx, Rect dirty)
 			|* First draw the background
 			\*****************************************************************/
 			printf("bg: x=%d, y=%d, w=%d, h=%d\n", r.x, r.y, r.w, r.h);
+			r.w += r.x;
+			r.h += r.y;
 			
 			vsf_style(ctx->handle, FIS_SOLID);
 			vs_color(ctx->handle, 3, ctx->wins.data[0].bgColour);
@@ -126,6 +128,8 @@ static void _renderWindow(DesktopContext *ctx, Rect dirty, Window *win)
 			|* First draw the background
 			\*****************************************************************/
 			printf("win %d: x=%d, y=%d, w=%d, h=%d\n", win->handle, r.x, r.y, r.w, r.h);
+			r.w += r.x;
+			r.h += r.y;
 			
 			vsf_style(ctx->handle, win->bgPattern);
 			vs_color(ctx->handle, 254, win->bgColour);
